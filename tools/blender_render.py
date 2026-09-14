@@ -73,7 +73,8 @@ def main(argv: list[str]) -> int:
 
     world = bpy.data.worlds.new("World")
     scene.world = world
-    world.use_nodes = True
+    if bpy.app.version < (5, 0, 0):
+        world.use_nodes = True  # default from 5.0 on; the property is slated for removal in 6.0
     bg = world.node_tree.nodes.get("Background")
     if bg:
         bg.inputs[0].default_value = (0.9, 0.9, 0.9, 1)
