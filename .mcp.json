@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "millimeter-kitchen": {
+      "command": "mmk",
+      "args": ["mcp", "--root", "."]
+    }
+  }
+}

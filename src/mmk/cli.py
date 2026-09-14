@@ -12,6 +12,7 @@ from pathlib import Path
 from .catalog import load_catalog
 from .bom import bill_of_materials, render_bom
 from .draw import DEFAULT_SCALE, write_drawings
+from .edit import EditError, apply
 from .finishes import ROLES, load_finishes
 from .gltf import write_glb
 from .scene import build_scene
@@ -123,6 +124,36 @@ def cmd_finishes_list(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_edit(args: argparse.Namespace) -> int:
+    raw = Path(args.ops[1:]).read_text() if args.ops.startswith("@") else args.ops
+    ops = json.loads(raw)
+    if isinstance(ops, dict):
+        ops = [ops]
+    try:
+        res = apply(args.kitchen, ops, dry_run=args.dry_run)
+    except EditError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    if args.json:
+        print(json.dumps(res.to_dict(), indent=2))
+    else:
+        print(res.message)
+        _print(res.findings if not res.ok else [f for f in res.findings if not f.is_error])
+        for d in res.bom_diff:
+            sign = "+" if d["delta"] > 0 else ""
+            print(f"  BOM {sign}{d['delta']:>3}  {d['id']}  ({d['before']} → {d['after']})")
+        print("written" if res.written else ("dry run, not written" if res.ok else "refused, file unchanged"))
+    if res.ok and res.written and args.draw:
+        for p in write_drawings(load_kitchen(args.kitchen), args.draw):
+            print(p)
+    return 0 if res.ok else 1
+
+
+def cmd_mcp(args: argparse.Namespace) -> int:
+    from .mcp_server import main as mcp_main
+    return mcp_main(Path(args.root))
+
+
 BLENDER_SCRIPT = Path(__file__).resolve().parents[2] / "tools" / "blender_render.py"
 
 
@@ -208,6 +239,18 @@ def build_parser() -> argparse.ArgumentParser:
     fl = fin.add_parser("list")
     fl.add_argument("--role", choices=ROLES)
     fl.set_defaults(fn=cmd_finishes_list)
+
+    e = sub.add_parser("edit", help="phase 5: apply edit operations; the file is written only if the result fits")
+    e.add_argument("kitchen")
+    e.add_argument("ops", help="JSON op or list of ops, or @file.json")
+    e.add_argument("--dry-run", action="store_true")
+    e.add_argument("--draw", metavar="DIR", help="regenerate drawings into DIR after a successful edit")
+    e.add_argument("--json", action="store_true", help="machine-readable result")
+    e.set_defaults(fn=cmd_edit)
+
+    m = sub.add_parser("mcp", help="phase 5: run the MCP server over stdio (needs the mcp extra)")
+    m.add_argument("--root", default=".", help="project root; kitchen paths are relative to it")
+    m.set_defaults(fn=cmd_mcp)
     return ap
 
 

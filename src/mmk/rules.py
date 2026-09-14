@@ -214,6 +214,19 @@ def rule_unverified_catalog(k: Kitchen) -> list[Finding]:
     return [Finding("warning", "unverified_dimensions", f"dimensions for {shown} come from a size guide, not the product page; run tools/scrape_sektion.py before buying", extra={"ids": unverified})]
 
 
+def rule_unique_labels(k: Kitchen) -> list[Finding]:
+    """Edits address items by label, so a label may appear once in the whole file."""
+    seen: dict[str, str] = {}
+    out = []
+    for run in k.runs:
+        for p in run.items:
+            if p.label in seen:
+                out.append(Finding("error", "duplicate_label", f"label '{p.label}' is used on wall {seen[p.label]} and wall {run.wall}; labels must be unique", run.wall, p.label))
+            else:
+                seen[p.label] = run.wall
+    return out
+
+
 def rule_finishes(k: Kitchen) -> list[Finding]:
     """Every finish named in the file must exist in the library and suit its role."""
     lib = load_finishes()
@@ -238,6 +251,7 @@ RULES: tuple[Rule, ...] = (
     rule_service_conflict,
     rule_front_fit,
     rule_ceiling,
+    rule_unique_labels,
     rule_finishes,
     rule_unverified_catalog,
 )

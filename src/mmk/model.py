@@ -182,15 +182,23 @@ def resolve(data: dict, path: Path, room: Room, catalog: Catalog) -> Kitchen:
     )
 
 
+def kitchen_from_dict(data: dict, path: Path) -> Kitchen:
+    """Resolve an in-memory kitchen document as if it lived at `path` (for room and catalog lookup)."""
+    import jsonschema
+
+    from .io import validate_schema, Loaded
+    validate_schema(Loaded(path, data), "kitchen")
+    room_path = path.parent / data["room"]
+    if not room_path.exists():
+        raise FileError(f"{path.name}: room file '{data['room']}' not found")
+    room = load_room(room_path)
+    catalog = load_catalog(resolve_catalog_path(data["catalog"], path))
+    return resolve(data, path, room, catalog)
+
+
 def load_kitchen(path: str | Path) -> Kitchen:
     loaded = load_validated(path, "kitchen")
-    data = loaded.data
-    room_path = loaded.path.parent / data["room"]
-    if not room_path.exists():
-        raise FileError(f"{loaded.path.name}: room file '{data['room']}' not found")
-    room = load_room(room_path)
-    catalog = load_catalog(resolve_catalog_path(data["catalog"], loaded.path))
-    return resolve(data, loaded.path, room, catalog)
+    return kitchen_from_dict(loaded.data, loaded.path)
 
 
 def wall_frames(room: Room) -> dict[str, tuple[float, float, float, float]]:

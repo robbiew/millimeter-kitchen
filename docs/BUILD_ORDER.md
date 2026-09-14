@@ -73,8 +73,11 @@ BOM lists the new front ids.
 
 ## Phase 5 — Variations through Claude
 
-An MCP server exposing `list_run`, `place`, `move`, `swap`, `branch`,
-`validate`. Each tool applies a change and returns the validator's verdict.
+`mmk mcp` serves `describe`, `search_catalog`, `list_finishes`, `apply_ops`,
+`validate`, `bom`, `start_variation`, `draw` and `render`. `apply_ops` takes a
+batch of operations, applies them to a copy, validates, and writes only on a
+clean result; otherwise it refuses and returns the errors. The same operations
+run from the shell as `mmk edit`.
 
 **Accept:** "replace the 36 base with two 18s with three drawers each" produces
 a valid file and a BOM diff with no manual edits; an impossible request is
@@ -99,5 +102,5 @@ its item list against the BOM.
 | 2 — Elevations | **Scaffolded** | `mmk draw` writes an SVG elevation per wall and a plan view in real millimeters at a chosen print scale, with running dimensions, front splits, openings, services and a title block listing totals and fillers. Tests check geometry against the catalog. Corner geometry in plan assumes 90° turns; countertop outline export (build123d) deferred to phase 6. |
 | 3 — 3D | **Scaffolded** | `mmk render` builds the scene (walls cut around openings, floor, frames, door and drawer panels, toe kicks, counters, appliances, fillers) as axis-aligned boxes from `kitchen.json`, writes `scene.glb` with one named node per object and a camera per wall plus an overview, then runs `tools/blender_render.py` to render each camera. glTF bounding boxes are tested against the catalog within 1 mm and export is deterministic. The Blender script has been run on macOS (Eevee, 3 renders in ~8 s) and writes `render-<camera>.png` per camera. Home Builder 5 not used; plain boxes only. `viewer/index.html` is a three.js walkthrough, untested. |
 | 4 — Materials | **Scaffolded** | `catalog/finishes.json` is the finish library (IKEA front series, frames, counters, backsplash, floor, wall paint, appliances, toe kick) with sRGB color, roughness and metallic. `kitchen.json` names finishes by role in a `materials` block; fronts take theirs from the catalog series. The scene carries them into glTF PBR materials, and a backsplash surface fills from the counter to the wall cabinets. `mmk bom` lists frames, fronts, fillers, appliances and finishes. Colors are approximations from product photos, no textures yet, and Blender renders with the new materials have not been checked visually. |
-| 5 — Claude/MCP | Not started | |
+| 5 — Claude/MCP | **Scaffolded** | `mmk.edit` applies operations (replace, insert, remove, move, swap, set_fronts, set_width, set_material, set) to the file and writes only if the validator passes; a refused edit leaves the file untouched and returns the errors and a BOM diff. `mmk edit` exposes it on the shell; `mmk mcp` serves it over MCP (FastMCP, `pip install -e .[mcp]`) with describe, search_catalog, list_finishes, apply_ops, validate, bom, start_variation, draw and render. `.mcp.json` configures Claude Code. The server module has not been run against a live MCP client in the authoring environment (no network to install the SDK); the tool functions it wraps are fully tested. Variations are sibling files, with git branches as the convention rather than something the tool drives. |
 | 6 — Purchase pack | Not started | |
