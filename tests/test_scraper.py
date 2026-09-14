@@ -9,8 +9,9 @@ sc = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(sc)
 
 
-def node(no, name, type_, measure, alt=""):
-    return {"itemNo": no, "name": name, "typeName": type_, "itemMeasureReferenceText": measure, "mainImageAlt": alt}
+def node(no, name, type_, measure, design=""):
+    return {"itemNo": no, "name": name, "typeName": type_, "itemMeasureReferenceText": measure, "validDesignText": design,
+            "mainImageAlt": "Sleek modern kitchen cabinet."}   # the alt text is AI-written and never names the finish
 
 
 DOOR = {"id": "front:voxtorp-walnut:door:15x30", "kind": "front", "type": "door", "series": "VOXTORP", "finish": "walnut effect",
@@ -86,12 +87,23 @@ def test_frame_families_and_generic_items():
     assert sc.match_item(drawer, [high, low])[0] is low
     panel = {"id": "cover_panel:25x30", "kind": "cover_panel", "type": None, "series": "FORBATTRA", "finish": None,
              "name": "FÖRBÄTTRA cover panel 25x30 (base)", "nominal_in": {"w": 25, "h": 30}}
-    assert sc.match_item(panel, [node("5", "FÖRBÄTTRA", "Cover panel", '25x30 "', "for base cabinet")])[0]
+    assert sc.match_item(panel, [node("5", "FÖRBÄTTRA", "Cover panel", '25x30 "', "white")])[0]   # "(base)" is our note, not IKEA's
+
+
+def test_variants_are_candidates_and_inherit_name_and_type():
+    parent = node("50601749", "VOXTORP", "Door", '24x50 "', "walnut effect")
+    parent["gprDescription"] = {"numberOfVariants": 2, "variants": [
+        {"itemNo": "80425713", "itemMeasureReferenceText": '15x30 "', "validDesignText": "walnut effect"},
+        {"itemNo": "60321231", "itemMeasureReferenceText": '15x30 "', "validDesignText": "high-gloss white"}]}
+    nodes = sc.product_nodes({"items": [parent]})
+    assert [sc.node_article(n) for n in nodes] == ["506.017.49", "804.257.13", "603.212.31"]
+    hit, _ = sc.match_item(DOOR, nodes)
+    assert hit is not None and sc.node_article(hit) == "804.257.13"
 
 
 def test_family_queries():
     assert sc.family_query(FRAME) == "SEKTION base cabinet"
-    assert sc.family_query(DOOR) == "VOXTORP door walnut effect"
+    assert sc.family_query(DOOR) == "VOXTORP door"
 
 
 def test_discover_writes_articles_then_verifies(tmp_path, monkeypatch, capsys):
@@ -100,7 +112,7 @@ def test_discover_writes_articles_then_verifies(tmp_path, monkeypatch, capsys):
     p = tmp_path / "cat.json"
     p.write_text(json.dumps(cat))
     responses = {
-        "VOXTORP%20door%20walnut": {"items": [node("80425713", "VOXTORP", "Door", '15x30 "', "VOXTORP door, walnut effect"),
+        "VOXTORP%20door": {"items": [node("80425713", "VOXTORP", "Door", '15x30 "', "VOXTORP door, walnut effect"),
                                               node("80425720", "VOXTORP", "Door", '18x30 "', "VOXTORP door, walnut effect")]},
         "SEKTION%20base%20cabinet": {"items": [node("30265386", "SEKTION", "Base cabinet", '30x24x30 "'),
                                                node("80265398", "SEKTION", "Base cabinet frame", '36x24x30 "'),

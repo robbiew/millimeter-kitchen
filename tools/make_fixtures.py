@@ -102,12 +102,12 @@ FITS = {
         ]},
         {"wall": "N", "level": "wall", "to": 1219, "items": [
             filler(76, "N-wall-filler-left"),
-            cab("frame:wall:15x12x30", "N-wall-15", (f"{V}:door:15x30", 1)),
-            cab("frame:wall:30x12x30", "N-wall-30", (f"{V}:door:15x30", 2)),
+            cab("frame:wall:15x15x30", "N-wall-15", (f"{V}:door:15x30", 1)),
+            cab("frame:wall:30x15x30", "N-wall-30", (f"{V}:door:15x30", 2)),
         ]},
         {"wall": "N", "level": "wall", "from": 2133, "items": [
-            cab("frame:wall:36x12x30", "N-wall-36", (f"{V}:door:18x30", 2)),
-            cab("frame:wall:21x12x30", "N-wall-21", (f"{V}:door:21x30", 1)),
+            cab("frame:wall:36x15x30", "N-wall-36", (f"{V}:door:18x30", 2)),
+            cab("frame:wall:21x15x30", "N-wall-21", (f"{V}:door:21x30", 1)),
             filler(75, "N-wall-filler-right"),
         ]},
         {"wall": "E", "level": "base", "from": 610, "items": [
@@ -117,9 +117,9 @@ FITS = {
             filler(74, "E-filler-right"),
         ]},
         {"wall": "E", "level": "wall", "from": 610, "items": [
-            cab("frame:wall:21x12x30", "E-wall-21", (f"{V}:door:21x30", 1)),
-            cab("frame:wall:30x12x15", "E-wall-30-hood", (f"{V}:door:30x15", 1), interior=["hood below; top aligned with the run, underside clears the gas range by 30 in"]),
-            cab("frame:wall:30x12x30", "E-wall-30", (f"{V}:door:15x30", 2)),
+            cab("frame:wall:21x15x30", "E-wall-21", (f"{V}:door:21x30", 1)),
+            cab("frame:wall:30x15x15", "E-wall-30-hood", (f"{V}:door:30x15", 1), interior=["hood below; top aligned with the run, underside clears the gas range by 30 in"]),
+            cab("frame:wall:30x15x30", "E-wall-30", (f"{V}:door:15x30", 2)),
             filler(74, "E-wall-filler-right"),
         ]},
     ],
@@ -149,7 +149,7 @@ CORNER = {
         ]},
         {"wall": "N", "level": "wall", "from": 2133, "items": [
             {"kind": "gap", "label": "N-wall-gap", "width": 329},
-            cab("frame:wall:21x12x30", "N-wall-21", (f"{V}:door:21x30", 1)),
+            cab("frame:wall:21x15x30", "N-wall-21", (f"{V}:door:21x30", 1)),
             cab("frame:wall_corner:26x26x30", "N-wall-corner", (f"{V}:corner-door:13x30", 1)),
         ]},
         {"wall": "E", "level": "base", "from": 965, "items": [
@@ -159,9 +159,9 @@ CORNER = {
             filler(100, "E-filler-right"),
         ]},
         {"wall": "E", "level": "wall", "from": 660, "items": [
-            cab("frame:wall:30x12x30", "E-wall-30", (f"{V}:door:15x30", 2)),
-            cab("frame:wall:30x12x15", "E-wall-30-hood", (f"{V}:door:30x15", 1), interior=["hood below; top aligned with the run, underside clears the gas range by 30 in"]),
-            cab("frame:wall:18x12x30", "E-wall-18", (f"{V}:door:18x30", 1)),
+            cab("frame:wall:30x15x30", "E-wall-30", (f"{V}:door:15x30", 2)),
+            cab("frame:wall:30x15x15", "E-wall-30-hood", (f"{V}:door:30x15", 1), interior=["hood below; top aligned with the run, underside clears the gas range by 30 in"]),
+            cab("frame:wall:18x15x30", "E-wall-18", (f"{V}:door:18x30", 1)),
             filler(100, "E-wall-filler-right"),
         ]},
     ],
@@ -202,7 +202,7 @@ def dishwasher_against_wall(k: dict) -> None:
 def wall_cabinet_over_window(k: dict) -> None:
     run = k["runs"][1]
     run["to"] = 2133
-    run["items"].append(cab("frame:wall:36x12x30", "N-wall-36-over-window", (f"{V}:door:18x30", 2)))
+    run["items"].append(cab("frame:wall:36x15x30", "N-wall-36-over-window", (f"{V}:door:18x30", 2)))
 
 
 def wrong_size_front(k: dict) -> None:

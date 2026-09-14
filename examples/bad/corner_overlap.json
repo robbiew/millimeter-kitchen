@@ -125,7 +125,7 @@
         {
           "kind": "cabinet",
           "label": "N-wall-21",
-          "id": "frame:wall:21x12x30",
+          "id": "frame:wall:21x15x30",
           "fronts": [
             {
               "id": "front:voxtorp-walnut:door:21x30",
@@ -209,7 +209,7 @@
         {
           "kind": "cabinet",
           "label": "E-wall-30",
-          "id": "frame:wall:30x12x30",
+          "id": "frame:wall:30x15x30",
           "fronts": [
             {
               "id": "front:voxtorp-walnut:door:15x30",
@@ -220,7 +220,7 @@
         {
           "kind": "cabinet",
           "label": "E-wall-30-hood",
-          "id": "frame:wall:30x12x15",
+          "id": "frame:wall:30x15x15",
           "fronts": [
             {
               "id": "front:voxtorp-walnut:door:30x15",
@@ -234,7 +234,7 @@
         {
           "kind": "cabinet",
           "label": "E-wall-18",
-          "id": "frame:wall:18x12x30",
+          "id": "frame:wall:18x15x30",
           "fronts": [
             {
               "id": "front:voxtorp-walnut:door:18x30",

@@ -39,7 +39,7 @@ def test_20_inch_cabinet_over_a_gas_range_is_refused(tmp_path):
     shutil.copy(EXAMPLES / "room.example.json", tmp_path / "room.example.json")
     shutil.copy(EXAMPLES / "kitchen.fits.json", tmp_path / "k.json")
     res = apply(tmp_path / "k.json", [{"op": "replace", "label": "E-wall-30-hood", "items": [
-        {"kind": "cabinet", "id": "frame:wall:30x12x20", "label": "E-wall-30-hood", "fronts": [{"id": f"{V}:door:30x20", "count": 1}]}]}])
+        {"kind": "cabinet", "id": "frame:wall:30x15x20", "label": "E-wall-30-hood", "fronts": [{"id": f"{V}:door:30x20", "count": 1}]}]}])
     assert not res.ok and {f.rule for f in res.errors} == {"hood_clearance"}
     e = res.errors[0]
     assert "gas range" in e.message and "762 mm" in e.message and e.item == "E-wall-30-hood"

@@ -56,14 +56,27 @@ def search_url(query: str, size: int = 5) -> str:
 
 
 def product_nodes(data) -> list[dict]:
-    """Every dict in a search response that looks like a product (has an item number and a measure text)."""
+    """Every dict in a search response that looks like a product (has an item number and a measure text),
+    plus each product's variants (gprDescription.variants: the other sizes and colours of the same product),
+    which inherit the parent's name and type when they carry none of their own."""
     out: list[dict] = []
+    seen: set[str] = set()
     stack = [data]
+
+    def add(node: dict) -> None:
+        no = str(node.get("itemNo") or node.get("itemNoGlobal") or "")
+        if no and no not in seen:
+            seen.add(no)
+            out.append(node)
+
     while stack:
         node = stack.pop()
         if isinstance(node, dict):
             if (node.get("itemNo") or node.get("itemNoGlobal")) and ("itemMeasureReferenceText" in node or "measurementText" in node):
-                out.append(node)
+                add(node)
+                for v in (node.get("gprDescription") or {}).get("variants") or []:
+                    if isinstance(v, dict):
+                        add({"name": node.get("name"), "typeName": node.get("typeName"), **v})
             else:
                 stack.extend(node.values())
         elif isinstance(node, list):
@@ -84,7 +97,7 @@ def _ascii(text: str) -> str:
 def node_text(node: dict) -> str:
     """The words a product is described by: name, type, colour fields, product URL."""
     parts = []
-    for k in ("name", "typeName", "itemType", "colors", "color", "colour", "pipUrl", "url", "mainImageAlt"):
+    for k in ("name", "typeName", "validDesignText", "colors", "color", "colour", "pipUrl", "url"):
         v = node.get(k)
         if isinstance(v, list):
             parts.extend(str(x.get("name", x) if isinstance(x, dict) else x) for x in v)
@@ -129,7 +142,7 @@ def family_query(item: dict) -> str:
         return f"{series} {words}"
     if kind in ("front", "drawer_front"):
         what = {"door": "door", "drawer": "drawer front", "corner_door": "door corner base cabinet"}[type_]
-        return f"{series} {what} {item.get('finish') or ''}".strip()
+        return f"{series} {what}"
     return discovery_query(item)
 
 
@@ -140,7 +153,7 @@ def discovery_query(item: dict) -> str:
 
 def _name_words(item: dict) -> set[str]:
     """Descriptive words of a catalog name, minus the series, sizes and filler: 'MAXIMERA drawer, low, 15x24' -> {drawer, low}."""
-    text = _ascii(item["name"]).replace(",", " ").replace("(", " ").replace(")", " ")
+    text = re.sub(r"\([^)]*\)", " ", _ascii(item["name"])).replace(",", " ")
     series = _ascii(item.get("series") or "")
     out = set()
     for w in text.split():
@@ -287,6 +300,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--query", help="with --dump: show what the search API returns for this text and exit")
     ap.add_argument("--limit", type=int, help="stop after this many items (trial run)")
     ap.add_argument("--size", type=int, default=24, help="with --query: how many results to ask for")
+    ap.add_argument("--variants", action="store_true", help="with --query: also list each result's variants (other sizes and colours)")
     ap.add_argument("--delay", type=float, default=0.5, help="seconds between requests")
     args = ap.parse_args(argv)
 
@@ -297,9 +311,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.query:
         nodes = search_products(args.query, size=args.size)
-        print(f"# {search_url(args.query, args.size)}: {len(nodes)} product(s)")
+        print(f"# {search_url(args.query, args.size)}: {len(nodes)} product(s) incl. variants")
         for n in nodes:
-            keys = ("itemNo", "name", "typeName", "itemMeasureReferenceText", "measurementText")
+            keys = ("itemNo", "name", "typeName", "itemMeasureReferenceText", "measurementText", "validDesignText")
             print("   " + json.dumps({k: n.get(k) for k in keys if k in n}, ensure_ascii=False))
         if nodes:
             print("\n# every field of the first record (to find where the colour/finish lives):")

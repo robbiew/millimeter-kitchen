@@ -27,6 +27,9 @@ FRONT_REVEAL_IN = 0.125  # IKEA fronts measure 1/8" under nominal in each direct
 KNOWN_ARTICLES = {
     "frame:base:36x24x30": "802.653.98",
     "frame:base:15x15x30": "302.653.91",
+    "frame:base:30x24x30": "302.653.86",   # from ikea.com's search API, 2026-09-14; verify with tools/scrape_sektion.py
+    "frame:base:24x24x30": "902.653.88",
+    "frame:base:18x24x30": "202.653.96",
 }
 
 FRONT_SERIES = [
@@ -96,7 +99,7 @@ def build() -> dict:
         items.append(frame("sink_base", w, 24, 30))
     for w in WALL_WIDTHS:
         for h in WALL_HEIGHTS:
-            items.append(frame("wall", w, 12, h))
+            items.append(frame("wall", w, 14.75, h, nominal=f"{w:g}x14 3/4x{h:g}"))   # SEKTION wall frames are 15" nominal, 14 3/4" measured
     for w in (24, 30, 36):
         for h in (15, 20):
             items.append(frame("wall_fridge", w, 24, h, notes="Deep wall cabinet for over a refrigerator."))

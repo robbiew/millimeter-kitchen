@@ -56,7 +56,7 @@
       "brand": "IKEA",
       "series": "SEKTION",
       "name": "SEKTION base cabinet frame 18x24x30",
-      "article": null,
+      "article": "202.653.96",
       "nominal": "18x24x30",
       "nominal_in": {
         "w": 18,
@@ -100,7 +100,7 @@
       "brand": "IKEA",
       "series": "SEKTION",
       "name": "SEKTION base cabinet frame 24x24x30",
-      "article": null,
+      "article": "902.653.88",
       "nominal": "24x24x30",
       "nominal_in": {
         "w": 24,
@@ -122,7 +122,7 @@
       "brand": "IKEA",
       "series": "SEKTION",
       "name": "SEKTION base cabinet frame 30x24x30",
-      "article": null,
+      "article": "302.653.86",
       "nominal": "30x24x30",
       "nominal_in": {
         "w": 30,
@@ -229,616 +229,616 @@
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:12x12x15",
+      "id": "frame:wall:12x15x15",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 12x12x15",
+      "name": "SEKTION wall cabinet frame 12x14 3/4x15",
       "article": null,
-      "nominal": "12x12x15",
+      "nominal": "12x14 3/4x15",
       "nominal_in": {
         "w": 12,
-        "d": 12,
+        "d": 14.75,
         "h": 15
       },
       "actual": {
         "w": 305,
-        "d": 305,
+        "d": 375,
         "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:12x12x20",
+      "id": "frame:wall:12x15x20",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 12x12x20",
+      "name": "SEKTION wall cabinet frame 12x14 3/4x20",
       "article": null,
-      "nominal": "12x12x20",
+      "nominal": "12x14 3/4x20",
       "nominal_in": {
         "w": 12,
-        "d": 12,
+        "d": 14.75,
         "h": 20
       },
       "actual": {
         "w": 305,
-        "d": 305,
+        "d": 375,
         "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:12x12x30",
+      "id": "frame:wall:12x15x30",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 12x12x30",
+      "name": "SEKTION wall cabinet frame 12x14 3/4x30",
       "article": null,
-      "nominal": "12x12x30",
+      "nominal": "12x14 3/4x30",
       "nominal_in": {
         "w": 12,
-        "d": 12,
+        "d": 14.75,
         "h": 30
       },
       "actual": {
         "w": 305,
-        "d": 305,
+        "d": 375,
         "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:12x12x40",
+      "id": "frame:wall:12x15x40",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 12x12x40",
+      "name": "SEKTION wall cabinet frame 12x14 3/4x40",
       "article": null,
-      "nominal": "12x12x40",
+      "nominal": "12x14 3/4x40",
       "nominal_in": {
         "w": 12,
-        "d": 12,
+        "d": 14.75,
         "h": 40
       },
       "actual": {
         "w": 305,
-        "d": 305,
+        "d": 375,
         "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:15x12x15",
+      "id": "frame:wall:15x15x15",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 15x12x15",
+      "name": "SEKTION wall cabinet frame 15x14 3/4x15",
       "article": null,
-      "nominal": "15x12x15",
+      "nominal": "15x14 3/4x15",
       "nominal_in": {
         "w": 15,
-        "d": 12,
+        "d": 14.75,
         "h": 15
       },
       "actual": {
         "w": 381,
-        "d": 305,
+        "d": 375,
         "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:15x12x20",
+      "id": "frame:wall:15x15x20",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 15x12x20",
+      "name": "SEKTION wall cabinet frame 15x14 3/4x20",
       "article": null,
-      "nominal": "15x12x20",
+      "nominal": "15x14 3/4x20",
       "nominal_in": {
         "w": 15,
-        "d": 12,
+        "d": 14.75,
         "h": 20
       },
       "actual": {
         "w": 381,
-        "d": 305,
+        "d": 375,
         "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:15x12x30",
+      "id": "frame:wall:15x15x30",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 15x12x30",
+      "name": "SEKTION wall cabinet frame 15x14 3/4x30",
       "article": null,
-      "nominal": "15x12x30",
+      "nominal": "15x14 3/4x30",
       "nominal_in": {
         "w": 15,
-        "d": 12,
+        "d": 14.75,
         "h": 30
       },
       "actual": {
         "w": 381,
-        "d": 305,
+        "d": 375,
         "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:15x12x40",
+      "id": "frame:wall:15x15x40",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 15x12x40",
+      "name": "SEKTION wall cabinet frame 15x14 3/4x40",
       "article": null,
-      "nominal": "15x12x40",
+      "nominal": "15x14 3/4x40",
       "nominal_in": {
         "w": 15,
-        "d": 12,
+        "d": 14.75,
         "h": 40
       },
       "actual": {
         "w": 381,
-        "d": 305,
+        "d": 375,
         "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:18x12x15",
+      "id": "frame:wall:18x15x15",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 18x12x15",
+      "name": "SEKTION wall cabinet frame 18x14 3/4x15",
       "article": null,
-      "nominal": "18x12x15",
+      "nominal": "18x14 3/4x15",
       "nominal_in": {
         "w": 18,
-        "d": 12,
+        "d": 14.75,
         "h": 15
       },
       "actual": {
         "w": 457,
-        "d": 305,
+        "d": 375,
         "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:18x12x20",
+      "id": "frame:wall:18x15x20",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 18x12x20",
+      "name": "SEKTION wall cabinet frame 18x14 3/4x20",
       "article": null,
-      "nominal": "18x12x20",
+      "nominal": "18x14 3/4x20",
       "nominal_in": {
         "w": 18,
-        "d": 12,
+        "d": 14.75,
         "h": 20
       },
       "actual": {
         "w": 457,
-        "d": 305,
+        "d": 375,
         "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:18x12x30",
+      "id": "frame:wall:18x15x30",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 18x12x30",
+      "name": "SEKTION wall cabinet frame 18x14 3/4x30",
       "article": null,
-      "nominal": "18x12x30",
+      "nominal": "18x14 3/4x30",
       "nominal_in": {
         "w": 18,
-        "d": 12,
+        "d": 14.75,
         "h": 30
       },
       "actual": {
         "w": 457,
-        "d": 305,
+        "d": 375,
         "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:18x12x40",
+      "id": "frame:wall:18x15x40",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 18x12x40",
+      "name": "SEKTION wall cabinet frame 18x14 3/4x40",
       "article": null,
-      "nominal": "18x12x40",
+      "nominal": "18x14 3/4x40",
       "nominal_in": {
         "w": 18,
-        "d": 12,
+        "d": 14.75,
         "h": 40
       },
       "actual": {
         "w": 457,
-        "d": 305,
+        "d": 375,
         "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:21x12x15",
+      "id": "frame:wall:21x15x15",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 21x12x15",
+      "name": "SEKTION wall cabinet frame 21x14 3/4x15",
       "article": null,
-      "nominal": "21x12x15",
+      "nominal": "21x14 3/4x15",
       "nominal_in": {
         "w": 21,
-        "d": 12,
+        "d": 14.75,
         "h": 15
       },
       "actual": {
         "w": 533,
-        "d": 305,
+        "d": 375,
         "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:21x12x20",
+      "id": "frame:wall:21x15x20",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 21x12x20",
+      "name": "SEKTION wall cabinet frame 21x14 3/4x20",
       "article": null,
-      "nominal": "21x12x20",
+      "nominal": "21x14 3/4x20",
       "nominal_in": {
         "w": 21,
-        "d": 12,
+        "d": 14.75,
         "h": 20
       },
       "actual": {
         "w": 533,
-        "d": 305,
+        "d": 375,
         "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:21x12x30",
+      "id": "frame:wall:21x15x30",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 21x12x30",
+      "name": "SEKTION wall cabinet frame 21x14 3/4x30",
       "article": null,
-      "nominal": "21x12x30",
+      "nominal": "21x14 3/4x30",
       "nominal_in": {
         "w": 21,
-        "d": 12,
+        "d": 14.75,
         "h": 30
       },
       "actual": {
         "w": 533,
-        "d": 305,
+        "d": 375,
         "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:21x12x40",
+      "id": "frame:wall:21x15x40",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 21x12x40",
+      "name": "SEKTION wall cabinet frame 21x14 3/4x40",
       "article": null,
-      "nominal": "21x12x40",
+      "nominal": "21x14 3/4x40",
       "nominal_in": {
         "w": 21,
-        "d": 12,
+        "d": 14.75,
         "h": 40
       },
       "actual": {
         "w": 533,
-        "d": 305,
+        "d": 375,
         "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:24x12x15",
+      "id": "frame:wall:24x15x15",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 24x12x15",
+      "name": "SEKTION wall cabinet frame 24x14 3/4x15",
       "article": null,
-      "nominal": "24x12x15",
+      "nominal": "24x14 3/4x15",
       "nominal_in": {
         "w": 24,
-        "d": 12,
+        "d": 14.75,
         "h": 15
       },
       "actual": {
         "w": 610,
-        "d": 305,
+        "d": 375,
         "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:24x12x20",
+      "id": "frame:wall:24x15x20",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 24x12x20",
+      "name": "SEKTION wall cabinet frame 24x14 3/4x20",
       "article": null,
-      "nominal": "24x12x20",
+      "nominal": "24x14 3/4x20",
       "nominal_in": {
         "w": 24,
-        "d": 12,
+        "d": 14.75,
         "h": 20
       },
       "actual": {
         "w": 610,
-        "d": 305,
+        "d": 375,
         "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:24x12x30",
+      "id": "frame:wall:24x15x30",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 24x12x30",
+      "name": "SEKTION wall cabinet frame 24x14 3/4x30",
       "article": null,
-      "nominal": "24x12x30",
+      "nominal": "24x14 3/4x30",
       "nominal_in": {
         "w": 24,
-        "d": 12,
+        "d": 14.75,
         "h": 30
       },
       "actual": {
         "w": 610,
-        "d": 305,
+        "d": 375,
         "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:24x12x40",
+      "id": "frame:wall:24x15x40",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 24x12x40",
+      "name": "SEKTION wall cabinet frame 24x14 3/4x40",
       "article": null,
-      "nominal": "24x12x40",
+      "nominal": "24x14 3/4x40",
       "nominal_in": {
         "w": 24,
-        "d": 12,
+        "d": 14.75,
         "h": 40
       },
       "actual": {
         "w": 610,
-        "d": 305,
+        "d": 375,
         "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:30x12x15",
+      "id": "frame:wall:30x15x15",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 30x12x15",
+      "name": "SEKTION wall cabinet frame 30x14 3/4x15",
       "article": null,
-      "nominal": "30x12x15",
+      "nominal": "30x14 3/4x15",
       "nominal_in": {
         "w": 30,
-        "d": 12,
+        "d": 14.75,
         "h": 15
       },
       "actual": {
         "w": 762,
-        "d": 305,
+        "d": 375,
         "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:30x12x20",
+      "id": "frame:wall:30x15x20",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 30x12x20",
+      "name": "SEKTION wall cabinet frame 30x14 3/4x20",
       "article": null,
-      "nominal": "30x12x20",
+      "nominal": "30x14 3/4x20",
       "nominal_in": {
         "w": 30,
-        "d": 12,
+        "d": 14.75,
         "h": 20
       },
       "actual": {
         "w": 762,
-        "d": 305,
+        "d": 375,
         "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:30x12x30",
+      "id": "frame:wall:30x15x30",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 30x12x30",
+      "name": "SEKTION wall cabinet frame 30x14 3/4x30",
       "article": null,
-      "nominal": "30x12x30",
+      "nominal": "30x14 3/4x30",
       "nominal_in": {
         "w": 30,
-        "d": 12,
+        "d": 14.75,
         "h": 30
       },
       "actual": {
         "w": 762,
-        "d": 305,
+        "d": 375,
         "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:30x12x40",
+      "id": "frame:wall:30x15x40",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 30x12x40",
+      "name": "SEKTION wall cabinet frame 30x14 3/4x40",
       "article": null,
-      "nominal": "30x12x40",
+      "nominal": "30x14 3/4x40",
       "nominal_in": {
         "w": 30,
-        "d": 12,
+        "d": 14.75,
         "h": 40
       },
       "actual": {
         "w": 762,
-        "d": 305,
+        "d": 375,
         "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:36x12x15",
+      "id": "frame:wall:36x15x15",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 36x12x15",
+      "name": "SEKTION wall cabinet frame 36x14 3/4x15",
       "article": null,
-      "nominal": "36x12x15",
+      "nominal": "36x14 3/4x15",
       "nominal_in": {
         "w": 36,
-        "d": 12,
+        "d": 14.75,
         "h": 15
       },
       "actual": {
         "w": 914,
-        "d": 305,
+        "d": 375,
         "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:36x12x20",
+      "id": "frame:wall:36x15x20",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 36x12x20",
+      "name": "SEKTION wall cabinet frame 36x14 3/4x20",
       "article": null,
-      "nominal": "36x12x20",
+      "nominal": "36x14 3/4x20",
       "nominal_in": {
         "w": 36,
-        "d": 12,
+        "d": 14.75,
         "h": 20
       },
       "actual": {
         "w": 914,
-        "d": 305,
+        "d": 375,
         "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:36x12x30",
+      "id": "frame:wall:36x15x30",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 36x12x30",
+      "name": "SEKTION wall cabinet frame 36x14 3/4x30",
       "article": null,
-      "nominal": "36x12x30",
+      "nominal": "36x14 3/4x30",
       "nominal_in": {
         "w": 36,
-        "d": 12,
+        "d": 14.75,
         "h": 30
       },
       "actual": {
         "w": 914,
-        "d": 305,
+        "d": 375,
         "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
-      "id": "frame:wall:36x12x40",
+      "id": "frame:wall:36x15x40",
       "kind": "frame",
       "type": "wall",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION wall cabinet frame 36x12x40",
+      "name": "SEKTION wall cabinet frame 36x14 3/4x40",
       "article": null,
-      "nominal": "36x12x40",
+      "nominal": "36x14 3/4x40",
       "nominal_in": {
         "w": 36,
-        "d": 12,
+        "d": 14.75,
         "h": 40
       },
       "actual": {
         "w": 914,
-        "d": 305,
+        "d": 375,
         "h": 1016
       },
       "verified": false,

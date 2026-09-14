@@ -117,6 +117,11 @@ class ImportReport:
         return "\n".join(out) + "\n"
 
 
+def _same(a: tuple, b: tuple, tol: float = 0.3) -> bool:
+    """Nominal sizes agree: a planner row says 30x15x30 where the catalog says 30x14 3/4x30."""
+    return len(a) == len(b) and all(x is not None and y is not None and abs(x - y) <= tol for x, y in zip(a, b))
+
+
 def _candidates(items: list[dict], row_text: str, kind: str, size: tuple[float, ...] | None) -> list[dict]:
     t = _norm(row_text)
     out = []
@@ -129,7 +134,7 @@ def _candidates(items: list[dict], row_text: str, kind: str, size: tuple[float, 
             allowed = {"base", "sink_base"} if ft == "base" else ({ft} if ft else set())
             if it.get("type") not in allowed:
                 continue
-            if size is None or len(size) != 3 or (ni.get("w"), ni.get("d"), ni.get("h")) != size:
+            if size is None or len(size) != 3 or not _same((ni.get("w"), ni.get("d"), ni.get("h")), size):
                 continue
         elif kind in ("front", "drawer_front"):
             series = (it.get("series") or "").lower()
@@ -138,19 +143,19 @@ def _candidates(items: list[dict], row_text: str, kind: str, size: tuple[float, 
                 continue
             if finish_words and not all(w in t for w in finish_words):
                 continue
-            if size is None or len(size) != 2 or (ni.get("w"), ni.get("h")) != size:
+            if size is None or len(size) != 2 or not _same((ni.get("w"), ni.get("h")), size):
                 continue
         elif kind == "drawer":
             height_word = next((w for w in ("low", "medium", "high") if re.search(rf"\b{w}\b", t)), None)
             if height_word and not it["id"].endswith(":" + height_word):
                 continue
-            if size is None or len(size) < 2 or (ni.get("w"), ni.get("d")) != size[:2]:
+            if size is None or len(size) < 2 or not _same((ni.get("w"), ni.get("d")), size[:2]):
                 continue
         elif kind == "cover_panel":
-            if size is None or len(size) != 2 or (ni.get("w"), ni.get("h")) != size:
+            if size is None or len(size) != 2 or not _same((ni.get("w"), ni.get("h")), size):
                 continue
         elif kind in ("toe_kick", "rail"):
-            if size is not None and ni.get("w") is not None and size[0] != ni.get("w"):
+            if size is not None and ni.get("w") is not None and not _same((ni.get("w"),), (size[0],)):
                 continue
         out.append(it)
     return out

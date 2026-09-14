@@ -123,14 +123,13 @@ def test_model_map_covers_every_node_for_a_cached_article(tmp_path, monkeypatch)
     cat._items[frame.id] = replace(frame, article="802.653.98")
     scene = build_scene(k)
     arts = im.scene_articles(scene, cat)
-    assert arts and all(v == "802.653.98" for v in arts.values())
-    assert all(scene_box.extras.get("id") == frame.id for scene_box in scene.boxes if scene_box.name in arts)
+    assert arts["N-base-30"] == "802.653.98" and all(cat.get(b.extras["id"]).article == arts[b.name] for b in scene.boxes if b.name in arts)
     empty = im.ModelClient(cache=tmp_path / "none")
     assert im.model_map(scene, cat, empty) == {}                    # nothing cached, nothing mapped, no network
     cache = _cache_with_model(tmp_path, "802.653.98", frame.w, frame.h, frame.d)
     m = im.model_map(scene, cat, im.ModelClient(cache=cache))
-    assert set(m) == set(arts)
-    first = m[next(iter(arts))]
+    assert set(m) == {n for n, a in arts.items() if a == "802.653.98"}   # only the cached article maps; other articles wait for a fetch
+    first = m["N-base-30"]
     assert first["article"] == "802.653.98" and first["glb"].endswith("model.glb")
     assert [round(v) for v in first["size_mm"]] == [frame.w, frame.h, frame.d]
 

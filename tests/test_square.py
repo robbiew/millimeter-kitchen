@@ -80,7 +80,7 @@ def test_acute_corner_needs_a_wider_filler_on_the_first_wall(tmp_path):
     base, wall = src["runs"][3], src["runs"][4]
     base["from"] = wall["from"] = 666
     base["items"][2] = {"kind": "cabinet", "label": "E-base-24", "id": "frame:base:24x24x30", "fronts": [{"id": "front:voxtorp-walnut:door:12x30", "count": 2}]}
-    wall["items"][2] = {"kind": "cabinet", "label": "E-wall-24", "id": "frame:wall:24x12x30", "fronts": [{"id": "front:voxtorp-walnut:door:12x30", "count": 2}]}
+    wall["items"][2] = {"kind": "cabinet", "label": "E-wall-24", "id": "frame:wall:24x15x30", "fronts": [{"id": "front:voxtorp-walnut:door:12x30", "count": 2}]}
     base["items"][-1]["width"] = wall["items"][-1]["width"] = 2741 - 666 - (533 + 762 + 610)
     k.write_text(json.dumps(src))
     assert errors(validate(load_kitchen(k))) == set()

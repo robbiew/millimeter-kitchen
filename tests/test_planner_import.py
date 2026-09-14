@@ -12,7 +12,7 @@ from tests.conftest import CATALOG
 SAMPLE = '''Article number,Product,Quantity,Price
 802.653.98,"SEKTION base cabinet frame, white, 36x24x30 """,1,$105.00
 302.653.91,"SEKTION base cabinet frame, white, 15x14 ¾x30 """,1,$60.00
-190.000.01,"SEKTION wall cabinet frame, white, 30x12x30 """,2,$70.00
+190.000.01,"SEKTION wall cabinet frame, white, 30x15x30 """,2,$70.00
 190.000.02,"VOXTORP door, walnut effect, 15x30 """,10,$40.00
 190.000.03,"VOXTORP drawer front, walnut effect, 18x10 """,1,$25.00
 190.000.04,"MAXIMERA drawer, medium, white, 18x24 """,1,$50.00
@@ -60,7 +60,7 @@ def test_report_only_does_not_write(cat, csv_file):
     by = {r.article: r for r in rep.rows}
     assert by["802.653.98"].status == "matched" and set(by["802.653.98"].matches) == {"frame:base:36x24x30", "frame:sink_base:36x24x30"}
     assert by["302.653.91"].matches == ["frame:base:15x15x30"]
-    assert by["190.000.01"].matches == ["frame:wall:30x12x30"]
+    assert by["190.000.01"].matches == ["frame:wall:30x15x30"]
     assert by["190.000.02"].matches == ["front:voxtorp-walnut:door:15x30"]
     assert by["190.000.03"].matches == ["front:voxtorp-walnut:drawer:18x10"]
     assert by["190.000.04"].matches == ["drawer:maximera:18x24:medium"]
@@ -88,14 +88,14 @@ def test_write_marks_matched_entries_verified(cat, csv_file):
 def test_conflicting_article_is_refused(cat, csv_file):
     data = json.loads(cat.read_text())
     for i in data["items"]:
-        if i["id"] == "frame:wall:30x12x30":
+        if i["id"] == "frame:wall:30x15x30":
             i["article"] = "999.999.99"
     cat.write_text(json.dumps(data))
     rep = import_list(cat, csv_file, write=True)
     by = {r.article: r for r in rep.rows}
     assert by["190.000.01"].status == "conflict"
     items = {i["id"]: i for i in json.loads(cat.read_text())["items"]}
-    assert items["frame:wall:30x12x30"]["article"] == "999.999.99"
+    assert items["frame:wall:30x15x30"]["article"] == "999.999.99"
 
 
 def test_cli_catalog_import(cat, csv_file, capsys):
