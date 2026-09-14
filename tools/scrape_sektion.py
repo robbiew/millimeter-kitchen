@@ -76,16 +76,21 @@ def node_article(node: dict) -> str:
     return f"{digits[:3]}.{digits[3:6]}.{digits[6:]}" if len(digits) == 8 else digits
 
 
+def _ascii(text: str) -> str:
+    import unicodedata
+    return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode().lower()
+
+
 def node_text(node: dict) -> str:
-    """The words a product is described by: name, type, finish/colour, image alt."""
+    """The words a product is described by: name, type, colour fields, product URL."""
     parts = []
-    for k in ("name", "typeName", "itemType", "mainImageAlt", "colors", "color", "colour"):
+    for k in ("name", "typeName", "itemType", "colors", "color", "colour", "pipUrl", "url", "mainImageAlt"):
         v = node.get(k)
         if isinstance(v, list):
             parts.extend(str(x.get("name", x) if isinstance(x, dict) else x) for x in v)
         elif v:
             parts.append(str(v))
-    return " ".join(parts).lower()
+    return _ascii(" ".join(parts)).replace("-", " ")
 
 
 def node_measure(node: dict) -> dict[str, float]:
@@ -93,33 +98,92 @@ def node_measure(node: dict) -> dict[str, float]:
     return parse_measure_text(text)
 
 
+def node_sizes(node: dict) -> list[float]:
+    """The numbers in the measure text, in order ("15x14 3/4x30 \"" -> [15, 14.75, 30])."""
+    return list(node_measure(node).values())
+
+
+# What ikea.com calls the bare product for each catalog family. IKEA US lists
+# SEKTION mostly as combinations ("SEKTION / MAXIMERA Base cabinet with 3
+# drawers"); the frame alone is name "SEKTION", typeName "Base cabinet" (or
+# "... cabinet frame"). A typeName made only of these words is a bare frame.
+FRAME_WORDS = {"base", "wall", "high", "top", "corner", "cabinet", "frame"}
+FRAME_NEEDS = {"base": {"base"}, "sink_base": {"base"}, "wall": {"wall"}, "wall_fridge": {"wall"}, "high": {"high"},
+               "base_corner": {"corner", "base"}, "wall_corner": {"corner", "wall"}}
+FRONT_TYPES = {"door": lambda t: t == "door", "drawer": lambda t: t == "drawer front",
+               "corner_door": lambda t: "door" in t and "corner" in t}
+STOP = {"a", "of", "and", "the", "with", "pack", "set", "in", "mm"}
+
+
+def family(item: dict) -> tuple:
+    return (item.get("series"), item["kind"], item.get("type"), item.get("finish"))
+
+
+def family_query(item: dict) -> str:
+    """One search that should list every size of this family: 'SEKTION base cabinet', 'VOXTORP door walnut effect'."""
+    series = item.get("series") or ""
+    kind, type_ = item["kind"], item.get("type")
+    if kind == "frame":
+        words = {"base": "base cabinet", "sink_base": "base cabinet", "wall": "wall cabinet", "wall_fridge": "wall cabinet",
+                 "high": "high cabinet", "base_corner": "corner base cabinet", "wall_corner": "corner wall cabinet"}[type_]
+        return f"{series} {words}"
+    if kind in ("front", "drawer_front"):
+        what = {"door": "door", "drawer": "drawer front", "corner_door": "door corner base cabinet"}[type_]
+        return f"{series} {what} {item.get('finish') or ''}".strip()
+    return discovery_query(item)
+
+
 def discovery_query(item: dict) -> str:
-    """What to type into ikea.com's search box for this catalog entry."""
+    """What to type into ikea.com's search box for exactly this catalog entry."""
     return item["name"]
+
+
+def _name_words(item: dict) -> set[str]:
+    """Descriptive words of a catalog name, minus the series, sizes and filler: 'MAXIMERA drawer, low, 15x24' -> {drawer, low}."""
+    text = _ascii(item["name"]).replace(",", " ").replace("(", " ").replace(")", " ")
+    series = _ascii(item.get("series") or "")
+    out = set()
+    for w in text.split():
+        if w == series or w in STOP or any(ch.isdigit() for ch in w):
+            continue
+        out.add(w)
+    return out
 
 
 def match_item(item: dict, nodes: list[dict], tol_in: float = 0.3) -> tuple[dict | None, list[dict]]:
     """The one search result that is this item, else None plus the near misses.
 
-    A result matches when the series name appears in it, every nominal
-    dimension the catalog knows agrees within `tol_in` inches, and for fronts
-    the finish words (e.g. "walnut") appear too. Two matches is ambiguity, not a match.
+    A result matches when its product name is exactly the series, its type is
+    the bare product for the family (a frame, a door, a drawer front, ...),
+    every nominal dimension agrees within `tol_in` inches, and for fronts the
+    finish words appear somewhere in its record. Two matches is ambiguity,
+    not a match.
     """
-    series = (item.get("series") or "").lower()
-    finish_words = [w for w in (item.get("finish") or "").lower().replace("-", " ").split() if w not in ("effect", "finish")]
-    want = item.get("nominal_in") or {}
+    series = _ascii(item.get("series") or "")
+    kind, type_ = item["kind"], item.get("type")
+    finish_words = [w for w in _ascii(item.get("finish") or "").replace("-", " ").split() if w not in ("effect", "finish")]
+    want = [v for k, v in (item.get("nominal_in") or {}).items() if k in ("w", "d", "h")]
     hits, near = [], []
     for n in nodes:
+        name = _ascii(str(n.get("name") or "")).strip()
+        if name != series:
+            continue                      # "SEKTION / MAXIMERA ..." is a combination, not the frame
+        tname = _ascii(str(n.get("typeName") or "")).replace("-", " ").strip()
+        twords = set(tname.replace("/", " ").split())
+        if kind == "frame":
+            type_ok = "cabinet" in twords and twords <= FRAME_WORDS and FRAME_NEEDS[type_] <= twords
+        elif kind in ("front", "drawer_front"):
+            type_ok = FRONT_TYPES[type_](tname)
+        else:
+            type_ok = _name_words(item) <= set(node_text(n).replace(",", " ").split())
+        got = node_sizes(n)
+        size_ok = len(got) == len(want) and all(abs(a - b) <= tol_in for a, b in zip(got, want))
         text = node_text(n)
-        if series and series not in text:
-            continue
-        got = node_measure(n)
-        size_ok = bool(got) and all(k in got and abs(got[k] - v) <= tol_in for k, v in want.items())
         finish_ok = all(w in text for w in finish_words)
-        if size_ok and finish_ok:
+        if type_ok and size_ok and finish_ok:
             hits.append(n)
-        elif size_ok or finish_ok:
-            near.append(n)
+        elif type_ok and (size_ok or finish_ok):
+            near.append(n)        # the right kind of product in another size or finish; combinations never qualify
     if len(hits) == 1:
         return hits[0], near
     return None, hits + near
@@ -222,6 +286,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--discover", action="store_true", help="find article numbers for items that have none (search API)")
     ap.add_argument("--query", help="with --dump: show what the search API returns for this text and exit")
     ap.add_argument("--limit", type=int, help="stop after this many items (trial run)")
+    ap.add_argument("--size", type=int, default=24, help="with --query: how many results to ask for")
     ap.add_argument("--delay", type=float, default=0.5, help="seconds between requests")
     args = ap.parse_args(argv)
 
@@ -231,11 +296,14 @@ def main(argv: list[str] | None = None) -> int:
     changed = 0
 
     if args.query:
-        nodes = search_products(args.query)
-        print(f"# {search_url(args.query, 8)}: {len(nodes)} product(s)")
+        nodes = search_products(args.query, size=args.size)
+        print(f"# {search_url(args.query, args.size)}: {len(nodes)} product(s)")
         for n in nodes:
-            keys = ("itemNo", "name", "typeName", "itemMeasureReferenceText", "measurementText", "mainImageAlt")
+            keys = ("itemNo", "name", "typeName", "itemMeasureReferenceText", "measurementText")
             print("   " + json.dumps({k: n.get(k) for k in keys if k in n}, ensure_ascii=False))
+        if nodes:
+            print("\n# every field of the first record (to find where the colour/finish lives):")
+            print(json.dumps(nodes[0], indent=1, ensure_ascii=False)[:4000])
         return 0
 
     if args.discover:
@@ -243,11 +311,20 @@ def main(argv: list[str] | None = None) -> int:
         todo = [it for it in data["items"] if not it.get("article")]
         if args.limit:
             todo = todo[: args.limit]
+        bulk: dict[tuple, list[dict]] = {}
         for item in todo:
-            q = discovery_query(item)
-            nodes = search_products(q)
-            time.sleep(args.delay)
-            hit, near = match_item(item, nodes)
+            fam = family(item)
+            if fam not in bulk:
+                bulk[fam] = search_products(family_query(item), size=100)   # one request per family
+                time.sleep(args.delay)
+            hit, near = match_item(item, bulk[fam])
+            q = family_query(item)
+            if not hit:                                                     # not in the family listing: ask for it by name
+                q = discovery_query(item)
+                nodes = search_products(q)
+                time.sleep(args.delay)
+                hit, near2 = match_item(item, nodes)
+                near = near2 or near
             if hit:
                 art = node_article(hit)
                 print(f"{item['id']}: {art}  {hit.get('name', '')} {hit.get('typeName', '')} {hit.get('itemMeasureReferenceText') or hit.get('measurementText') or ''}")
@@ -262,7 +339,7 @@ def main(argv: list[str] | None = None) -> int:
                     print(f"      {node_article(n)}  {n.get('name', '')} {n.get('typeName', '')} {n.get('itemMeasureReferenceText') or n.get('measurementText') or ''}")
             else:
                 missing += 1
-                print(f"{item['id']}: no result for {q!r}" + ("" if nodes else " (empty response: blocked, or the field names changed; try --query with --dump)"))
+                print(f"{item['id']}: no result for {q!r}" + ("" if bulk[fam] else " (empty response: blocked, or the field names changed; try --query with --dump)"))
         print(f"discover: {found} found, {ambiguous} ambiguous, {missing} missing of {len(todo)}")
         if args.write and changed:
             path.write_text(json.dumps(data, indent=2) + "\n")
