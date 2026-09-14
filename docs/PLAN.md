@@ -48,7 +48,7 @@ photo-to-render AI (GenRoom, MeltFlex, Decor8) ──▶ mood board (finish, lig
 
 ## Decisions
 
-- **IKEA fronts only.** The catalog carries IKEA front series (VOXTORP, BODBYN,
+- **IKEA fronts only.** The catalog carries IKEA front series (ENKÖPING, BODBYN,
   AXSTAD, …); the validator rejects any other brand.
 - **Millimeters internally**, inches only as nominal labels.
 - **Python core, Blender for 3D.** build123d, bpy and Home Builder are Python.

@@ -11,7 +11,7 @@ def test_known_articles_present():
 
 def test_fronts_are_an_eighth_under_nominal():
     cat = load_catalog(CATALOG)
-    door = cat["front:voxtorp-walnut:door:18x30"]
+    door = cat["front:enkoping-walnut:door:18x30"]
     assert door.brand == "IKEA"
     assert (door.w, door.h) == (454, 759)
 

@@ -111,6 +111,22 @@ def test_variants_are_candidates_and_inherit_name_and_type():
     assert hit is not None and sc.node_article(hit) == "804.257.13"
 
 
+def test_bare_frame_needs_a_plain_colour_design_text():
+    wall = dict(FRAME, id="frame:wall:15x15x30", type="wall", nominal_in={"w": 15, "d": 14.75, "h": 30})
+    combo = node("69624171", "SEKTION", "Wall cabinet", '15x15x30 "', "white/Aspudden matte white")   # frame + door
+    bare = node("00265458", "SEKTION", "Wall cabinet", '15x14 3/4x30 "', "white")
+    assert sc.match_item(wall, [combo])[0] is None and combo not in sc.match_item(wall, [combo])[1]
+    assert sc.match_item(wall, [combo, bare])[0] is bare
+
+
+def test_luhn_check_digit_matches_every_article_seen():
+    seen = "80265398 30265391 30265386 90265388 20265396 10265392 00265397 30265414 80265464 00265458 50265451 " \
+           "20265462 90265468 10265504 30265503 80265505 70505940 20516738 40516756 00516758 90516754".split()
+    assert all(sc.luhn_check(a[1:]) == a[0] for a in seen)
+    arts = sc.sweep_articles("02653-02654,05167")
+    assert len(arts) == 300 and "80265398" in arts and "20516738" in arts and all(len(a) == 8 for a in arts)
+
+
 def test_family_queries():
     assert sc.family_query(FRAME) == "SEKTION base cabinet"
     assert sc.family_query(DOOR) == "VOXTORP door"

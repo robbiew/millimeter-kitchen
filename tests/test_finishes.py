@@ -36,7 +36,7 @@ def test_library_is_consistent():
     for f in lib.finishes.values():
         assert 0 <= f.roughness <= 1 and 0 <= f.metallic <= 1 and 0 < f.alpha <= 1
         assert all(0 <= c <= 1 for c in f.color)
-    for slug in ("voxtorp-walnut", "bodbyn-off-white", "axstad-matt-white"):
+    for slug in ("enkoping-walnut", "bodbyn-off-white", "axstad-matt-white"):
         assert lib[slug].role == "front" and lib[slug].brand == "IKEA"
 
 
@@ -45,7 +45,7 @@ def test_example_uses_its_declared_finishes(tmp_path):
     b = _boxes(k, tmp_path, "a")
     assert b["counter N 0-3655"]["material"] == "quartz-white"
     assert b["floor"]["material"] == "oak-natural"
-    assert b["N-base-30/door1"]["material"] == "voxtorp-walnut"   # from the catalog front series
+    assert b["N-base-30/door1"]["material"] == "enkoping-walnut"   # from the catalog front series
     assert b["N-base-30"]["material"] == "sektion-white"
     assert b["N-dishwasher"]["material"] == "stainless"
 
@@ -73,7 +73,7 @@ def test_changing_a_front_series_changes_only_those_panels_and_the_bom(tmp_path)
         for run in src["runs"]:
             for item in run["items"]:
                 for f in item.get("fronts", []):
-                    f["id"] = f["id"].replace("voxtorp-walnut", "bodbyn-off-white")
+                    f["id"] = f["id"].replace("enkoping-walnut", "bodbyn-off-white")
 
     k1 = _load_variant(tmp_path, mutate)
     assert not [f for f in validate(k1) if f.is_error]
@@ -85,7 +85,7 @@ def test_changing_a_front_series_changes_only_those_panels_and_the_bom(tmp_path)
         assert changed[n]["material"] == "bodbyn-off-white"
     ids0 = {l.id for l in bill_of_materials(k0)}
     ids1 = {l.id for l in bill_of_materials(k1)}
-    assert any(i.startswith("front:voxtorp-walnut") for i in ids0) and not any(i.startswith("front:voxtorp") for i in ids1)
+    assert any(i.startswith("front:enkoping-walnut") for i in ids0) and not any(i.startswith("front:voxtorp") for i in ids1)
     assert any(i.startswith("front:bodbyn-off-white") for i in ids1)
 
 
@@ -119,7 +119,7 @@ def test_bom_lists_frames_fronts_fillers_and_finishes():
     k = load_kitchen(EXAMPLES / "kitchen.fits.json")
     lines = {l.id: l for l in bill_of_materials(k)}
     assert lines["frame:base:15x24x30"].qty == 2
-    assert lines["front:voxtorp-walnut:door:15x30"].qty == 10  # N-base-15, N-base-30 x2, N-wall-15, N-wall-30 x2, E-base-30 x2, E-wall-30 x2
+    assert lines["front:enkoping-walnut:door:15x30"].qty == 10  # N-base-15, N-base-30 x2, N-wall-15, N-wall-30 x2, E-base-30 x2, E-wall-30 x2
     assert lines["frame:sink_base:36x24x30"].qty == 1 and lines["frame:sink_base:36x24x30"].article is None
     assert lines["filler:cut"].qty == 6 and "76 mm" in lines["filler:cut"].detail
     assert lines["finish:counter"].name.startswith("Quartz")
@@ -129,7 +129,7 @@ def test_bom_lists_frames_fronts_fillers_and_finishes():
 def test_cli_bom_and_finishes(capsys):
     assert main(["bom", str(EXAMPLES / "kitchen.fits.json")]) == 0
     out = capsys.readouterr().out
-    assert "front:voxtorp-walnut:door:15x30" in out and "(unverified)" in out
+    assert "front:enkoping-walnut:door:15x30" in out and "(unverified)" in out
     assert main(["finishes", "list", "--role", "counter"]) == 0
     out = capsys.readouterr().out
     assert "quartz-white" in out and "(default)" in out

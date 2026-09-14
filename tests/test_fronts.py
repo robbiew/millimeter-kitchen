@@ -14,7 +14,7 @@ from mmk.rules import validate
 from mmk.scene import build_scene
 from tests.conftest import BAD, EXAMPLES
 
-V = "front:voxtorp-walnut"
+V = "front:enkoping-walnut"
 
 
 def _ws(tmp_path, name="kitchen.fits.json"):

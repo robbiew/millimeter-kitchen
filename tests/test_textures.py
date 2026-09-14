@@ -31,7 +31,7 @@ def test_png_encoder_roundtrip():
 def test_textures_are_deterministic_and_committed():
     lib = load_finishes()
     textured = [f for f in lib.finishes.values() if f.texture]
-    assert {f.key for f in textured} >= {"voxtorp-walnut", "oak-natural", "quartz-white", "tile-white-subway"}
+    assert {f.key for f in textured} >= {"enkoping-walnut", "oak-natural", "quartz-white", "tile-white-subway"}
     for f in textured:
         path = TEXTURE_DIR / f"{f.key}.png"
         assert path.exists(), f"run tools/build_textures.py ({f.key})"
@@ -60,10 +60,10 @@ def test_glb_embeds_textures_with_uvs(tmp_path):
     gltf = json.loads(data[20:20 + jlen])
     assert gltf["images"] and gltf["textures"] and gltf["samplers"][0]["wrapS"] == 10497
     names = {i["name"] for i in gltf["images"]}
-    assert {"voxtorp-walnut", "oak-natural", "quartz-white", "tile-white-subway"} <= names
+    assert {"enkoping-walnut", "oak-natural", "quartz-white", "tile-white-subway"} <= names
     mats = {m["name"]: m for m in gltf["materials"]}
-    assert "baseColorTexture" in mats["voxtorp-walnut"]["pbrMetallicRoughness"]
-    assert mats["voxtorp-walnut"]["pbrMetallicRoughness"]["baseColorFactor"][:3] == [1.0, 1.0, 1.0]
+    assert "baseColorTexture" in mats["enkoping-walnut"]["pbrMetallicRoughness"]
+    assert mats["enkoping-walnut"]["pbrMetallicRoughness"]["baseColorFactor"][:3] == [1.0, 1.0, 1.0]
     assert "baseColorTexture" not in mats["sektion-white"]["pbrMetallicRoughness"]   # flat finishes stay flat
     prim = gltf["meshes"][0]["primitives"][0]
     assert "TEXCOORD_0" in prim["attributes"]
@@ -74,5 +74,5 @@ def test_glb_embeds_textures_with_uvs(tmp_path):
 
 def test_texture_png_prefers_the_committed_file():
     lib = load_finishes()
-    f = lib["voxtorp-walnut"]
-    assert texture_png(f.texture, f.key) == (TEXTURE_DIR / "voxtorp-walnut.png").read_bytes()
+    f = lib["enkoping-walnut"]
+    assert texture_png(f.texture, f.key) == (TEXTURE_DIR / "enkoping-walnut.png").read_bytes()

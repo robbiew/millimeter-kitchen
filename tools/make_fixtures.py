@@ -52,7 +52,7 @@ ROOM = {
 }
 
 # ---- kitchen that fits --------------------------------------------------------
-V = "front:voxtorp-walnut"
+V = "front:enkoping-walnut"
 
 
 def cab(id_: str, label: str, *fronts: tuple[str, int], interior: list[str] | None = None) -> dict:

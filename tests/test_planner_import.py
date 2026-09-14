@@ -13,8 +13,8 @@ SAMPLE = '''Article number,Product,Quantity,Price
 802.653.98,"SEKTION base cabinet frame, white, 36x24x30 """,1,$105.00
 302.653.91,"SEKTION base cabinet frame, white, 15x14 ¾x30 """,1,$60.00
 190.000.01,"SEKTION wall cabinet frame, white, 30x15x30 """,2,$70.00
-190.000.02,"VOXTORP door, walnut effect, 15x30 """,10,$40.00
-190.000.03,"VOXTORP drawer front, walnut effect, 18x10 """,1,$25.00
+190.000.02,"ENKÖPING door, brown walnut effect, 15x30 """,10,$40.00
+190.000.03,"ENKÖPING drawer front, brown walnut effect, 18x10 """,1,$25.00
 190.000.04,"MAXIMERA drawer, medium, white, 18x24 """,1,$50.00
 190.000.05,"FÖRBÄTTRA cover panel, white, 25x30 """,1,$30.00
 190.000.06,"FÖRBÄTTRA toe kick, white, 87x4 ½ """,3,$20.00
@@ -45,7 +45,7 @@ def test_parsing_helpers():
     assert parse_size("SEKTION base cabinet frame, white, 15x14 ¾x30 \"") == (15, 14.75, 30)
     assert parse_size("FÖRBÄTTRA toe kick, white, 87x4 ½ \"") == (87, 4.5)
     assert parse_size("SEKTION leg, 4 pack") is None
-    assert guess_kind("VOXTORP door, walnut effect, 15x30") == "front"
+    assert guess_kind("ENKÖPING door, brown walnut effect, 15x30") == "front"
     assert guess_kind("VOXTORP drawer front, walnut effect, 18x10") == "drawer_front"
     assert guess_kind("MAXIMERA drawer, medium, white, 18x24") == "drawer"
     assert guess_kind("UTRUSTA hinge w built-in damper, 2 pack") == "hinge"
@@ -61,8 +61,8 @@ def test_report_only_does_not_write(cat, csv_file):
     assert by["802.653.98"].status == "matched" and set(by["802.653.98"].matches) == {"frame:base:36x24x30", "frame:sink_base:36x24x30"}
     assert by["302.653.91"].matches == ["frame:base:15x15x30"]
     assert by["190.000.01"].matches == ["frame:wall:30x15x30"]
-    assert by["190.000.02"].matches == ["front:voxtorp-walnut:door:15x30"]
-    assert by["190.000.03"].matches == ["front:voxtorp-walnut:drawer:18x10"]
+    assert by["190.000.02"].matches == ["front:enkoping-walnut:door:15x30"]
+    assert by["190.000.03"].matches == ["front:enkoping-walnut:drawer:18x10"]
     assert by["190.000.04"].matches == ["drawer:maximera:18x24:medium"]
     assert by["190.000.05"].matches == ["cover_panel:forbattra:25x30"]
     assert by["190.000.06"].matches == ["toe_kick:forbattra:87"]
@@ -80,8 +80,8 @@ def test_write_marks_matched_entries_verified(cat, csv_file):
     items = {i["id"]: i for i in data["items"]}
     assert items["frame:base:36x24x30"]["article"] == "802.653.98" and items["frame:base:36x24x30"]["verified"]
     assert items["frame:sink_base:36x24x30"]["article"] == "802.653.98"
-    assert items["front:voxtorp-walnut:door:15x30"]["article"] == "190.000.02"
-    assert items["front:voxtorp-walnut:door:18x30"]["article"] is None      # not in the list, untouched
+    assert items["front:enkoping-walnut:door:15x30"]["article"] == "190.000.02"
+    assert items["front:enkoping-walnut:door:18x30"]["article"] is None      # not in the list, untouched
     assert items["rail:sektion:88"]["source"].startswith("ikea-planner-item-list:")
 
 

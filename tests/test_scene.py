@@ -136,7 +136,7 @@ def test_regeneration_is_deterministic(scene, tmp_path):
 
 def test_node_extras_carry_catalog_ids(glb_boxes):
     assert glb_boxes["N-sink-36"]["extras"]["id"] == "frame:sink_base:36x24x30"
-    assert glb_boxes["N-base-30/door1"]["extras"]["front"] == "front:voxtorp-walnut:door:15x30"
+    assert glb_boxes["N-base-30/door1"]["extras"]["front"] == "front:enkoping-walnut:door:15x30"
 
 
 def test_cli_render_no_render_writes_scene_and_cameras(tmp_path):

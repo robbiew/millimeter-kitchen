@@ -14,7 +14,7 @@ from mmk.rules import validate
 from mmk.scene import build_scene
 from tests.conftest import BAD, EXAMPLES
 
-V = "front:voxtorp-walnut"
+V = "front:enkoping-walnut"
 
 
 @pytest.fixture(scope="module")
@@ -62,7 +62,7 @@ def test_carousel_is_two_legs_with_doors_on_the_notch(kitchen, boxes):
     d1, d2 = boxes["N-corner/door1"], boxes["N-corner/door2"]
     assert abs(d1["size_mm"][0] - (355 - 6)) <= 1 and abs(d1["min_mm"][2] - 610) <= 1   # on the notch face parallel to N
     assert abs(d2["size_mm"][2] - (355 - 6)) <= 1 and abs(d2["size_mm"][0] - 19) <= 1    # on the notch face parallel to E
-    assert d1["material"] == "voxtorp-walnut" and "N-corner/toe_kick" in boxes and "N-corner/leg/toe_kick" in boxes
+    assert d1["material"] == "enkoping-walnut" and "N-corner/toe_kick" in boxes and "N-corner/leg/toe_kick" in boxes
 
 
 def test_wall_corner_cabinet_geometry(kitchen, boxes):

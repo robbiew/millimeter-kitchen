@@ -57,7 +57,7 @@
           "id": "frame:base:15x24x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:15x30",
+              "id": "front:enkoping-walnut:door:15x30",
               "count": 1
             }
           ]
@@ -68,7 +68,7 @@
           "id": "frame:base:30x24x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:15x30",
+              "id": "front:enkoping-walnut:door:15x30",
               "count": 2
             }
           ]
@@ -79,7 +79,7 @@
           "id": "frame:sink_base:36x24x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:18x30",
+              "id": "front:enkoping-walnut:door:18x30",
               "count": 2
             }
           ]
@@ -95,11 +95,11 @@
           "id": "frame:base:18x24x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:drawer:18x10",
+              "id": "front:enkoping-walnut:drawer:18x10",
               "count": 1
             },
             {
-              "id": "front:voxtorp-walnut:drawer:18x20",
+              "id": "front:enkoping-walnut:drawer:18x20",
               "count": 1
             }
           ],
@@ -114,15 +114,15 @@
           "id": "frame:base:15x24x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:drawer:15x5",
+              "id": "front:enkoping-walnut:drawer:15x5",
               "count": 1
             },
             {
-              "id": "front:voxtorp-walnut:drawer:15x10",
+              "id": "front:enkoping-walnut:drawer:15x10",
               "count": 1
             },
             {
-              "id": "front:voxtorp-walnut:drawer:15x15",
+              "id": "front:enkoping-walnut:drawer:15x15",
               "count": 1
             }
           ]
@@ -150,7 +150,7 @@
           "id": "frame:wall:15x15x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:15x30",
+              "id": "front:enkoping-walnut:door:15x30",
               "count": 1
             }
           ]
@@ -161,7 +161,7 @@
           "id": "frame:wall:30x15x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:15x30",
+              "id": "front:enkoping-walnut:door:15x30",
               "count": 2
             }
           ]
@@ -172,7 +172,7 @@
           "id": "frame:wall:36x15x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:18x30",
+              "id": "front:enkoping-walnut:door:18x30",
               "count": 2
             }
           ]
@@ -190,7 +190,7 @@
           "id": "frame:wall:36x15x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:18x30",
+              "id": "front:enkoping-walnut:door:18x30",
               "count": 2
             }
           ]
@@ -201,7 +201,7 @@
           "id": "frame:wall:21x15x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:21x30",
+              "id": "front:enkoping-walnut:door:21x30",
               "count": 1
             }
           ]
@@ -224,11 +224,11 @@
           "id": "frame:base:21x24x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:drawer:21x10",
+              "id": "front:enkoping-walnut:drawer:21x10",
               "count": 1
             },
             {
-              "id": "front:voxtorp-walnut:drawer:21x20",
+              "id": "front:enkoping-walnut:drawer:21x20",
               "count": 1
             }
           ]
@@ -244,7 +244,7 @@
           "id": "frame:base:30x24x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:15x30",
+              "id": "front:enkoping-walnut:door:15x30",
               "count": 2
             }
           ]
@@ -267,7 +267,7 @@
           "id": "frame:wall:21x15x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:21x30",
+              "id": "front:enkoping-walnut:door:21x30",
               "count": 1
             }
           ]
@@ -278,7 +278,7 @@
           "id": "frame:wall:30x15x15",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:30x15",
+              "id": "front:enkoping-walnut:door:30x15",
               "count": 1
             }
           ],
@@ -292,7 +292,7 @@
           "id": "frame:wall:30x15x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:15x30",
+              "id": "front:enkoping-walnut:door:15x30",
               "count": 2
             }
           ]

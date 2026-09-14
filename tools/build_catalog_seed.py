@@ -34,7 +34,7 @@ KNOWN_ARTICLES = {
 
 FRONT_SERIES = [
     # id slug, series, finish
-    ("voxtorp-walnut", "VOXTORP", "walnut effect"),
+    ("enkoping-walnut", "ENKÖPING", "brown walnut effect"),   # VOXTORP walnut effect left the US range; ENKÖPING is the walnut front now
     ("bodbyn-off-white", "BODBYN", "off-white"),
     ("axstad-matt-white", "AXSTAD", "matt white"),
 ]

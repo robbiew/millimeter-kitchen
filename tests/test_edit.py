@@ -13,7 +13,7 @@ from mmk.cli import main
 from mmk.edit import EditError, apply, branch
 from tests.conftest import EXAMPLES
 
-V = "front:voxtorp-walnut"
+V = "front:enkoping-walnut"
 
 
 @pytest.fixture

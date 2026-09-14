@@ -13,12 +13,16 @@ Two passes, both read-only unless --write is given:
    a fallback), compare with the catalog's `actual` within 2 mm, and with
    --write set `verified: true`, `verified_on` and `source`.
 
-The search-API parsing was written without access to ikea.com, so the first
-run may need a regex adjusted: --dump shows what the site returned.
+Text search surfaces frame-plus-front combinations far more readily than
+bare frames, so there is also --sweep: bare SEKTION frames cluster in a few
+article families (02.653.xx to 02.655.xx) and the leading digit is a Luhn
+check, so every number in a family can be looked up directly. Sweep results
+are cached under the user's cache dir and used by --discover.
 
 Usage:
   python tools/scrape_sektion.py catalog/sektion-us-2026-09.json --discover           # report only
   python tools/scrape_sektion.py catalog/sektion-us-2026-09.json --discover --write   # write articles + verify
+  python tools/scrape_sektion.py catalog/... --sweep 02653-02655                      # every bare frame, by number
   python tools/scrape_sektion.py catalog/... --discover --limit 5                     # trial run
   python tools/scrape_sektion.py catalog/... --article 802.653.98 --dump              # show raw page text
   python tools/scrape_sektion.py catalog/... --query "VOXTORP door 15x30" --dump      # show search results
@@ -82,6 +86,36 @@ def product_nodes(data) -> list[dict]:
         elif isinstance(node, list):
             stack.extend(node)
     return out
+
+
+def luhn_check(body: str) -> str:
+    """IKEA's leading digit is a Luhn check over the other seven (holds for every article seen so far)."""
+    total = 0
+    for i, ch in enumerate(reversed(body)):
+        d = int(ch)
+        if i % 2 == 0:
+            d = d * 2 - 9 if d * 2 > 9 else d * 2
+        total += d
+    return str((10 - total % 10) % 10)
+
+
+def sweep_articles(spec: str) -> list[str]:
+    """'02653-02655,05167' -> every 8-digit article whose middle five digits fall in those ranges."""
+    out = []
+    for part in spec.split(","):
+        lo, _, hi = part.strip().partition("-")
+        hi = hi or lo
+        for fam in range(int(lo), int(hi) + 1):
+            for nn in range(100):
+                body = f"{fam:05d}{nn:02d}"
+                out.append(luhn_check(body) + body)
+    return out
+
+
+def sweep_cache_path() -> Path:
+    import os
+    root = Path(os.environ.get("MMK_IKEA_CACHE") or "~/.cache/millimeter-kitchen").expanduser()
+    return root / "ikea-sweep.json"
 
 
 def node_article(node: dict) -> str:
@@ -192,8 +226,11 @@ def match_item(item: dict, nodes: list[dict], tol_in: float = 0.3) -> tuple[dict
             continue                      # "SEKTION / MAXIMERA ..." is a combination, not the frame
         tname = _ascii(str(n.get("typeName") or "")).replace("-", " ").strip()
         twords = set(tname.replace("/", " ").split())
+        design = _ascii(str(n.get("validDesignText") or ""))
         if kind == "frame":
-            type_ok = "cabinet" in twords and twords <= FRAME_WORDS and FRAME_NEEDS[type_] <= twords
+            # a bare frame's design text is just its colour ("white"); "white/Aspudden matte white" is a
+            # frame-plus-front combination even when its type reads "Wall cabinet"
+            type_ok = "cabinet" in twords and twords <= FRAME_WORDS and FRAME_NEEDS[type_] <= twords and "/" not in design
         elif kind in ("front", "drawer_front"):
             type_ok = FRONT_TYPES[type_](tname)
         else:
@@ -314,6 +351,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--limit", type=int, help="stop after this many items (trial run)")
     ap.add_argument("--size", type=int, default=24, help="with --query: how many results to ask for")
     ap.add_argument("--filter", help="with --query: only print records whose type contains this text (e.g. Door)")
+    ap.add_argument("--sweep", metavar="RANGES", help="look up every article number in these families, e.g. 02653-02655,05167 "
+                    "(the middle five digits; the check digit is computed). Records are saved for --discover to use.")
     ap.add_argument("--delay", type=float, default=0.5, help="seconds between requests")
     args = ap.parse_args(argv)
 
@@ -321,6 +360,31 @@ def main(argv: list[str] | None = None) -> int:
     data = json.loads(path.read_text())
     today = date.today().isoformat()
     changed = 0
+
+    sweep_path = sweep_cache_path()
+    swept: dict[str, dict] = json.loads(sweep_path.read_text()) if sweep_path.exists() else {}
+
+    if args.sweep:
+        arts = sweep_articles(args.sweep)
+        print(f"# sweeping {len(arts)} article numbers; records go to {sweep_path}")
+        hits = 0
+        for i, art in enumerate(arts, 1):
+            if art in swept:
+                continue
+            n = fetch_search(art)
+            time.sleep(args.delay)
+            if n:
+                swept[art] = n
+                hits += 1
+                print(f"   {describe(n)}")
+            if i % 25 == 0:
+                sweep_path.parent.mkdir(parents=True, exist_ok=True)
+                sweep_path.write_text(json.dumps(swept))
+        sweep_path.parent.mkdir(parents=True, exist_ok=True)
+        sweep_path.write_text(json.dumps(swept))
+        print(f"# {hits} new record(s); {len(swept)} in the sweep cache")
+        if not args.discover:
+            return 0
 
     if args.query:
         nodes = search_products(args.query, size=args.size)
@@ -344,7 +408,8 @@ def main(argv: list[str] | None = None) -> int:
         for item in todo:
             fam = family(item)
             if fam not in bulk:
-                bulk[fam] = search_products(family_query(item), size=100)   # one request per family
+                bulk[fam] = list(swept.values()) if swept else []            # everything a sweep found, then one request per family
+                bulk[fam] += search_products(family_query(item), size=100)
                 time.sleep(args.delay)
             hit, near = match_item(item, bulk[fam])
             q = family_query(item)

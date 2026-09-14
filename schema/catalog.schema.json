@@ -43,7 +43,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "Stable key, e.g. frame:base:36x24x30 or front:voxtorp-walnut:door:18x30."
+            "description": "Stable key, e.g. frame:base:36x24x30 or front:enkoping-walnut:door:18x30."
           },
           "kind": {
             "enum": [

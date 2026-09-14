@@ -1191,13 +1191,13 @@
       "notes": "L-shaped: 26\" along each wall, 15\" deep legs, 11\" notch for a 2-piece door (13\" set)."
     },
     {
-      "id": "front:voxtorp-walnut:door:12x15",
+      "id": "front:enkoping-walnut:door:12x15",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 12x15 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 12x15 brown walnut effect",
       "article": null,
       "nominal": "12x15",
       "nominal_in": {
@@ -1213,13 +1213,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:12x20",
+      "id": "front:enkoping-walnut:door:12x20",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 12x20 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 12x20 brown walnut effect",
       "article": null,
       "nominal": "12x20",
       "nominal_in": {
@@ -1235,13 +1235,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:12x30",
+      "id": "front:enkoping-walnut:door:12x30",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 12x30 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 12x30 brown walnut effect",
       "article": null,
       "nominal": "12x30",
       "nominal_in": {
@@ -1257,13 +1257,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:12x40",
+      "id": "front:enkoping-walnut:door:12x40",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 12x40 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 12x40 brown walnut effect",
       "article": null,
       "nominal": "12x40",
       "nominal_in": {
@@ -1279,13 +1279,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:12x80",
+      "id": "front:enkoping-walnut:door:12x80",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 12x80 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 12x80 brown walnut effect",
       "article": null,
       "nominal": "12x80",
       "nominal_in": {
@@ -1301,13 +1301,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:15x15",
+      "id": "front:enkoping-walnut:door:15x15",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 15x15 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 15x15 brown walnut effect",
       "article": null,
       "nominal": "15x15",
       "nominal_in": {
@@ -1323,13 +1323,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:15x20",
+      "id": "front:enkoping-walnut:door:15x20",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 15x20 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 15x20 brown walnut effect",
       "article": null,
       "nominal": "15x20",
       "nominal_in": {
@@ -1345,13 +1345,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:15x30",
+      "id": "front:enkoping-walnut:door:15x30",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 15x30 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 15x30 brown walnut effect",
       "article": null,
       "nominal": "15x30",
       "nominal_in": {
@@ -1367,13 +1367,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:15x40",
+      "id": "front:enkoping-walnut:door:15x40",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 15x40 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 15x40 brown walnut effect",
       "article": null,
       "nominal": "15x40",
       "nominal_in": {
@@ -1389,13 +1389,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:15x80",
+      "id": "front:enkoping-walnut:door:15x80",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 15x80 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 15x80 brown walnut effect",
       "article": null,
       "nominal": "15x80",
       "nominal_in": {
@@ -1411,13 +1411,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:18x15",
+      "id": "front:enkoping-walnut:door:18x15",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 18x15 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 18x15 brown walnut effect",
       "article": null,
       "nominal": "18x15",
       "nominal_in": {
@@ -1433,13 +1433,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:18x20",
+      "id": "front:enkoping-walnut:door:18x20",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 18x20 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 18x20 brown walnut effect",
       "article": null,
       "nominal": "18x20",
       "nominal_in": {
@@ -1455,13 +1455,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:18x30",
+      "id": "front:enkoping-walnut:door:18x30",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 18x30 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 18x30 brown walnut effect",
       "article": null,
       "nominal": "18x30",
       "nominal_in": {
@@ -1477,13 +1477,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:18x40",
+      "id": "front:enkoping-walnut:door:18x40",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 18x40 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 18x40 brown walnut effect",
       "article": null,
       "nominal": "18x40",
       "nominal_in": {
@@ -1499,13 +1499,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:18x80",
+      "id": "front:enkoping-walnut:door:18x80",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 18x80 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 18x80 brown walnut effect",
       "article": null,
       "nominal": "18x80",
       "nominal_in": {
@@ -1521,13 +1521,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:21x15",
+      "id": "front:enkoping-walnut:door:21x15",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 21x15 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 21x15 brown walnut effect",
       "article": null,
       "nominal": "21x15",
       "nominal_in": {
@@ -1543,13 +1543,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:21x20",
+      "id": "front:enkoping-walnut:door:21x20",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 21x20 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 21x20 brown walnut effect",
       "article": null,
       "nominal": "21x20",
       "nominal_in": {
@@ -1565,13 +1565,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:21x30",
+      "id": "front:enkoping-walnut:door:21x30",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 21x30 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 21x30 brown walnut effect",
       "article": null,
       "nominal": "21x30",
       "nominal_in": {
@@ -1587,13 +1587,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:21x40",
+      "id": "front:enkoping-walnut:door:21x40",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 21x40 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 21x40 brown walnut effect",
       "article": null,
       "nominal": "21x40",
       "nominal_in": {
@@ -1609,13 +1609,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:21x80",
+      "id": "front:enkoping-walnut:door:21x80",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 21x80 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 21x80 brown walnut effect",
       "article": null,
       "nominal": "21x80",
       "nominal_in": {
@@ -1631,13 +1631,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:24x15",
+      "id": "front:enkoping-walnut:door:24x15",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 24x15 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 24x15 brown walnut effect",
       "article": null,
       "nominal": "24x15",
       "nominal_in": {
@@ -1653,13 +1653,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:24x20",
+      "id": "front:enkoping-walnut:door:24x20",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 24x20 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 24x20 brown walnut effect",
       "article": null,
       "nominal": "24x20",
       "nominal_in": {
@@ -1675,13 +1675,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:24x30",
+      "id": "front:enkoping-walnut:door:24x30",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 24x30 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 24x30 brown walnut effect",
       "article": null,
       "nominal": "24x30",
       "nominal_in": {
@@ -1697,13 +1697,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:24x40",
+      "id": "front:enkoping-walnut:door:24x40",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 24x40 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 24x40 brown walnut effect",
       "article": null,
       "nominal": "24x40",
       "nominal_in": {
@@ -1719,13 +1719,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:24x80",
+      "id": "front:enkoping-walnut:door:24x80",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 24x80 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 24x80 brown walnut effect",
       "article": null,
       "nominal": "24x80",
       "nominal_in": {
@@ -1741,13 +1741,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:30x15",
+      "id": "front:enkoping-walnut:door:30x15",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 30x15 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 30x15 brown walnut effect",
       "article": null,
       "nominal": "30x15",
       "nominal_in": {
@@ -1763,13 +1763,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:30x20",
+      "id": "front:enkoping-walnut:door:30x20",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 30x20 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 30x20 brown walnut effect",
       "article": null,
       "nominal": "30x20",
       "nominal_in": {
@@ -1785,13 +1785,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:36x15",
+      "id": "front:enkoping-walnut:door:36x15",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 36x15 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 36x15 brown walnut effect",
       "article": null,
       "nominal": "36x15",
       "nominal_in": {
@@ -1807,13 +1807,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:door:36x20",
+      "id": "front:enkoping-walnut:door:36x20",
       "kind": "front",
       "type": "door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP door 36x20 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING door 36x20 brown walnut effect",
       "article": null,
       "nominal": "36x20",
       "nominal_in": {
@@ -1829,13 +1829,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:corner-door:17x30",
+      "id": "front:enkoping-walnut:corner-door:17x30",
       "kind": "front",
       "type": "corner_door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP 2-piece door for corner base cabinet 17x30 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING 2-piece door for corner base cabinet 17x30 brown walnut effect",
       "article": null,
       "nominal": "17x30",
       "nominal_in": {
@@ -1851,13 +1851,13 @@
       "notes": "Two-piece bi-fold set; the nominal width is the set's total."
     },
     {
-      "id": "front:voxtorp-walnut:corner-door:13x30",
+      "id": "front:enkoping-walnut:corner-door:13x30",
       "kind": "front",
       "type": "corner_door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP 2-piece door for corner wall cabinet 13x30 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING 2-piece door for corner wall cabinet 13x30 brown walnut effect",
       "article": null,
       "nominal": "13x30",
       "nominal_in": {
@@ -1873,13 +1873,13 @@
       "notes": "Two-piece bi-fold set; the nominal width is the set's total."
     },
     {
-      "id": "front:voxtorp-walnut:corner-door:13x40",
+      "id": "front:enkoping-walnut:corner-door:13x40",
       "kind": "front",
       "type": "corner_door",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP 2-piece door for corner wall cabinet 13x40 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING 2-piece door for corner wall cabinet 13x40 brown walnut effect",
       "article": null,
       "nominal": "13x40",
       "nominal_in": {
@@ -1895,13 +1895,13 @@
       "notes": "Two-piece bi-fold set; the nominal width is the set's total."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:15x5",
+      "id": "front:enkoping-walnut:drawer:15x5",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 15x5 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 15x5 brown walnut effect",
       "article": null,
       "nominal": "15x5",
       "nominal_in": {
@@ -1917,13 +1917,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:15x10",
+      "id": "front:enkoping-walnut:drawer:15x10",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 15x10 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 15x10 brown walnut effect",
       "article": null,
       "nominal": "15x10",
       "nominal_in": {
@@ -1939,13 +1939,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:15x15",
+      "id": "front:enkoping-walnut:drawer:15x15",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 15x15 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 15x15 brown walnut effect",
       "article": null,
       "nominal": "15x15",
       "nominal_in": {
@@ -1961,13 +1961,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:15x20",
+      "id": "front:enkoping-walnut:drawer:15x20",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 15x20 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 15x20 brown walnut effect",
       "article": null,
       "nominal": "15x20",
       "nominal_in": {
@@ -1983,13 +1983,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:18x5",
+      "id": "front:enkoping-walnut:drawer:18x5",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 18x5 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 18x5 brown walnut effect",
       "article": null,
       "nominal": "18x5",
       "nominal_in": {
@@ -2005,13 +2005,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:18x10",
+      "id": "front:enkoping-walnut:drawer:18x10",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 18x10 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 18x10 brown walnut effect",
       "article": null,
       "nominal": "18x10",
       "nominal_in": {
@@ -2027,13 +2027,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:18x15",
+      "id": "front:enkoping-walnut:drawer:18x15",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 18x15 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 18x15 brown walnut effect",
       "article": null,
       "nominal": "18x15",
       "nominal_in": {
@@ -2049,13 +2049,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:18x20",
+      "id": "front:enkoping-walnut:drawer:18x20",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 18x20 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 18x20 brown walnut effect",
       "article": null,
       "nominal": "18x20",
       "nominal_in": {
@@ -2071,13 +2071,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:21x5",
+      "id": "front:enkoping-walnut:drawer:21x5",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 21x5 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 21x5 brown walnut effect",
       "article": null,
       "nominal": "21x5",
       "nominal_in": {
@@ -2093,13 +2093,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:21x10",
+      "id": "front:enkoping-walnut:drawer:21x10",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 21x10 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 21x10 brown walnut effect",
       "article": null,
       "nominal": "21x10",
       "nominal_in": {
@@ -2115,13 +2115,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:21x15",
+      "id": "front:enkoping-walnut:drawer:21x15",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 21x15 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 21x15 brown walnut effect",
       "article": null,
       "nominal": "21x15",
       "nominal_in": {
@@ -2137,13 +2137,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:21x20",
+      "id": "front:enkoping-walnut:drawer:21x20",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 21x20 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 21x20 brown walnut effect",
       "article": null,
       "nominal": "21x20",
       "nominal_in": {
@@ -2159,13 +2159,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:24x5",
+      "id": "front:enkoping-walnut:drawer:24x5",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 24x5 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 24x5 brown walnut effect",
       "article": null,
       "nominal": "24x5",
       "nominal_in": {
@@ -2181,13 +2181,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:24x10",
+      "id": "front:enkoping-walnut:drawer:24x10",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 24x10 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 24x10 brown walnut effect",
       "article": null,
       "nominal": "24x10",
       "nominal_in": {
@@ -2203,13 +2203,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:24x15",
+      "id": "front:enkoping-walnut:drawer:24x15",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 24x15 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 24x15 brown walnut effect",
       "article": null,
       "nominal": "24x15",
       "nominal_in": {
@@ -2225,13 +2225,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:24x20",
+      "id": "front:enkoping-walnut:drawer:24x20",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 24x20 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 24x20 brown walnut effect",
       "article": null,
       "nominal": "24x20",
       "nominal_in": {
@@ -2247,13 +2247,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:30x5",
+      "id": "front:enkoping-walnut:drawer:30x5",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 30x5 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 30x5 brown walnut effect",
       "article": null,
       "nominal": "30x5",
       "nominal_in": {
@@ -2269,13 +2269,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:30x10",
+      "id": "front:enkoping-walnut:drawer:30x10",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 30x10 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 30x10 brown walnut effect",
       "article": null,
       "nominal": "30x10",
       "nominal_in": {
@@ -2291,13 +2291,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:30x15",
+      "id": "front:enkoping-walnut:drawer:30x15",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 30x15 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 30x15 brown walnut effect",
       "article": null,
       "nominal": "30x15",
       "nominal_in": {
@@ -2313,13 +2313,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:30x20",
+      "id": "front:enkoping-walnut:drawer:30x20",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 30x20 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 30x20 brown walnut effect",
       "article": null,
       "nominal": "30x20",
       "nominal_in": {
@@ -2335,13 +2335,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:36x5",
+      "id": "front:enkoping-walnut:drawer:36x5",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 36x5 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 36x5 brown walnut effect",
       "article": null,
       "nominal": "36x5",
       "nominal_in": {
@@ -2357,13 +2357,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:36x10",
+      "id": "front:enkoping-walnut:drawer:36x10",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 36x10 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 36x10 brown walnut effect",
       "article": null,
       "nominal": "36x10",
       "nominal_in": {
@@ -2379,13 +2379,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:36x15",
+      "id": "front:enkoping-walnut:drawer:36x15",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 36x15 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 36x15 brown walnut effect",
       "article": null,
       "nominal": "36x15",
       "nominal_in": {
@@ -2401,13 +2401,13 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "front:voxtorp-walnut:drawer:36x20",
+      "id": "front:enkoping-walnut:drawer:36x20",
       "kind": "drawer_front",
       "type": "drawer",
       "brand": "IKEA",
-      "series": "VOXTORP",
-      "finish": "walnut effect",
-      "name": "VOXTORP drawer front 36x20 walnut effect",
+      "series": "ENK\u00d6PING",
+      "finish": "brown walnut effect",
+      "name": "ENK\u00d6PING drawer front 36x20 brown walnut effect",
       "article": null,
       "nominal": "36x20",
       "nominal_in": {

@@ -11,7 +11,7 @@ from mmk.rules import validate
 from mmk.scene import build_scene
 from tests.conftest import EXAMPLES
 
-V = "front:voxtorp-walnut"
+V = "front:enkoping-walnut"
 
 
 def _e_wall(k):

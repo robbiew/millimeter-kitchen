@@ -32,7 +32,7 @@ NOT_IN_SCOPE = (
     "sink, faucet and drain kit",
     "range hood and ducting",
     "cabinet and under-cabinet lighting",
-    "handles and knobs (VOXTORP is handleless; BODBYN and AXSTAD need them)",
+    "handles and knobs (ENKÖPING, BODBYN and AXSTAD all need them)",
     "shelves beyond what frames include, drawer dividers, organisers",
     "countertop fabrication, sink cut-out and seams (see countertop.svg)",
     "backsplash tile, grout and trim",
