@@ -79,6 +79,16 @@ class Room:
     def min_ceiling(self) -> int:
         return min(self.ceiling.values())
 
+    def corner_angle(self, a: str, b: str) -> float:
+        """Interior angle in degrees at the corner between walls a and b, from the surveyed diagonal; 90 if none was recorded."""
+        for c in self.corners:
+            if set(c.walls) == {a, b} and a in self.walls and b in self.walls:
+                la = self.walls[a].lengths["counter"]
+                lb = self.walls[b].lengths["counter"]
+                cos_t = (la * la + lb * lb - c.diagonal * c.diagonal) / (2 * la * lb)
+                return math.degrees(math.acos(max(-1.0, min(1.0, cos_t))))
+        return 90.0
+
     def wall(self, wall_id: str) -> Wall:
         try:
             return self.walls[wall_id]

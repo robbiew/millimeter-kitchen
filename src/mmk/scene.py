@@ -40,18 +40,35 @@ def resolve_materials(k: Kitchen, lib: FinishLibrary) -> dict[str, Finish]:
 
 @dataclass(frozen=True)
 class Box:
-    """Axis-aligned box in world millimeters."""
+    """A box in millimeters: axis-aligned in its own frame, which is placed in the world by origin and yaw.
+
+    min/max are in the frame: X along the wall, Y up, Z into the room. yaw is
+    the rotation about Y that takes frame X to the wall's heading; origin is
+    the frame's world position. A wall that meets its neighbour at 88° simply
+    has a different yaw, so nothing here assumes right angles.
+    """
 
     name: str
-    kind: str          # cabinet | front | appliance | filler | counter | toe_kick | wall | floor | glass
+    kind: str          # cabinet | front | appliance | filler | counter | toe_kick | wall | floor | glass | backsplash
     material: str
     min: tuple[float, float, float]
     max: tuple[float, float, float]
     extras: dict = field(default_factory=dict)
+    origin: tuple[float, float, float] = (0.0, 0.0, 0.0)
+    yaw: float = 0.0  # radians about +Y
 
     @property
     def size(self) -> tuple[float, float, float]:
         return tuple(b - a for a, b in zip(self.min, self.max))
+
+    def world_corners(self) -> list[tuple[float, float, float]]:
+        c, s_ = math.cos(self.yaw), math.sin(self.yaw)
+        out = []
+        for x in (self.min[0], self.max[0]):
+            for y in (self.min[1], self.max[1]):
+                for z in (self.min[2], self.max[2]):
+                    out.append((self.origin[0] + x * c + z * s_, self.origin[1] + y, self.origin[2] - x * s_ + z * c))
+        return out
 
 
 @dataclass(frozen=True)
@@ -78,6 +95,7 @@ class _Frame:
         self.o = (px, 0.0, py)
         self.h = (hx, 0.0, hy)
         self.n = (-hy, 0.0, hx)  # into the room
+        self.yaw = math.atan2(-hy, hx)  # rotation about +Y taking frame X to the heading
 
     def point(self, along: float, into: float, up: float) -> tuple[float, float, float]:
         return (
@@ -87,10 +105,7 @@ class _Frame:
         )
 
     def box(self, name: str, kind: str, material: str, a0: float, a1: float, i0: float, i1: float, y0: float, y1: float, **extras) -> Box:
-        corners = [self.point(a, i, y) for a in (a0, a1) for i in (i0, i1) for y in (y0, y1)]
-        mn = tuple(min(c[k] for c in corners) for k in range(3))
-        mx = tuple(max(c[k] for c in corners) for k in range(3))
-        return Box(name, kind, material, mn, mx, dict(extras))
+        return Box(name, kind, material, (min(a0, a1), y0, min(i0, i1)), (max(a0, a1), y1, max(i0, i1)), dict(extras), self.o, self.yaw)
 
 
 def _front_material(p, lib: FinishLibrary, default: Finish) -> str:

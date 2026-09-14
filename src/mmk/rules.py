@@ -10,7 +10,7 @@ from collections.abc import Callable
 
 from .findings import Finding
 from .finishes import ROLES, load_finishes
-from .draw import CORNER_TOL, corner_reach, elevation_boxes, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
+from .draw import CORNER_SLACK, CORNER_TOL, corner_clearances, corner_reach, elevation_boxes, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
 from .model import Kitchen, Run
 
 CLOSURE_TOLERANCE_MM = 3
@@ -278,18 +278,27 @@ def rule_corners(k: Kitchen) -> list[Finding]:
             if ra is None or rb is None:
                 continue
             ia, ib = ra.items[-1], rb.items[0]
-            occ_a = corner_reach(ia, level)                      # along wall b, from the corner
+            g = corner_clearances(k, a, b, level)
+            theta = g["theta"]
             occ_b = corner_reach(ib, level) if rb.start <= CORNER_TOL else 0   # along wall a, from the corner
-            corner_a = bool(ia.catalog_item and ia.catalog_item.corner)
+            corner_a = g["corner_cabinet_a"]
             corner_b = bool(ib.catalog_item and ib.catalog_item.corner)
-            if rb.start < occ_a - CORNER_TOL and ra.end > La - occ_b - CORNER_TOL:
-                out.append(Finding("error", "corner_overlap", f"{level}: '{ia.label}' on wall {a} reaches {occ_a} mm along wall {b}, but '{ib.label}' starts at {rb.start} mm; move it to {occ_a} mm or beyond", b, ib.label))
-            elif corner_a and rb.start > occ_a + CORNER_TOL:
-                out.append(Finding("warning", "corner_gap", f"{level}: {rb.start - occ_a} mm of dead space between corner cabinet '{ia.label}' and '{ib.label}'", b, ib.label))
+            square = f" (corner is {theta:.1f}°)" if abs(theta - 90) > 0.5 else ""
+            if rb.start < g["min_start_b"] - CORNER_TOL and ra.end > La - occ_b - CORNER_TOL:
+                out.append(Finding("error", "corner_overlap", f"{level}: '{ia.label}' on wall {a} needs wall-{b} cabinets to start at {g['min_start_b']} mm{square}, but '{ib.label}' starts at {rb.start} mm; move it to {g['min_start_b']} mm or beyond", b, ib.label))
+            elif corner_a and rb.start > g["min_start_b"] + CORNER_TOL:
+                out.append(Finding("warning", "corner_gap", f"{level}: {rb.start - g['min_start_b']} mm of dead space between corner cabinet '{ia.label}' and '{ib.label}'", b, ib.label))
             elif corner_b and ra.end < La - occ_b - CORNER_TOL:
                 out.append(Finding("warning", "corner_gap", f"{level}: {La - occ_b - ra.end} mm of dead space between '{ia.label}' and corner cabinet '{ib.label}'", a, ia.label))
-            elif not corner_a and not corner_b and rb.start > occ_a + CORNER_TOL and ra.end >= La - CORNER_TOL:
-                out.append(Finding("warning", "corner_gap", f"{level}: the corner between walls {a} and {b} is dead space ({rb.start - occ_a} mm past the {occ_a} mm the wall-{a} cabinets occupy); a corner cabinet would use it", b, ib.label))
+            elif not corner_a and not corner_b and rb.start > g["min_start_b"] + CORNER_SLACK and ra.end >= La - CORNER_TOL:
+                out.append(Finding("warning", "corner_gap", f"{level}: the corner between walls {a} and {b} is dead space ({rb.start - g['min_start_b']} mm past the {g['min_start_b']} mm the wall-{a} cabinets need); a corner cabinet would use it", b, ib.label))
+            # an acute corner pushes the last wall-a cabinet's front corner into wall b: it needs a filler at least this wide
+            if g["min_end_filler_a"] > CORNER_TOL and ra.end >= La - CORNER_TOL:
+                have = ia.width if ia.kind == "filler" else 0
+                if have < g["min_end_filler_a"]:
+                    out.append(Finding("error", "corner_filler", f"{level}: the corner between walls {a} and {b} is {theta:.1f}°, so the last cabinet on wall {a} needs a filler of at least {g['min_end_filler_a']} mm at the corner (its front corner would hit wall {b}); '{ia.label}' gives {have} mm", a, ia.label))
+            if (corner_a or corner_b) and abs(theta - 90) > 1.0:
+                out.append(Finding("warning", "corner_out_of_square", f"{level}: corner cabinet at a {theta:.1f}° corner; plan a scribe strip, the frame is square", a if corner_a else b, ia.label if corner_a else ib.label))
     return out
 
 

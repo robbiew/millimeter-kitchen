@@ -206,16 +206,23 @@ def load_kitchen(path: str | Path) -> Kitchen:
 def wall_frames(room: Room) -> dict[str, tuple[float, float, float, float]]:
     """Plan-space origin (x, y) and unit heading (hx, hy) of each wall, y down on paper.
 
-    Walks the survey order and turns 90° clockwise at each corner, so the room is
-    always to the right of travel. Elevations, the plan and the 3D scene all use
+    Walks the survey order and turns clockwise at each corner by the surveyed
+    corner angle (90° when no diagonal was recorded), so the room is always to
+    the right of travel. Elevations, the plan and the 3D scene all use
     this so a cabinet lands in the same place in every output.
     """
+    import math
+
     frames: dict[str, tuple[float, float, float, float]] = {}
     x, y = 0.0, 0.0
     hx, hy = 1.0, 0.0
-    for wid in room.order:
+    order = list(room.order)
+    for i, wid in enumerate(order):
         frames[wid] = (x, y, hx, hy)
         L = room.walls[wid].planning_length
         x, y = x + hx * L, y + hy * L
-        hx, hy = -hy, hx
+        # turn by the surveyed corner angle: 90° for a square corner, less for an obtuse one
+        theta = room.corner_angle(wid, order[i + 1]) if i + 1 < len(order) else 90.0
+        a = math.radians(180.0 - theta)
+        hx, hy = hx * math.cos(a) - hy * math.sin(a), hx * math.sin(a) + hy * math.cos(a)
     return frames

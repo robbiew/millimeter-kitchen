@@ -10,6 +10,7 @@ node matches the file's millimeters within 1 mm.
 from __future__ import annotations
 
 import json
+import math
 import struct
 from pathlib import Path
 
@@ -85,7 +86,12 @@ def write_glb(scene: Scene, path: str | Path) -> Path:
         accessors.append({"bufferView": iv, "componentType": 5123, "count": len(idx), "type": "SCALAR"})
         a = len(accessors)
         meshes.append({"name": b.name, "primitives": [{"attributes": {"POSITION": a - 3, "NORMAL": a - 2}, "indices": a - 1, "material": material(b.material)}]})
-        nodes.append({"name": b.name, "mesh": len(meshes) - 1, "extras": {"kind": b.kind, "size_mm": list(b.size), **{k: v for k, v in b.extras.items() if v is not None}}})
+        node = {"name": b.name, "mesh": len(meshes) - 1, "extras": {"kind": b.kind, "size_mm": list(b.size), **{k: v for k, v in b.extras.items() if v is not None}}}
+        if any(b.origin):
+            node["translation"] = [round(v / MM_PER_M, 6) for v in b.origin]
+        if abs(b.yaw) > 1e-9:
+            node["rotation"] = [0.0, round(math.sin(b.yaw / 2), 9), 0.0, round(math.cos(b.yaw / 2), 9)]  # quaternion about +Y
+        nodes.append(node)
 
     cameras = []
     for c in scene.cameras:
@@ -121,7 +127,7 @@ def write_glb(scene: Scene, path: str | Path) -> Path:
 
 
 def read_glb_boxes(path: str | Path) -> dict[str, dict]:
-    """Return {node name: {"min_mm", "max_mm", "size_mm", "extras", "material", "color"}} from position accessors."""
+    """Return {node name: {"min_mm", "max_mm" (world AABB), "size_mm" (the box's own size), "extras", "material", "color", "yaw_deg"}}."""
     data = Path(path).read_bytes()
     magic, version, length = struct.unpack_from("<III", data, 0)
     assert magic == 0x46546C67 and version == 2 and length == len(data)
@@ -141,9 +147,18 @@ def read_glb_boxes(path: str | Path) -> dict[str, dict]:
         off = bin_start + bv["byteOffset"]
         floats = struct.unpack_from(f"<{acc['count'] * 3}f", data, off)
         xs, ys, zs = floats[0::3], floats[1::3], floats[2::3]
-        mn = [min(xs) * MM_PER_M, min(ys) * MM_PER_M, min(zs) * MM_PER_M]
-        mx = [max(xs) * MM_PER_M, max(ys) * MM_PER_M, max(zs) * MM_PER_M]
+        lmn = [min(xs), min(ys), min(zs)]
+        lmx = [max(xs), max(ys), max(zs)]
+        # apply the node's rotation about Y and translation to get a world-space bounding box
+        t = node.get("translation", [0.0, 0.0, 0.0])
+        qy, qw = (node.get("rotation") or [0, 0, 0, 1])[1], (node.get("rotation") or [0, 0, 0, 1])[3]
+        yaw = 2 * math.atan2(qy, qw)
+        c, sn = math.cos(yaw), math.sin(yaw)
+        pts = [(t[0] + x * c + z * sn, t[1] + y, t[2] - x * sn + z * c) for x in (lmn[0], lmx[0]) for y in (lmn[1], lmx[1]) for z in (lmn[2], lmx[2])]
+        mn = [min(p[i] for p in pts) * MM_PER_M for i in range(3)]
+        mx = [max(p[i] for p in pts) * MM_PER_M for i in range(3)]
         mat = gltf["materials"][prim["material"]]
-        out[node["name"]] = {"min_mm": mn, "max_mm": mx, "size_mm": [b - a for a, b in zip(mn, mx)], "extras": node.get("extras", {}),
-                             "material": mat["name"], "color": mat["pbrMetallicRoughness"]["baseColorFactor"]}
+        out[node["name"]] = {"min_mm": mn, "max_mm": mx, "size_mm": [(b - a) * MM_PER_M for a, b in zip(lmn, lmx)], "extras": node.get("extras", {}),
+                             "material": mat["name"], "color": mat["pbrMetallicRoughness"]["baseColorFactor"],
+                             "yaw_deg": math.degrees(yaw)}
     return out

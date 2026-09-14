@@ -97,6 +97,10 @@ similar) are deliberately out of scope; do not add them.
   walls, `side_depth_mm`, `notch_mm` (0 for a blind corner) and
   `front_width_in`. It must be the first or last item of its run, touching the
   corner, and the adjacent wall's run must start at or beyond its reach.
+- `room.corner_angle(a, b)` comes from the surveyed diagonal. `draw.corner_clearances`
+  turns it into the earliest start on the next wall and the filler the first
+  wall needs; every corner rule and the plan and scene geometry go through it.
+  Scene boxes are axis-aligned in their wall's frame and carry origin and yaw.
 - `examples/kitchen.corner.json` is the fitting reference; `corner_overlap.json`
   the failing one. Corner logic lives in `draw.py` (geometry helpers),
   `rules.py` (`rule_corners`), `scene.py` (`_corner_boxes`).

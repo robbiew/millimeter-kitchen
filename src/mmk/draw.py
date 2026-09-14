@@ -159,21 +159,53 @@ def corner_reach(p: Placed, level: str) -> int:
     return item_depth(p, level)
 
 
+CORNER_SLACK = 51  # a run may start this much past the required corner clearance and still be "in the corner"
+
+
+def corner_clearances(k, a: str, b: str, level: str) -> dict:
+    """Geometry of the corner between consecutive walls a and b at one level.
+
+    theta: interior angle from the survey. depth_a: what the wall-a cabinets
+    occupy along wall b at a square corner (their depth, or a corner cabinet's
+    reach). min_start_b: where wall b's first cabinet may start so that its
+    near side clears the wall-a cabinet's front. min_end_filler_a: the strip
+    the last wall-a cabinet needs at the corner so its front corner clears
+    wall b when the corner is acute. Both collapse to depth_a and 0 at 90°.
+    """
+    import math
+
+    theta = k.room.corner_angle(a, b)
+    ra = run_at_end(k, a, level)
+    rb = run_at_start(k, b, level)
+    out = {"theta": theta, "depth_a": 0, "depth_b": 0, "min_start_b": 0, "min_end_filler_a": 0, "corner_cabinet_a": False}
+    if ra is None:
+        return out
+    ia = ra.items[-1]
+    out["corner_cabinet_a"] = bool(ia.catalog_item and ia.catalog_item.corner)
+    d_a = corner_reach(ia, level)
+    d_b = item_depth(rb.items[0], level) if rb is not None and rb.items else 0
+    out["depth_a"], out["depth_b"] = d_a, d_b
+    t = math.radians(theta)
+    if out["corner_cabinet_a"]:
+        out["min_start_b"] = d_a  # an L-shaped cabinet is built square; an out-of-square corner is scribed, not shifted
+    else:
+        out["min_start_b"] = int(math.ceil((d_a + max(0.0, d_b * math.cos(t))) / math.sin(t)))
+        out["min_end_filler_a"] = int(math.ceil(max(0.0, d_a / math.tan(t)))) if theta < 90 else 0
+    return out
+
+
 def occupancy_from_prev(k, run: Run) -> int:
-    """How far the previous wall's cabinets (at this level) reach along this wall from the corner; 0 if none touch it."""
+    """Where this run may start at the earliest, given what the previous wall's cabinets occupy at this level; 0 if none touch the corner."""
     pw = prev_wall(k, run.wall)
     if pw is None:
         return 0
-    a = run_at_end(k, pw, run.level)
-    if a is None:
-        return 0
-    return corner_reach(a.items[-1], run.level)
+    return corner_clearances(k, pw, run.wall, run.level)["min_start_b"]
 
 
 def corner_start(k, run: Run) -> tuple[bool, int]:
-    """(True, occupancy) when this run starts inside the corner the previous wall's cabinets already occupy."""
+    """(True, required start) when this run starts in the corner the previous wall's cabinets occupy."""
     occ = occupancy_from_prev(k, run)
-    return (occ > 0 and run.start <= occ + CORNER_TOL, occ)
+    return (occ > 0 and run.start <= occ + CORNER_SLACK, occ)
 
 
 def counter_segments(k, run: Run) -> list[tuple[int, int]]:

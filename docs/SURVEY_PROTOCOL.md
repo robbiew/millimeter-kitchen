@@ -41,8 +41,10 @@ Measure the diagonal between the far ends of the two walls meeting at the
 corner (from the end of wall A that is not the corner, to the end of wall B
 that is not the corner), at countertop height. `mmk survey check` compares this
 to the right-angle expectation and reports how far out of square the corner is
-in mm at the far end of each wall. Fillers absorb small amounts; large amounts
-change the design.
+in mm at the far end of each wall. The layout then uses the true angle: an
+acute corner pushes the next wall's first cabinet out and widens the filler
+the first wall needs at the corner; the plan and the 3D scene draw the real
+angle.
 
 ## Ceiling
 
