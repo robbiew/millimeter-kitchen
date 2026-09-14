@@ -148,7 +148,7 @@ def review_page(k: Kitchen, out_dir: Path, pack: PurchasePack, export: dict[str,
         tag = " ".join(f"<span class=tag>{f}</span>" for f in flags)
         p.append(f"<tr><td class=n>{l.qty}</td><td>{_esc(l.id)}</td><td>{_esc(l.article or '')}</td><td>{_esc(l.name)} {tag}</td><td class=meta>{_esc((l.rule + ': ') if l.rule else '')}{_esc(l.detail)}</td></tr>")
     p.append("</table></div>")
-    p.append("<h3>Countertop</h3><ul>" + "".join(f"<li>wall {_esc(s['wall'])}: {s['length_mm']} × {s['depth_mm']} mm{' · starts in the corner' if s['corner_start'] else ''}</li>" for s in pack.countertop) + "</ul>")
+    p.append("<h3>Countertop</h3><ul>" + "".join(f"<li>wall {_esc(s['wall'])} {s['start']}–{s['end']}: {s['length_mm']} × {s['depth_mm']} mm{' · starts in the corner' if s['corner_start'] else ''}{' · ends at ' + _esc(', '.join(s['cut_by'])) if s.get('cut_by') else ''}</li>" for s in pack.countertop) + "</ul>")
     p.append("<h3>Assumptions</h3><ul>" + "".join(f"<li>{_esc(a)}</li>" for a in pack.assumptions) + "</ul>")
     p.append("<h3>Not in this pack</h3><ul>" + "".join(f"<li>{_esc(a)}</li>" for a in pack.not_in_scope) + "</ul>")
     p.append("</section>")

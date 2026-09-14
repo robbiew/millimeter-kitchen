@@ -15,7 +15,7 @@ from xml.sax.saxutils import escape
 
 from .bom import BomLine, bill_of_materials
 from .catalog import Item
-from .draw import counter_depth, item_depth, run_depth
+from .draw import counter_depth, counter_segments, item_depth, run_depth
 from .model import Kitchen, Run, wall_frames
 from .scene import COUNTER_OVERHANG_DEFAULT
 
@@ -196,8 +196,10 @@ def countertop_slabs(k: Kitchen) -> list[dict]:
         if run.level != "base" or not run.items:
             continue
         depth = counter_depth(run) + COUNTER_OVERHANG_DEFAULT
-        slabs.append({"wall": run.wall, "start": run.start, "end": run.end, "length_mm": run.length, "depth_mm": depth,
-                      "corner_start": _is_corner_start(k, run), "frame": frames[run.wall]})
+        for i, (a0, a1) in enumerate(counter_segments(k, run)):
+            slabs.append({"wall": run.wall, "start": a0, "end": a1, "length_mm": a1 - a0, "depth_mm": depth,
+                          "corner_start": i == 0 and a0 == run.start and _is_corner_start(k, run), "frame": frames[run.wall],
+                          "cut_by": [p.label for p in run.items if p.kind == "appliance" and p.appliance and (p.end == a0 or p.start == a1)]})
     return slabs
 
 
@@ -230,7 +232,7 @@ def countertop_svg(k: Kitchen, scale: int = 20) -> str:
         cy = sum(y for _, y in c) / 4
         x, y, hx, hy = s["frame"]
         rot = -90 if abs(hy) > abs(hx) else 0
-        out.append(f'<text x="{cx:g}" y="{cy:g}" class="t" text-anchor="middle" transform="rotate({rot} {cx:g} {cy:g})">wall {s["wall"]}: {s["length_mm"]} × {s["depth_mm"]} mm{" · corner" if s["corner_start"] else ""}</text>')
+        out.append(f'<text x="{cx:g}" y="{cy:g}" class="t" text-anchor="middle" transform="rotate({rot} {cx:g} {cy:g})">wall {s["wall"]} {s["start"]}–{s["end"]}: {s["length_mm"]} × {s["depth_mm"]} mm{" · corner" if s["corner_start"] else ""}</text>')
         total_len += s["length_mm"]
     out.append(f'<text x="{minx + M:g}" y="{maxy - 120:g}" class="s">total run {total_len} mm · slabs {len(polys)} · area ≈ {sum(s["length_mm"] * s["depth_mm"] for s, _ in polys) / 1e6:.2f} m² before cut-outs</text>')
     out.append("</svg>\n")
@@ -254,7 +256,7 @@ def render_pack(k: Kitchen, pack: PurchasePack) -> str:
             out.append(f"{'':4}  {'':40} {'':12} {(l.rule + ': ') if l.rule else ''}{l.detail}")
     out += ["", "## Countertop", ""]
     for s in pack.countertop:
-        out.append(f"- wall {s['wall']}: {s['length_mm']} × {s['depth_mm']} mm" + (" (starts in the corner; joint with the previous wall's slab)" if s["corner_start"] else ""))
+        out.append(f"- wall {s['wall']} {s['start']}–{s['end']}: {s['length_mm']} × {s['depth_mm']} mm" + (" (starts in the corner; joint with the previous wall's slab)" if s["corner_start"] else "") + (f" (ends at {', '.join(s['cut_by'])})" if s.get("cut_by") else ""))
     out += ["", "## Assumptions", ""] + [f"- {a}" for a in pack.assumptions]
     out += ["", "## Not in this pack", ""] + [f"- {x}" for x in pack.not_in_scope]
     n_unv = len(pack.unverified)

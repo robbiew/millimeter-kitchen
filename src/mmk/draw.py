@@ -124,6 +124,22 @@ def run_depth(run: Run) -> int:
     return max((item_depth(p, run.level) for p in run.items), default=BASE_DEPTH_FALLBACK)
 
 
+def counter_segments(k, run: Run) -> list[tuple[int, int]]:
+    """Intervals along a base run that carry countertop: everything except appliances
+    that reach counter height (a range, a tall fridge). A dishwasher stays under it."""
+    top = k.legs + max((item_height(p, "base") for p in run.items if p.kind == "cabinet"), default=762)
+    out: list[tuple[int, int]] = []
+    a0 = run.start
+    for p in run.items:
+        if p.kind == "appliance" and p.appliance and p.appliance.height >= top:
+            if p.start > a0:
+                out.append((a0, p.start))
+            a0 = p.end
+    if run.end > a0:
+        out.append((a0, run.end))
+    return out
+
+
 def counter_depth(run: Run) -> int:
     """Countertops follow the cabinet frames, not an appliance that happens to be deeper."""
     cabs = [item_depth(p, run.level) for p in run.items if p.kind == "cabinet"]
@@ -232,9 +248,10 @@ def elevation_svg(k: Kitchen, wall_id: str, scale: int = DEFAULT_SCALE) -> str:
             elif p.kind in ("filler", "panel"):
                 svg.text(cx, cy, f"{p.kind[0].upper()} {b.w}", "s", rotate=-90)
         if run.level == "base" and run.items:
-            # countertop slab over the base run
+            # countertop slabs over the base run, cut around counter-height appliances
             top = k.legs + max(item_height(p, "base") for p in run.items if not p.appliance) if any(not p.appliance for p in run.items) else k.legs + 762
-            svg.rect(X(run.start) - 0, Y(top + k.counter_thickness), run.length, k.counter_thickness, "counter")
+            for a0, a1 in counter_segments(k, run):
+                svg.rect(X(a0), Y(top + k.counter_thickness), a1 - a0, k.counter_thickness, "counter")
             svg.text(X(run.end) + 20, Y(top + k.counter_thickness / 2) + SMALL / 3, f"{top + k.counter_thickness} mm", "s", anchor="start")
 
     # services: glyph at position and height; the legend in the title block carries the words
@@ -361,7 +378,8 @@ def plan_svg(k: Kitchen, scale: int = DEFAULT_SCALE) -> str:
     for run in k.runs:
         if run.level == "base":
             d = run_depth(run)
-            rect_along(run.wall, run.start, run.end, 0, counter_depth(run) + 38, "counter")
+            for a0, a1 in counter_segments(k, run):
+                rect_along(run.wall, a0, a1, 0, counter_depth(run) + 38, "counter")
     for run in k.runs:
         cls = "wallcab" if run.level == "wall" else None
         for p in run.items:

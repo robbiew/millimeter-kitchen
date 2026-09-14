@@ -96,6 +96,16 @@ def test_counter_spans_run_at_counter_height(kitchen, glb_boxes):
     assert abs(c["size_mm"][1] - kitchen.counter_thickness) <= 1
 
 
+def test_counter_is_cut_around_the_range(kitchen, glb_boxes):
+    counters = sorted(n for n in glb_boxes if n.startswith("counter E"))
+    assert counters == ["counter E 1905-2741", "counter E 610-1143"]
+    rng = glb_boxes["E-range"]
+    for n in counters:
+        c = glb_boxes[n]
+        assert c["max_mm"][2] <= rng["min_mm"][2] + 1 or c["min_mm"][2] >= rng["max_mm"][2] - 1  # no overlap along the wall
+    assert "counter N 0-3655" in glb_boxes  # the dishwasher stays under the counter
+
+
 def test_window_cuts_the_wall(glb_boxes):
     assert "wall N under sink window" in glb_boxes and "wall N over sink window" in glb_boxes
     assert glb_boxes["wall N under sink window"]["max_mm"][1] == pytest.approx(1067, abs=1)

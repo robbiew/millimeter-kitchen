@@ -71,11 +71,14 @@ def test_pack_flags_and_text(kitchen, pack):
 
 
 def test_countertop_slabs_and_svg(kitchen, pack):
-    slabs = {s["wall"]: s for s in pack.countertop}
-    assert slabs["N"]["length_mm"] == 3655 and slabs["N"]["depth_mm"] == 610 + 38 and not slabs["N"]["corner_start"]
-    assert slabs["E"]["length_mm"] == 2131 and slabs["E"]["corner_start"]
+    slabs = [(s["wall"], s["start"], s["end"], s["depth_mm"], s["corner_start"]) for s in pack.countertop]
+    # the north slab runs over the dishwasher; the east run is cut by the range into two slabs
+    assert slabs == [("N", 0, 3655, 648, False), ("E", 610, 1143, 648, True), ("E", 1905, 2741, 648, False)]
+    e_first = [s for s in pack.countertop if s["wall"] == "E"][0]
+    assert e_first["cut_by"] == ["E-range"]
     svg = countertop_svg(kitchen)
     assert 'data-wall="N" data-length="3655" data-depth="648"' in svg
+    assert 'data-wall="E" data-length="533"' in svg and 'data-wall="E" data-length="836"' in svg
     assert "corner" in svg and "m²" in svg
 
 
