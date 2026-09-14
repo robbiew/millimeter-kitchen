@@ -16,9 +16,9 @@ SAMPLE = '''Article number,Product,Quantity,Price
 190.000.02,"ENKÖPING door, brown walnut effect, 15x30 """,10,$40.00
 190.000.03,"ENKÖPING drawer front, brown walnut effect, 18x10 """,1,$25.00
 190.000.04,"MAXIMERA drawer, medium, white, 18x24 """,1,$50.00
-190.000.05,"FÖRBÄTTRA cover panel, white, 25x30 """,1,$30.00
-190.000.06,"FÖRBÄTTRA toe kick, white, 87x4 ½ """,3,$20.00
-190.000.07,"SEKTION suspension rail, galvanized, 88 """,6,$15.00
+190.000.05,"FÖRBÄTTRA cover panel, brown walnut effect, 25x30 """,1,$30.00
+190.000.06,"FÖRBÄTTRA toekick, brown walnut effect, 87x4 ½ """,3,$20.00
+190.000.07,"SEKTION suspension rail, galvanized, 84 """,6,$15.00
 190.000.08,"SEKTION leg, 4 pack",7,$10.00
 190.000.09,"UTRUSTA hinge w built-in damper for kitchen, 2 pack",17,$8.00
 190.000.10,"NYTTIG filler piece for range, 4 pack",1,$9.00
@@ -64,9 +64,9 @@ def test_report_only_does_not_write(cat, csv_file):
     assert by["190.000.02"].matches == ["front:enkoping-walnut:door:15x30"]
     assert by["190.000.03"].matches == ["front:enkoping-walnut:drawer:18x10"]
     assert by["190.000.04"].matches == ["drawer:maximera:18x24:medium"]
-    assert by["190.000.05"].matches == ["cover_panel:forbattra:25x30"]
-    assert by["190.000.06"].matches == ["toe_kick:forbattra:87"]
-    assert by["190.000.07"].matches == ["rail:sektion:88"]
+    assert by["190.000.05"].matches == ["cover_panel:forbattra:enkoping-walnut:25x30"]
+    assert by["190.000.06"].matches == ["toe_kick:forbattra:enkoping-walnut:87"]
+    assert by["190.000.07"].matches == ["rail:sektion:84"]
     assert by["190.000.08"].matches == ["legs:sektion:4pack"]
     assert by["190.000.09"].matches == ["hinge:utrusta:2pack"]
     assert by["190.000.11"].matches == ["front:bodbyn-off-white:door:15x30"]
@@ -82,7 +82,7 @@ def test_write_marks_matched_entries_verified(cat, csv_file):
     assert items["frame:sink_base:36x24x30"]["article"] == "802.653.98"
     assert items["front:enkoping-walnut:door:15x30"]["article"] == "190.000.02"
     assert items["front:enkoping-walnut:door:18x30"]["article"] is None      # not in the list, untouched
-    assert items["rail:sektion:88"]["source"].startswith("ikea-planner-item-list:")
+    assert items["rail:sektion:84"]["source"].startswith("ikea-planner-item-list:")
 
 
 def test_conflicting_article_is_refused(cat, csv_file):

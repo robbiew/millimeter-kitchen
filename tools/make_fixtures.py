@@ -111,7 +111,7 @@ FITS = {
             filler(75, "N-wall-filler-right"),
         ]},
         {"wall": "E", "level": "base", "from": 610, "items": [
-            cab("frame:base:21x24x30", "E-base-21-drawers", (f"{V}:drawer:21x10", 1), (f"{V}:drawer:21x20", 1)),
+            cab("frame:base:21x24x30", "E-base-21", (f"{V}:door:21x30", 1)),   # IKEA makes no 21" drawer front
             {"kind": "appliance", "label": "E-range", "ref": "range"},
             cab("frame:base:30x24x30", "E-base-30", (f"{V}:door:15x30", 2)),
             filler(74, "E-filler-right"),

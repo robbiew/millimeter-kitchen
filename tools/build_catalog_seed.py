@@ -42,12 +42,13 @@ FRONT_SERIES = [
 BASE_WIDTHS = [12, 15, 18, 21, 24, 30, 36]
 WALL_WIDTHS = [12, 15, 18, 21, 24, 30, 36]
 WALL_HEIGHTS = [15, 20, 30, 40]
-DOOR_WIDTHS = [12, 15, 18, 21, 24]
-DOOR_HEIGHTS = [15, 20, 30, 40, 80]
-WIDE_DOOR_WIDTHS = [30, 36]          # horizontal doors for short wall cabinets
+# Door sizes per width, from the 2026-09 sweep of ikea.com (ENKÖPING; BODBYN and AXSTAD offer the same).
+# No 80" doors exist: high cabinets take 30+50, 20+60 or 40+50.
+DOOR_SIZES = {12: [30, 40], 15: [15, 20, 30, 40, 50, 60], 18: [15, 20, 30, 40, 50, 60], 21: [30, 40], 24: [20, 30, 40, 50, 60]}
+WIDE_DOOR_WIDTHS = [30, 36]          # horizontal doors for short wall cabinets; not in the 05167 family, sweep the next one
 WIDE_DOOR_HEIGHTS = [15, 20]
-DRAWER_FRONT_WIDTHS = [15, 18, 21, 24, 30, 36]
-DRAWER_FRONT_HEIGHTS = [5, 10, 15, 20]
+DRAWER_FRONT_WIDTHS = [15, 18, 24, 30, 36]   # no 21" drawer front or MAXIMERA drawer is made
+DRAWER_FRONT_HEIGHTS = [5, 10, 15, 20]      # no 20" drawer front is made: that entry is the 20" door article, hung on a high drawer
 
 
 def frame(kind_type: str, w: float, d: float, h: float, nominal: str | None = None, notes: str | None = None) -> dict:
@@ -84,6 +85,7 @@ def front(kind: str, slug: str, series: str, finish: str, w: float, h: float) ->
         "nominal": f"{w:g}x{h:g}",
         "nominal_in": {"w": w, "h": h},
         "actual": {"w": inch_to_mm(w - FRONT_REVEAL_IN), "h": inch_to_mm(h - FRONT_REVEAL_IN)},
+        **({"notes": "IKEA sells no 20\" drawer front; this is the 20\" door article hung on a high drawer."} if kind == "drawer_front" and h == 20 else {}),
         "verified": False,
         "source": SOURCE,
         "notes": "Actual = nominal minus 1/8\" each way (reveal).",
@@ -126,13 +128,13 @@ def build() -> dict:
                         "SEKTION blind corner base cabinet frame 47x24x30",
                         "Straight 47\" frame; the 23\" nearest the corner has no door and is covered by the adjacent wall's first cabinet. Takes a 24\" door on the outer end. Published depth may be 26\"; verify."))
     for h in (30, 40):
-        items.append(corner("wall_corner", f"frame:wall_corner:26x26x{h}", f"26x14 3/4x{h}", 26, 14.75, h, 26, 15, 11, False, 13,
+        items.append(corner("wall_corner", f"frame:wall_corner:26x26x{h}", f"26x14 3/4x{h}", 26, 14.75, h, 26, 14.75, 11, False, 13,
                             f"SEKTION corner wall cabinet frame 26x26x{h}",
                             "L-shaped: 26\" along each wall, 15\" deep legs, 11\" notch for a 2-piece door (13\" set)."))
 
     for slug, series, finish in FRONT_SERIES:
-        for w in DOOR_WIDTHS:
-            for h in DOOR_HEIGHTS:
+        for w, heights in DOOR_SIZES.items():
+            for h in heights:
                 items.append(front("front", slug, series, finish, w, h))
         for w in WIDE_DOOR_WIDTHS:
             for h in WIDE_DOOR_HEIGHTS:
@@ -159,19 +161,24 @@ def build() -> dict:
             for h_name, front_h in (("low", 5), ("medium", 10), ("high", 15)):
                 items.append(hw(f"drawer:maximera:{w}x{d}:{h_name}", "drawer", f"MAXIMERA drawer, {h_name}, {w}x{d}", f"{w}x{d}",
                                 {"w": inch_to_mm(w), "d": inch_to_mm(d), "h": inch_to_mm(front_h)},
-                                f"One per drawer front: {front_h}\" fronts take a {h_name} drawer (20\" fronts also take high). Runners included.",
-                                nominal_in={"w": w, "d": d, "h": front_h}))
-    for w, h, level in ((25, 30, "base"), (25, 80, "high"), (25, 90, "high"), (13, 30, "wall"), (13, 40, "wall"), (15, 30, "wall_fridge")):
-        items.append(hw(f"cover_panel:forbattra:{w}x{h}", "cover_panel", f"FÖRBÄTTRA cover panel {w}x{h} ({level})", f"{w}x{h}",
-                        {"w": inch_to_mm(w), "h": inch_to_mm(h)}, "Exposed cabinet sides, and ripped into filler strips.",
-                        nominal_in={"w": w, "h": h}))
-    items.append(hw("toe_kick:forbattra:87", "toe_kick", "FÖRBÄTTRA toe kick strip 87x4 1/2", "87x4 1/2",
-                    {"w": inch_to_mm(87), "h": inch_to_mm(4.5)}, "Stock length; count = base run length / 2210 mm, rounded up.", stock_mm=inch_to_mm(87)))
-    items.append(hw("rail:sektion:88", "rail", "SEKTION suspension rail 88", "88",
-                    {"w": inch_to_mm(88)}, "Every base, wall and high run hangs on rail; count = run lengths / 2235 mm, rounded up per wall.", stock_mm=inch_to_mm(88)))
-    items.append(hw("legs:sektion:4pack", "legs", "SEKTION legs, adjustable, 4 pack", None,
+                                f"One per drawer front: {front_h}\" fronts take a {h_name} drawer. Runners included.",
+                                nominal_in={"w": w, "d": d}))
+    # FÖRBÄTTRA panels and toe kicks come in each front finish; sizes are ikea.com's (wall panels overhang the frame)
+    for slug, series, finish in FRONT_SERIES:
+        for w, h, level in ((25, 30, "base"), (25, 80, "high"), (25, 90, "high"), (15, 32.5, "wall"), (15, 42.5, "wall"), (15, 90, "high")):
+            size = f"{w:g}x{h:g}"
+            nominal = f"{w:g}x{'32 1/2' if h == 32.5 else '42 1/2' if h == 42.5 else f'{h:g}'}"
+            items.append({**hw(f"cover_panel:forbattra:{slug}:{size}", "cover_panel", f"FÖRBÄTTRA cover panel {nominal} {finish}", nominal,
+                                {"w": inch_to_mm(w), "h": inch_to_mm(h)}, f"Exposed {level} cabinet sides, and ripped into filler strips.",
+                                nominal_in={"w": w, "h": h}), "finish": finish})
+        items.append({**hw(f"toe_kick:forbattra:{slug}:87", "toe_kick", f"FÖRBÄTTRA toekick 87x4 1/2 {finish}", "87x4 1/2",
+                            {"w": inch_to_mm(87), "h": inch_to_mm(4.5)}, "Stock length; count = base run length / 2210 mm, rounded up.", stock_mm=inch_to_mm(87)),
+                      "finish": finish})
+    items.append(hw("rail:sektion:84", "rail", "SEKTION suspension rail 84", "84",
+                    {"w": inch_to_mm(84)}, "Every base, wall and high run hangs on rail; count = run lengths / 2134 mm, rounded up per wall.", stock_mm=inch_to_mm(84)))
+    items.append(hw("legs:sektion:4pack", "legs", "SEKTION leg, 4 pack", None,
                     {"w": 0, "h": inch_to_mm(4.5)}, "One pack per base or high cabinet. Counter height 36\" = 30\" frame + legs + 1 1/2\" top.", pack=4))
-    items.append(hw("hinge:utrusta:2pack", "hinge", "UTRUSTA hinge, soft closing, 2 pack", None,
+    items.append(hw("hinge:utrusta:2pack", "hinge", "UTRUSTA hinge w built-in damper for kitchen, 2 pack", None,
                     {"w": 0}, "One pack per door up to 40\" tall, two packs per taller door.", pack=2))
     return {
         "id": CATALOG_ID,

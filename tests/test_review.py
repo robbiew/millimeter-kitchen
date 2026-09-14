@@ -32,7 +32,7 @@ def test_review_page_and_index(tmp_path):
     assert {"elevation-N.svg", "elevation-E.svg", "plan.svg", "countertop.svg"} <= set(c.imgs)
     for section in ("Validation", "Drawings", "Renders", "3D", "Runs", "Purchase pack", "Assumptions", "Materials"):
         assert section in text, section
-    assert "N-sink-36" in text and "rail:sektion:88" in text and "scene.glb" in text
+    assert "N-sink-36" in text and "rail:sektion:84" in text and "scene.glb" in text
     assert file_sha(k.path) in text                       # the hash the page checks against
     assert "../../" in text or "examples/kitchen.fits.json" in text  # relative source path for the fetch
     assert "No Blender renders" in text

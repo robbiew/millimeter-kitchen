@@ -67,8 +67,8 @@ def test_carousel_is_two_legs_with_doors_on_the_notch(kitchen, boxes):
 
 def test_wall_corner_cabinet_geometry(kitchen, boxes):
     main, leg = boxes["N-wall-corner"], boxes["N-wall-corner/leg"]
-    assert [round(v) for v in main["size_mm"]] == [660, 762, 381]
-    assert [round(v) for v in leg["size_mm"]] == [381, 762, 279]
+    assert [round(v) for v in main["size_mm"]] == [660, 762, 375]   # wall frames are 14 3/4" deep
+    assert [round(v) for v in leg["size_mm"]] == [375, 762, 285]   # 14 3/4" leg, 660 - 375 long
     assert abs(main["min_mm"][1] - kitchen.wall_cabinet_bottom) <= 1
 
 

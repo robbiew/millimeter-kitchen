@@ -96,14 +96,14 @@ def test_plan_and_scene_follow_the_angle(tmp_path):
     hx, hy = fr["E"][2], fr["E"][3]
     assert math.degrees(math.atan2(hy, hx)) == pytest.approx(95.0, abs=0.2)   # turned 95°, not 90°
     boxes = read_glb_boxes(write_glb(build_scene(k), tmp_path / "s.glb"))
-    e = boxes["E-base-21-drawers"]
+    e = boxes["E-base-21"]
     assert [round(v) for v in e["size_mm"]] == [533, 762, 610]              # the box itself is unchanged
     assert abs(abs(e["yaw_deg"]) - 95.0) < 0.2                              # only its orientation differs
     assert boxes["N-base-15"]["yaw_deg"] == pytest.approx(0.0, abs=1e-6)
     # a square room still reads exactly as before through the node transforms
     k0 = load_kitchen(EXAMPLES / "kitchen.fits.json")
     b0 = read_glb_boxes(write_glb(build_scene(k0), tmp_path / "s0.glb"))
-    assert abs(b0["E-base-21-drawers"]["max_mm"][0] - 3655) <= 1 and abs(b0["E-base-21-drawers"]["yaw_deg"]) == pytest.approx(90.0, abs=1e-6)
+    assert abs(b0["E-base-21"]["max_mm"][0] - 3655) <= 1 and abs(b0["E-base-21"]["yaw_deg"]) == pytest.approx(90.0, abs=1e-6)
 
 
 def test_corner_cabinet_at_an_out_of_square_corner_warns(tmp_path):

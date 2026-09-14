@@ -19,12 +19,34 @@ from .draw import corner_start, counter_depth, counter_segments, item_depth, run
 from .model import Kitchen, Run, wall_frames
 from .scene import COUNTER_OVERHANG_DEFAULT
 
-RAIL_ID = "rail:sektion:88"
+RAIL_ID = "rail:sektion:84"
 LEGS_ID = "legs:sektion:4pack"
 HINGE_ID = "hinge:utrusta:2pack"
-TOE_KICK_ID = "toe_kick:forbattra:87"
 DRAWER_HEIGHT_FOR_FRONT = {5: "low", 10: "medium", 15: "high", 20: "high"}
-COVER_PANEL_FOR_LEVEL = {"base": "cover_panel:forbattra:25x30", "wall": "cover_panel:forbattra:13x30", "high": "cover_panel:forbattra:25x90"}
+COVER_PANEL_SIZE_FOR_LEVEL = {"base": "25x30", "wall": "15x32.5", "high": "25x90"}   # FÖRBÄTTRA sizes per cabinet level
+
+
+def front_slug(k: Kitchen) -> str | None:
+    """The front series the kitchen uses most (cover panels and toe kick come in that finish)."""
+    counts: dict[str, int] = {}
+    for r in k.runs:
+        for p in r.items:
+            for fu in getattr(p, "fronts", ()) or ():
+                slug = fu.item.id.split(":")[1] if fu.item.id.count(":") >= 2 else ""
+                if slug:
+                    counts[slug] = counts.get(slug, 0) + fu.count
+    return max(counts, key=counts.get) if counts else None
+
+
+def cover_panel_id(k: Kitchen, level: str) -> str | None:
+    size = COVER_PANEL_SIZE_FOR_LEVEL.get(level)
+    slug = front_slug(k)
+    return f"cover_panel:forbattra:{slug}:{size}" if size and slug else None
+
+
+def toe_kick_id(k: Kitchen) -> str | None:
+    slug = front_slug(k)
+    return f"toe_kick:forbattra:{slug}:87" if slug else None
 HINGE_PACKS_TALL_DOOR = 2
 TALL_DOOR_IN = 40
 
@@ -156,22 +178,25 @@ def derive(k: Kitchen) -> PurchasePack:
 
     # cover panels on exposed sides
     for run, side, item in exposed_sides(k):
-        pid = COVER_PANEL_FOR_LEVEL.get(run.level)
+        pid = cover_panel_id(k, run.level)
         if pid:
             add(pid, 1, "cover panel", f"{item.label} {side} side is exposed")
     assumptions.append("Cover panels: one per exposed cabinet side (a run end that is not against a wall and not in a corner). Dishwasher side panels and end panels that the appliance hides are not added.")
 
     # toe kick
-    tk = cat.get(TOE_KICK_ID)
+    tk_id = toe_kick_id(k)
+    tk = cat.get(tk_id) if tk_id else None
     tk_stock = tk.stock_mm if tk and tk.stock_mm else 2210
     base_len = sum(r.length for r in k.runs if r.level == "base")
-    add(TOE_KICK_ID, math.ceil(base_len / tk_stock) if base_len else 0, "toe kick", f"{base_len} mm of base run / {tk_stock} mm strip")
+    if tk_id:
+        add(tk_id, math.ceil(base_len / tk_stock) if base_len else 0, "toe kick", f"{base_len} mm of base run / {tk_stock} mm strip")
     assumptions.append("Toe kick: base run length divided by the strip length, rounded up; ignores the appliance gaps where no kick is needed.")
 
     # filler stock from cover panels
-    for level, pid in COVER_PANEL_FOR_LEVEL.items():
+    for level in COVER_PANEL_SIZE_FOR_LEVEL:
+        pid = cover_panel_id(k, level)
         widths = [p.width for r in k.runs if r.level == level for p in r.items if p.kind == "filler"]
-        if not widths:
+        if not widths or not pid:
             continue
         panel = cat.get(pid)
         panel_w = panel.w if panel else 635

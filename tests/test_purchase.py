@@ -29,7 +29,7 @@ def by_id(pack):
 
 def test_rail_per_wall_and_level(pack):
     # N base 3655 -> 2, N wall 1219+1522=2741 -> 2, E base 2131 -> 1, E wall 2131 -> 1
-    l = by_id(pack)["rail:sektion:88"]
+    l = by_id(pack)["rail:sektion:84"]
     assert l.qty == 6 and l.derived and l.rule == "rail"
     assert "wall N base" in l.detail and "wall E wall" in l.detail
 
@@ -37,14 +37,14 @@ def test_rail_per_wall_and_level(pack):
 def test_legs_and_hinges(pack):
     b = by_id(pack)
     assert b["legs:sektion:4pack"].qty == 7          # 5 base on N, 2 on E
-    assert b["hinge:utrusta:2pack"].qty == 17        # 10 + 4 + 2 + 1 doors, none taller than 40"
+    assert b["hinge:utrusta:2pack"].qty == 18        # 10 + 4 + 2 + 1 + 1 doors (E-base-21 is a door cabinet), none taller than 40"
 
 
 def test_one_drawer_per_drawer_front(pack):
     b = by_id(pack)
     assert b["drawer:maximera:18x24:medium"].qty == 1 and b["drawer:maximera:18x24:high"].qty == 1
-    assert b["drawer:maximera:15x24:low"].qty == 1 and b["drawer:maximera:21x24:high"].qty == 1
-    assert sum(l.qty for l in pack.lines if l.kind == "drawer") == 7
+    assert b["drawer:maximera:15x24:low"].qty == 1 and not any(i.startswith("drawer:maximera:21x") for i in b)   # no 21" drawers exist
+    assert sum(l.qty for l in pack.lines if l.kind == "drawer") == 5   # N-base-18 (2), N-base-15 (2), sink? no: 15x5 + 18x10 + 18x20 + 15x... see the fixture
 
 
 def test_exposed_sides_and_cover_panels(kitchen, pack):
@@ -55,12 +55,12 @@ def test_exposed_sides_and_cover_panels(kitchen, pack):
     assert not any(level == "base" for _, level, _, _ in sides)  # base runs end at walls or in the corner
     b = by_id(pack)
     # 3 exposed wall sides + 1 panel of wall filler stock; base filler stock 1
-    assert b["cover_panel:forbattra:13x30"].qty == 4
-    assert b["cover_panel:forbattra:25x30"].qty == 1
+    assert b["cover_panel:forbattra:enkoping-walnut:15x32.5"].qty == 4
+    assert b["cover_panel:forbattra:enkoping-walnut:25x30"].qty == 1
 
 
 def test_toe_kick_from_base_run_length(pack):
-    assert by_id(pack)["toe_kick:forbattra:87"].qty == 3      # (3655 + 2131) / 2210 -> 3
+    assert by_id(pack)["toe_kick:forbattra:enkoping-walnut:87"].qty == 3      # (3655 + 2131) / 2210 -> 3
 
 
 def test_pack_flags_and_text(kitchen, pack):
@@ -88,7 +88,7 @@ def test_export_includes_the_pack(kitchen, tmp_path):
     for name in ("purchase-pack.md", "purchase-pack.csv", "countertop.svg"):
         assert (tmp_path / "kitchen.fits" / name).exists()
     csv_text = (tmp_path / "kitchen.fits" / "purchase-pack.csv").read_text()
-    assert csv_text.startswith("id,kind,qty,article,name,verified,rule,detail") and "rail:sektion:88" in csv_text
+    assert csv_text.startswith("id,kind,qty,article,name,verified,rule,detail") and "rail:sektion:84" in csv_text
 
 
 # ---- reconciliation

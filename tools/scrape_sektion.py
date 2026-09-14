@@ -231,6 +231,8 @@ def match_item(item: dict, nodes: list[dict], tol_in: float = 0.3) -> tuple[dict
             # a bare frame's design text is just its colour ("white"); "white/Aspudden matte white" is a
             # frame-plus-front combination even when its type reads "Wall cabinet"
             type_ok = "cabinet" in twords and twords <= FRAME_WORDS and FRAME_NEEDS[type_] <= twords and "/" not in design
+        elif kind == "drawer_front" and want and want[-1] == 20:
+            type_ok = tname == "door"          # IKEA makes no 20" drawer front; the 20" door is used
         elif kind in ("front", "drawer_front"):
             type_ok = FRONT_TYPES[type_](tname)
         else:
@@ -348,7 +350,8 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("catalog")
     ap.add_argument("--article", help="only this article number")
-    ap.add_argument("--write", action="store_true", help="update verified flags in place")
+    ap.add_argument("--write", action="store_true", help="write article numbers and verified flags in place")
+    ap.add_argument("--accept-page", action="store_true", help="with --write: on a size mismatch, take the product page's dimensions into the catalog")
     ap.add_argument("--dump", action="store_true", help="print page text around 'Width' and exit")
     ap.add_argument("--discover", action="store_true", help="find article numbers for items that have none (search API)")
     ap.add_argument("--query", help="with --dump: show what the search API returns for this text and exit")
@@ -494,7 +497,9 @@ def main(argv: list[str] | None = None) -> int:
         want = item["actual"]
         diffs = {k: (want.get(k), mm.get(k)) for k in ("w", "d", "h") if k in want and k in mm and abs(want[k] - mm[k]) > TOLERANCE_MM}
         if diffs:
-            print(f"{item['id']} {art}: MISMATCH {diffs} (catalog, page)")
+            print(f"{item['id']} {art}: MISMATCH {diffs} (catalog, page)" + ("" if args.accept_page else "  [catalog kept; --accept-page to take the page values]"))
+            if not args.accept_page:
+                continue                      # the article stays; the dimensions stay ours and unverified
             if args.write:
                 item["actual"].update({k: v for k, v in mm.items() if k in want})
         else:

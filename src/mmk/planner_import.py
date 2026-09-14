@@ -122,6 +122,12 @@ def _same(a: tuple, b: tuple, tol: float = 0.3) -> bool:
     return len(a) == len(b) and all(x is not None and y is not None and abs(x - y) <= tol for x, y in zip(a, b))
 
 
+def _finish_matches(it: dict, row_text: str) -> bool:
+    """Every word of the entry's finish appears in the row (entries without a finish always match)."""
+    words = [w for w in re.split(r"[\s,/-]+", (it.get("finish") or "").lower()) if w and w not in ("effect",)]
+    return all(w in row_text for w in words)
+
+
 def _candidates(items: list[dict], row_text: str, kind: str, size: tuple[float, ...] | None) -> list[dict]:
     t = _norm(row_text)
     out = []
@@ -154,8 +160,12 @@ def _candidates(items: list[dict], row_text: str, kind: str, size: tuple[float, 
         elif kind == "cover_panel":
             if size is None or len(size) != 2 or not _same((ni.get("w"), ni.get("h")), size):
                 continue
+            if not _finish_matches(it, t):
+                continue
         elif kind in ("toe_kick", "rail"):
             if size is not None and ni.get("w") is not None and not _same((ni.get("w"),), (size[0],)):
+                continue
+            if not _finish_matches(it, t):
                 continue
         out.append(it)
     return out

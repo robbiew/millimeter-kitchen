@@ -116,10 +116,10 @@ def test_insert_auto_labels_and_requires_closure(ws):
     k = ws / "kitchen.json"
     res = apply(k, [
         {"op": "set_width", "label": "E-filler-right", "width": 74 + 610 - 533},
-        {"op": "replace", "label": "E-base-21-drawers", "items": [{"kind": "cabinet", "id": "frame:base:24x24x30", "fronts": [{"id": f"{V}:door:12x30", "count": 2}]}]},
+        {"op": "replace", "label": "E-base-21", "items": [{"kind": "cabinet", "id": "frame:base:24x24x30", "fronts": [{"id": f"{V}:door:12x30", "count": 2}]}]},
     ])
     assert not res.ok  # 610 replaces 533 (+77) and the filler grew by 77 too: run is 77 mm too long
-    res = apply(k, [{"op": "replace", "label": "E-base-21-drawers", "items": [
+    res = apply(k, [{"op": "replace", "label": "E-base-21", "items": [
         {"kind": "cabinet", "id": "frame:base:18x24x30", "fronts": [{"id": f"{V}:door:18x30", "count": 1}]},
         {"kind": "filler", "width": 76},
     ]}])
