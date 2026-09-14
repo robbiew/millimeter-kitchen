@@ -126,6 +126,15 @@ FRAME_NEEDS = {"base": {"base"}, "sink_base": {"base"}, "wall": {"wall"}, "wall_
 FRONT_TYPES = {"door": lambda t: t == "door", "drawer": lambda t: t == "drawer front",
                "corner_door": lambda t: "door" in t and "corner" in t}
 STOP = {"a", "of", "and", "the", "with", "pack", "set", "in", "mm"}
+# When a family has no finish of its own, the colour the catalog assumes: SEKTION frames come in white and brown.
+PREFER = {"frame": "white"}
+
+
+def describe(n: dict) -> str:
+    """One line for a search record: article, name, type, size, design text."""
+    size = n.get("itemMeasureReferenceText") or n.get("measurementText") or ""
+    design = n.get("validDesignText") or ""
+    return f"{node_article(n)}  {n.get('name', '')} {n.get('typeName', '')} {size}" + (f"  [{design}]" if design else "")
 
 
 def family(item: dict) -> tuple:
@@ -197,6 +206,10 @@ def match_item(item: dict, nodes: list[dict], tol_in: float = 0.3) -> tuple[dict
             hits.append(n)
         elif type_ok and (size_ok or finish_ok):
             near.append(n)        # the right kind of product in another size or finish; combinations never qualify
+    if len(hits) > 1 and not finish_words and kind in PREFER:
+        preferred = [n for n in hits if PREFER[kind] in node_text(n)]
+        if len(preferred) == 1:
+            return preferred[0], [n for n in hits if n is not preferred[0]] + near
     if len(hits) == 1:
         return hits[0], near
     return None, hits + near
@@ -300,7 +313,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--query", help="with --dump: show what the search API returns for this text and exit")
     ap.add_argument("--limit", type=int, help="stop after this many items (trial run)")
     ap.add_argument("--size", type=int, default=24, help="with --query: how many results to ask for")
-    ap.add_argument("--variants", action="store_true", help="with --query: also list each result's variants (other sizes and colours)")
+    ap.add_argument("--filter", help="with --query: only print records whose type contains this text (e.g. Door)")
     ap.add_argument("--delay", type=float, default=0.5, help="seconds between requests")
     args = ap.parse_args(argv)
 
@@ -312,10 +325,12 @@ def main(argv: list[str] | None = None) -> int:
     if args.query:
         nodes = search_products(args.query, size=args.size)
         print(f"# {search_url(args.query, args.size)}: {len(nodes)} product(s) incl. variants")
+        if args.filter:
+            nodes = [n for n in nodes if args.filter.lower() in str(n.get("typeName") or "").lower()]
+            print(f"# {len(nodes)} with {args.filter!r} in the type")
         for n in nodes:
-            keys = ("itemNo", "name", "typeName", "itemMeasureReferenceText", "measurementText", "validDesignText")
-            print("   " + json.dumps({k: n.get(k) for k in keys if k in n}, ensure_ascii=False))
-        if nodes:
+            print("   " + describe(n))
+        if nodes and not args.filter:
             print("\n# every field of the first record (to find where the colour/finish lives):")
             print(json.dumps(nodes[0], indent=1, ensure_ascii=False)[:4000])
         return 0
@@ -341,7 +356,7 @@ def main(argv: list[str] | None = None) -> int:
                 near = near2 or near
             if hit:
                 art = node_article(hit)
-                print(f"{item['id']}: {art}  {hit.get('name', '')} {hit.get('typeName', '')} {hit.get('itemMeasureReferenceText') or hit.get('measurementText') or ''}")
+                print(f"{item['id']}: {describe(hit)}")
                 found += 1
                 if args.write:
                     item["article"] = art
@@ -350,7 +365,7 @@ def main(argv: list[str] | None = None) -> int:
                 ambiguous += 1
                 print(f"{item['id']}: AMBIGUOUS for {q!r}; candidates:")
                 for n in near[:6]:
-                    print(f"      {node_article(n)}  {n.get('name', '')} {n.get('typeName', '')} {n.get('itemMeasureReferenceText') or n.get('measurementText') or ''}")
+                    print(f"      {describe(n)}")
             else:
                 missing += 1
                 print(f"{item['id']}: no result for {q!r}" + ("" if bulk[fam] else " (empty response: blocked, or the field names changed; try --query with --dump)"))

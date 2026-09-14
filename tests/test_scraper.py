@@ -74,6 +74,16 @@ def test_bare_frame_beats_combinations():
     assert sc.match_item(frame30, combos + [shallow])[0] is None
 
 
+def test_white_frame_is_preferred_over_brown():
+    white = node("49623945", "SEKTION", "Wall cabinet", '12x15x30 "', "white")
+    brown = node("49506319", "SEKTION", "Wall cabinet", '12x15x30 "', "brown")
+    wall = dict(FRAME, id="frame:wall:12x15x30", type="wall", nominal_in={"w": 12, "d": 14.75, "h": 30})
+    hit, near = sc.match_item(wall, [brown, white])
+    assert hit is white and brown in near
+    other_white = node("09472444", "SEKTION", "Wall cabinet", '12x15x30 "', "white")
+    assert sc.match_item(wall, [brown, white, other_white])[0] is None   # two whites is still ambiguous
+
+
 def test_frame_families_and_generic_items():
     wall = dict(FRAME, id="frame:wall:30x15x30", type="wall", nominal_in={"w": 30, "d": 15, "h": 30})
     assert sc.match_item(wall, [node("1", "SEKTION", "Wall cabinet frame", '30x15x30 "')])[0]
