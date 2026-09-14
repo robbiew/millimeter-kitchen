@@ -507,7 +507,7 @@ def plan_svg(k: Kitchen, scale: int = DEFAULT_SCALE) -> str:
 
     svg.text(MARGIN, 90, "Plan", "h", anchor="start")
     svg.text(MARGIN, 150, k.name, "t", anchor="start")
-    svg.text(MARGIN, 200, "walls drawn from the survey in order, turning 90° at each corner; base cabinets solid, wall cabinets dashed, counter shaded", "s", anchor="start")
+    svg.text(MARGIN, 200, "walls drawn from the survey in order, turning by the surveyed corner angle; base cabinets solid, wall cabinets dashed, counter shaded", "s", anchor="start")
     svg.text(W - MARGIN, 90, f"scale 1:{scale} · units mm", "t", anchor="end")
 
     def P(wid: str, along: float, into: float) -> tuple[float, float]:
