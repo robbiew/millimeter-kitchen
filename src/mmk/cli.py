@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 from .catalog import load_catalog
+from .draw import DEFAULT_SCALE, write_drawings
 from .findings import Finding, has_errors
 from .io import CATALOG_DIR, FileError
 from .model import load_kitchen
@@ -75,6 +76,19 @@ def cmd_validate(args: argparse.Namespace) -> int:
     return 1 if n_err else 0
 
 
+def cmd_draw(args: argparse.Namespace) -> int:
+    k = load_kitchen(args.kitchen)
+    findings = validate(k)
+    n_err = sum(f.is_error for f in findings)
+    if n_err and not args.force:
+        _print([f for f in findings if f.is_error])
+        print(f"{k.name}: {n_err} errors; fix them or pass --force to draw anyway", file=sys.stderr)
+        return 1
+    for p in write_drawings(k, args.out, args.scale):
+        print(p)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(prog="mmk", description="Millimeter Kitchen: survey checks and layout validation.")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -99,6 +113,13 @@ def build_parser() -> argparse.ArgumentParser:
     v.add_argument("kitchen")
     v.add_argument("--show-runs", action="store_true", help="print every placed item with its interval")
     v.set_defaults(fn=cmd_validate)
+
+    d = sub.add_parser("draw", help="phase 2: write dimensioned elevations and a plan view as SVG")
+    d.add_argument("kitchen")
+    d.add_argument("--out", default="out", help="output directory (default: out/)")
+    d.add_argument("--scale", type=int, default=DEFAULT_SCALE, help="print scale denominator (default 20 = 1:20)")
+    d.add_argument("--force", action="store_true", help="draw even if the validator reports errors")
+    d.set_defaults(fn=cmd_draw)
     return ap
 
 

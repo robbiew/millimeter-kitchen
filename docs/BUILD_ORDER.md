@@ -39,8 +39,10 @@ Also: every catalog entry used in a purchase must be `"verified": true`
 
 ## Phase 2 — Dimensioned elevations and plan
 
-SVG elevation per wall and a plan view with running dimensions, generated
-from `kitchen.json`.
+Deliverables: `mmk draw kitchen.json --out out/ --scale 20`. SVG elevation per wall and a
+plan view with running dimensions, generated from `kitchen.json`. Every SVG
+coordinate is a real millimeter; the page size is the viewBox divided by the
+print scale.
 
 **Accept:** printed at scale, a caliper on the drawing matches the file; every
 cabinet shows nominal width and catalog id; the sheet lists total run and
@@ -89,7 +91,7 @@ its item list against the BOM.
 |---|---|---|
 | 0 — Survey | **Scaffolded** | Protocol, schema, `mmk survey check` and tests exist. Real room not yet measured; `examples/room.example.json` is illustrative. |
 | 1 — Catalog + validator | **Scaffolded** | Six rules with good/bad fixtures pass. Catalog is a seed from published size guides, all `verified: false`; scraper written but untested against ikea.com. Corner cabinets not yet modeled. |
-| 2 — Elevations | Not started | |
+| 2 — Elevations | **Scaffolded** | `mmk draw` writes an SVG elevation per wall and a plan view in real millimeters at a chosen print scale, with running dimensions, front splits, openings, services and a title block listing totals and fillers. Tests check geometry against the catalog. Corner geometry in plan assumes 90° turns; countertop outline export (build123d) deferred to phase 6. |
 | 3 — 3D | Not started | |
 | 4 — Materials | Not started | |
 | 5 — Claude/MCP | Not started | |

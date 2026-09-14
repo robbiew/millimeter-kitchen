@@ -1,8 +1,8 @@
 # Millimeter Kitchen
 
-> **Work in progress.** Phases 0 and 1 (room survey checks, SEKTION catalog,
-> fit validator) are scaffolded and tested. Drawings, 3D, renders and the
-> purchase list are planned but not built. The catalog's dimensions come from
+> **Work in progress.** Phases 0 to 2 (room survey checks, SEKTION catalog,
+> fit validator, dimensioned drawings) are scaffolded and tested. 3D, renders
+> and the purchase list are planned but not built. The catalog's dimensions come from
 > published size guides and are not yet verified against IKEA product pages,
 > so nothing here is ready to buy from. See the status tracker at the bottom of
 > [docs/BUILD_ORDER.md](docs/BUILD_ORDER.md).
@@ -28,8 +28,8 @@ it. None of them writes a dimension on its own.
 | Catalog | IKEA US product pages | Actual cabinet and front dimensions per article number, read by `tools/scrape_sektion.py`. | Scraper written, untested |
 | Catalog | IKEA Rotera GLB models, SketchUp 3D Warehouse SEKTION packs | Reference meshes for how fronts and frames look. | Planned (phase 3) |
 | Validation | Python, `jsonschema`, pytest | Schema checks and the fit rules: run closure, fillers, clearances, openings, services, front sizes. | Built (phase 1) |
-| Geometry | build123d | Exact solids for fillers, countertop outlines and clearance math. | Planned (phase 2) |
-| Drawings | Generated SVG / PDF | Dimensioned elevations per wall and a plan view for contractors and fabricators. | Planned (phase 2) |
+| Geometry | build123d | Exact solids for countertop outlines and the countertop cut drawing. | Planned (phase 6) |
+| Drawings | Generated SVG | Dimensioned elevations per wall and a plan view for contractors and fabricators, at a chosen print scale. | Built (phase 2) |
 | 3D and renders | Blender + Home Builder 5 | Parametric cabinets built from `kitchen.json` by script; glTF export; photoreal renders with real IKEA finishes. | Planned (phases 3 and 4) |
 | 3D and renders | blender-mcp | Lets an AI assistant adjust cameras, lighting and materials in the live scene. Never the path a dimension travels. | Planned (phase 4) |
 | Viewer | three.js | Browser walkthrough of a variation on a phone or laptop. | Planned (phase 3) |
@@ -57,6 +57,9 @@ mmk catalog show frame:base:36x24x30
 # Phase 1: validate a layout against its room and the catalog
 mmk validate examples/kitchen.fits.json
 mmk validate examples/bad/run_too_long.json     # exits 1, names the item
+
+# Phase 2: dimensioned elevations and plan, SVG in real mm at 1:20
+mmk draw examples/kitchen.fits.json --out out/
 
 # run the tests
 pytest -q
