@@ -15,6 +15,7 @@ from .draw import DEFAULT_SCALE, write_drawings
 from .edit import EditError, apply
 from .export import export_all
 from .purchase import countertop_svg, derive, pack_csv, render_pack
+from .planner_import import import_list
 from .reconcile import read_ikea_list, reconcile
 from .finishes import ROLES, load_finishes
 from .gltf import write_glb
@@ -71,6 +72,13 @@ def cmd_catalog_show(args: argparse.Namespace) -> int:
     for k, v in vars(it).items():
         print(f"{k:12} {v}")
     return 0
+
+
+def cmd_catalog_import(args: argparse.Namespace) -> int:
+    rep = import_list(_catalog_path(args.catalog), args.ikea_list, write=args.write)
+    print(rep.render())
+    c = rep.counts()
+    return 0 if not c.get("ambiguous") and not c.get("unmatched") and not c.get("conflict") else 1
 
 
 def cmd_validate(args: argparse.Namespace) -> int:
@@ -240,6 +248,11 @@ def build_parser() -> argparse.ArgumentParser:
     cs.add_argument("id")
     cs.add_argument("--catalog")
     cs.set_defaults(fn=cmd_catalog_show)
+    ci = catalog.add_parser("import", help="phase 6: pull article numbers from an IKEA Kitchen Planner item list into the catalog")
+    ci.add_argument("ikea_list", help="CSV/TSV with article number, product name and quantity columns")
+    ci.add_argument("--catalog")
+    ci.add_argument("--write", action="store_true", help="record matched articles as verified (default: report only)")
+    ci.set_defaults(fn=cmd_catalog_import)
 
     v = sub.add_parser("validate", help="phase 1: validate a kitchen.json against its room and catalog")
     v.add_argument("kitchen")
