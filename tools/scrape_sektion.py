@@ -43,24 +43,55 @@ def fetch(url: str) -> str:
         return resp.read().decode("utf-8", errors="replace")
 
 
-_INCH = re.compile(r'(?P<label>Width|Depth|Height)\s*:?\s*(?P<num>\d+(?:\s\d+/\d+)?(?:\.\d+)?)\s*(?:"|&quot;|in\b)', re.I)
+# Anchors, most specific first. IKEA's product page ("PIP") renders the
+# measurements list with pip-product-dimensions__* classes and also embeds
+# product JSON with a measurementText like "36x24x30 \"".
+DUMP_ANCHORS = ("pip-product-dimensions", "measurementText", "productDimensions", "\"dimensions\"", "Width:")
+
+_NUM = r"(?P<num>\d+(?:\s\d+/\d+)?(?:\.\d+)?)"
+# <dt ...>Width:</dt> <dd ...>36 "</dd>   (tags stripped first, so it reads: Width:  36 ")
+_LIST_INCH = re.compile(r"(?P<label>Width|Depth|Height)\s*:?\s+" + _NUM + r"\s*(?:\"|&quot;|”|in\b)", re.I)
+_LIST_CM = re.compile(r"(?P<label>Width|Depth|Height)\s*:?\s+" + _NUM + r"\s*cm\b", re.I)
+_MEASUREMENT_TEXT = re.compile(r'"measurementText"\s*:\s*"(?P<text>[^"]+)"')
 
 
-def parse_inches(html: str) -> dict[str, float]:
-    """Find the first Width/Depth/Height in inches in the page text."""
-    text = re.sub(r"<[^>]+>", " ", html)
+def _num(text: str) -> float:
+    text = text.strip()
+    if " " in text:
+        whole, frac = text.split(" ", 1)
+        return float(Fraction(whole) + Fraction(frac))
+    return float(Fraction(text))
+
+
+def parse_measurements(html: str) -> dict[str, float]:
+    """Return {w|d|h: inches} from the product page, trying the dimensions list first.
+
+    Only the region around the dimensions block is searched so the site's
+    translation strings (which also contain 'Width') cannot match.
+    """
+    region = html
+    i = html.find("pip-product-dimensions")
+    if i >= 0:
+        region = html[i: i + 6000]
+    text = re.sub(r"<[^>]+>", " ", region)
     found: dict[str, float] = {}
-    for m in _INCH.finditer(text):
-        label = m.group("label").lower()
-        if label in found:
-            continue
-        num = m.group("num").strip()
-        if " " in num:
-            whole, frac = num.split(" ", 1)
-            value = float(Fraction(whole) + Fraction(frac))
-        else:
-            value = float(Fraction(num))
-        found[label] = value
+    for m in _LIST_INCH.finditer(text):
+        key = m.group("label")[0].lower()
+        found.setdefault(key, _num(m.group("num")))
+    if len(found) < 2:
+        for m in _LIST_CM.finditer(text):
+            key = m.group("label")[0].lower()
+            found.setdefault(key, _num(m.group("num")) / 2.54)
+    if len(found) < 2:
+        m = _MEASUREMENT_TEXT.search(html)
+        if m:
+            parts = [x.strip().rstrip('"').strip() for x in m.group("text").lower().replace("\\\"", "").split("x")]
+            keys = ("w", "d", "h") if len(parts) == 3 else ("w", "h")
+            for k, v in zip(keys, parts):
+                try:
+                    found.setdefault(k, _num(v))
+                except (ValueError, ZeroDivisionError):
+                    pass
     return found
 
 
@@ -87,14 +118,19 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{item['id']} {art}: fetch failed: {exc}")
             continue
         if args.dump:
-            i = html.find("Width")
-            print(html[max(0, i - 400): i + 600])
+            print(f"# {url}  ({len(html)} bytes)")
+            for anchor in DUMP_ANCHORS:
+                hits = [m.start() for m in re.finditer(re.escape(anchor), html)][:3]
+                print(f"\n## anchor {anchor!r}: {len(hits)} hit(s) shown of {html.count(anchor)}")
+                for i in hits:
+                    print("   …" + html[max(0, i - 200): i + 500].replace("\n", " ") + "…")
+            print("\n## parsed:", parse_measurements(html))
             return 0
-        got = parse_inches(html)
+        got = parse_measurements(html)
         if not got:
             print(f"{item['id']} {art}: no measurements found; run with --dump and fix the regex")
             continue
-        mm = {k[0]: inch_to_mm(v) for k, v in got.items()}  # w/d/h
+        mm = {k: inch_to_mm(v) for k, v in got.items()}  # w/d/h
         want = item["actual"]
         diffs = {k: (want.get(k), mm.get(k)) for k in ("w", "d", "h") if k in want and k in mm and abs(want[k] - mm[k]) > TOLERANCE_MM}
         if diffs:
