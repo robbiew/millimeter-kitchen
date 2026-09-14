@@ -2,9 +2,9 @@
 
 > **Work in progress.** Phases 0 to 3 (room survey checks, SEKTION catalog,
 > fit validator, dimensioned drawings, 3D scene export and Blender rendering)
-> are scaffolded and tested, though the Blender render script has not yet been
-> run on a machine with Blender. Materials, AI-driven variations and the
-> purchase list are planned but not built. The catalog's dimensions come from
+> are scaffolded and tested, and `mmk render` produces Blender renders.
+> Materials, AI-driven variations and the purchase list are planned but not
+> built. The catalog's dimensions come from
 > published size guides and are not yet verified against IKEA product pages,
 > so nothing here is ready to buy from. See the status tracker at the bottom of
 > [docs/BUILD_ORDER.md](docs/BUILD_ORDER.md).
@@ -32,7 +32,7 @@ it. None of them writes a dimension on its own.
 | Validation | Python, `jsonschema`, pytest | Schema checks and the fit rules: run closure, fillers, clearances, openings, services, front sizes. | Built (phase 1) |
 | Geometry | build123d | Exact solids for countertop outlines and the countertop cut drawing. | Planned (phase 6) |
 | Drawings | Generated SVG | Dimensioned elevations per wall and a plan view for contractors and fabricators, at a chosen print scale. | Built (phase 2) |
-| 3D and renders | glTF export (pure Python) + Blender | `mmk render` writes `scene.glb` with a named node per cabinet, front, counter and wall, then Blender imports it and renders one image per wall. Real IKEA finishes come in phase 4; Home Builder 5 is optional detail. | Built, Blender step untested (phase 3) |
+| 3D and renders | glTF export (pure Python) + Blender | `mmk render` writes `scene.glb` with a named node per cabinet, front, counter and wall, then Blender imports it and renders one image per wall. Real IKEA finishes come in phase 4; Home Builder 5 is optional detail. | Built (phase 3) |
 | 3D and renders | blender-mcp | Lets an AI assistant adjust cameras, lighting and materials in the live scene. Never the path a dimension travels. | Planned (phase 4) |
 | Viewer | three.js | `viewer/index.html` loads `scene.glb` for a browser walkthrough with a button per camera. | Written, untested (phase 3) |
 | Variations | Claude via a small MCP server | Natural-language edits ("swap the 36 for two 18s with drawers") that go through the validator before you see them. Variations are git branches. | Planned (phase 5) |
