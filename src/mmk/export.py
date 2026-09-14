@@ -21,6 +21,7 @@ from .draw import DEFAULT_SCALE, write_drawings
 from .gltf import write_glb
 from .model import Kitchen
 from .purchase import countertop_svg, derive, pack_csv, render_pack
+from .review import write_review
 from .scene import build_scene
 
 BLENDER_SCRIPT = Path(__file__).resolve().parents[2] / "tools" / "blender_render.py"
@@ -65,11 +66,14 @@ def export_all(k: Kitchen, out_root: str | Path, scale: int = DEFAULT_SCALE, ren
         "source": str(k.path),
         "source_sha256": file_sha(k.path),
         "exported_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "files": [Path(p).name for p in result["drawings"]] + ["scene.glb", "cameras.json", "purchase-pack.md", "purchase-pack.csv", "countertop.svg"] + [Path(p).name for p in result["renders"]],
+        "files": [Path(p).name for p in result["drawings"]] + ["scene.glb", "cameras.json", "purchase-pack.md", "purchase-pack.csv", "countertop.svg", "index.html"] + [Path(p).name for p in result["renders"]],
         "renders_current": bool(render and result["renders"]),
     }
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     result["manifest"] = str(out / "manifest.json")
+    result["scale"] = scale
+    result["review"] = str(write_review(k, out, pack, result, manifest["source_sha256"]))
+    result["index"] = str(out.parent / "index.html")
     return result
 
 

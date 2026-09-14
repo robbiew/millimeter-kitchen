@@ -95,6 +95,12 @@ layout in the official IKEA Kitchen Planner, save its item list as CSV, and run
 
 ---
 
+## Review page
+
+Not a phase: every export also writes a static `index.html` per layout and an
+index over all exports, with an embedded three.js viewer and a browser-side
+staleness check against the source file's hash.
+
 ## Current Status Tracker
 
 | Phase | Status | Notes |

@@ -160,6 +160,19 @@ def cmd_edit(args: argparse.Namespace) -> int:
     return 0 if res.ok else 1
 
 
+def cmd_export(args: argparse.Namespace) -> int:
+    k = load_kitchen(args.kitchen)
+    findings = validate(k)
+    if any(f.is_error for f in findings) and not args.force:
+        _print([f for f in findings if f.is_error])
+        print(f"{k.name}: fix the errors or pass --force", file=sys.stderr)
+        return 1
+    ex = export_all(k, args.out, scale=args.scale, render=args.render, blender=args.blender)
+    print(f"exported to {ex['out']}: {len(ex['drawings'])} drawings, scene.glb, cameras.json, purchase pack, index.html" + (f", {len(ex['renders'])} renders" if ex["renders"] else "") + (f" ({ex['render_note']})" if ex.get("render_note") else ""))
+    print(f"review page: {ex['review']}   all layouts: {ex['index']}")
+    return 0
+
+
 def cmd_purchase(args: argparse.Namespace) -> int:
     k = load_kitchen(args.kitchen)
     findings = validate(k)
@@ -297,6 +310,15 @@ def build_parser() -> argparse.ArgumentParser:
     e.add_argument("--blender", help="path to the blender executable")
     e.add_argument("--json", action="store_true", help="machine-readable result")
     e.set_defaults(fn=cmd_edit)
+
+    ex = sub.add_parser("export", help="regenerate everything derived from a layout: drawings, scene, purchase pack, review page")
+    ex.add_argument("kitchen")
+    ex.add_argument("--out", default="out")
+    ex.add_argument("--scale", type=int, default=DEFAULT_SCALE)
+    ex.add_argument("--render", action="store_true", help="also render in Blender")
+    ex.add_argument("--blender")
+    ex.add_argument("--force", action="store_true")
+    ex.set_defaults(fn=cmd_export)
 
     pu = sub.add_parser("purchase", help="phase 6: the purchase pack with derived hardware, countertop outline and assumptions")
     pu.add_argument("kitchen")

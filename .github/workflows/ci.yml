@@ -16,4 +16,5 @@ jobs:
       - run: mmk render examples/kitchen.fits.json --out out --no-render
       - run: mmk bom examples/kitchen.fits.json
       - run: mmk purchase examples/kitchen.fits.json --out out/pack
+      - run: mmk export examples/kitchen.fits.json --out out
       - run: mmk edit examples/kitchen.fits.json '{"op":"set_material","role":"counter","key":"quartz-grey"}' --dry-run
