@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -13,7 +12,7 @@ from .catalog import load_catalog
 from .bom import bill_of_materials, render_bom
 from .draw import DEFAULT_SCALE, write_drawings
 from .edit import EditError, apply
-from .export import export_all
+from .export import export_all, find_blender
 from .purchase import countertop_svg, derive, pack_csv, render_pack
 from .planner_import import import_list
 from .reconcile import read_ikea_list, reconcile
@@ -231,10 +230,10 @@ def cmd_render(args: argparse.Namespace) -> int:
     print(f"{len(scene.boxes)} boxes, {len(scene.cameras)} cameras")
     if args.no_render:
         return 0
-    blender = args.blender or shutil.which("blender")
+    blender = find_blender(args.blender)
     if not blender or not Path(blender).exists():
-        where = f"'{blender}' does not exist" if blender else "blender not found on PATH"
-        print(f"{where}; pass --blender /path/to/blender, or open scene.glb in viewer/index.html", file=sys.stderr)
+        where = f"'{blender}' does not exist" if blender else "blender not found on PATH or in the usual install locations"
+        print(f"{where}; pass --blender /path/to/blender, set MMK_BLENDER, or open scene.glb in viewer/index.html", file=sys.stderr)
         return 2
     cmd = [blender, "--background", "--python", str(BLENDER_SCRIPT), "--", str(glb), str(cams), str(out),
            "--engine", args.engine, "--size", args.size, "--samples", str(args.samples)]
@@ -283,7 +282,7 @@ def build_parser() -> argparse.ArgumentParser:
     r.add_argument("kitchen")
     r.add_argument("--out", default="out")
     r.add_argument("--no-render", action="store_true", help="only write scene.glb and cameras.json")
-    r.add_argument("--blender", help="path to the blender executable (default: find on PATH)")
+    r.add_argument("--blender", help="path to the blender executable (default: MMK_BLENDER, then PATH, then the usual install locations)")
     r.add_argument("--engine", default="EEVEE", choices=["EEVEE", "CYCLES"])
     r.add_argument("--size", default="1600x1000")
     r.add_argument("--samples", type=int, default=64)

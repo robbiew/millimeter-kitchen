@@ -65,7 +65,8 @@ mmk validate examples/bad/run_too_long.json     # exits 1, names the item
 # Phase 2: dimensioned elevations and plan, SVG in real mm at 1:20
 mmk draw examples/kitchen.fits.json --out out/
 
-# Phase 3: 3D scene as glTF, then one Blender render per wall (needs blender on PATH)
+# Phase 3: 3D scene as glTF, then one Blender render per wall (finds Blender on PATH,
+# in /Applications or Program Files; otherwise --blender /path or MMK_BLENDER=/path)
 mmk render examples/kitchen.fits.json --out out/
 mmk render examples/kitchen.fits.json --out out/ --no-render   # glTF + cameras only
 python -m http.server   # then open http://localhost:8000/viewer/index.html?scene=../out/scene.glb

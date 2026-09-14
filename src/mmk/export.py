@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 from datetime import datetime, timezone
@@ -25,6 +26,41 @@ from .review import write_review
 from .scene import build_scene
 
 BLENDER_SCRIPT = Path(__file__).resolve().parents[2] / "tools" / "blender_render.py"
+
+# Where Blender's own installers put the executable when it is not on PATH.
+BLENDER_CANDIDATES: tuple[str, ...] = (
+    "/Applications/Blender.app/Contents/MacOS/Blender",
+    "~/Applications/Blender.app/Contents/MacOS/Blender",
+    "/usr/bin/blender",
+    "/usr/local/bin/blender",
+    "/snap/bin/blender",
+    "/opt/blender/blender",
+    "C:/Program Files/Blender Foundation/Blender/blender.exe",
+)
+
+
+def find_blender(explicit: str | None = None, env: dict[str, str] | None = None) -> str | None:
+    """Locate the Blender executable: an explicit path, then the MMK_BLENDER
+    environment variable, then PATH, then the usual install locations.
+    Returns None when nothing usable exists. An explicit path that does not
+    exist is returned as is so the caller can report it."""
+    env = os.environ if env is None else env
+    if explicit:
+        return explicit
+    hinted = env.get("MMK_BLENDER")
+    if hinted:
+        return os.path.expanduser(hinted)
+    on_path = shutil.which("blender")
+    if on_path:
+        return on_path
+    for cand in BLENDER_CANDIDATES:
+        p = Path(os.path.expanduser(cand))
+        if p.exists():
+            return str(p)
+    # Versioned Windows installs: C:/Program Files/Blender Foundation/Blender 4.2/blender.exe
+    for p in sorted(Path("C:/Program Files/Blender Foundation").glob("Blender*/blender.exe"), reverse=True):
+        return str(p)
+    return None
 
 
 def output_dir(out_root: str | Path, kitchen_path: str | Path) -> Path:
@@ -54,9 +90,9 @@ def export_all(k: Kitchen, out_root: str | Path, scale: int = DEFAULT_SCALE, ren
     result["purchase"] = [str(out / "purchase-pack.md"), str(out / "purchase-pack.csv"), str(out / "countertop.svg")]
     result["renders"] = []
     if render:
-        exe = blender or shutil.which("blender")
+        exe = find_blender(blender)
         if not exe or not Path(exe).exists():
-            result["render_note"] = "blender not found; pass a blender path to render"
+            result["render_note"] = "blender not found; pass a blender path or set MMK_BLENDER to render"
         else:
             proc = subprocess.run([exe, "--background", "--python", str(BLENDER_SCRIPT), "--", result["glb"], str(cams), str(out), "--engine", engine], capture_output=True, text=True)
             result["renders"] = sorted(str(p) for p in out.glob("render-*.png"))

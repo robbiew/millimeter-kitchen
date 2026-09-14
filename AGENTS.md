@@ -45,7 +45,9 @@ similar) are deliberately out of scope; do not add them.
   maps to Z). `src/mmk/gltf.py` writes and reads `.glb`. Both are pure Python
   and tested; Blender is only needed to make pictures.
 - `tools/blender_render.py` runs inside Blender, imports `scene.glb`, and
-  renders `cameras.json`. It must never model geometry; if a render needs a
+  renders `cameras.json`. `export.find_blender` locates the executable
+  (`--blender`, then `MMK_BLENDER`, then PATH, then the stock install
+  paths on macOS, Linux and Windows); never hard-code a path elsewhere. It must never model geometry; if a render needs a
   new object, add it to `scene.py` so the tests see it.
 - Finishes live in `catalog/finishes.json`, hand-maintained, keyed by a slug.
   A front's finish is its catalog series slug (`front:<slug>:...`), so adding
