@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://millimeter-kitchen/schema/room.schema.json",
+  "title": "Room survey",
+  "description": "Measured envelope of one room. All lengths are integer millimeters from a tape or laser measure.",
+  "type": "object",
+  "required": ["units", "name", "walls", "corners", "ceiling"],
+  "additionalProperties": false,
+  "properties": {
+    "units": { "const": "mm" },
+    "name": { "type": "string" },
+    "surveyed": { "type": "string", "description": "ISO date of the survey." },
+    "notes": { "type": "string" },
+    "walls": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "length"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_-]*$" },
+          "length": {
+            "type": "object",
+            "description": "Wall length measured at three heights. The planning length is the smallest.",
+            "required": ["floor", "counter", "high"],
+            "additionalProperties": false,
+            "properties": {
+              "floor": { "$ref": "#/$defs/mm" },
+              "counter": { "$ref": "#/$defs/mm", "description": "At 914 mm (36\")." },
+              "high": { "$ref": "#/$defs/mm", "description": "At 2134 mm (84\")." }
+            }
+          },
+          "plumb_dev": { "type": "integer", "description": "mm of lean over 1200 mm; positive leans into the room going up." },
+          "openings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["kind", "from", "width", "head"],
+              "additionalProperties": false,
+              "properties": {
+                "kind": { "enum": ["window", "door", "passthrough"] },
+                "label": { "type": "string" },
+                "from": { "$ref": "#/$defs/mm" },
+                "width": { "$ref": "#/$defs/mm" },
+                "sill": { "$ref": "#/$defs/mm", "description": "Height of the bottom edge (including trim) from finished floor. Omit for doors." },
+                "head": { "$ref": "#/$defs/mm", "description": "Height of the top edge (including trim) from finished floor." }
+              }
+            }
+          },
+          "services": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["kind", "at"],
+              "additionalProperties": false,
+              "properties": {
+                "kind": { "enum": ["sink_drain", "water_supply", "gas", "outlet", "switch", "vent", "electrical_240v"] },
+                "label": { "type": "string" },
+                "at": { "$ref": "#/$defs/mm", "description": "Centerline from the wall start." },
+                "height": { "$ref": "#/$defs/mm" }
+              }
+            }
+          },
+          "obstructions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["kind", "from", "to"],
+              "additionalProperties": false,
+              "properties": {
+                "kind": { "enum": ["soffit", "bulkhead", "radiator", "chase", "pipe"] },
+                "label": { "type": "string" },
+                "from": { "$ref": "#/$defs/mm" },
+                "to": { "$ref": "#/$defs/mm" },
+                "bottom": { "$ref": "#/$defs/mm", "description": "Height of the underside from the floor, for hanging obstructions." },
+                "depth": { "$ref": "#/$defs/mm", "description": "Projection into the room." }
+              }
+            }
+          }
+        }
+      }
+    },
+    "corners": {
+      "type": "array",
+      "description": "One entry per pair of adjacent walls. The diagonal joins the far ends of the two walls.",
+      "items": {
+        "type": "object",
+        "required": ["walls", "diagonal"],
+        "additionalProperties": false,
+        "properties": {
+          "walls": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "string" } },
+          "diagonal": { "$ref": "#/$defs/mm" }
+        }
+      }
+    },
+    "ceiling": {
+      "type": "object",
+      "description": "Floor-to-ceiling at named points (corners and center). High cabinets use the smallest.",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/mm" }
+    },
+    "floor_high_point": {
+      "type": "object",
+      "description": "Per wall id, the distance from wall start to the highest point of the floor along that run.",
+      "additionalProperties": { "$ref": "#/$defs/mm" }
+    }
+  },
+  "$defs": {
+    "mm": { "type": "integer", "minimum": 0, "maximum": 30000 }
+  }
+}

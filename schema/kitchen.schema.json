@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://millimeter-kitchen/schema/kitchen.schema.json",
+  "title": "Kitchen layout",
+  "description": "One variation of a kitchen. References a room survey and a catalog; places catalog items along walls.",
+  "type": "object",
+  "required": ["units", "name", "room", "catalog", "runs"],
+  "additionalProperties": false,
+  "properties": {
+    "units": { "const": "mm" },
+    "name": { "type": "string" },
+    "room": { "type": "string", "description": "Path to the room.json, relative to this file." },
+    "catalog": { "type": "string", "description": "Catalog id (looked up in catalog/) or a path relative to this file." },
+    "notes": { "type": "string" },
+    "counter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "thickness": { "$ref": "#/$defs/mm" },
+        "overhang_front": { "$ref": "#/$defs/mm" },
+        "legs": { "$ref": "#/$defs/mm", "description": "Leg height under base and high cabinets. SEKTION legs adjust around 114 mm." },
+        "material": { "type": "string" }
+      }
+    },
+    "wall_cabinet_bottom": { "$ref": "#/$defs/mm", "description": "Default height of the underside of wall cabinets from the floor. 1372 mm (54\") is typical." },
+    "appliances": {
+      "type": "object",
+      "description": "Appliances by reference name, from the manufacturer's cutout sheet.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name", "kind", "width", "depth", "height"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "kind": { "enum": ["dishwasher", "range", "cooktop", "wall_oven", "fridge", "hood", "microwave", "sink"] },
+          "width": { "$ref": "#/$defs/mm" },
+          "depth": { "$ref": "#/$defs/mm" },
+          "height": { "$ref": "#/$defs/mm" },
+          "clearance_front": { "$ref": "#/$defs/mm", "description": "Free space needed in front (door swing). Checked in phase 2 against opposite runs." },
+          "clearance_to_wall": { "$ref": "#/$defs/mm", "description": "Minimum distance from either side to a room wall end. Dishwashers typically need 51 mm so the door clears trim." },
+          "uses_gas": { "type": "boolean" },
+          "needs_water": { "type": "boolean" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["wall", "level", "items"],
+        "additionalProperties": false,
+        "properties": {
+          "wall": { "type": "string" },
+          "level": { "enum": ["base", "wall", "high"] },
+          "from": { "$ref": "#/$defs/mm", "description": "Start of the run from the wall start. Default 0." },
+          "to": { "$ref": "#/$defs/mm", "description": "End of the run. Default: the wall's planning length." },
+          "bottom": { "$ref": "#/$defs/mm", "description": "For wall-level runs, underside height from floor. Defaults to wall_cabinet_bottom." },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["kind"],
+              "additionalProperties": false,
+              "properties": {
+                "kind": { "enum": ["cabinet", "appliance", "filler", "panel", "gap"] },
+                "label": { "type": "string" },
+                "id": { "type": "string", "description": "Catalog id for cabinet, filler and panel items." },
+                "ref": { "type": "string", "description": "Appliance reference name." },
+                "width": { "$ref": "#/$defs/mm", "description": "Cut width for filler, panel and gap items." },
+                "fronts": {
+                  "type": "array",
+                  "description": "IKEA fronts covering this frame.",
+                  "items": {
+                    "type": "object",
+                    "required": ["id"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": { "type": "string" },
+                      "count": { "type": "integer", "minimum": 1, "default": 1 }
+                    }
+                  }
+                },
+                "interior": { "type": "array", "items": { "type": "string" }, "description": "Drawers, shelves and fittings by catalog id or free text; not validated in phase 1." },
+                "notes": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": { "mm": { "type": "integer", "minimum": 0, "maximum": 30000 } }
+}

@@ -1,0 +1,4645 @@
+{
+  "id": "sektion-us-2026-09",
+  "market": "us",
+  "units": "mm",
+  "generated": "2026-09-14",
+  "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+  "items": [
+    {
+      "id": "frame:base:12x24x30",
+      "kind": "frame",
+      "type": "base",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION base cabinet frame 12x24x30",
+      "article": null,
+      "nominal": "12x24x30",
+      "nominal_in": {
+        "w": 12,
+        "d": 24,
+        "h": 30
+      },
+      "actual": {
+        "w": 305,
+        "d": 610,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:base:15x24x30",
+      "kind": "frame",
+      "type": "base",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION base cabinet frame 15x24x30",
+      "article": null,
+      "nominal": "15x24x30",
+      "nominal_in": {
+        "w": 15,
+        "d": 24,
+        "h": 30
+      },
+      "actual": {
+        "w": 381,
+        "d": 610,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:base:18x24x30",
+      "kind": "frame",
+      "type": "base",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION base cabinet frame 18x24x30",
+      "article": null,
+      "nominal": "18x24x30",
+      "nominal_in": {
+        "w": 18,
+        "d": 24,
+        "h": 30
+      },
+      "actual": {
+        "w": 457,
+        "d": 610,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:base:21x24x30",
+      "kind": "frame",
+      "type": "base",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION base cabinet frame 21x24x30",
+      "article": null,
+      "nominal": "21x24x30",
+      "nominal_in": {
+        "w": 21,
+        "d": 24,
+        "h": 30
+      },
+      "actual": {
+        "w": 533,
+        "d": 610,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:base:24x24x30",
+      "kind": "frame",
+      "type": "base",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION base cabinet frame 24x24x30",
+      "article": null,
+      "nominal": "24x24x30",
+      "nominal_in": {
+        "w": 24,
+        "d": 24,
+        "h": 30
+      },
+      "actual": {
+        "w": 610,
+        "d": 610,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:base:30x24x30",
+      "kind": "frame",
+      "type": "base",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION base cabinet frame 30x24x30",
+      "article": null,
+      "nominal": "30x24x30",
+      "nominal_in": {
+        "w": 30,
+        "d": 24,
+        "h": 30
+      },
+      "actual": {
+        "w": 762,
+        "d": 610,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:base:36x24x30",
+      "kind": "frame",
+      "type": "base",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION base cabinet frame 36x24x30",
+      "article": "802.653.98",
+      "nominal": "36x24x30",
+      "nominal_in": {
+        "w": 36,
+        "d": 24,
+        "h": 30
+      },
+      "actual": {
+        "w": 914,
+        "d": 610,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:base:15x15x30",
+      "kind": "frame",
+      "type": "base",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION base cabinet frame 15x14 3/4x30",
+      "article": "302.653.91",
+      "nominal": "15x14 3/4x30",
+      "nominal_in": {
+        "w": 15,
+        "d": 14.75,
+        "h": 30
+      },
+      "actual": {
+        "w": 381,
+        "d": 375,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Shallow base; depth is 14 3/4\" nominal."
+    },
+    {
+      "id": "frame:sink_base:30x24x30",
+      "kind": "frame",
+      "type": "sink_base",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION sink base cabinet frame 30x24x30",
+      "article": null,
+      "nominal": "30x24x30",
+      "nominal_in": {
+        "w": 30,
+        "d": 24,
+        "h": 30
+      },
+      "actual": {
+        "w": 762,
+        "d": 610,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:sink_base:36x24x30",
+      "kind": "frame",
+      "type": "sink_base",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION sink base cabinet frame 36x24x30",
+      "article": null,
+      "nominal": "36x24x30",
+      "nominal_in": {
+        "w": 36,
+        "d": 24,
+        "h": 30
+      },
+      "actual": {
+        "w": 914,
+        "d": 610,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:12x12x15",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 12x12x15",
+      "article": null,
+      "nominal": "12x12x15",
+      "nominal_in": {
+        "w": 12,
+        "d": 12,
+        "h": 15
+      },
+      "actual": {
+        "w": 305,
+        "d": 305,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:12x12x20",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 12x12x20",
+      "article": null,
+      "nominal": "12x12x20",
+      "nominal_in": {
+        "w": 12,
+        "d": 12,
+        "h": 20
+      },
+      "actual": {
+        "w": 305,
+        "d": 305,
+        "h": 508
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:12x12x30",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 12x12x30",
+      "article": null,
+      "nominal": "12x12x30",
+      "nominal_in": {
+        "w": 12,
+        "d": 12,
+        "h": 30
+      },
+      "actual": {
+        "w": 305,
+        "d": 305,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:12x12x40",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 12x12x40",
+      "article": null,
+      "nominal": "12x12x40",
+      "nominal_in": {
+        "w": 12,
+        "d": 12,
+        "h": 40
+      },
+      "actual": {
+        "w": 305,
+        "d": 305,
+        "h": 1016
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:15x12x15",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 15x12x15",
+      "article": null,
+      "nominal": "15x12x15",
+      "nominal_in": {
+        "w": 15,
+        "d": 12,
+        "h": 15
+      },
+      "actual": {
+        "w": 381,
+        "d": 305,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:15x12x20",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 15x12x20",
+      "article": null,
+      "nominal": "15x12x20",
+      "nominal_in": {
+        "w": 15,
+        "d": 12,
+        "h": 20
+      },
+      "actual": {
+        "w": 381,
+        "d": 305,
+        "h": 508
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:15x12x30",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 15x12x30",
+      "article": null,
+      "nominal": "15x12x30",
+      "nominal_in": {
+        "w": 15,
+        "d": 12,
+        "h": 30
+      },
+      "actual": {
+        "w": 381,
+        "d": 305,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:15x12x40",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 15x12x40",
+      "article": null,
+      "nominal": "15x12x40",
+      "nominal_in": {
+        "w": 15,
+        "d": 12,
+        "h": 40
+      },
+      "actual": {
+        "w": 381,
+        "d": 305,
+        "h": 1016
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:18x12x15",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 18x12x15",
+      "article": null,
+      "nominal": "18x12x15",
+      "nominal_in": {
+        "w": 18,
+        "d": 12,
+        "h": 15
+      },
+      "actual": {
+        "w": 457,
+        "d": 305,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:18x12x20",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 18x12x20",
+      "article": null,
+      "nominal": "18x12x20",
+      "nominal_in": {
+        "w": 18,
+        "d": 12,
+        "h": 20
+      },
+      "actual": {
+        "w": 457,
+        "d": 305,
+        "h": 508
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:18x12x30",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 18x12x30",
+      "article": null,
+      "nominal": "18x12x30",
+      "nominal_in": {
+        "w": 18,
+        "d": 12,
+        "h": 30
+      },
+      "actual": {
+        "w": 457,
+        "d": 305,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:18x12x40",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 18x12x40",
+      "article": null,
+      "nominal": "18x12x40",
+      "nominal_in": {
+        "w": 18,
+        "d": 12,
+        "h": 40
+      },
+      "actual": {
+        "w": 457,
+        "d": 305,
+        "h": 1016
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:21x12x15",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 21x12x15",
+      "article": null,
+      "nominal": "21x12x15",
+      "nominal_in": {
+        "w": 21,
+        "d": 12,
+        "h": 15
+      },
+      "actual": {
+        "w": 533,
+        "d": 305,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:21x12x20",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 21x12x20",
+      "article": null,
+      "nominal": "21x12x20",
+      "nominal_in": {
+        "w": 21,
+        "d": 12,
+        "h": 20
+      },
+      "actual": {
+        "w": 533,
+        "d": 305,
+        "h": 508
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:21x12x30",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 21x12x30",
+      "article": null,
+      "nominal": "21x12x30",
+      "nominal_in": {
+        "w": 21,
+        "d": 12,
+        "h": 30
+      },
+      "actual": {
+        "w": 533,
+        "d": 305,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:21x12x40",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 21x12x40",
+      "article": null,
+      "nominal": "21x12x40",
+      "nominal_in": {
+        "w": 21,
+        "d": 12,
+        "h": 40
+      },
+      "actual": {
+        "w": 533,
+        "d": 305,
+        "h": 1016
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:24x12x15",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 24x12x15",
+      "article": null,
+      "nominal": "24x12x15",
+      "nominal_in": {
+        "w": 24,
+        "d": 12,
+        "h": 15
+      },
+      "actual": {
+        "w": 610,
+        "d": 305,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:24x12x20",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 24x12x20",
+      "article": null,
+      "nominal": "24x12x20",
+      "nominal_in": {
+        "w": 24,
+        "d": 12,
+        "h": 20
+      },
+      "actual": {
+        "w": 610,
+        "d": 305,
+        "h": 508
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:24x12x30",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 24x12x30",
+      "article": null,
+      "nominal": "24x12x30",
+      "nominal_in": {
+        "w": 24,
+        "d": 12,
+        "h": 30
+      },
+      "actual": {
+        "w": 610,
+        "d": 305,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:24x12x40",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 24x12x40",
+      "article": null,
+      "nominal": "24x12x40",
+      "nominal_in": {
+        "w": 24,
+        "d": 12,
+        "h": 40
+      },
+      "actual": {
+        "w": 610,
+        "d": 305,
+        "h": 1016
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:30x12x15",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 30x12x15",
+      "article": null,
+      "nominal": "30x12x15",
+      "nominal_in": {
+        "w": 30,
+        "d": 12,
+        "h": 15
+      },
+      "actual": {
+        "w": 762,
+        "d": 305,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:30x12x20",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 30x12x20",
+      "article": null,
+      "nominal": "30x12x20",
+      "nominal_in": {
+        "w": 30,
+        "d": 12,
+        "h": 20
+      },
+      "actual": {
+        "w": 762,
+        "d": 305,
+        "h": 508
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:30x12x30",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 30x12x30",
+      "article": null,
+      "nominal": "30x12x30",
+      "nominal_in": {
+        "w": 30,
+        "d": 12,
+        "h": 30
+      },
+      "actual": {
+        "w": 762,
+        "d": 305,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:30x12x40",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 30x12x40",
+      "article": null,
+      "nominal": "30x12x40",
+      "nominal_in": {
+        "w": 30,
+        "d": 12,
+        "h": 40
+      },
+      "actual": {
+        "w": 762,
+        "d": 305,
+        "h": 1016
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:36x12x15",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 36x12x15",
+      "article": null,
+      "nominal": "36x12x15",
+      "nominal_in": {
+        "w": 36,
+        "d": 12,
+        "h": 15
+      },
+      "actual": {
+        "w": 914,
+        "d": 305,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:36x12x20",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 36x12x20",
+      "article": null,
+      "nominal": "36x12x20",
+      "nominal_in": {
+        "w": 36,
+        "d": 12,
+        "h": 20
+      },
+      "actual": {
+        "w": 914,
+        "d": 305,
+        "h": 508
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:36x12x30",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 36x12x30",
+      "article": null,
+      "nominal": "36x12x30",
+      "nominal_in": {
+        "w": 36,
+        "d": 12,
+        "h": 30
+      },
+      "actual": {
+        "w": 914,
+        "d": 305,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall:36x12x40",
+      "kind": "frame",
+      "type": "wall",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall cabinet frame 36x12x40",
+      "article": null,
+      "nominal": "36x12x40",
+      "nominal_in": {
+        "w": 36,
+        "d": 12,
+        "h": 40
+      },
+      "actual": {
+        "w": 914,
+        "d": 305,
+        "h": 1016
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:wall_fridge:24x24x15",
+      "kind": "frame",
+      "type": "wall_fridge",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall fridge cabinet frame 24x24x15",
+      "article": null,
+      "nominal": "24x24x15",
+      "nominal_in": {
+        "w": 24,
+        "d": 24,
+        "h": 15
+      },
+      "actual": {
+        "w": 610,
+        "d": 610,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Deep wall cabinet for over a refrigerator."
+    },
+    {
+      "id": "frame:wall_fridge:24x24x20",
+      "kind": "frame",
+      "type": "wall_fridge",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall fridge cabinet frame 24x24x20",
+      "article": null,
+      "nominal": "24x24x20",
+      "nominal_in": {
+        "w": 24,
+        "d": 24,
+        "h": 20
+      },
+      "actual": {
+        "w": 610,
+        "d": 610,
+        "h": 508
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Deep wall cabinet for over a refrigerator."
+    },
+    {
+      "id": "frame:wall_fridge:30x24x15",
+      "kind": "frame",
+      "type": "wall_fridge",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall fridge cabinet frame 30x24x15",
+      "article": null,
+      "nominal": "30x24x15",
+      "nominal_in": {
+        "w": 30,
+        "d": 24,
+        "h": 15
+      },
+      "actual": {
+        "w": 762,
+        "d": 610,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Deep wall cabinet for over a refrigerator."
+    },
+    {
+      "id": "frame:wall_fridge:30x24x20",
+      "kind": "frame",
+      "type": "wall_fridge",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall fridge cabinet frame 30x24x20",
+      "article": null,
+      "nominal": "30x24x20",
+      "nominal_in": {
+        "w": 30,
+        "d": 24,
+        "h": 20
+      },
+      "actual": {
+        "w": 762,
+        "d": 610,
+        "h": 508
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Deep wall cabinet for over a refrigerator."
+    },
+    {
+      "id": "frame:wall_fridge:36x24x15",
+      "kind": "frame",
+      "type": "wall_fridge",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall fridge cabinet frame 36x24x15",
+      "article": null,
+      "nominal": "36x24x15",
+      "nominal_in": {
+        "w": 36,
+        "d": 24,
+        "h": 15
+      },
+      "actual": {
+        "w": 914,
+        "d": 610,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Deep wall cabinet for over a refrigerator."
+    },
+    {
+      "id": "frame:wall_fridge:36x24x20",
+      "kind": "frame",
+      "type": "wall_fridge",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION wall fridge cabinet frame 36x24x20",
+      "article": null,
+      "nominal": "36x24x20",
+      "nominal_in": {
+        "w": 36,
+        "d": 24,
+        "h": 20
+      },
+      "actual": {
+        "w": 914,
+        "d": 610,
+        "h": 508
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Deep wall cabinet for over a refrigerator."
+    },
+    {
+      "id": "frame:high:24x24x80",
+      "kind": "frame",
+      "type": "high",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION high cabinet frame 24x24x80",
+      "article": null,
+      "nominal": "24x24x80",
+      "nominal_in": {
+        "w": 24,
+        "d": 24,
+        "h": 80
+      },
+      "actual": {
+        "w": 610,
+        "d": 610,
+        "h": 2032
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:high:24x24x90",
+      "kind": "frame",
+      "type": "high",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION high cabinet frame 24x24x90",
+      "article": null,
+      "nominal": "24x24x90",
+      "nominal_in": {
+        "w": 24,
+        "d": 24,
+        "h": 90
+      },
+      "actual": {
+        "w": 610,
+        "d": 610,
+        "h": 2286
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:high:30x24x80",
+      "kind": "frame",
+      "type": "high",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION high cabinet frame 30x24x80",
+      "article": null,
+      "nominal": "30x24x80",
+      "nominal_in": {
+        "w": 30,
+        "d": 24,
+        "h": 80
+      },
+      "actual": {
+        "w": 762,
+        "d": 610,
+        "h": 2032
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "frame:high:30x24x90",
+      "kind": "frame",
+      "type": "high",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION high cabinet frame 30x24x90",
+      "article": null,
+      "nominal": "30x24x90",
+      "nominal_in": {
+        "w": 30,
+        "d": 24,
+        "h": 90
+      },
+      "actual": {
+        "w": 762,
+        "d": 610,
+        "h": 2286
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:12x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 12x15 walnut effect",
+      "article": null,
+      "nominal": "12x15",
+      "nominal_in": {
+        "w": 12,
+        "h": 15
+      },
+      "actual": {
+        "w": 302,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:12x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 12x20 walnut effect",
+      "article": null,
+      "nominal": "12x20",
+      "nominal_in": {
+        "w": 12,
+        "h": 20
+      },
+      "actual": {
+        "w": 302,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:12x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 12x30 walnut effect",
+      "article": null,
+      "nominal": "12x30",
+      "nominal_in": {
+        "w": 12,
+        "h": 30
+      },
+      "actual": {
+        "w": 302,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:12x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 12x40 walnut effect",
+      "article": null,
+      "nominal": "12x40",
+      "nominal_in": {
+        "w": 12,
+        "h": 40
+      },
+      "actual": {
+        "w": 302,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:12x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 12x80 walnut effect",
+      "article": null,
+      "nominal": "12x80",
+      "nominal_in": {
+        "w": 12,
+        "h": 80
+      },
+      "actual": {
+        "w": 302,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:15x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 15x15 walnut effect",
+      "article": null,
+      "nominal": "15x15",
+      "nominal_in": {
+        "w": 15,
+        "h": 15
+      },
+      "actual": {
+        "w": 378,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:15x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 15x20 walnut effect",
+      "article": null,
+      "nominal": "15x20",
+      "nominal_in": {
+        "w": 15,
+        "h": 20
+      },
+      "actual": {
+        "w": 378,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:15x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 15x30 walnut effect",
+      "article": null,
+      "nominal": "15x30",
+      "nominal_in": {
+        "w": 15,
+        "h": 30
+      },
+      "actual": {
+        "w": 378,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:15x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 15x40 walnut effect",
+      "article": null,
+      "nominal": "15x40",
+      "nominal_in": {
+        "w": 15,
+        "h": 40
+      },
+      "actual": {
+        "w": 378,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:15x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 15x80 walnut effect",
+      "article": null,
+      "nominal": "15x80",
+      "nominal_in": {
+        "w": 15,
+        "h": 80
+      },
+      "actual": {
+        "w": 378,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:18x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 18x15 walnut effect",
+      "article": null,
+      "nominal": "18x15",
+      "nominal_in": {
+        "w": 18,
+        "h": 15
+      },
+      "actual": {
+        "w": 454,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:18x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 18x20 walnut effect",
+      "article": null,
+      "nominal": "18x20",
+      "nominal_in": {
+        "w": 18,
+        "h": 20
+      },
+      "actual": {
+        "w": 454,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:18x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 18x30 walnut effect",
+      "article": null,
+      "nominal": "18x30",
+      "nominal_in": {
+        "w": 18,
+        "h": 30
+      },
+      "actual": {
+        "w": 454,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:18x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 18x40 walnut effect",
+      "article": null,
+      "nominal": "18x40",
+      "nominal_in": {
+        "w": 18,
+        "h": 40
+      },
+      "actual": {
+        "w": 454,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:18x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 18x80 walnut effect",
+      "article": null,
+      "nominal": "18x80",
+      "nominal_in": {
+        "w": 18,
+        "h": 80
+      },
+      "actual": {
+        "w": 454,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:21x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 21x15 walnut effect",
+      "article": null,
+      "nominal": "21x15",
+      "nominal_in": {
+        "w": 21,
+        "h": 15
+      },
+      "actual": {
+        "w": 530,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:21x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 21x20 walnut effect",
+      "article": null,
+      "nominal": "21x20",
+      "nominal_in": {
+        "w": 21,
+        "h": 20
+      },
+      "actual": {
+        "w": 530,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:21x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 21x30 walnut effect",
+      "article": null,
+      "nominal": "21x30",
+      "nominal_in": {
+        "w": 21,
+        "h": 30
+      },
+      "actual": {
+        "w": 530,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:21x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 21x40 walnut effect",
+      "article": null,
+      "nominal": "21x40",
+      "nominal_in": {
+        "w": 21,
+        "h": 40
+      },
+      "actual": {
+        "w": 530,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:21x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 21x80 walnut effect",
+      "article": null,
+      "nominal": "21x80",
+      "nominal_in": {
+        "w": 21,
+        "h": 80
+      },
+      "actual": {
+        "w": 530,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:24x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 24x15 walnut effect",
+      "article": null,
+      "nominal": "24x15",
+      "nominal_in": {
+        "w": 24,
+        "h": 15
+      },
+      "actual": {
+        "w": 606,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:24x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 24x20 walnut effect",
+      "article": null,
+      "nominal": "24x20",
+      "nominal_in": {
+        "w": 24,
+        "h": 20
+      },
+      "actual": {
+        "w": 606,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:24x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 24x30 walnut effect",
+      "article": null,
+      "nominal": "24x30",
+      "nominal_in": {
+        "w": 24,
+        "h": 30
+      },
+      "actual": {
+        "w": 606,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:24x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 24x40 walnut effect",
+      "article": null,
+      "nominal": "24x40",
+      "nominal_in": {
+        "w": 24,
+        "h": 40
+      },
+      "actual": {
+        "w": 606,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:24x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 24x80 walnut effect",
+      "article": null,
+      "nominal": "24x80",
+      "nominal_in": {
+        "w": 24,
+        "h": 80
+      },
+      "actual": {
+        "w": 606,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:30x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 30x15 walnut effect",
+      "article": null,
+      "nominal": "30x15",
+      "nominal_in": {
+        "w": 30,
+        "h": 15
+      },
+      "actual": {
+        "w": 759,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:30x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 30x20 walnut effect",
+      "article": null,
+      "nominal": "30x20",
+      "nominal_in": {
+        "w": 30,
+        "h": 20
+      },
+      "actual": {
+        "w": 759,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:36x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 36x15 walnut effect",
+      "article": null,
+      "nominal": "36x15",
+      "nominal_in": {
+        "w": 36,
+        "h": 15
+      },
+      "actual": {
+        "w": 911,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:door:36x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP door 36x20 walnut effect",
+      "article": null,
+      "nominal": "36x20",
+      "nominal_in": {
+        "w": 36,
+        "h": 20
+      },
+      "actual": {
+        "w": 911,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:15x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 15x5 walnut effect",
+      "article": null,
+      "nominal": "15x5",
+      "nominal_in": {
+        "w": 15,
+        "h": 5
+      },
+      "actual": {
+        "w": 378,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:15x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 15x10 walnut effect",
+      "article": null,
+      "nominal": "15x10",
+      "nominal_in": {
+        "w": 15,
+        "h": 10
+      },
+      "actual": {
+        "w": 378,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:15x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 15x15 walnut effect",
+      "article": null,
+      "nominal": "15x15",
+      "nominal_in": {
+        "w": 15,
+        "h": 15
+      },
+      "actual": {
+        "w": 378,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:15x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 15x20 walnut effect",
+      "article": null,
+      "nominal": "15x20",
+      "nominal_in": {
+        "w": 15,
+        "h": 20
+      },
+      "actual": {
+        "w": 378,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:18x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 18x5 walnut effect",
+      "article": null,
+      "nominal": "18x5",
+      "nominal_in": {
+        "w": 18,
+        "h": 5
+      },
+      "actual": {
+        "w": 454,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:18x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 18x10 walnut effect",
+      "article": null,
+      "nominal": "18x10",
+      "nominal_in": {
+        "w": 18,
+        "h": 10
+      },
+      "actual": {
+        "w": 454,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:18x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 18x15 walnut effect",
+      "article": null,
+      "nominal": "18x15",
+      "nominal_in": {
+        "w": 18,
+        "h": 15
+      },
+      "actual": {
+        "w": 454,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:18x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 18x20 walnut effect",
+      "article": null,
+      "nominal": "18x20",
+      "nominal_in": {
+        "w": 18,
+        "h": 20
+      },
+      "actual": {
+        "w": 454,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:21x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 21x5 walnut effect",
+      "article": null,
+      "nominal": "21x5",
+      "nominal_in": {
+        "w": 21,
+        "h": 5
+      },
+      "actual": {
+        "w": 530,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:21x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 21x10 walnut effect",
+      "article": null,
+      "nominal": "21x10",
+      "nominal_in": {
+        "w": 21,
+        "h": 10
+      },
+      "actual": {
+        "w": 530,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:21x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 21x15 walnut effect",
+      "article": null,
+      "nominal": "21x15",
+      "nominal_in": {
+        "w": 21,
+        "h": 15
+      },
+      "actual": {
+        "w": 530,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:21x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 21x20 walnut effect",
+      "article": null,
+      "nominal": "21x20",
+      "nominal_in": {
+        "w": 21,
+        "h": 20
+      },
+      "actual": {
+        "w": 530,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:24x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 24x5 walnut effect",
+      "article": null,
+      "nominal": "24x5",
+      "nominal_in": {
+        "w": 24,
+        "h": 5
+      },
+      "actual": {
+        "w": 606,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:24x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 24x10 walnut effect",
+      "article": null,
+      "nominal": "24x10",
+      "nominal_in": {
+        "w": 24,
+        "h": 10
+      },
+      "actual": {
+        "w": 606,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:24x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 24x15 walnut effect",
+      "article": null,
+      "nominal": "24x15",
+      "nominal_in": {
+        "w": 24,
+        "h": 15
+      },
+      "actual": {
+        "w": 606,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:24x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 24x20 walnut effect",
+      "article": null,
+      "nominal": "24x20",
+      "nominal_in": {
+        "w": 24,
+        "h": 20
+      },
+      "actual": {
+        "w": 606,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:30x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 30x5 walnut effect",
+      "article": null,
+      "nominal": "30x5",
+      "nominal_in": {
+        "w": 30,
+        "h": 5
+      },
+      "actual": {
+        "w": 759,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:30x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 30x10 walnut effect",
+      "article": null,
+      "nominal": "30x10",
+      "nominal_in": {
+        "w": 30,
+        "h": 10
+      },
+      "actual": {
+        "w": 759,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:30x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 30x15 walnut effect",
+      "article": null,
+      "nominal": "30x15",
+      "nominal_in": {
+        "w": 30,
+        "h": 15
+      },
+      "actual": {
+        "w": 759,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:30x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 30x20 walnut effect",
+      "article": null,
+      "nominal": "30x20",
+      "nominal_in": {
+        "w": 30,
+        "h": 20
+      },
+      "actual": {
+        "w": 759,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:36x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 36x5 walnut effect",
+      "article": null,
+      "nominal": "36x5",
+      "nominal_in": {
+        "w": 36,
+        "h": 5
+      },
+      "actual": {
+        "w": 911,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:36x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 36x10 walnut effect",
+      "article": null,
+      "nominal": "36x10",
+      "nominal_in": {
+        "w": 36,
+        "h": 10
+      },
+      "actual": {
+        "w": 911,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:36x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 36x15 walnut effect",
+      "article": null,
+      "nominal": "36x15",
+      "nominal_in": {
+        "w": 36,
+        "h": 15
+      },
+      "actual": {
+        "w": 911,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:drawer:36x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP drawer front 36x20 walnut effect",
+      "article": null,
+      "nominal": "36x20",
+      "nominal_in": {
+        "w": 36,
+        "h": 20
+      },
+      "actual": {
+        "w": 911,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:12x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 12x15 off-white",
+      "article": null,
+      "nominal": "12x15",
+      "nominal_in": {
+        "w": 12,
+        "h": 15
+      },
+      "actual": {
+        "w": 302,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:12x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 12x20 off-white",
+      "article": null,
+      "nominal": "12x20",
+      "nominal_in": {
+        "w": 12,
+        "h": 20
+      },
+      "actual": {
+        "w": 302,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:12x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 12x30 off-white",
+      "article": null,
+      "nominal": "12x30",
+      "nominal_in": {
+        "w": 12,
+        "h": 30
+      },
+      "actual": {
+        "w": 302,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:12x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 12x40 off-white",
+      "article": null,
+      "nominal": "12x40",
+      "nominal_in": {
+        "w": 12,
+        "h": 40
+      },
+      "actual": {
+        "w": 302,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:12x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 12x80 off-white",
+      "article": null,
+      "nominal": "12x80",
+      "nominal_in": {
+        "w": 12,
+        "h": 80
+      },
+      "actual": {
+        "w": 302,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:15x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 15x15 off-white",
+      "article": null,
+      "nominal": "15x15",
+      "nominal_in": {
+        "w": 15,
+        "h": 15
+      },
+      "actual": {
+        "w": 378,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:15x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 15x20 off-white",
+      "article": null,
+      "nominal": "15x20",
+      "nominal_in": {
+        "w": 15,
+        "h": 20
+      },
+      "actual": {
+        "w": 378,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:15x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 15x30 off-white",
+      "article": null,
+      "nominal": "15x30",
+      "nominal_in": {
+        "w": 15,
+        "h": 30
+      },
+      "actual": {
+        "w": 378,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:15x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 15x40 off-white",
+      "article": null,
+      "nominal": "15x40",
+      "nominal_in": {
+        "w": 15,
+        "h": 40
+      },
+      "actual": {
+        "w": 378,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:15x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 15x80 off-white",
+      "article": null,
+      "nominal": "15x80",
+      "nominal_in": {
+        "w": 15,
+        "h": 80
+      },
+      "actual": {
+        "w": 378,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:18x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 18x15 off-white",
+      "article": null,
+      "nominal": "18x15",
+      "nominal_in": {
+        "w": 18,
+        "h": 15
+      },
+      "actual": {
+        "w": 454,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:18x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 18x20 off-white",
+      "article": null,
+      "nominal": "18x20",
+      "nominal_in": {
+        "w": 18,
+        "h": 20
+      },
+      "actual": {
+        "w": 454,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:18x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 18x30 off-white",
+      "article": null,
+      "nominal": "18x30",
+      "nominal_in": {
+        "w": 18,
+        "h": 30
+      },
+      "actual": {
+        "w": 454,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:18x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 18x40 off-white",
+      "article": null,
+      "nominal": "18x40",
+      "nominal_in": {
+        "w": 18,
+        "h": 40
+      },
+      "actual": {
+        "w": 454,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:18x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 18x80 off-white",
+      "article": null,
+      "nominal": "18x80",
+      "nominal_in": {
+        "w": 18,
+        "h": 80
+      },
+      "actual": {
+        "w": 454,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:21x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 21x15 off-white",
+      "article": null,
+      "nominal": "21x15",
+      "nominal_in": {
+        "w": 21,
+        "h": 15
+      },
+      "actual": {
+        "w": 530,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:21x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 21x20 off-white",
+      "article": null,
+      "nominal": "21x20",
+      "nominal_in": {
+        "w": 21,
+        "h": 20
+      },
+      "actual": {
+        "w": 530,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:21x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 21x30 off-white",
+      "article": null,
+      "nominal": "21x30",
+      "nominal_in": {
+        "w": 21,
+        "h": 30
+      },
+      "actual": {
+        "w": 530,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:21x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 21x40 off-white",
+      "article": null,
+      "nominal": "21x40",
+      "nominal_in": {
+        "w": 21,
+        "h": 40
+      },
+      "actual": {
+        "w": 530,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:21x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 21x80 off-white",
+      "article": null,
+      "nominal": "21x80",
+      "nominal_in": {
+        "w": 21,
+        "h": 80
+      },
+      "actual": {
+        "w": 530,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:24x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 24x15 off-white",
+      "article": null,
+      "nominal": "24x15",
+      "nominal_in": {
+        "w": 24,
+        "h": 15
+      },
+      "actual": {
+        "w": 606,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:24x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 24x20 off-white",
+      "article": null,
+      "nominal": "24x20",
+      "nominal_in": {
+        "w": 24,
+        "h": 20
+      },
+      "actual": {
+        "w": 606,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:24x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 24x30 off-white",
+      "article": null,
+      "nominal": "24x30",
+      "nominal_in": {
+        "w": 24,
+        "h": 30
+      },
+      "actual": {
+        "w": 606,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:24x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 24x40 off-white",
+      "article": null,
+      "nominal": "24x40",
+      "nominal_in": {
+        "w": 24,
+        "h": 40
+      },
+      "actual": {
+        "w": 606,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:24x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 24x80 off-white",
+      "article": null,
+      "nominal": "24x80",
+      "nominal_in": {
+        "w": 24,
+        "h": 80
+      },
+      "actual": {
+        "w": 606,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:30x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 30x15 off-white",
+      "article": null,
+      "nominal": "30x15",
+      "nominal_in": {
+        "w": 30,
+        "h": 15
+      },
+      "actual": {
+        "w": 759,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:30x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 30x20 off-white",
+      "article": null,
+      "nominal": "30x20",
+      "nominal_in": {
+        "w": 30,
+        "h": 20
+      },
+      "actual": {
+        "w": 759,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:36x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 36x15 off-white",
+      "article": null,
+      "nominal": "36x15",
+      "nominal_in": {
+        "w": 36,
+        "h": 15
+      },
+      "actual": {
+        "w": 911,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:door:36x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN door 36x20 off-white",
+      "article": null,
+      "nominal": "36x20",
+      "nominal_in": {
+        "w": 36,
+        "h": 20
+      },
+      "actual": {
+        "w": 911,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:15x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 15x5 off-white",
+      "article": null,
+      "nominal": "15x5",
+      "nominal_in": {
+        "w": 15,
+        "h": 5
+      },
+      "actual": {
+        "w": 378,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:15x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 15x10 off-white",
+      "article": null,
+      "nominal": "15x10",
+      "nominal_in": {
+        "w": 15,
+        "h": 10
+      },
+      "actual": {
+        "w": 378,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:15x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 15x15 off-white",
+      "article": null,
+      "nominal": "15x15",
+      "nominal_in": {
+        "w": 15,
+        "h": 15
+      },
+      "actual": {
+        "w": 378,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:15x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 15x20 off-white",
+      "article": null,
+      "nominal": "15x20",
+      "nominal_in": {
+        "w": 15,
+        "h": 20
+      },
+      "actual": {
+        "w": 378,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:18x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 18x5 off-white",
+      "article": null,
+      "nominal": "18x5",
+      "nominal_in": {
+        "w": 18,
+        "h": 5
+      },
+      "actual": {
+        "w": 454,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:18x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 18x10 off-white",
+      "article": null,
+      "nominal": "18x10",
+      "nominal_in": {
+        "w": 18,
+        "h": 10
+      },
+      "actual": {
+        "w": 454,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:18x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 18x15 off-white",
+      "article": null,
+      "nominal": "18x15",
+      "nominal_in": {
+        "w": 18,
+        "h": 15
+      },
+      "actual": {
+        "w": 454,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:18x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 18x20 off-white",
+      "article": null,
+      "nominal": "18x20",
+      "nominal_in": {
+        "w": 18,
+        "h": 20
+      },
+      "actual": {
+        "w": 454,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:21x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 21x5 off-white",
+      "article": null,
+      "nominal": "21x5",
+      "nominal_in": {
+        "w": 21,
+        "h": 5
+      },
+      "actual": {
+        "w": 530,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:21x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 21x10 off-white",
+      "article": null,
+      "nominal": "21x10",
+      "nominal_in": {
+        "w": 21,
+        "h": 10
+      },
+      "actual": {
+        "w": 530,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:21x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 21x15 off-white",
+      "article": null,
+      "nominal": "21x15",
+      "nominal_in": {
+        "w": 21,
+        "h": 15
+      },
+      "actual": {
+        "w": 530,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:21x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 21x20 off-white",
+      "article": null,
+      "nominal": "21x20",
+      "nominal_in": {
+        "w": 21,
+        "h": 20
+      },
+      "actual": {
+        "w": 530,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:24x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 24x5 off-white",
+      "article": null,
+      "nominal": "24x5",
+      "nominal_in": {
+        "w": 24,
+        "h": 5
+      },
+      "actual": {
+        "w": 606,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:24x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 24x10 off-white",
+      "article": null,
+      "nominal": "24x10",
+      "nominal_in": {
+        "w": 24,
+        "h": 10
+      },
+      "actual": {
+        "w": 606,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:24x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 24x15 off-white",
+      "article": null,
+      "nominal": "24x15",
+      "nominal_in": {
+        "w": 24,
+        "h": 15
+      },
+      "actual": {
+        "w": 606,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:24x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 24x20 off-white",
+      "article": null,
+      "nominal": "24x20",
+      "nominal_in": {
+        "w": 24,
+        "h": 20
+      },
+      "actual": {
+        "w": 606,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:30x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 30x5 off-white",
+      "article": null,
+      "nominal": "30x5",
+      "nominal_in": {
+        "w": 30,
+        "h": 5
+      },
+      "actual": {
+        "w": 759,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:30x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 30x10 off-white",
+      "article": null,
+      "nominal": "30x10",
+      "nominal_in": {
+        "w": 30,
+        "h": 10
+      },
+      "actual": {
+        "w": 759,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:30x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 30x15 off-white",
+      "article": null,
+      "nominal": "30x15",
+      "nominal_in": {
+        "w": 30,
+        "h": 15
+      },
+      "actual": {
+        "w": 759,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:30x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 30x20 off-white",
+      "article": null,
+      "nominal": "30x20",
+      "nominal_in": {
+        "w": 30,
+        "h": 20
+      },
+      "actual": {
+        "w": 759,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:36x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 36x5 off-white",
+      "article": null,
+      "nominal": "36x5",
+      "nominal_in": {
+        "w": 36,
+        "h": 5
+      },
+      "actual": {
+        "w": 911,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:36x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 36x10 off-white",
+      "article": null,
+      "nominal": "36x10",
+      "nominal_in": {
+        "w": 36,
+        "h": 10
+      },
+      "actual": {
+        "w": 911,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:36x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 36x15 off-white",
+      "article": null,
+      "nominal": "36x15",
+      "nominal_in": {
+        "w": 36,
+        "h": 15
+      },
+      "actual": {
+        "w": 911,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:bodbyn-off-white:drawer:36x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN drawer front 36x20 off-white",
+      "article": null,
+      "nominal": "36x20",
+      "nominal_in": {
+        "w": 36,
+        "h": 20
+      },
+      "actual": {
+        "w": 911,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:12x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 12x15 matt white",
+      "article": null,
+      "nominal": "12x15",
+      "nominal_in": {
+        "w": 12,
+        "h": 15
+      },
+      "actual": {
+        "w": 302,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:12x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 12x20 matt white",
+      "article": null,
+      "nominal": "12x20",
+      "nominal_in": {
+        "w": 12,
+        "h": 20
+      },
+      "actual": {
+        "w": 302,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:12x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 12x30 matt white",
+      "article": null,
+      "nominal": "12x30",
+      "nominal_in": {
+        "w": 12,
+        "h": 30
+      },
+      "actual": {
+        "w": 302,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:12x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 12x40 matt white",
+      "article": null,
+      "nominal": "12x40",
+      "nominal_in": {
+        "w": 12,
+        "h": 40
+      },
+      "actual": {
+        "w": 302,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:12x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 12x80 matt white",
+      "article": null,
+      "nominal": "12x80",
+      "nominal_in": {
+        "w": 12,
+        "h": 80
+      },
+      "actual": {
+        "w": 302,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:15x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 15x15 matt white",
+      "article": null,
+      "nominal": "15x15",
+      "nominal_in": {
+        "w": 15,
+        "h": 15
+      },
+      "actual": {
+        "w": 378,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:15x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 15x20 matt white",
+      "article": null,
+      "nominal": "15x20",
+      "nominal_in": {
+        "w": 15,
+        "h": 20
+      },
+      "actual": {
+        "w": 378,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:15x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 15x30 matt white",
+      "article": null,
+      "nominal": "15x30",
+      "nominal_in": {
+        "w": 15,
+        "h": 30
+      },
+      "actual": {
+        "w": 378,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:15x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 15x40 matt white",
+      "article": null,
+      "nominal": "15x40",
+      "nominal_in": {
+        "w": 15,
+        "h": 40
+      },
+      "actual": {
+        "w": 378,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:15x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 15x80 matt white",
+      "article": null,
+      "nominal": "15x80",
+      "nominal_in": {
+        "w": 15,
+        "h": 80
+      },
+      "actual": {
+        "w": 378,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:18x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 18x15 matt white",
+      "article": null,
+      "nominal": "18x15",
+      "nominal_in": {
+        "w": 18,
+        "h": 15
+      },
+      "actual": {
+        "w": 454,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:18x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 18x20 matt white",
+      "article": null,
+      "nominal": "18x20",
+      "nominal_in": {
+        "w": 18,
+        "h": 20
+      },
+      "actual": {
+        "w": 454,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:18x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 18x30 matt white",
+      "article": null,
+      "nominal": "18x30",
+      "nominal_in": {
+        "w": 18,
+        "h": 30
+      },
+      "actual": {
+        "w": 454,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:18x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 18x40 matt white",
+      "article": null,
+      "nominal": "18x40",
+      "nominal_in": {
+        "w": 18,
+        "h": 40
+      },
+      "actual": {
+        "w": 454,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:18x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 18x80 matt white",
+      "article": null,
+      "nominal": "18x80",
+      "nominal_in": {
+        "w": 18,
+        "h": 80
+      },
+      "actual": {
+        "w": 454,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:21x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 21x15 matt white",
+      "article": null,
+      "nominal": "21x15",
+      "nominal_in": {
+        "w": 21,
+        "h": 15
+      },
+      "actual": {
+        "w": 530,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:21x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 21x20 matt white",
+      "article": null,
+      "nominal": "21x20",
+      "nominal_in": {
+        "w": 21,
+        "h": 20
+      },
+      "actual": {
+        "w": 530,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:21x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 21x30 matt white",
+      "article": null,
+      "nominal": "21x30",
+      "nominal_in": {
+        "w": 21,
+        "h": 30
+      },
+      "actual": {
+        "w": 530,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:21x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 21x40 matt white",
+      "article": null,
+      "nominal": "21x40",
+      "nominal_in": {
+        "w": 21,
+        "h": 40
+      },
+      "actual": {
+        "w": 530,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:21x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 21x80 matt white",
+      "article": null,
+      "nominal": "21x80",
+      "nominal_in": {
+        "w": 21,
+        "h": 80
+      },
+      "actual": {
+        "w": 530,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:24x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 24x15 matt white",
+      "article": null,
+      "nominal": "24x15",
+      "nominal_in": {
+        "w": 24,
+        "h": 15
+      },
+      "actual": {
+        "w": 606,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:24x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 24x20 matt white",
+      "article": null,
+      "nominal": "24x20",
+      "nominal_in": {
+        "w": 24,
+        "h": 20
+      },
+      "actual": {
+        "w": 606,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:24x30",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 24x30 matt white",
+      "article": null,
+      "nominal": "24x30",
+      "nominal_in": {
+        "w": 24,
+        "h": 30
+      },
+      "actual": {
+        "w": 606,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:24x40",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 24x40 matt white",
+      "article": null,
+      "nominal": "24x40",
+      "nominal_in": {
+        "w": 24,
+        "h": 40
+      },
+      "actual": {
+        "w": 606,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:24x80",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 24x80 matt white",
+      "article": null,
+      "nominal": "24x80",
+      "nominal_in": {
+        "w": 24,
+        "h": 80
+      },
+      "actual": {
+        "w": 606,
+        "h": 2029
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:30x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 30x15 matt white",
+      "article": null,
+      "nominal": "30x15",
+      "nominal_in": {
+        "w": 30,
+        "h": 15
+      },
+      "actual": {
+        "w": 759,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:30x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 30x20 matt white",
+      "article": null,
+      "nominal": "30x20",
+      "nominal_in": {
+        "w": 30,
+        "h": 20
+      },
+      "actual": {
+        "w": 759,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:36x15",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 36x15 matt white",
+      "article": null,
+      "nominal": "36x15",
+      "nominal_in": {
+        "w": 36,
+        "h": 15
+      },
+      "actual": {
+        "w": 911,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:door:36x20",
+      "kind": "front",
+      "type": "door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD door 36x20 matt white",
+      "article": null,
+      "nominal": "36x20",
+      "nominal_in": {
+        "w": 36,
+        "h": 20
+      },
+      "actual": {
+        "w": 911,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:15x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 15x5 matt white",
+      "article": null,
+      "nominal": "15x5",
+      "nominal_in": {
+        "w": 15,
+        "h": 5
+      },
+      "actual": {
+        "w": 378,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:15x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 15x10 matt white",
+      "article": null,
+      "nominal": "15x10",
+      "nominal_in": {
+        "w": 15,
+        "h": 10
+      },
+      "actual": {
+        "w": 378,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:15x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 15x15 matt white",
+      "article": null,
+      "nominal": "15x15",
+      "nominal_in": {
+        "w": 15,
+        "h": 15
+      },
+      "actual": {
+        "w": 378,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:15x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 15x20 matt white",
+      "article": null,
+      "nominal": "15x20",
+      "nominal_in": {
+        "w": 15,
+        "h": 20
+      },
+      "actual": {
+        "w": 378,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:18x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 18x5 matt white",
+      "article": null,
+      "nominal": "18x5",
+      "nominal_in": {
+        "w": 18,
+        "h": 5
+      },
+      "actual": {
+        "w": 454,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:18x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 18x10 matt white",
+      "article": null,
+      "nominal": "18x10",
+      "nominal_in": {
+        "w": 18,
+        "h": 10
+      },
+      "actual": {
+        "w": 454,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:18x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 18x15 matt white",
+      "article": null,
+      "nominal": "18x15",
+      "nominal_in": {
+        "w": 18,
+        "h": 15
+      },
+      "actual": {
+        "w": 454,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:18x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 18x20 matt white",
+      "article": null,
+      "nominal": "18x20",
+      "nominal_in": {
+        "w": 18,
+        "h": 20
+      },
+      "actual": {
+        "w": 454,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:21x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 21x5 matt white",
+      "article": null,
+      "nominal": "21x5",
+      "nominal_in": {
+        "w": 21,
+        "h": 5
+      },
+      "actual": {
+        "w": 530,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:21x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 21x10 matt white",
+      "article": null,
+      "nominal": "21x10",
+      "nominal_in": {
+        "w": 21,
+        "h": 10
+      },
+      "actual": {
+        "w": 530,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:21x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 21x15 matt white",
+      "article": null,
+      "nominal": "21x15",
+      "nominal_in": {
+        "w": 21,
+        "h": 15
+      },
+      "actual": {
+        "w": 530,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:21x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 21x20 matt white",
+      "article": null,
+      "nominal": "21x20",
+      "nominal_in": {
+        "w": 21,
+        "h": 20
+      },
+      "actual": {
+        "w": 530,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:24x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 24x5 matt white",
+      "article": null,
+      "nominal": "24x5",
+      "nominal_in": {
+        "w": 24,
+        "h": 5
+      },
+      "actual": {
+        "w": 606,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:24x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 24x10 matt white",
+      "article": null,
+      "nominal": "24x10",
+      "nominal_in": {
+        "w": 24,
+        "h": 10
+      },
+      "actual": {
+        "w": 606,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:24x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 24x15 matt white",
+      "article": null,
+      "nominal": "24x15",
+      "nominal_in": {
+        "w": 24,
+        "h": 15
+      },
+      "actual": {
+        "w": 606,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:24x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 24x20 matt white",
+      "article": null,
+      "nominal": "24x20",
+      "nominal_in": {
+        "w": 24,
+        "h": 20
+      },
+      "actual": {
+        "w": 606,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:30x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 30x5 matt white",
+      "article": null,
+      "nominal": "30x5",
+      "nominal_in": {
+        "w": 30,
+        "h": 5
+      },
+      "actual": {
+        "w": 759,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:30x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 30x10 matt white",
+      "article": null,
+      "nominal": "30x10",
+      "nominal_in": {
+        "w": 30,
+        "h": 10
+      },
+      "actual": {
+        "w": 759,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:30x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 30x15 matt white",
+      "article": null,
+      "nominal": "30x15",
+      "nominal_in": {
+        "w": 30,
+        "h": 15
+      },
+      "actual": {
+        "w": 759,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:30x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 30x20 matt white",
+      "article": null,
+      "nominal": "30x20",
+      "nominal_in": {
+        "w": 30,
+        "h": 20
+      },
+      "actual": {
+        "w": 759,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:36x5",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 36x5 matt white",
+      "article": null,
+      "nominal": "36x5",
+      "nominal_in": {
+        "w": 36,
+        "h": 5
+      },
+      "actual": {
+        "w": 911,
+        "h": 124
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:36x10",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 36x10 matt white",
+      "article": null,
+      "nominal": "36x10",
+      "nominal_in": {
+        "w": 36,
+        "h": 10
+      },
+      "actual": {
+        "w": 911,
+        "h": 251
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:36x15",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 36x15 matt white",
+      "article": null,
+      "nominal": "36x15",
+      "nominal_in": {
+        "w": 36,
+        "h": 15
+      },
+      "actual": {
+        "w": 911,
+        "h": 378
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:drawer:36x20",
+      "kind": "drawer_front",
+      "type": "drawer",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD drawer front 36x20 matt white",
+      "article": null,
+      "nominal": "36x20",
+      "nominal_in": {
+        "w": 36,
+        "h": 20
+      },
+      "actual": {
+        "w": 911,
+        "h": 505
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "filler:strip:10x30",
+      "kind": "filler",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "Filler strip stock 10x30 (base)",
+      "article": null,
+      "nominal": "10x30",
+      "nominal_in": {
+        "w": 10,
+        "h": 30
+      },
+      "actual": {
+        "w": 254,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Cut to width on site. In kitchen.json a filler item gives its cut width directly."
+    },
+    {
+      "id": "filler:strip:10x40",
+      "kind": "filler",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "Filler strip stock 10x40 (wall)",
+      "article": null,
+      "nominal": "10x40",
+      "nominal_in": {
+        "w": 10,
+        "h": 40
+      },
+      "actual": {
+        "w": 254,
+        "h": 1016
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Cut to width on site. In kitchen.json a filler item gives its cut width directly."
+    },
+    {
+      "id": "filler:strip:10x90",
+      "kind": "filler",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "Filler strip stock 10x90 (high)",
+      "article": null,
+      "nominal": "10x90",
+      "nominal_in": {
+        "w": 10,
+        "h": 90
+      },
+      "actual": {
+        "w": 254,
+        "h": 2286
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Cut to width on site. In kitchen.json a filler item gives its cut width directly."
+    },
+    {
+      "id": "legs:sektion:4pack",
+      "kind": "legs",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION legs, adjustable, 4 pack",
+      "article": null,
+      "actual": {
+        "w": 0,
+        "h": 114
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Nominal 4 1/2\" with a few cm of adjustment. Counter height 36\" = 30\" frame + legs + 1 1/2\" top."
+    }
+  ]
+}

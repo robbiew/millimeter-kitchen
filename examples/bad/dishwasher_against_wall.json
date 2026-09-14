@@ -1,0 +1,282 @@
+{
+  "units": "mm",
+  "name": "Example L kitchen \u2014 BAD: dishwasher_against_wall",
+  "room": "../room.example.json",
+  "catalog": "sektion-us-2026-09",
+  "notes": "the dishwasher is the last item on the north wall with no filler; its door cannot clear the wall",
+  "counter": {
+    "thickness": 38,
+    "overhang_front": 38,
+    "legs": 114,
+    "material": "quartz"
+  },
+  "wall_cabinet_bottom": 1372,
+  "appliances": {
+    "dishwasher": {
+      "name": "24in dishwasher (example)",
+      "kind": "dishwasher",
+      "width": 610,
+      "depth": 622,
+      "height": 864,
+      "clearance_front": 686,
+      "clearance_to_wall": 51,
+      "needs_water": true
+    },
+    "range": {
+      "name": "30in gas range (example)",
+      "kind": "range",
+      "width": 762,
+      "depth": 690,
+      "height": 914,
+      "uses_gas": true
+    }
+  },
+  "runs": [
+    {
+      "wall": "N",
+      "level": "base",
+      "items": [
+        {
+          "kind": "filler",
+          "label": "N-filler-left",
+          "width": 150
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-base-15",
+          "id": "frame:base:15x24x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:15x30",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-base-30",
+          "id": "frame:base:30x24x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:15x30",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-sink-36",
+          "id": "frame:sink_base:36x24x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:18x30",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-base-18-drawers",
+          "id": "frame:base:18x24x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:drawer:18x10",
+              "count": 1
+            },
+            {
+              "id": "front:voxtorp-walnut:drawer:18x20",
+              "count": 1
+            }
+          ],
+          "interior": [
+            "MAXIMERA 18x24 medium",
+            "MAXIMERA 18x24 high"
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-base-15-drawers",
+          "id": "frame:base:15x24x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:drawer:15x5",
+              "count": 1
+            },
+            {
+              "id": "front:voxtorp-walnut:drawer:15x10",
+              "count": 1
+            },
+            {
+              "id": "front:voxtorp-walnut:drawer:15x15",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "appliance",
+          "label": "N-dishwasher",
+          "ref": "dishwasher"
+        }
+      ]
+    },
+    {
+      "wall": "N",
+      "level": "wall",
+      "to": 1219,
+      "items": [
+        {
+          "kind": "filler",
+          "label": "N-wall-filler-left",
+          "width": 76
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-wall-15",
+          "id": "frame:wall:15x12x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:15x30",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-wall-30",
+          "id": "frame:wall:30x12x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:15x30",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "wall": "N",
+      "level": "wall",
+      "from": 2133,
+      "items": [
+        {
+          "kind": "cabinet",
+          "label": "N-wall-36",
+          "id": "frame:wall:36x12x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:18x30",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-wall-21",
+          "id": "frame:wall:21x12x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:21x30",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "filler",
+          "label": "N-wall-filler-right",
+          "width": 75
+        }
+      ]
+    },
+    {
+      "wall": "E",
+      "level": "base",
+      "from": 610,
+      "items": [
+        {
+          "kind": "cabinet",
+          "label": "E-base-21-drawers",
+          "id": "frame:base:21x24x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:drawer:21x10",
+              "count": 1
+            },
+            {
+              "id": "front:voxtorp-walnut:drawer:21x20",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "appliance",
+          "label": "E-range",
+          "ref": "range"
+        },
+        {
+          "kind": "cabinet",
+          "label": "E-base-30",
+          "id": "frame:base:30x24x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:15x30",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "kind": "filler",
+          "label": "E-filler-right",
+          "width": 74
+        }
+      ]
+    },
+    {
+      "wall": "E",
+      "level": "wall",
+      "from": 610,
+      "items": [
+        {
+          "kind": "cabinet",
+          "label": "E-wall-21",
+          "id": "frame:wall:21x12x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:21x30",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "E-wall-30-hood",
+          "id": "frame:wall:30x12x20",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:30x20",
+              "count": 1
+            }
+          ],
+          "interior": [
+            "hood below"
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "E-wall-30",
+          "id": "frame:wall:30x12x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:15x30",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "kind": "filler",
+          "label": "E-wall-filler-right",
+          "width": 74
+        }
+      ]
+    }
+  ]
+}

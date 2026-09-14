@@ -1,0 +1,94 @@
+{
+  "units": "mm",
+  "name": "Example L kitchen (illustrative, not surveyed)",
+  "surveyed": "2026-09-14",
+  "notes": "Numbers chosen to exercise the validator. Replace with a real survey per docs/SURVEY_PROTOCOL.md.",
+  "walls": [
+    {
+      "id": "N",
+      "length": {
+        "floor": 3658,
+        "counter": 3660,
+        "high": 3655
+      },
+      "plumb_dev": 2,
+      "openings": [
+        {
+          "kind": "window",
+          "label": "sink window",
+          "from": 1219,
+          "width": 914,
+          "sill": 1067,
+          "head": 2032
+        }
+      ],
+      "services": [
+        {
+          "kind": "sink_drain",
+          "at": 1676
+        },
+        {
+          "kind": "water_supply",
+          "at": 1600,
+          "height": 500
+        },
+        {
+          "kind": "outlet",
+          "at": 610,
+          "height": 1118
+        },
+        {
+          "kind": "outlet",
+          "at": 2900,
+          "height": 1118
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "length": {
+        "floor": 2743,
+        "counter": 2745,
+        "high": 2741
+      },
+      "plumb_dev": 0,
+      "services": [
+        {
+          "kind": "gas",
+          "at": 1500,
+          "height": 300
+        },
+        {
+          "kind": "electrical_240v",
+          "at": 1500,
+          "height": 300
+        },
+        {
+          "kind": "outlet",
+          "at": 2300,
+          "height": 1118
+        }
+      ]
+    }
+  ],
+  "corners": [
+    {
+      "walls": [
+        "N",
+        "E"
+      ],
+      "diagonal": 4575
+    }
+  ],
+  "ceiling": {
+    "NE": 2438,
+    "NW": 2440,
+    "SE": 2436,
+    "SW": 2441,
+    "center": 2439
+  },
+  "floor_high_point": {
+    "N": 1800,
+    "E": 700
+  }
+}
