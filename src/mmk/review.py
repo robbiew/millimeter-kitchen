@@ -80,10 +80,11 @@ scene.add(new THREE.HemisphereLight(0xffffff, 0x888888, 1.2));
 const sun = new THREE.DirectionalLight(0xffffff, 1.5); sun.position.set(3, 6, 4); scene.add(sun);
 new GLTFLoader().load('scene.glb', (gltf) => {{
   scene.add(gltf.scene);
-  const cams = gltf.scene.children.filter(n => n.name.startsWith('camera:'));
+  // GLTFLoader strips ':' from node names, so match cameras by type, not by the "camera:" prefix
+  const cams = []; gltf.scene.traverse(n => {{ if (n.isCamera && n.userData && n.userData.target_m) cams.push(n); }});
   const hud = document.getElementById('cams');
-  const go = (c) => {{ camera.position.copy(c.position); const t = c.userData.target_m; controls.target.set(t[0], t[1], t[2]); controls.update(); }};
-  for (const c of cams) {{ const b = document.createElement('button'); b.textContent = c.name.slice(7); b.onclick = () => go(c); hud.appendChild(b); }}
+  const go = (c) => {{ const p = new THREE.Vector3(); c.getWorldPosition(p); camera.position.copy(p); const t = c.userData.target_m; controls.target.set(t[0], t[1], t[2]); controls.update(); }};
+  for (const c of cams) {{ const b = document.createElement('button'); b.textContent = c.name.replace(/^camera:?/, ''); b.onclick = () => go(c); hud.appendChild(b); }}
   if (cams.length) go(cams[cams.length - 1]); else {{ camera.position.set(3, 2, 4); controls.target.set(1.5, 0.9, 1); }}
 }}, undefined, () => {{ document.getElementById('cams').textContent = 'could not load scene.glb (serve over http, not file://)'; }});
 addEventListener('resize', () => {{ size(); camera.aspect = host.clientWidth / host.clientHeight; camera.updateProjectionMatrix(); }});
