@@ -78,10 +78,11 @@ def build_server(root: Path):
         return tools.start_variation(root, kitchen, name)
 
     @server.tool()
-    def export(kitchen: str, out: str = "out", scale: int = 20, render: bool = False, blender: str | None = None, engine: str = "EEVEE") -> dict:
+    def export(kitchen: str, out: str = "out", scale: int = 20, render: bool = False, blender: str | None = None, engine: str = "EEVEE", ikea_models: bool = False) -> dict:
         """Regenerate drawings, scene.glb, cameras.json and manifest.json into <out>/<kitchen stem>/ without editing anything.
-        render=True also produces one Blender image per wall. describe reports export_stale when the file changed since the last export."""
-        return tools.export(root, kitchen, out, scale, render, blender, engine)
+        render=True also produces one Blender image per wall; ikea_models=True swaps boxes for cached IKEA models in those images
+        (cache them first with `mmk ikea-models fetch <kitchen>`). describe reports export_stale when the file changed since the last export."""
+        return tools.export(root, kitchen, out, scale, render, blender, engine, ikea_models)
 
     @server.tool()
     def purchase(kitchen: str) -> dict:

@@ -155,13 +155,13 @@ def start_variation(root: Path, kitchen: str, name: str) -> dict[str, Any]:
 
 
 @_wrap
-def export(root: Path, kitchen: str, out: str = "out", scale: int = 20, render: bool = False, blender: str | None = None, engine: str = "EEVEE") -> dict[str, Any]:
+def export(root: Path, kitchen: str, out: str = "out", scale: int = 20, render: bool = False, blender: str | None = None, engine: str = "EEVEE", ikea_models: bool = False) -> dict[str, Any]:
     """Regenerate everything derived from the file into <out>/<kitchen stem>/: SVG elevations and plan, scene.glb, cameras.json, manifest.json.
     With render=True, also one Blender image per camera (needs blender on PATH or a blender path)."""
     k = load_kitchen(resolve_path(root, kitchen))
     if any(f.is_error for f in validate(k)):
         return {"ok": False, "error": "layout has errors; fix them before exporting (see validate)"}
-    result = export_all(k, resolve_path(root, out), scale=scale, render=render, blender=blender, engine=engine)
+    result = export_all(k, resolve_path(root, out), scale=scale, render=render, blender=blender, engine=engine, ikea_models=ikea_models)
     return {"ok": "render_error" not in result, **result}
 
 

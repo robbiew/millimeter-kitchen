@@ -12,7 +12,7 @@ from .catalog import load_catalog
 from .bom import bill_of_materials, render_bom
 from .draw import DEFAULT_SCALE, write_drawings
 from .edit import EditError, apply
-from .export import export_all, find_blender
+from .export import export_all, find_blender, write_model_map
 from .purchase import countertop_svg, derive, pack_csv, render_pack
 from .planner_import import import_list
 from .reconcile import read_ikea_list, reconcile
@@ -166,7 +166,7 @@ def cmd_export(args: argparse.Namespace) -> int:
         _print([f for f in findings if f.is_error])
         print(f"{k.name}: fix the errors or pass --force", file=sys.stderr)
         return 1
-    ex = export_all(k, args.out, scale=args.scale, render=args.render, blender=args.blender)
+    ex = export_all(k, args.out, scale=args.scale, render=args.render, blender=args.blender, ikea_models=args.ikea_models)
     print(f"exported to {ex['out']}: {len(ex['drawings'])} drawings, scene.glb, cameras.json, purchase pack, index.html" + (f", {len(ex['renders'])} renders" if ex["renders"] else "") + (f" ({ex['render_note']})" if ex.get("render_note") else ""))
     print(f"review page: {ex['review']}   all layouts: {ex['index']}")
     return 0
@@ -203,6 +203,73 @@ def cmd_reconcile(args: argparse.Namespace) -> int:
     return 0 if rep.clean else 1
 
 
+def _articles_from_args(args: argparse.Namespace) -> list[tuple[str, str]]:
+    """[(label, article)] from article numbers and/or kitchen files on the command line."""
+    from .ikea_models import normalize_article
+
+    out: list[tuple[str, str]] = []
+    for what in args.what:
+        p = Path(what)
+        if p.suffix == ".json" and p.exists():
+            k = load_kitchen(p)
+            seen: set[str] = set()
+            for line in bill_of_materials(k):
+                if line.article and line.article not in seen:
+                    seen.add(line.article)
+                    out.append((line.id, line.article))
+        else:
+            out.append((what, normalize_article(what)))
+    return out
+
+
+def _model_client(args: argparse.Namespace):
+    from .ikea_models import ModelClient
+
+    return ModelClient(country=args.country, language=args.language, cache=Path(args.cache) if args.cache else None)
+
+
+def cmd_ikea_models_fetch(args: argparse.Namespace) -> int:
+    client = _model_client(args)
+    missing = 0
+    for label, art in _articles_from_args(args):
+        try:
+            glb = client.fetch_model(art, refresh=args.refresh)
+        except Exception as exc:  # one failed download should not stop the rest
+            print(f"{label} ({art}): {exc}", file=sys.stderr)
+            missing += 1
+            continue
+        if glb:
+            print(f"{label} ({art}): {glb}")
+        else:
+            print(f"{label} ({art}): no IKEA model")
+            missing += 1
+    print(f"cache: {client.cache}")
+    return 1 if missing else 0
+
+
+def cmd_ikea_models_check(args: argparse.Namespace) -> int:
+    """Bounding box of each cached model against the catalog. Reports only; the catalog is never written."""
+    from .ikea_models import check_item
+
+    client = _model_client(args)
+    # items by article: from --catalog, else from every kitchen named, else from the newest catalog in catalog/
+    catalogs = [load_catalog(args.catalog)] if args.catalog else [load_kitchen(w).catalog for w in args.what if w.endswith(".json") and Path(w).exists()]
+    if not catalogs:
+        newest = sorted(CATALOG_DIR.glob("sektion-*.json"))[-1]
+        catalogs = [load_catalog(newest)]
+    by_article = {i.article.replace(".", ""): i for c in catalogs for i in c.items() if i.article}
+    bad = 0
+    for label, art in _articles_from_args(args):
+        item = by_article.get(art)
+        if item is None:
+            print(f"{label} ({art}): not in the catalog, nothing to compare")
+            continue
+        c = check_item(item, client, tolerance=args.tolerance, fetch=args.fetch)
+        print(c.describe())
+        bad += 0 if c.ok else 1
+    return 1 if bad else 0
+
+
 def cmd_mcp(args: argparse.Namespace) -> int:
     from .mcp_server import main as mcp_main
     return mcp_main(Path(args.root))
@@ -228,6 +295,9 @@ def cmd_render(args: argparse.Namespace) -> int:
     print(glb)
     print(cams)
     print(f"{len(scene.boxes)} boxes, {len(scene.cameras)} cameras")
+    models_json = write_model_map(scene, k, out) if args.ikea_models else None
+    if args.ikea_models:
+        print(models_json or "no cached IKEA models for this layout; run: mmk ikea-models fetch " + str(args.kitchen))
     if args.no_render:
         return 0
     blender = find_blender(args.blender)
@@ -237,6 +307,8 @@ def cmd_render(args: argparse.Namespace) -> int:
         return 2
     cmd = [blender, "--background", "--python", str(BLENDER_SCRIPT), "--", str(glb), str(cams), str(out),
            "--engine", args.engine, "--size", args.size, "--samples", str(args.samples)]
+    if models_json:
+        cmd += ["--models", str(models_json)]
     print(" ".join(cmd))
     return subprocess.call(cmd)
 
@@ -283,6 +355,7 @@ def build_parser() -> argparse.ArgumentParser:
     r.add_argument("--out", default="out")
     r.add_argument("--no-render", action="store_true", help="only write scene.glb and cameras.json")
     r.add_argument("--blender", help="path to the blender executable (default: MMK_BLENDER, then PATH, then the usual install locations)")
+    r.add_argument("--ikea-models", action="store_true", help="swap boxes for cached IKEA models in the render (see: mmk ikea-models fetch)")
     r.add_argument("--engine", default="EEVEE", choices=["EEVEE", "CYCLES"])
     r.add_argument("--size", default="1600x1000")
     r.add_argument("--samples", type=int, default=64)
@@ -316,6 +389,7 @@ def build_parser() -> argparse.ArgumentParser:
     ex.add_argument("--scale", type=int, default=DEFAULT_SCALE)
     ex.add_argument("--render", action="store_true", help="also render in Blender")
     ex.add_argument("--blender")
+    ex.add_argument("--ikea-models", action="store_true", help="use cached IKEA models in renders")
     ex.add_argument("--force", action="store_true")
     ex.set_defaults(fn=cmd_export)
 
@@ -329,6 +403,22 @@ def build_parser() -> argparse.ArgumentParser:
     rc.add_argument("ikea_list")
     rc.add_argument("--explain", metavar="JSON", help="{article: reason} for differences that are intended")
     rc.set_defaults(fn=cmd_reconcile)
+
+    im = sub.add_parser("ikea-models", help="IKEA's own 3D models for render detail (cached outside the repo; pictures only)").add_subparsers(dest="sub", required=True)
+    for name, fn, help_ in (("fetch", cmd_ikea_models_fetch, "download the model for each article or every article a kitchen uses"),
+                            ("check", cmd_ikea_models_check, "compare each model's bounding box with the catalog (report only)")):
+        sp = im.add_parser(name, help=help_)
+        sp.add_argument("what", nargs="+", help="article numbers (802.653.98) and/or kitchen.json files")
+        sp.add_argument("--country", default="us")
+        sp.add_argument("--language", default="en")
+        sp.add_argument("--cache", help="model cache directory (default: MMK_IKEA_CACHE or the platform cache dir)")
+        if name == "fetch":
+            sp.add_argument("--refresh", action="store_true", help="re-download even if cached")
+        else:
+            sp.add_argument("--catalog", help="catalog file to compare against (default: the kitchen's catalog)")
+            sp.add_argument("--tolerance", type=float, default=3.0, help="mm of difference to call a mismatch")
+            sp.add_argument("--fetch", action="store_true", help="download missing models first")
+        sp.set_defaults(fn=fn)
 
     m = sub.add_parser("mcp", help="phase 5: run the MCP server over stdio (needs the mcp extra)")
     m.add_argument("--root", default=".", help="project root; kitchen paths are relative to it")

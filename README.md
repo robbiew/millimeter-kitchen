@@ -30,7 +30,7 @@ it. None of them writes a dimension on its own.
 | Capture | Laser distance meter + tape | The only source of wall lengths. Entered by hand per `docs/SURVEY_PROTOCOL.md`. | In use (phase 0) |
 | Capture | Apple RoomPlan / Polycam / IKEA Kreativ | Optional LiDAR rough-in of the room envelope. Hints only; the survey overrides it. | Planned |
 | Catalog | IKEA US product pages | Actual cabinet and front dimensions per article number, read by `tools/scrape_sektion.py`. | Scraper written, untested |
-| Catalog | IKEA Rotera GLB models, SketchUp 3D Warehouse SEKTION packs | Reference meshes for how fronts and frames look. | Planned (phase 3) |
+| Catalog | IKEA Rotera GLB models | IKEA's own mesh per article, fetched by `mmk ikea-models fetch` into a cache outside the repo and swapped into Blender renders with `--ikea-models`. Pictures only: the box scene places them, never the reverse, and `mmk ikea-models check` only reports when a model's size disagrees with the catalog. | Built; swap unverified in Blender |
 | Validation | Python, `jsonschema`, pytest | Schema checks and the fit rules: run closure, fillers, clearances, openings, services, front sizes. | Built (phase 1) |
 | Geometry | build123d | Exact solids for countertop outlines and the countertop cut drawing. | Planned (phase 6) |
 | Drawings | Generated SVG | Dimensioned elevations per wall and a plan view for contractors and fabricators, at a chosen print scale. | Built (phase 2) |
@@ -69,6 +69,11 @@ mmk draw examples/kitchen.fits.json --out out/
 # in /Applications or Program Files; otherwise --blender /path or MMK_BLENDER=/path)
 mmk render examples/kitchen.fits.json --out out/
 mmk render examples/kitchen.fits.json --out out/ --no-render   # glTF + cameras only
+
+# Optional: IKEA's own meshes in the renders (cached under ~/Library/Caches or ~/.cache, never in the repo)
+mmk ikea-models fetch examples/kitchen.fits.json     # every article the layout uses that has a model
+mmk ikea-models check examples/kitchen.fits.json     # model bounding box vs catalog, report only
+mmk render examples/kitchen.fits.json --out out/ --ikea-models
 python -m http.server   # then open http://localhost:8000/viewer/index.html?scene=../out/scene.glb
 
 # Phase 4: finishes and the bill of materials
@@ -137,7 +142,7 @@ docs/                 plan, build order with status tracker, survey protocol
 schema/               JSON Schema for room, catalog and kitchen files
 catalog/              SEKTION catalog (regenerate with tools/build_catalog_seed.py <file>; verified entries survive), finishes.json (hand-maintained) and textures/ (regenerate with tools/build_textures.py)
 examples/             one room, two kitchens that fit (one with corner cabinets), seven that do not
-src/mmk/              the package: units, io, room, catalog, model, rules, draw, scene, gltf, finishes, textures, bom, edit, export, review, purchase, reconcile, planner_import, tools, mcp_server, cli
+src/mmk/              the package: units, io, room, catalog, model, rules, draw, scene, gltf, finishes, textures, ikea_models, bom, edit, export, review, purchase, reconcile, planner_import, tools, mcp_server, cli
 tools/                catalog seed generator, fixture generator, product-page scraper, texture builder, Blender render script
 viewer/               three.js walkthrough for scene.glb
 tests/                pytest

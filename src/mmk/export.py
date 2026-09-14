@@ -23,7 +23,20 @@ from .gltf import write_glb
 from .model import Kitchen
 from .purchase import countertop_svg, derive, pack_csv, render_pack
 from .review import write_review
-from .scene import build_scene
+from .scene import Scene, build_scene
+
+
+def write_model_map(scene: Scene, k: Kitchen, out: Path) -> Path | None:
+    """ikea-models.json next to scene.glb: which nodes have a cached IKEA model.
+    Only cached models are used; fetching is an explicit `mmk ikea-models fetch`."""
+    from .ikea_models import ModelClient, model_map
+
+    mapping = model_map(scene, k.catalog, ModelClient())
+    if not mapping:
+        return None
+    p = out / "ikea-models.json"
+    p.write_text(json.dumps(mapping, indent=2) + "\n")
+    return p
 
 BLENDER_SCRIPT = Path(__file__).resolve().parents[2] / "tools" / "blender_render.py"
 
@@ -72,7 +85,7 @@ def file_sha(path: str | Path) -> str:
 
 
 def export_all(k: Kitchen, out_root: str | Path, scale: int = DEFAULT_SCALE, render: bool = False,
-               blender: str | None = None, engine: str = "EEVEE") -> dict[str, Any]:
+               blender: str | None = None, engine: str = "EEVEE", ikea_models: bool = False) -> dict[str, Any]:
     """Write drawings, scene.glb, cameras.json and a manifest for `k`; optionally render with Blender."""
     out = output_dir(out_root, k.path)
     out.mkdir(parents=True, exist_ok=True)
@@ -89,12 +102,18 @@ def export_all(k: Kitchen, out_root: str | Path, scale: int = DEFAULT_SCALE, ren
     (out / "countertop.svg").write_text(countertop_svg(k, scale))
     result["purchase"] = [str(out / "purchase-pack.md"), str(out / "purchase-pack.csv"), str(out / "countertop.svg")]
     result["renders"] = []
+    models_json = write_model_map(scene, k, out) if ikea_models else None
+    if models_json:
+        result["ikea_models"] = str(models_json)
     if render:
         exe = find_blender(blender)
         if not exe or not Path(exe).exists():
             result["render_note"] = "blender not found; pass a blender path or set MMK_BLENDER to render"
         else:
-            proc = subprocess.run([exe, "--background", "--python", str(BLENDER_SCRIPT), "--", result["glb"], str(cams), str(out), "--engine", engine], capture_output=True, text=True)
+            cmd = [exe, "--background", "--python", str(BLENDER_SCRIPT), "--", result["glb"], str(cams), str(out), "--engine", engine]
+            if models_json:
+                cmd += ["--models", str(models_json)]
+            proc = subprocess.run(cmd, capture_output=True, text=True)
             result["renders"] = sorted(str(p) for p in out.glob("render-*.png"))
             if proc.returncode != 0:
                 result["render_error"] = proc.stderr[-2000:]

@@ -36,6 +36,84 @@ def look_at(obj, target: Vector) -> None:
     obj.rotation_euler = direction.to_track_quat("-Z", "Y").to_euler()
 
 
+def world_bounds(objs):
+    """Axis-aligned bounds of mesh objects in world space, as (min Vector, max Vector)."""
+    lo = Vector((math.inf,) * 3)
+    hi = Vector((-math.inf,) * 3)
+    for o in objs:
+        if o.type != "MESH":
+            continue
+        for c in o.bound_box:
+            w = o.matrix_world @ Vector(c)
+            lo = Vector(map(min, lo, w))
+            hi = Vector(map(max, hi, w))
+    return lo, hi
+
+
+def swap_in_models(scene, mapping: dict) -> None:
+    """Replace each mapped box with the IKEA model for its article.
+
+    The model is imported once per article and instanced per box. It is
+    rotated like the box and moved so its bounding box sits on the box's
+    bounding box (same floor, same back wall, same left edge); it is NEVER
+    scaled, so a model that disagrees with the catalog shows the disagreement
+    instead of hiding it. The box itself is hidden from the render.
+    """
+    imported: dict[str, list] = {}
+    for name, m in mapping.items():
+        box = scene.objects.get(name)
+        if box is None:
+            print(f"models: no object {name!r} in the scene; skipped")
+            continue
+        art = m["article"]
+        if art not in imported:
+            before = set(scene.objects)
+            try:
+                bpy.ops.import_scene.gltf(filepath=m["glb"])
+            except Exception as e:  # a broken download is a warning, not a failed render
+                print(f"models: {art}: import failed: {e}")
+                imported[art] = []
+                continue
+            new = [o for o in scene.objects if o not in before]
+            for o in new:
+                o.hide_render = True
+                o.hide_viewport = True
+            imported[art] = new
+        src = imported[art]
+        if not src:
+            continue
+        # duplicate the template objects, group them under an empty carrying the box's rotation
+        root = bpy.data.objects.new(f"{name}/ikea", None)
+        scene.collection.objects.link(root)
+        copies = []
+        for o in src:
+            c = o.copy()
+            if o.data:
+                c.data = o.data
+            c.hide_render = False
+            c.hide_viewport = False
+            scene.collection.objects.link(c)
+            copies.append(c)
+        for c in copies:
+            if c.parent in src:
+                c.parent = copies[src.index(c.parent)]
+            else:
+                c.parent = root
+        root.rotation_euler = box.matrix_world.to_euler()
+        bpy.context.view_layer.update()
+        blo, bhi = world_bounds([box])
+        mlo, mhi = world_bounds(copies)
+        root.location = root.location + (blo - mlo)
+        bpy.context.view_layer.update()
+        box.hide_render = True
+        box.hide_viewport = True
+        size_box = [(b - a) * 1000 for a, b in zip(blo, bhi)]
+        size_model = [(b - a) * 1000 for a, b in zip(mlo, mhi)]
+        dev = max(abs(a - b) for a, b in zip(size_box, size_model))
+        note = "" if dev <= 3 else f"  (differs from the box by up to {dev:.0f} mm; not scaled)"
+        print(f"models: {name} <- {art} {'x'.join(f'{v:.0f}' for v in size_model)}{note}")
+
+
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("glb")
@@ -44,6 +122,7 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--engine", default="EEVEE", choices=["EEVEE", "CYCLES"])
     ap.add_argument("--size", default="1600x1000")
     ap.add_argument("--samples", type=int, default=64)
+    ap.add_argument("--models", help="ikea-models.json from `mmk render --ikea-models`: swap boxes for IKEA's own meshes")
     args = ap.parse_args(argv)
 
     bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -53,6 +132,9 @@ def main(argv: list[str]) -> int:
     # the importer creates camera objects from glTF cameras; we rebuild ours to aim them
     for o in [o for o in scene.objects if o.type == "CAMERA"]:
         bpy.data.objects.remove(o, do_unlink=True)
+
+    if args.models:
+        swap_in_models(scene, json.loads(Path(args.models).read_text()))
 
     cams = json.loads(Path(args.cameras).read_text())
     w, h = (int(x) for x in args.size.lower().split("x"))
