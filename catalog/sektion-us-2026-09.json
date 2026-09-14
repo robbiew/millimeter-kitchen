@@ -156,8 +156,9 @@
         "d": 610,
         "h": 762
       },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
+      "verified": true,
+      "source": "https://www.ikea.com/us/en/p/-80265398/",
+      "verified_on": "2026-09-14"
     },
     {
       "id": "frame:base:15x15x30",
@@ -178,9 +179,10 @@
         "d": 375,
         "h": 762
       },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Shallow base; depth is 14 3/4\" nominal."
+      "verified": true,
+      "source": "https://www.ikea.com/us/en/p/-30265391/",
+      "notes": "Shallow base; depth is 14 3/4\" nominal.",
+      "verified_on": "2026-09-14"
     },
     {
       "id": "frame:sink_base:30x24x30",
