@@ -83,6 +83,18 @@ def build_server(root: Path):
         render=True also produces one Blender image per wall. describe reports export_stale when the file changed since the last export."""
         return tools.export(root, kitchen, out, scale, render, blender, engine)
 
+    @server.tool()
+    def purchase(kitchen: str) -> dict:
+        """The purchase pack: every catalog item plus derived rail, legs, hinges, MAXIMERA drawers, cover panels, toe kick and filler stock,
+        each derived line with its rule; the countertop slabs; unverified and article-less lines; and what is out of scope."""
+        return tools.purchase(root, kitchen)
+
+    @server.tool()
+    def reconcile(kitchen: str, ikea_list: str, explanations: dict[str, str] | None = None) -> dict:
+        """Compare the purchase pack against an IKEA Kitchen Planner item list saved as CSV/TSV (article number and quantity columns).
+        explanations maps article numbers to a reason for an intended difference. ok is true only with zero unexplained differences."""
+        return tools.reconcile(root, kitchen, ikea_list, explanations)
+
     return server
 
 

@@ -4567,64 +4567,949 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
-      "id": "filler:strip:10x30",
-      "kind": "filler",
+      "id": "drawer:maximera:15x24:low",
+      "kind": "drawer",
       "brand": "IKEA",
-      "series": "SEKTION",
-      "name": "Filler strip stock 10x30 (base)",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, low, 15x24",
       "article": null,
-      "nominal": "10x30",
-      "nominal_in": {
-        "w": 10,
-        "h": 30
-      },
+      "nominal": "15x24",
       "actual": {
-        "w": 254,
+        "w": 381,
+        "d": 610,
+        "h": 127
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 5\" fronts take a low drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 15,
+        "d": 24,
+        "h": 5
+      }
+    },
+    {
+      "id": "drawer:maximera:15x24:medium",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, medium, 15x24",
+      "article": null,
+      "nominal": "15x24",
+      "actual": {
+        "w": 381,
+        "d": 610,
+        "h": 254
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 10\" fronts take a medium drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 15,
+        "d": 24,
+        "h": 10
+      }
+    },
+    {
+      "id": "drawer:maximera:15x24:high",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, high, 15x24",
+      "article": null,
+      "nominal": "15x24",
+      "actual": {
+        "w": 381,
+        "d": 610,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 15\" fronts take a high drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 15,
+        "d": 24,
+        "h": 15
+      }
+    },
+    {
+      "id": "drawer:maximera:15x15:low",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, low, 15x15",
+      "article": null,
+      "nominal": "15x15",
+      "actual": {
+        "w": 381,
+        "d": 381,
+        "h": 127
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 5\" fronts take a low drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 15,
+        "d": 15,
+        "h": 5
+      }
+    },
+    {
+      "id": "drawer:maximera:15x15:medium",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, medium, 15x15",
+      "article": null,
+      "nominal": "15x15",
+      "actual": {
+        "w": 381,
+        "d": 381,
+        "h": 254
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 10\" fronts take a medium drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 15,
+        "d": 15,
+        "h": 10
+      }
+    },
+    {
+      "id": "drawer:maximera:15x15:high",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, high, 15x15",
+      "article": null,
+      "nominal": "15x15",
+      "actual": {
+        "w": 381,
+        "d": 381,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 15\" fronts take a high drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 15,
+        "d": 15,
+        "h": 15
+      }
+    },
+    {
+      "id": "drawer:maximera:18x24:low",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, low, 18x24",
+      "article": null,
+      "nominal": "18x24",
+      "actual": {
+        "w": 457,
+        "d": 610,
+        "h": 127
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 5\" fronts take a low drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 18,
+        "d": 24,
+        "h": 5
+      }
+    },
+    {
+      "id": "drawer:maximera:18x24:medium",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, medium, 18x24",
+      "article": null,
+      "nominal": "18x24",
+      "actual": {
+        "w": 457,
+        "d": 610,
+        "h": 254
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 10\" fronts take a medium drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 18,
+        "d": 24,
+        "h": 10
+      }
+    },
+    {
+      "id": "drawer:maximera:18x24:high",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, high, 18x24",
+      "article": null,
+      "nominal": "18x24",
+      "actual": {
+        "w": 457,
+        "d": 610,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 15\" fronts take a high drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 18,
+        "d": 24,
+        "h": 15
+      }
+    },
+    {
+      "id": "drawer:maximera:18x15:low",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, low, 18x15",
+      "article": null,
+      "nominal": "18x15",
+      "actual": {
+        "w": 457,
+        "d": 381,
+        "h": 127
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 5\" fronts take a low drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 18,
+        "d": 15,
+        "h": 5
+      }
+    },
+    {
+      "id": "drawer:maximera:18x15:medium",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, medium, 18x15",
+      "article": null,
+      "nominal": "18x15",
+      "actual": {
+        "w": 457,
+        "d": 381,
+        "h": 254
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 10\" fronts take a medium drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 18,
+        "d": 15,
+        "h": 10
+      }
+    },
+    {
+      "id": "drawer:maximera:18x15:high",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, high, 18x15",
+      "article": null,
+      "nominal": "18x15",
+      "actual": {
+        "w": 457,
+        "d": 381,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 15\" fronts take a high drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 18,
+        "d": 15,
+        "h": 15
+      }
+    },
+    {
+      "id": "drawer:maximera:21x24:low",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, low, 21x24",
+      "article": null,
+      "nominal": "21x24",
+      "actual": {
+        "w": 533,
+        "d": 610,
+        "h": 127
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 5\" fronts take a low drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 21,
+        "d": 24,
+        "h": 5
+      }
+    },
+    {
+      "id": "drawer:maximera:21x24:medium",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, medium, 21x24",
+      "article": null,
+      "nominal": "21x24",
+      "actual": {
+        "w": 533,
+        "d": 610,
+        "h": 254
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 10\" fronts take a medium drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 21,
+        "d": 24,
+        "h": 10
+      }
+    },
+    {
+      "id": "drawer:maximera:21x24:high",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, high, 21x24",
+      "article": null,
+      "nominal": "21x24",
+      "actual": {
+        "w": 533,
+        "d": 610,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 15\" fronts take a high drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 21,
+        "d": 24,
+        "h": 15
+      }
+    },
+    {
+      "id": "drawer:maximera:21x15:low",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, low, 21x15",
+      "article": null,
+      "nominal": "21x15",
+      "actual": {
+        "w": 533,
+        "d": 381,
+        "h": 127
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 5\" fronts take a low drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 21,
+        "d": 15,
+        "h": 5
+      }
+    },
+    {
+      "id": "drawer:maximera:21x15:medium",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, medium, 21x15",
+      "article": null,
+      "nominal": "21x15",
+      "actual": {
+        "w": 533,
+        "d": 381,
+        "h": 254
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 10\" fronts take a medium drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 21,
+        "d": 15,
+        "h": 10
+      }
+    },
+    {
+      "id": "drawer:maximera:21x15:high",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, high, 21x15",
+      "article": null,
+      "nominal": "21x15",
+      "actual": {
+        "w": 533,
+        "d": 381,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 15\" fronts take a high drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 21,
+        "d": 15,
+        "h": 15
+      }
+    },
+    {
+      "id": "drawer:maximera:24x24:low",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, low, 24x24",
+      "article": null,
+      "nominal": "24x24",
+      "actual": {
+        "w": 610,
+        "d": 610,
+        "h": 127
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 5\" fronts take a low drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 24,
+        "d": 24,
+        "h": 5
+      }
+    },
+    {
+      "id": "drawer:maximera:24x24:medium",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, medium, 24x24",
+      "article": null,
+      "nominal": "24x24",
+      "actual": {
+        "w": 610,
+        "d": 610,
+        "h": 254
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 10\" fronts take a medium drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 24,
+        "d": 24,
+        "h": 10
+      }
+    },
+    {
+      "id": "drawer:maximera:24x24:high",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, high, 24x24",
+      "article": null,
+      "nominal": "24x24",
+      "actual": {
+        "w": 610,
+        "d": 610,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 15\" fronts take a high drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 24,
+        "d": 24,
+        "h": 15
+      }
+    },
+    {
+      "id": "drawer:maximera:24x15:low",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, low, 24x15",
+      "article": null,
+      "nominal": "24x15",
+      "actual": {
+        "w": 610,
+        "d": 381,
+        "h": 127
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 5\" fronts take a low drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 24,
+        "d": 15,
+        "h": 5
+      }
+    },
+    {
+      "id": "drawer:maximera:24x15:medium",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, medium, 24x15",
+      "article": null,
+      "nominal": "24x15",
+      "actual": {
+        "w": 610,
+        "d": 381,
+        "h": 254
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 10\" fronts take a medium drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 24,
+        "d": 15,
+        "h": 10
+      }
+    },
+    {
+      "id": "drawer:maximera:24x15:high",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, high, 24x15",
+      "article": null,
+      "nominal": "24x15",
+      "actual": {
+        "w": 610,
+        "d": 381,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 15\" fronts take a high drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 24,
+        "d": 15,
+        "h": 15
+      }
+    },
+    {
+      "id": "drawer:maximera:30x24:low",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, low, 30x24",
+      "article": null,
+      "nominal": "30x24",
+      "actual": {
+        "w": 762,
+        "d": 610,
+        "h": 127
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 5\" fronts take a low drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 30,
+        "d": 24,
+        "h": 5
+      }
+    },
+    {
+      "id": "drawer:maximera:30x24:medium",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, medium, 30x24",
+      "article": null,
+      "nominal": "30x24",
+      "actual": {
+        "w": 762,
+        "d": 610,
+        "h": 254
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 10\" fronts take a medium drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 30,
+        "d": 24,
+        "h": 10
+      }
+    },
+    {
+      "id": "drawer:maximera:30x24:high",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, high, 30x24",
+      "article": null,
+      "nominal": "30x24",
+      "actual": {
+        "w": 762,
+        "d": 610,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 15\" fronts take a high drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 30,
+        "d": 24,
+        "h": 15
+      }
+    },
+    {
+      "id": "drawer:maximera:30x15:low",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, low, 30x15",
+      "article": null,
+      "nominal": "30x15",
+      "actual": {
+        "w": 762,
+        "d": 381,
+        "h": 127
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 5\" fronts take a low drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 30,
+        "d": 15,
+        "h": 5
+      }
+    },
+    {
+      "id": "drawer:maximera:30x15:medium",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, medium, 30x15",
+      "article": null,
+      "nominal": "30x15",
+      "actual": {
+        "w": 762,
+        "d": 381,
+        "h": 254
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 10\" fronts take a medium drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 30,
+        "d": 15,
+        "h": 10
+      }
+    },
+    {
+      "id": "drawer:maximera:30x15:high",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, high, 30x15",
+      "article": null,
+      "nominal": "30x15",
+      "actual": {
+        "w": 762,
+        "d": 381,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 15\" fronts take a high drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 30,
+        "d": 15,
+        "h": 15
+      }
+    },
+    {
+      "id": "drawer:maximera:36x24:low",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, low, 36x24",
+      "article": null,
+      "nominal": "36x24",
+      "actual": {
+        "w": 914,
+        "d": 610,
+        "h": 127
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 5\" fronts take a low drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 36,
+        "d": 24,
+        "h": 5
+      }
+    },
+    {
+      "id": "drawer:maximera:36x24:medium",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, medium, 36x24",
+      "article": null,
+      "nominal": "36x24",
+      "actual": {
+        "w": 914,
+        "d": 610,
+        "h": 254
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 10\" fronts take a medium drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 36,
+        "d": 24,
+        "h": 10
+      }
+    },
+    {
+      "id": "drawer:maximera:36x24:high",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, high, 36x24",
+      "article": null,
+      "nominal": "36x24",
+      "actual": {
+        "w": 914,
+        "d": 610,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 15\" fronts take a high drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 36,
+        "d": 24,
+        "h": 15
+      }
+    },
+    {
+      "id": "drawer:maximera:36x15:low",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, low, 36x15",
+      "article": null,
+      "nominal": "36x15",
+      "actual": {
+        "w": 914,
+        "d": 381,
+        "h": 127
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 5\" fronts take a low drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 36,
+        "d": 15,
+        "h": 5
+      }
+    },
+    {
+      "id": "drawer:maximera:36x15:medium",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, medium, 36x15",
+      "article": null,
+      "nominal": "36x15",
+      "actual": {
+        "w": 914,
+        "d": 381,
+        "h": 254
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 10\" fronts take a medium drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 36,
+        "d": 15,
+        "h": 10
+      }
+    },
+    {
+      "id": "drawer:maximera:36x15:high",
+      "kind": "drawer",
+      "brand": "IKEA",
+      "series": "MAXIMERA",
+      "name": "MAXIMERA drawer, high, 36x15",
+      "article": null,
+      "nominal": "36x15",
+      "actual": {
+        "w": 914,
+        "d": 381,
+        "h": 381
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One per drawer front: 15\" fronts take a high drawer (20\" fronts also take high). Runners included.",
+      "nominal_in": {
+        "w": 36,
+        "d": 15,
+        "h": 15
+      }
+    },
+    {
+      "id": "cover_panel:forbattra:25x30",
+      "kind": "cover_panel",
+      "brand": "IKEA",
+      "series": "FORBATTRA",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 25x30 (base)",
+      "article": null,
+      "nominal": "25x30",
+      "actual": {
+        "w": 635,
         "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Cut to width on site. In kitchen.json a filler item gives its cut width directly."
+      "notes": "Exposed cabinet sides, and ripped into filler strips.",
+      "nominal_in": {
+        "w": 25,
+        "h": 30
+      }
     },
     {
-      "id": "filler:strip:10x40",
-      "kind": "filler",
+      "id": "cover_panel:forbattra:25x80",
+      "kind": "cover_panel",
       "brand": "IKEA",
-      "series": "SEKTION",
-      "name": "Filler strip stock 10x40 (wall)",
+      "series": "FORBATTRA",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 25x80 (high)",
       "article": null,
-      "nominal": "10x40",
-      "nominal_in": {
-        "w": 10,
-        "h": 40
-      },
+      "nominal": "25x80",
       "actual": {
-        "w": 254,
-        "h": 1016
+        "w": 635,
+        "h": 2032
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Cut to width on site. In kitchen.json a filler item gives its cut width directly."
+      "notes": "Exposed cabinet sides, and ripped into filler strips.",
+      "nominal_in": {
+        "w": 25,
+        "h": 80
+      }
     },
     {
-      "id": "filler:strip:10x90",
-      "kind": "filler",
+      "id": "cover_panel:forbattra:25x90",
+      "kind": "cover_panel",
       "brand": "IKEA",
-      "series": "SEKTION",
-      "name": "Filler strip stock 10x90 (high)",
+      "series": "FORBATTRA",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 25x90 (high)",
       "article": null,
-      "nominal": "10x90",
-      "nominal_in": {
-        "w": 10,
-        "h": 90
-      },
+      "nominal": "25x90",
       "actual": {
-        "w": 254,
+        "w": 635,
         "h": 2286
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Cut to width on site. In kitchen.json a filler item gives its cut width directly."
+      "notes": "Exposed cabinet sides, and ripped into filler strips.",
+      "nominal_in": {
+        "w": 25,
+        "h": 90
+      }
+    },
+    {
+      "id": "cover_panel:forbattra:13x30",
+      "kind": "cover_panel",
+      "brand": "IKEA",
+      "series": "FORBATTRA",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 13x30 (wall)",
+      "article": null,
+      "nominal": "13x30",
+      "actual": {
+        "w": 330,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Exposed cabinet sides, and ripped into filler strips.",
+      "nominal_in": {
+        "w": 13,
+        "h": 30
+      }
+    },
+    {
+      "id": "cover_panel:forbattra:13x40",
+      "kind": "cover_panel",
+      "brand": "IKEA",
+      "series": "FORBATTRA",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 13x40 (wall)",
+      "article": null,
+      "nominal": "13x40",
+      "actual": {
+        "w": 330,
+        "h": 1016
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Exposed cabinet sides, and ripped into filler strips.",
+      "nominal_in": {
+        "w": 13,
+        "h": 40
+      }
+    },
+    {
+      "id": "cover_panel:forbattra:15x30",
+      "kind": "cover_panel",
+      "brand": "IKEA",
+      "series": "FORBATTRA",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 15x30 (wall_fridge)",
+      "article": null,
+      "nominal": "15x30",
+      "actual": {
+        "w": 381,
+        "h": 762
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Exposed cabinet sides, and ripped into filler strips.",
+      "nominal_in": {
+        "w": 15,
+        "h": 30
+      }
+    },
+    {
+      "id": "toe_kick:forbattra:87",
+      "kind": "toe_kick",
+      "brand": "IKEA",
+      "series": "FORBATTRA",
+      "name": "F\u00d6RB\u00c4TTRA toe kick strip 87x4 1/2",
+      "article": null,
+      "nominal": "87x4 1/2",
+      "actual": {
+        "w": 2210,
+        "h": 114
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Stock length; count = base run length / 2210 mm, rounded up.",
+      "stock_mm": 2210
+    },
+    {
+      "id": "rail:sektion:88",
+      "kind": "rail",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION suspension rail 88",
+      "article": null,
+      "nominal": "88",
+      "actual": {
+        "w": 2235
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Every base, wall and high run hangs on rail; count = run lengths / 2235 mm, rounded up per wall.",
+      "stock_mm": 2235
     },
     {
       "id": "legs:sektion:4pack",
@@ -4639,7 +5524,23 @@
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Nominal 4 1/2\" with a few cm of adjustment. Counter height 36\" = 30\" frame + legs + 1 1/2\" top."
+      "notes": "One pack per base or high cabinet. Counter height 36\" = 30\" frame + legs + 1 1/2\" top.",
+      "pack": 4
+    },
+    {
+      "id": "hinge:utrusta:2pack",
+      "kind": "hinge",
+      "brand": "IKEA",
+      "series": "UTRUSTA",
+      "name": "UTRUSTA hinge, soft closing, 2 pack",
+      "article": null,
+      "actual": {
+        "w": 0
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "One pack per door up to 40\" tall, two packs per taller door.",
+      "pack": 2
     }
   ]
 }

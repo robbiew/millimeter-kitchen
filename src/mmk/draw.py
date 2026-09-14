@@ -124,6 +124,12 @@ def run_depth(run: Run) -> int:
     return max((item_depth(p, run.level) for p in run.items), default=BASE_DEPTH_FALLBACK)
 
 
+def counter_depth(run: Run) -> int:
+    """Countertops follow the cabinet frames, not an appliance that happens to be deeper."""
+    cabs = [item_depth(p, run.level) for p in run.items if p.kind == "cabinet"]
+    return max(cabs) if cabs else run_depth(run)
+
+
 def fillers(run: Run) -> list[int]:
     return [p.width for p in run.items if p.kind == "filler"]
 
@@ -355,7 +361,7 @@ def plan_svg(k: Kitchen, scale: int = DEFAULT_SCALE) -> str:
     for run in k.runs:
         if run.level == "base":
             d = run_depth(run)
-            rect_along(run.wall, run.start, run.end, 0, d + (k.counter_thickness and 38), "counter")
+            rect_along(run.wall, run.start, run.end, 0, counter_depth(run) + 38, "counter")
     for run in k.runs:
         cls = "wallcab" if run.level == "wall" else None
         for p in run.items:

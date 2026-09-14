@@ -3,53 +3,160 @@
   "$id": "https://millimeter-kitchen/schema/catalog.schema.json",
   "title": "Product catalog",
   "type": "object",
-  "required": ["id", "market", "units", "generated", "items"],
+  "required": [
+    "id",
+    "market",
+    "units",
+    "generated",
+    "items"
+  ],
   "additionalProperties": false,
   "properties": {
-    "id": { "type": "string" },
-    "market": { "type": "string" },
-    "units": { "const": "mm" },
-    "generated": { "type": "string" },
-    "source": { "type": "string" },
+    "id": {
+      "type": "string"
+    },
+    "market": {
+      "type": "string"
+    },
+    "units": {
+      "const": "mm"
+    },
+    "generated": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
     "items": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "kind", "brand", "name", "actual", "verified"],
+        "required": [
+          "id",
+          "kind",
+          "brand",
+          "name",
+          "actual",
+          "verified"
+        ],
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "string", "description": "Stable key, e.g. frame:base:36x24x30 or front:voxtorp-walnut:door:18x30." },
-          "kind": { "enum": ["frame", "front", "drawer_front", "filler", "cover_panel", "toe_kick", "rail", "legs"] },
-          "type": { "enum": ["base", "sink_base", "wall", "wall_fridge", "high", "door", "drawer"] },
-          "brand": { "type": "string" },
-          "series": { "type": "string" },
-          "finish": { "type": "string" },
-          "name": { "type": "string" },
-          "article": { "type": ["string", "null"], "description": "IKEA article number NNN.NNN.NN, or null until verified." },
-          "nominal": { "type": "string", "description": "The inch label on the box, e.g. 36x24x30 or 18x30." },
+          "id": {
+            "type": "string",
+            "description": "Stable key, e.g. frame:base:36x24x30 or front:voxtorp-walnut:door:18x30."
+          },
+          "kind": {
+            "enum": [
+              "frame",
+              "front",
+              "drawer_front",
+              "filler",
+              "cover_panel",
+              "toe_kick",
+              "rail",
+              "legs",
+              "drawer",
+              "hinge"
+            ]
+          },
+          "type": {
+            "enum": [
+              "base",
+              "sink_base",
+              "wall",
+              "wall_fridge",
+              "high",
+              "door",
+              "drawer"
+            ]
+          },
+          "brand": {
+            "type": "string"
+          },
+          "series": {
+            "type": "string"
+          },
+          "finish": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "article": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "IKEA article number NNN.NNN.NN, or null until verified."
+          },
+          "nominal": {
+            "type": "string",
+            "description": "The inch label on the box, e.g. 36x24x30 or 18x30."
+          },
           "actual": {
             "type": "object",
-            "required": ["w"],
+            "required": [
+              "w"
+            ],
             "additionalProperties": false,
             "properties": {
-              "w": { "$ref": "#/$defs/mm" },
-              "d": { "$ref": "#/$defs/mm" },
-              "h": { "$ref": "#/$defs/mm" }
+              "w": {
+                "$ref": "#/$defs/mm"
+              },
+              "d": {
+                "$ref": "#/$defs/mm"
+              },
+              "h": {
+                "$ref": "#/$defs/mm"
+              }
             }
           },
           "nominal_in": {
             "type": "object",
             "description": "Nominal size in inches as numbers, used for front-to-frame fit.",
             "additionalProperties": false,
-            "properties": { "w": { "type": "number" }, "d": { "type": "number" }, "h": { "type": "number" } }
+            "properties": {
+              "w": {
+                "type": "number"
+              },
+              "d": {
+                "type": "number"
+              },
+              "h": {
+                "type": "number"
+              }
+            }
           },
-          "verified": { "type": "boolean", "description": "true only when the actual dimensions were read from the product page by tools/scrape_sektion.py." },
-          "verified_on": { "type": "string" },
-          "source": { "type": "string" },
-          "notes": { "type": "string" }
+          "verified": {
+            "type": "boolean",
+            "description": "true only when the actual dimensions were read from the product page by tools/scrape_sektion.py."
+          },
+          "verified_on": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "stock_mm": {
+            "type": "integer",
+            "description": "Usable length of a stock piece (rail, toe kick) in mm."
+          },
+          "pack": {
+            "type": "integer",
+            "description": "Pieces per pack (legs, hinges)."
+          }
         }
       }
     }
   },
-  "$defs": { "mm": { "type": "integer", "minimum": 0, "maximum": 30000 } }
+  "$defs": {
+    "mm": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 30000
+    }
+  }
 }

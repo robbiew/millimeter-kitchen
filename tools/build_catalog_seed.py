@@ -115,33 +115,30 @@ def build() -> dict:
             for h in DRAWER_FRONT_HEIGHTS:
                 items.append(front("drawer_front", slug, series, finish, w, h))
 
-    for h, level in ((30, "base"), (40, "wall"), (90, "high")):
-        items.append({
-            "id": f"filler:strip:10x{h}",
-            "kind": "filler",
-            "brand": "IKEA",
-            "series": "SEKTION",
-            "name": f"Filler strip stock 10x{h} ({level})",
-            "article": None,
-            "nominal": f"10x{h}",
-            "nominal_in": {"w": 10, "h": h},
-            "actual": {"w": inch_to_mm(10), "h": inch_to_mm(h)},
-            "verified": False,
-            "source": SOURCE,
-            "notes": "Cut to width on site. In kitchen.json a filler item gives its cut width directly.",
-        })
-    items.append({
-        "id": "legs:sektion:4pack",
-        "kind": "legs",
-        "brand": "IKEA",
-        "series": "SEKTION",
-        "name": "SEKTION legs, adjustable, 4 pack",
-        "article": None,
-        "actual": {"w": 0, "h": inch_to_mm(4.5)},
-        "verified": False,
-        "source": SOURCE,
-        "notes": "Nominal 4 1/2\" with a few cm of adjustment. Counter height 36\" = 30\" frame + legs + 1 1/2\" top.",
-    })
+    # ---- hardware and accessories the purchase pack derives from the layout
+    def hw(id_: str, kind: str, name: str, nominal: str | None, actual: dict, notes: str, **extra) -> dict:
+        return {"id": id_, "kind": kind, "brand": "IKEA", "series": id_.split(":")[1].upper(), "name": name, "article": None,
+                **({"nominal": nominal} if nominal else {}), "actual": actual, "verified": False, "source": SOURCE, "notes": notes, **extra}
+
+    for w in DRAWER_FRONT_WIDTHS:
+        for d in (24, 15):
+            for h_name, front_h in (("low", 5), ("medium", 10), ("high", 15)):
+                items.append(hw(f"drawer:maximera:{w}x{d}:{h_name}", "drawer", f"MAXIMERA drawer, {h_name}, {w}x{d}", f"{w}x{d}",
+                                {"w": inch_to_mm(w), "d": inch_to_mm(d), "h": inch_to_mm(front_h)},
+                                f"One per drawer front: {front_h}\" fronts take a {h_name} drawer (20\" fronts also take high). Runners included.",
+                                nominal_in={"w": w, "d": d, "h": front_h}))
+    for w, h, level in ((25, 30, "base"), (25, 80, "high"), (25, 90, "high"), (13, 30, "wall"), (13, 40, "wall"), (15, 30, "wall_fridge")):
+        items.append(hw(f"cover_panel:forbattra:{w}x{h}", "cover_panel", f"FÖRBÄTTRA cover panel {w}x{h} ({level})", f"{w}x{h}",
+                        {"w": inch_to_mm(w), "h": inch_to_mm(h)}, "Exposed cabinet sides, and ripped into filler strips.",
+                        nominal_in={"w": w, "h": h}))
+    items.append(hw("toe_kick:forbattra:87", "toe_kick", "FÖRBÄTTRA toe kick strip 87x4 1/2", "87x4 1/2",
+                    {"w": inch_to_mm(87), "h": inch_to_mm(4.5)}, "Stock length; count = base run length / 2210 mm, rounded up.", stock_mm=inch_to_mm(87)))
+    items.append(hw("rail:sektion:88", "rail", "SEKTION suspension rail 88", "88",
+                    {"w": inch_to_mm(88)}, "Every base, wall and high run hangs on rail; count = run lengths / 2235 mm, rounded up per wall.", stock_mm=inch_to_mm(88)))
+    items.append(hw("legs:sektion:4pack", "legs", "SEKTION legs, adjustable, 4 pack", None,
+                    {"w": 0, "h": inch_to_mm(4.5)}, "One pack per base or high cabinet. Counter height 36\" = 30\" frame + legs + 1 1/2\" top.", pack=4))
+    items.append(hw("hinge:utrusta:2pack", "hinge", "UTRUSTA hinge, soft closing, 2 pack", None,
+                    {"w": 0}, "One pack per door up to 40\" tall, two packs per taller door.", pack=2))
     return {
         "id": CATALOG_ID,
         "market": "us",

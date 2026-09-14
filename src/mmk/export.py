@@ -20,6 +20,7 @@ from typing import Any
 from .draw import DEFAULT_SCALE, write_drawings
 from .gltf import write_glb
 from .model import Kitchen
+from .purchase import countertop_svg, derive, pack_csv, render_pack
 from .scene import build_scene
 
 BLENDER_SCRIPT = Path(__file__).resolve().parents[2] / "tools" / "blender_render.py"
@@ -45,6 +46,11 @@ def export_all(k: Kitchen, out_root: str | Path, scale: int = DEFAULT_SCALE, ren
     cams = out / "cameras.json"
     cams.write_text(json.dumps([{"name": c.name, "position": list(c.position), "target": list(c.target), "vfov_deg": c.vfov_deg, "aspect": c.aspect} for c in scene.cameras], indent=2) + "\n")
     result["cameras"] = str(cams)
+    pack = derive(k)
+    (out / "purchase-pack.md").write_text(render_pack(k, pack))
+    (out / "purchase-pack.csv").write_text(pack_csv(pack))
+    (out / "countertop.svg").write_text(countertop_svg(k, scale))
+    result["purchase"] = [str(out / "purchase-pack.md"), str(out / "purchase-pack.csv"), str(out / "countertop.svg")]
     result["renders"] = []
     if render:
         exe = blender or shutil.which("blender")
@@ -59,7 +65,7 @@ def export_all(k: Kitchen, out_root: str | Path, scale: int = DEFAULT_SCALE, ren
         "source": str(k.path),
         "source_sha256": file_sha(k.path),
         "exported_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "files": [Path(p).name for p in result["drawings"]] + ["scene.glb", "cameras.json"] + [Path(p).name for p in result["renders"]],
+        "files": [Path(p).name for p in result["drawings"]] + ["scene.glb", "cameras.json", "purchase-pack.md", "purchase-pack.csv", "countertop.svg"] + [Path(p).name for p in result["renders"]],
         "renders_current": bool(render and result["renders"]),
     }
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")

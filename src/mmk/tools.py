@@ -18,6 +18,8 @@ from .export import export_all, is_stale
 from .finishes import ROLES, load_finishes
 from .io import CATALOG_DIR, FileError, resolve_catalog_path
 from .model import load_kitchen
+from .purchase import derive, render_pack
+from .reconcile import read_ikea_list, reconcile as _reconcile
 from .rules import validate
 
 
@@ -161,3 +163,24 @@ def export(root: Path, kitchen: str, out: str = "out", scale: int = 20, render: 
         return {"ok": False, "error": "layout has errors; fix them before exporting (see validate)"}
     result = export_all(k, resolve_path(root, out), scale=scale, render=render, blender=blender, engine=engine)
     return {"ok": "render_error" not in result, **result}
+
+
+@_wrap
+def purchase(root: Path, kitchen: str) -> dict[str, Any]:
+    """The purchase pack: catalog items plus derived rail, legs, hinges, drawers, cover panels, toe kick and filler stock, with the rule behind each derived line, the countertop slabs, and what is out of scope."""
+    k = load_kitchen(resolve_path(root, kitchen))
+    if any(f.is_error for f in validate(k)):
+        return {"ok": False, "error": "layout has errors; a purchase pack is only meaningful for a layout that fits"}
+    pack = derive(k)
+    return {"ok": True, "lines": [l.__dict__ for l in pack.lines], "assumptions": pack.assumptions, "not_in_scope": list(pack.not_in_scope),
+            "countertop": [{k2: v for k2, v in s.items() if k2 != "frame"} for s in pack.countertop],
+            "unverified": len(pack.unverified), "missing_articles": [l.id for l in pack.missing_articles], "text": render_pack(k, pack)}
+
+
+@_wrap
+def reconcile(root: Path, kitchen: str, ikea_list: str, explanations: dict[str, str] | None = None) -> dict[str, Any]:
+    """Compare the pack with an IKEA Kitchen Planner item list (CSV/TSV with article and quantity columns). explanations: {article: reason} for intended differences."""
+    k = load_kitchen(resolve_path(root, kitchen))
+    rep = _reconcile(derive(k), read_ikea_list(resolve_path(root, ikea_list)), explanations)
+    return {"ok": rep.clean, "open_differences": rep.open_differences, "matched": rep.matched, "qty_differs": rep.qty_differs,
+            "only_in_ikea": rep.only_in_ikea, "only_in_pack": rep.only_in_pack, "unreconcilable": rep.unreconcilable, "explained": rep.explained, "text": rep.render()}

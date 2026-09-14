@@ -14,6 +14,8 @@ from .bom import bill_of_materials, render_bom
 from .draw import DEFAULT_SCALE, write_drawings
 from .edit import EditError, apply
 from .export import export_all
+from .purchase import countertop_svg, derive, pack_csv, render_pack
+from .reconcile import read_ikea_list, reconcile
 from .finishes import ROLES, load_finishes
 from .gltf import write_glb
 from .scene import build_scene
@@ -150,6 +152,37 @@ def cmd_edit(args: argparse.Namespace) -> int:
     return 0 if res.ok else 1
 
 
+def cmd_purchase(args: argparse.Namespace) -> int:
+    k = load_kitchen(args.kitchen)
+    findings = validate(k)
+    if any(f.is_error for f in findings):
+        _print([f for f in findings if f.is_error])
+        print(f"{k.name}: fix the errors before buying anything", file=sys.stderr)
+        return 1
+    pack = derive(k)
+    if args.out:
+        out = Path(args.out)
+        out.mkdir(parents=True, exist_ok=True)
+        (out / "purchase-pack.md").write_text(render_pack(k, pack))
+        (out / "purchase-pack.csv").write_text(pack_csv(pack))
+        (out / "countertop.svg").write_text(countertop_svg(k))
+        for name in ("purchase-pack.md", "purchase-pack.csv", "countertop.svg"):
+            print(out / name)
+    else:
+        print(render_pack(k, pack))
+    return 0
+
+
+def cmd_reconcile(args: argparse.Namespace) -> int:
+    k = load_kitchen(args.kitchen)
+    pack = derive(k)
+    ikea = read_ikea_list(args.ikea_list)
+    expl = json.loads(Path(args.explain).read_text()) if args.explain else None
+    rep = reconcile(pack, ikea, expl)
+    print(rep.render())
+    return 0 if rep.clean else 1
+
+
 def cmd_mcp(args: argparse.Namespace) -> int:
     from .mcp_server import main as mcp_main
     return mcp_main(Path(args.root))
@@ -251,6 +284,17 @@ def build_parser() -> argparse.ArgumentParser:
     e.add_argument("--blender", help="path to the blender executable")
     e.add_argument("--json", action="store_true", help="machine-readable result")
     e.set_defaults(fn=cmd_edit)
+
+    pu = sub.add_parser("purchase", help="phase 6: the purchase pack with derived hardware, countertop outline and assumptions")
+    pu.add_argument("kitchen")
+    pu.add_argument("--out", metavar="DIR", help="write purchase-pack.md, purchase-pack.csv and countertop.svg here (default: print)")
+    pu.set_defaults(fn=cmd_purchase)
+
+    rc = sub.add_parser("reconcile", help="phase 6: compare the pack with the IKEA Kitchen Planner item list (CSV/TSV)")
+    rc.add_argument("kitchen")
+    rc.add_argument("ikea_list")
+    rc.add_argument("--explain", metavar="JSON", help="{article: reason} for differences that are intended")
+    rc.set_defaults(fn=cmd_reconcile)
 
     m = sub.add_parser("mcp", help="phase 5: run the MCP server over stdio (needs the mcp extra)")
     m.add_argument("--root", default=".", help="project root; kitchen paths are relative to it")
