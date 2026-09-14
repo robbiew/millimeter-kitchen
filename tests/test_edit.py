@@ -199,3 +199,23 @@ def test_cli_edit(ws, capsys):
     bad = json.dumps({"op": "remove", "label": "N-sink-36"})
     assert main(["edit", str(ws / "kitchen.json"), bad]) == 1
     assert "refused" in capsys.readouterr().out
+
+
+def test_fixture_guard_and_variations_dir(tmp_path):
+    """A repo-shaped tree: editing examples/ is refused; a variation of a fixture goes to variations/."""
+    root = tmp_path
+    ex = root / "examples"
+    ex.mkdir()
+    shutil.copy(EXAMPLES / "room.example.json", ex / "room.example.json")
+    shutil.copy(EXAMPLES / "kitchen.fits.json", ex / "kitchen.fits.json")
+    op = [{"op": "set_material", "role": "floor", "key": "tile-slate"}]
+    refused = tools.apply_ops(root, "examples/kitchen.fits.json", op)
+    assert not refused["ok"] and "start_variation" in refused["error"]
+    assert tools.apply_ops(root, "examples/kitchen.fits.json", op, dry_run=True)["ok"]  # dry runs are fine
+    v = tools.start_variation(root, "examples/kitchen.fits.json", "slate floor")
+    assert v["ok"] and v["path"] == "variations/slate-floor.json"
+    doc = json.loads((root / "variations" / "slate-floor.json").read_text())
+    assert doc["room"] == "../examples/room.example.json"
+    applied = tools.apply_ops(root, "variations/slate-floor.json", op)
+    assert applied["ok"] and applied["written"]
+    assert tools.apply_ops(root, "examples/kitchen.fits.json", op, allow_fixture_edit=True)["ok"]

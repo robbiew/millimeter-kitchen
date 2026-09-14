@@ -59,6 +59,8 @@ similar) are deliberately out of scope; do not add them.
   MCP: `apply_ops`). It applies a batch of operations to a copy, validates,
   and writes only on a clean result. Never hand-edit a file to get around a
   refusal; fix the layout or the rule.
+- `examples/` holds generated test fixtures. Do not edit them to try a layout;
+  `start_variation` copies one into `variations/`, and that is what you edit.
 - Items are addressed by `label`, which must be unique across the file
   (`duplicate_label` is an error). New items without a label get one.
 - `src/mmk/tools.py` is the tool surface; `src/mmk/mcp_server.py` only

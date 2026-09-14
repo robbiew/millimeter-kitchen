@@ -29,7 +29,7 @@ def build_server(root: Path):
             "Dimensions flow one way: survey and catalog -> the file -> drawings, 3D and the bill of materials. "
             "Never guess a dimension: look ids up with search_catalog, read the layout with describe, and change it "
             "only through apply_ops, which refuses any result the fit validator rejects. Report refusals to the user "
-            "verbatim rather than working around them. Start a new variation with start_variation before large changes."
+            "verbatim rather than working around them. Files under examples/ are test fixtures: call start_variation first and work on the copy."
         ),
     )
 
@@ -50,14 +50,15 @@ def build_server(root: Path):
         return tools.list_finishes(role)
 
     @server.tool()
-    def apply_ops(kitchen: str, ops: list[dict], dry_run: bool = False, draw_out: str | None = None) -> dict:
+    def apply_ops(kitchen: str, ops: list[dict], dry_run: bool = False, draw_out: str | None = None, allow_fixture_edit: bool = False) -> dict:
         """Apply edit operations to the kitchen file. The file is written only if the result passes every fit rule; otherwise the
         call is refused and returns the errors, and the file is unchanged. Returns the bill-of-materials diff and the new runs.
         Ops: replace{label, items[]} | insert{wall, level, index|before|after, item} | remove{label} | move{label, before|after|index|to{wall,level,index}}
         | swap{label, with} | set_fronts{label, fronts[{id,count}]} | set_width{label, width} | set_material{role, key} | set{path, value}.
         Items: {kind:'cabinet', id, label?, fronts?} | {kind:'appliance', ref} | {kind:'filler'|'gap'|'panel', width}.
-        Pass draw_out to regenerate the SVG drawings after a successful edit."""
-        return tools.apply_ops(root, kitchen, ops, dry_run, draw_out)
+        Pass draw_out to regenerate the SVG drawings after a successful edit. Files under examples/ are test fixtures and are refused
+        unless allow_fixture_edit is true; call start_variation first and edit the copy."""
+        return tools.apply_ops(root, kitchen, ops, dry_run, draw_out, allow_fixture_edit)
 
     @server.tool()
     def validate(kitchen: str) -> dict:
@@ -71,7 +72,7 @@ def build_server(root: Path):
 
     @server.tool()
     def start_variation(kitchen: str, name: str) -> dict:
-        """Copy the kitchen file to a sibling named for the intent, so the original stays intact. Returns the new path to edit."""
+        """Copy the kitchen file to a new file named for the intent, so the original stays intact. A fixture from examples/ is copied to variations/. Returns the new path to edit."""
         return tools.start_variation(root, kitchen, name)
 
     @server.tool()

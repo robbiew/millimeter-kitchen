@@ -102,11 +102,13 @@ this folder. For Claude Desktop, add to its MCP settings (adjust the paths):
 }
 ```
 
-Then ask, for example: "In examples/kitchen.fits.json, replace the 30-inch
-base with two 15s with three drawers each, and redraw." Claude will call
-`search_catalog` for the ids, `apply_ops` with a `replace`, and report the
-bill-of-materials diff. Ask for something that cannot fit and it reports the
-validator's refusal instead.
+Then ask, for example: "Start a variation of examples/kitchen.fits.json
+called drawers everywhere, replace the 30-inch base with two 15s with three
+drawers each, and redraw." Claude will call `start_variation` (which copies
+the fixture into `variations/`), `search_catalog` for the ids, `apply_ops`
+with a `replace`, and report the bill-of-materials diff. Ask for something
+that cannot fit and it reports the validator's refusal instead. Files under
+`examples/` are test fixtures and `apply_ops` refuses to change them.
 
 ```sh
 

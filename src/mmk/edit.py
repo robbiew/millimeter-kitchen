@@ -275,21 +275,43 @@ def apply(path: str | Path, ops: list[dict], dry_run: bool = False) -> EditResul
     return EditResult(True, written, str(loaded.path), findings, diff, runs_summary(k_after), message="; ".join(messages))
 
 
-def branch(path: str | Path, name: str) -> Path:
-    """Start a variation: copy the kitchen file to a sibling named after the intent.
+FIXTURE_DIR_NAME = "examples"
+VARIATIONS_DIR_NAME = "variations"
 
-    Variations are files; git is how they are versioned. A branch per variation
-    is the recommended convention (`git checkout -b variation/<name>`), but this
-    function never touches git.
+
+def is_fixture(path: Path) -> bool:
+    """Files under examples/ are the repo's generated test fixtures, not working layouts."""
+    return FIXTURE_DIR_NAME in Path(path).resolve().parts
+
+
+def branch(path: str | Path, name: str, dest_dir: str | Path | None = None) -> Path:
+    """Start a variation: copy the kitchen file to a new file named after the intent.
+
+    A variation of a fixture under examples/ goes to variations/ next to
+    examples/ so the fixtures stay untouched; otherwise it lands beside the
+    source. The room path is rewritten to stay valid. Variations are files;
+    git is how they are versioned (`git checkout -b variation/<name>` is the
+    convention), but this function never touches git.
     """
-    src = Path(path)
+    import os
+
+    src = Path(path).resolve()
     safe = "".join(c if c.isalnum() or c in "-_" else "-" for c in name.strip().lower()).strip("-")
     if not safe:
         raise EditError("branch needs a name")
-    dst = src.parent / f"{safe}.json"
+    if dest_dir is not None:
+        dst_dir = Path(dest_dir)
+    elif is_fixture(src):
+        dst_dir = src.parent.parent / VARIATIONS_DIR_NAME
+    else:
+        dst_dir = src.parent
+    dst_dir.mkdir(parents=True, exist_ok=True)
+    dst = dst_dir / f"{safe}.json"
     if dst.exists():
-        raise EditError(f"{dst.name} already exists")
+        raise EditError(f"{dst} already exists")
     doc = load_validated(src, "kitchen").data
     doc["name"] = f"{doc['name']} — {name}"
+    room_abs = (src.parent / doc["room"]).resolve()
+    doc["room"] = os.path.relpath(room_abs, dst_dir)
     dst.write_text(json.dumps(doc, indent=2) + "\n")
     return dst
