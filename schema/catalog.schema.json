@@ -67,7 +67,10 @@
               "wall_fridge",
               "high",
               "door",
-              "drawer"
+              "drawer",
+              "base_corner",
+              "wall_corner",
+              "corner_door"
             ]
           },
           "brand": {
@@ -147,6 +150,35 @@
           "pack": {
             "type": "integer",
             "description": "Pieces per pack (legs, hinges)."
+          },
+          "corner": {
+            "type": "object",
+            "description": "Present on corner cabinet frames. reach_mm is how far the cabinet occupies along BOTH walls from the corner; side_depth_mm is the depth of each leg; notch_mm is the outer-corner cut-out where the bi-fold door hangs (0 for a blind corner); blind is true when the inner part has no door; front_width_in is the nominal door width the frame takes.",
+            "required": [
+              "reach_mm",
+              "side_depth_mm",
+              "notch_mm",
+              "blind",
+              "front_width_in"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "reach_mm": {
+                "type": "integer"
+              },
+              "side_depth_mm": {
+                "type": "integer"
+              },
+              "notch_mm": {
+                "type": "integer"
+              },
+              "blind": {
+                "type": "boolean"
+              },
+              "front_width_in": {
+                "type": "number"
+              }
+            }
           }
         }
       }

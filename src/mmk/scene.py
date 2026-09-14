@@ -10,7 +10,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass, field
 
-from .draw import FRONT_REVEAL_MM, counter_depth, counter_segments, elevation_boxes, item_depth, run_depth
+from .draw import CORNER_TOL, FRONT_REVEAL_MM, counter_depth, counter_segments, elevation_boxes, item_depth, run_depth
 from .finishes import ROLES, Finish, FinishLibrary, load_finishes
 from .model import Kitchen, Run, wall_frames
 
@@ -128,6 +128,37 @@ def _fronts(fr: _Frame, run: Run, b, face: float, mat: str) -> list[Box]:
     return out
 
 
+def _corner_boxes(fr: _Frame, run: Run, b, k: Kitchen, mat_frame: str, mat_front: str, mat_kick: str) -> list[Box]:
+    """A corner cabinet as boxes: one or two legs, door panels on the exposed faces, toe kicks under the legs."""
+    p = b.p
+    c = p.catalog_item.corner
+    R, D, N = c["reach_mm"], c["side_depth_mm"], c["notch_mm"]
+    L = k.room.wall(run.wall).planning_length
+    at_end = b.x + b.w >= L - CORNER_TOL
+    x0, x1 = b.x, b.x + b.w
+    y0, y1 = b.y0, b.y0 + b.h
+    r = FRONT_REVEAL_MM
+    out = [fr.box(p.label, "cabinet", mat_frame, x0, x1, 0, D, y0, y1, id=p.catalog_item.id, level=run.level, corner=True)]
+    if run.level == "base":
+        out.append(fr.box(f"{p.label}/toe_kick", "toe_kick", mat_kick, x0, x1, TOE_KICK_SETBACK, D, 0, y0))
+    front_id = p.fronts[0].item.id if p.fronts else None
+    if N:
+        # second leg along the adjacent wall, and a bi-fold door: one panel on each notch face
+        leg = (x1 - D, x1) if at_end else (x0, x0 + D)
+        out.append(fr.box(f"{p.label}/leg", "cabinet", mat_frame, leg[0], leg[1], D, R, y0, y1, corner=True))
+        if run.level == "base":
+            out.append(fr.box(f"{p.label}/leg/toe_kick", "toe_kick", mat_kick, leg[0], leg[1], D, R - TOE_KICK_SETBACK, 0, y0))
+        face1 = (x0 + r, x0 + N - r) if at_end else (x1 - N + r, x1 - r)
+        out.append(fr.box(f"{p.label}/door1", "front", mat_front, face1[0], face1[1], D, D + FRONT_THICKNESS, y0 + r, y1 - r, front=front_id))
+        along2 = (x1 - D - FRONT_THICKNESS, x1 - D) if at_end else (x0 + D, x0 + D + FRONT_THICKNESS)
+        out.append(fr.box(f"{p.label}/door2", "front", mat_front, along2[0], along2[1], D + r, R - r, y0 + r, y1 - r, front=front_id))
+    else:
+        fw = int(round(c["front_width_in"] * 25.4))
+        zone = (x0 + r, x0 + fw - r) if at_end else (x1 - fw + r, x1 - r)
+        out.append(fr.box(f"{p.label}/door1", "front", mat_front, zone[0], zone[1], D, D + FRONT_THICKNESS, y0 + r, y1 - r, front=front_id))
+    return out
+
+
 def build_scene(k: Kitchen, lib: FinishLibrary | None = None) -> Scene:
     lib = lib or load_finishes()
     mats = resolve_materials(k, lib)
@@ -177,7 +208,11 @@ def build_scene(k: Kitchen, lib: FinishLibrary | None = None) -> Scene:
             if p.kind == "gap" or p.width == 0:
                 continue
             d = item_depth(p, run.level)
-            if p.kind == "cabinet":
+            if p.kind == "cabinet" and p.catalog_item and p.catalog_item.corner:
+                fmat = _front_material(p, lib, mats["front"])
+                used[fmat] = lib[fmat]
+                boxes.extend(_corner_boxes(fr, run, b, k, M["frame"], fmat, M["toe_kick"]))
+            elif p.kind == "cabinet":
                 boxes.append(fr.box(p.label, "cabinet", M["frame"], b.x, b.x + b.w, 0, d, b.y0, b.y0 + b.h,
                                     id=p.catalog_item.id if p.catalog_item else None, level=run.level))
                 fmat = _front_material(p, lib, mats["front"])

@@ -73,12 +73,13 @@ def test_pack_flags_and_text(kitchen, pack):
 def test_countertop_slabs_and_svg(kitchen, pack):
     slabs = [(s["wall"], s["start"], s["end"], s["depth_mm"], s["corner_start"]) for s in pack.countertop]
     # the north slab runs over the dishwasher; the east run is cut by the range into two slabs
-    assert slabs == [("N", 0, 3655, 648, False), ("E", 610, 1143, 648, True), ("E", 1905, 2741, 648, False)]
+    # the east slab starts where the north slab (610 deep + 38 overhang) ends, so the two never overlap
+    assert slabs == [("N", 0, 3655, 648, False), ("E", 648, 1143, 648, True), ("E", 1905, 2741, 648, False)]
     e_first = [s for s in pack.countertop if s["wall"] == "E"][0]
     assert e_first["cut_by"] == ["E-range"]
     svg = countertop_svg(kitchen)
     assert 'data-wall="N" data-length="3655" data-depth="648"' in svg
-    assert 'data-wall="E" data-length="533"' in svg and 'data-wall="E" data-length="836"' in svg
+    assert 'data-wall="E" data-length="495"' in svg and 'data-wall="E" data-length="836"' in svg
     assert "corner" in svg and "m²" in svg
 
 

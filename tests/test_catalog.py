@@ -35,5 +35,5 @@ def test_verified_entries_carry_an_article_and_source():
 
 def test_list_filters():
     cat = load_catalog(CATALOG)
-    assert {it.type for it in cat.items(kind="frame")} == {"base", "sink_base", "wall", "wall_fridge", "high"}
+    assert {it.type for it in cat.items(kind="frame")} == {"base", "sink_base", "wall", "wall_fridge", "high", "base_corner", "wall_corner"}
     assert all(it.type == "wall" for it in cat.items(kind="frame", type="wall"))

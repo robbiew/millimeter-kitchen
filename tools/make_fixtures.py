@@ -126,6 +126,54 @@ FITS = {
 }
 
 
+# ---- kitchen with corner cabinets at the inside corner ---------------------
+CORNER = {
+    "units": "mm",
+    "name": "Example L kitchen, variation C (corner cabinets)",
+    "room": "room.example.json",
+    "catalog": "sektion-us-2026-09",
+    "notes": "Carousel corner base and a corner wall cabinet at the N/E corner; the east runs start at the corner cabinets' reach.",
+    "counter": {"thickness": 38, "overhang_front": 38, "legs": 114, "material": "quartz"},
+    "wall_cabinet_bottom": 1372,
+    "backsplash_height": 457,
+    "materials": FITS["materials"],
+    "appliances": FITS["appliances"],
+    "runs": [
+        {"wall": "N", "level": "base", "items": [
+            filler(99, "N-filler-left"),
+            cab("frame:base:30x24x30", "N-base-30", (f"{V}:door:15x30", 2)),
+            cab("frame:sink_base:36x24x30", "N-sink-36", (f"{V}:door:18x30", 2)),
+            {"kind": "appliance", "label": "N-dishwasher", "ref": "dishwasher"},
+            cab("frame:base:12x24x30", "N-base-12", (f"{V}:door:12x30", 1)),
+            cab("frame:base_corner:38x38x30", "N-corner", (f"{V}:corner-door:17x30", 1), interior=["carousel"]),
+        ]},
+        {"wall": "N", "level": "wall", "from": 2133, "items": [
+            {"kind": "gap", "label": "N-wall-gap", "width": 329},
+            cab("frame:wall:21x12x30", "N-wall-21", (f"{V}:door:21x30", 1)),
+            cab("frame:wall_corner:26x26x30", "N-wall-corner", (f"{V}:corner-door:13x30", 1)),
+        ]},
+        {"wall": "E", "level": "base", "from": 965, "items": [
+            cab("frame:base:18x24x30", "E-base-18-drawers", (f"{V}:drawer:18x10", 1), (f"{V}:drawer:18x20", 1)),
+            {"kind": "appliance", "label": "E-range", "ref": "range"},
+            cab("frame:base:18x24x30", "E-base-18", (f"{V}:door:18x30", 1)),
+            filler(100, "E-filler-right"),
+        ]},
+        {"wall": "E", "level": "wall", "from": 660, "items": [
+            cab("frame:wall:30x12x30", "E-wall-30", (f"{V}:door:15x30", 2)),
+            cab("frame:wall:30x12x20", "E-wall-30-hood", (f"{V}:door:30x20", 1), interior=["hood below"]),
+            cab("frame:wall:18x12x30", "E-wall-18", (f"{V}:door:18x30", 1)),
+            filler(100, "E-wall-filler-right"),
+        ]},
+    ],
+}
+
+
+def corner_overlap(k: dict) -> None:
+    """The east base run starts at the wall-N cabinets' depth, inside the carousel's reach."""
+    k["runs"][2]["from"] = 610
+    k["runs"][2]["items"][-1]["width"] = 455
+
+
 def variant(name: str, note: str, mutate) -> dict:
     k = copy.deepcopy(FITS)
     k["name"] = f"Example L kitchen — BAD: {name}"
@@ -189,6 +237,13 @@ def write(path: Path, data: dict) -> None:
 if __name__ == "__main__":
     write(EX / "room.example.json", ROOM)
     write(EX / "kitchen.fits.json", FITS)
+    write(EX / "kitchen.corner.json", CORNER)
     for name, (note, fn) in BAD_CASES.items():
         write(BAD / f"{name}.json", variant(name, note, fn))
-    print(f"wrote {EX / 'room.example.json'}, {EX / 'kitchen.fits.json'} and {len(BAD_CASES)} bad fixtures")
+    bad_corner = copy.deepcopy(CORNER)
+    bad_corner["name"] = "Example L kitchen — BAD: corner_overlap"
+    bad_corner["notes"] = "the east base run starts at 610 mm, inside the 965 mm the carousel corner cabinet occupies along the east wall"
+    bad_corner["room"] = "../room.example.json"
+    corner_overlap(bad_corner)
+    write(BAD / "corner_overlap.json", bad_corner)
+    print(f"wrote {EX / 'room.example.json'}, {EX / 'kitchen.fits.json'}, {EX / 'kitchen.corner.json'} and {len(BAD_CASES) + 1} bad fixtures")

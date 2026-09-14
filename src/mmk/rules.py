@@ -10,6 +10,7 @@ from collections.abc import Callable
 
 from .findings import Finding
 from .finishes import ROLES, load_finishes
+from .draw import CORNER_TOL, corner_reach, item_depth, next_wall, prev_wall, run_at_end, run_at_start
 from .model import Kitchen, Run
 
 CLOSURE_TOLERANCE_MM = 3
@@ -74,6 +75,8 @@ def rule_wall_filler_min(k: Kitchen) -> list[Finding]:
         for which, p in ends:
             if p.kind == "gap":
                 continue  # an explicit gap is a deliberate open end (e.g. a doorway)
+            if p.catalog_item and p.catalog_item.corner:
+                continue  # a corner cabinet meets the corner, not a side wall
             if p.kind != "filler" or p.width < MIN_WALL_FILLER_MM:
                 what = f"{p.kind} '{p.label}'" if p.kind != "filler" else f"a {p.width} mm filler"
                 out.append(Finding("error", "wall_filler_min", f"{run.level} run meets the wall at its {which} with {what}; IKEA wants a filler of at least {MIN_WALL_FILLER_MM} mm there", run.wall, p.label))
@@ -167,6 +170,19 @@ def rule_front_fit(k: Kitchen) -> list[Finding]:
             for fu in doors + drawers:
                 if fu.item.nominal_in.get("w") is None or fu.item.nominal_in.get("h") is None:
                     out.append(Finding("error", "front_fit", f"front {fu.item.id} has no nominal size", run.wall, p.label))
+            if frame.corner:
+                if drawers:
+                    out.append(Finding("error", "front_fit", "a corner cabinet takes doors, not drawer fronts", run.wall, p.label))
+                want_w = frame.corner["front_width_in"]
+                total_w = sum(fu.item.nominal_in.get("w", 0) * fu.count for fu in doors)
+                if doors and total_w != want_w:
+                    out.append(Finding("error", "front_fit", f"corner doors total {total_w}\" on a frame that takes {want_w}\"", run.wall, p.label))
+                for fu in doors:
+                    if fu.item.nominal_in.get("h") != fh:
+                        out.append(Finding("error", "front_fit", f"door {fu.item.id} is {fu.item.nominal_in.get('h')}\" tall on a {fh}\" frame", run.wall, p.label))
+                    if frame.corner["notch_mm"] and fu.item.type != "corner_door":
+                        out.append(Finding("error", "front_fit", f"{fu.item.id} is not a corner door set; an L-shaped corner cabinet takes a 2-piece corner door", run.wall, p.label))
+                continue
             if doors:
                 bad = [fu for fu in doors if fu.item.nominal_in.get("h") != fh]
                 for fu in bad:
@@ -214,6 +230,45 @@ def rule_unverified_catalog(k: Kitchen) -> list[Finding]:
     return [Finding("warning", "unverified_dimensions", f"dimensions for {shown} come from a size guide, not the product page; run tools/scrape_sektion.py before buying", extra={"ids": unverified})]
 
 
+def rule_corners(k: Kitchen) -> list[Finding]:
+    """Corner cabinets sit at the corner between consecutive walls; adjacent runs must not overlap in plan."""
+    out = []
+    order = list(k.room.order)
+    for run in k.runs:
+        L = k.room.wall(run.wall).planning_length
+        for i, p in enumerate(run.items):
+            if not (p.catalog_item and p.catalog_item.corner):
+                continue
+            at_end = i == len(run.items) - 1 and run.end >= L - CORNER_TOL
+            at_start = i == 0 and run.start <= CORNER_TOL
+            neighbour = next_wall(k, run.wall) if at_end else (prev_wall(k, run.wall) if at_start else None)
+            if not (at_end or at_start):
+                out.append(Finding("error", "corner_placement", f"corner cabinet '{p.label}' must be the first or last item of its run, touching the corner", run.wall, p.label))
+            elif neighbour is None:
+                out.append(Finding("error", "corner_placement", f"corner cabinet '{p.label}' sits at the {'end' if at_end else 'start'} of wall {run.wall}, but no wall meets it there in the survey order", run.wall, p.label))
+    for a, b in zip(order, order[1:]):
+        La = k.room.wall(a).planning_length
+        for level in ("base", "wall", "high"):
+            ra = run_at_end(k, a, level)
+            rb = run_at_start(k, b, level)
+            if ra is None or rb is None:
+                continue
+            ia, ib = ra.items[-1], rb.items[0]
+            occ_a = corner_reach(ia, level)                      # along wall b, from the corner
+            occ_b = corner_reach(ib, level) if rb.start <= CORNER_TOL else 0   # along wall a, from the corner
+            corner_a = bool(ia.catalog_item and ia.catalog_item.corner)
+            corner_b = bool(ib.catalog_item and ib.catalog_item.corner)
+            if rb.start < occ_a - CORNER_TOL and ra.end > La - occ_b - CORNER_TOL:
+                out.append(Finding("error", "corner_overlap", f"{level}: '{ia.label}' on wall {a} reaches {occ_a} mm along wall {b}, but '{ib.label}' starts at {rb.start} mm; move it to {occ_a} mm or beyond", b, ib.label))
+            elif corner_a and rb.start > occ_a + CORNER_TOL:
+                out.append(Finding("warning", "corner_gap", f"{level}: {rb.start - occ_a} mm of dead space between corner cabinet '{ia.label}' and '{ib.label}'", b, ib.label))
+            elif corner_b and ra.end < La - occ_b - CORNER_TOL:
+                out.append(Finding("warning", "corner_gap", f"{level}: {La - occ_b - ra.end} mm of dead space between '{ia.label}' and corner cabinet '{ib.label}'", a, ia.label))
+            elif not corner_a and not corner_b and rb.start > occ_a + CORNER_TOL and ra.end >= La - CORNER_TOL:
+                out.append(Finding("warning", "corner_gap", f"{level}: the corner between walls {a} and {b} is dead space ({rb.start - occ_a} mm past the {occ_a} mm the wall-{a} cabinets occupy); a corner cabinet would use it", b, ib.label))
+    return out
+
+
 def rule_unique_labels(k: Kitchen) -> list[Finding]:
     """Edits address items by label, so a label may appear once in the whole file."""
     seen: dict[str, str] = {}
@@ -251,6 +306,7 @@ RULES: tuple[Rule, ...] = (
     rule_service_conflict,
     rule_front_fit,
     rule_ceiling,
+    rule_corners,
     rule_unique_labels,
     rule_finishes,
     rule_unverified_catalog,

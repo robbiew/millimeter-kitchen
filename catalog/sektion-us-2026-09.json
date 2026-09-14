@@ -1071,6 +1071,126 @@
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
+      "id": "frame:base_corner:38x38x30",
+      "kind": "frame",
+      "type": "base_corner",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION corner base cabinet frame 38x38x30 (carousel)",
+      "article": null,
+      "nominal": "38x38x30",
+      "nominal_in": {
+        "w": 38,
+        "d": 38,
+        "h": 30
+      },
+      "actual": {
+        "w": 965,
+        "d": 610,
+        "h": 762
+      },
+      "corner": {
+        "reach_mm": 965,
+        "side_depth_mm": 610,
+        "notch_mm": 356,
+        "blind": false,
+        "front_width_in": 17
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "L-shaped: 38\" along each wall, 24\" deep legs, 14\" notch at the outer corner for a 2-piece bi-fold door (17\" set). Occupies 38\" of the adjacent wall too."
+    },
+    {
+      "id": "frame:base_corner_blind:47x24x30",
+      "kind": "frame",
+      "type": "base_corner",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION blind corner base cabinet frame 47x24x30",
+      "article": null,
+      "nominal": "47x24x30",
+      "nominal_in": {
+        "w": 47,
+        "d": 24,
+        "h": 30
+      },
+      "actual": {
+        "w": 1194,
+        "d": 610,
+        "h": 762
+      },
+      "corner": {
+        "reach_mm": 610,
+        "side_depth_mm": 610,
+        "notch_mm": 0,
+        "blind": true,
+        "front_width_in": 24
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Straight 47\" frame; the 23\" nearest the corner has no door and is covered by the adjacent wall's first cabinet. Takes a 24\" door on the outer end. Published depth may be 26\"; verify."
+    },
+    {
+      "id": "frame:wall_corner:26x26x30",
+      "kind": "frame",
+      "type": "wall_corner",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION corner wall cabinet frame 26x26x30",
+      "article": null,
+      "nominal": "26x26x30",
+      "nominal_in": {
+        "w": 26,
+        "d": 26,
+        "h": 30
+      },
+      "actual": {
+        "w": 660,
+        "d": 381,
+        "h": 762
+      },
+      "corner": {
+        "reach_mm": 660,
+        "side_depth_mm": 381,
+        "notch_mm": 279,
+        "blind": false,
+        "front_width_in": 13
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "L-shaped: 26\" along each wall, 15\" deep legs, 11\" notch for a 2-piece door (13\" set)."
+    },
+    {
+      "id": "frame:wall_corner:26x26x40",
+      "kind": "frame",
+      "type": "wall_corner",
+      "brand": "IKEA",
+      "series": "SEKTION",
+      "name": "SEKTION corner wall cabinet frame 26x26x40",
+      "article": null,
+      "nominal": "26x26x40",
+      "nominal_in": {
+        "w": 26,
+        "d": 26,
+        "h": 40
+      },
+      "actual": {
+        "w": 660,
+        "d": 381,
+        "h": 1016
+      },
+      "corner": {
+        "reach_mm": 660,
+        "side_depth_mm": 381,
+        "notch_mm": 279,
+        "blind": false,
+        "front_width_in": 13
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "L-shaped: 26\" along each wall, 15\" deep legs, 11\" notch for a 2-piece door (13\" set)."
+    },
+    {
       "id": "front:voxtorp-walnut:door:12x15",
       "kind": "front",
       "type": "door",
@@ -1707,6 +1827,72 @@
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:voxtorp-walnut:corner-door:17x30",
+      "kind": "front",
+      "type": "corner_door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP 2-piece door for corner base cabinet 17x30 walnut effect",
+      "article": null,
+      "nominal": "17x30",
+      "nominal_in": {
+        "w": 17,
+        "h": 30
+      },
+      "actual": {
+        "w": 429,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
+    },
+    {
+      "id": "front:voxtorp-walnut:corner-door:13x30",
+      "kind": "front",
+      "type": "corner_door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP 2-piece door for corner wall cabinet 13x30 walnut effect",
+      "article": null,
+      "nominal": "13x30",
+      "nominal_in": {
+        "w": 13,
+        "h": 30
+      },
+      "actual": {
+        "w": 327,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
+    },
+    {
+      "id": "front:voxtorp-walnut:corner-door:13x40",
+      "kind": "front",
+      "type": "corner_door",
+      "brand": "IKEA",
+      "series": "VOXTORP",
+      "finish": "walnut effect",
+      "name": "VOXTORP 2-piece door for corner wall cabinet 13x40 walnut effect",
+      "article": null,
+      "nominal": "13x40",
+      "nominal_in": {
+        "w": 13,
+        "h": 40
+      },
+      "actual": {
+        "w": 327,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
     },
     {
       "id": "front:voxtorp-walnut:drawer:15x5",
@@ -2875,6 +3061,72 @@
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
     },
     {
+      "id": "front:bodbyn-off-white:corner-door:17x30",
+      "kind": "front",
+      "type": "corner_door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN 2-piece door for corner base cabinet 17x30 off-white",
+      "article": null,
+      "nominal": "17x30",
+      "nominal_in": {
+        "w": 17,
+        "h": 30
+      },
+      "actual": {
+        "w": 429,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
+    },
+    {
+      "id": "front:bodbyn-off-white:corner-door:13x30",
+      "kind": "front",
+      "type": "corner_door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN 2-piece door for corner wall cabinet 13x30 off-white",
+      "article": null,
+      "nominal": "13x30",
+      "nominal_in": {
+        "w": 13,
+        "h": 30
+      },
+      "actual": {
+        "w": 327,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
+    },
+    {
+      "id": "front:bodbyn-off-white:corner-door:13x40",
+      "kind": "front",
+      "type": "corner_door",
+      "brand": "IKEA",
+      "series": "BODBYN",
+      "finish": "off-white",
+      "name": "BODBYN 2-piece door for corner wall cabinet 13x40 off-white",
+      "article": null,
+      "nominal": "13x40",
+      "nominal_in": {
+        "w": 13,
+        "h": 40
+      },
+      "actual": {
+        "w": 327,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
+    },
+    {
       "id": "front:bodbyn-off-white:drawer:15x5",
       "kind": "drawer_front",
       "type": "drawer",
@@ -4039,6 +4291,72 @@
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+    },
+    {
+      "id": "front:axstad-matt-white:corner-door:17x30",
+      "kind": "front",
+      "type": "corner_door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD 2-piece door for corner base cabinet 17x30 matt white",
+      "article": null,
+      "nominal": "17x30",
+      "nominal_in": {
+        "w": 17,
+        "h": 30
+      },
+      "actual": {
+        "w": 429,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
+    },
+    {
+      "id": "front:axstad-matt-white:corner-door:13x30",
+      "kind": "front",
+      "type": "corner_door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD 2-piece door for corner wall cabinet 13x30 matt white",
+      "article": null,
+      "nominal": "13x30",
+      "nominal_in": {
+        "w": 13,
+        "h": 30
+      },
+      "actual": {
+        "w": 327,
+        "h": 759
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
+    },
+    {
+      "id": "front:axstad-matt-white:corner-door:13x40",
+      "kind": "front",
+      "type": "corner_door",
+      "brand": "IKEA",
+      "series": "AXSTAD",
+      "finish": "matt white",
+      "name": "AXSTAD 2-piece door for corner wall cabinet 13x40 matt white",
+      "article": null,
+      "nominal": "13x40",
+      "nominal_in": {
+        "w": 13,
+        "h": 40
+      },
+      "actual": {
+        "w": 327,
+        "h": 1013
+      },
+      "verified": false,
+      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
     },
     {
       "id": "front:axstad-matt-white:drawer:15x5",

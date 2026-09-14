@@ -1,0 +1,234 @@
+{
+  "units": "mm",
+  "name": "Example L kitchen \u2014 BAD: corner_overlap",
+  "room": "../room.example.json",
+  "catalog": "sektion-us-2026-09",
+  "notes": "the east base run starts at 610 mm, inside the 965 mm the carousel corner cabinet occupies along the east wall",
+  "counter": {
+    "thickness": 38,
+    "overhang_front": 38,
+    "legs": 114,
+    "material": "quartz"
+  },
+  "wall_cabinet_bottom": 1372,
+  "backsplash_height": 457,
+  "materials": {
+    "frame": "sektion-white",
+    "counter": "quartz-white",
+    "backsplash": "tile-white-subway",
+    "floor": "oak-natural",
+    "wall": "paint-warm-white",
+    "appliance": "stainless",
+    "toe_kick": "toe-kick-white"
+  },
+  "appliances": {
+    "dishwasher": {
+      "name": "24in dishwasher (example)",
+      "kind": "dishwasher",
+      "width": 610,
+      "depth": 622,
+      "height": 864,
+      "clearance_front": 686,
+      "clearance_to_wall": 51,
+      "needs_water": true
+    },
+    "range": {
+      "name": "30in gas range (example)",
+      "kind": "range",
+      "width": 762,
+      "depth": 690,
+      "height": 914,
+      "uses_gas": true
+    }
+  },
+  "runs": [
+    {
+      "wall": "N",
+      "level": "base",
+      "items": [
+        {
+          "kind": "filler",
+          "label": "N-filler-left",
+          "width": 99
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-base-30",
+          "id": "frame:base:30x24x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:15x30",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-sink-36",
+          "id": "frame:sink_base:36x24x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:18x30",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "kind": "appliance",
+          "label": "N-dishwasher",
+          "ref": "dishwasher"
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-base-12",
+          "id": "frame:base:12x24x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:12x30",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-corner",
+          "id": "frame:base_corner:38x38x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:corner-door:17x30",
+              "count": 1
+            }
+          ],
+          "interior": [
+            "carousel"
+          ]
+        }
+      ]
+    },
+    {
+      "wall": "N",
+      "level": "wall",
+      "from": 2133,
+      "items": [
+        {
+          "kind": "gap",
+          "label": "N-wall-gap",
+          "width": 329
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-wall-21",
+          "id": "frame:wall:21x12x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:21x30",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-wall-corner",
+          "id": "frame:wall_corner:26x26x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:corner-door:13x30",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "wall": "E",
+      "level": "base",
+      "from": 610,
+      "items": [
+        {
+          "kind": "cabinet",
+          "label": "E-base-18-drawers",
+          "id": "frame:base:18x24x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:drawer:18x10",
+              "count": 1
+            },
+            {
+              "id": "front:voxtorp-walnut:drawer:18x20",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "appliance",
+          "label": "E-range",
+          "ref": "range"
+        },
+        {
+          "kind": "cabinet",
+          "label": "E-base-18",
+          "id": "frame:base:18x24x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:18x30",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "filler",
+          "label": "E-filler-right",
+          "width": 455
+        }
+      ]
+    },
+    {
+      "wall": "E",
+      "level": "wall",
+      "from": 660,
+      "items": [
+        {
+          "kind": "cabinet",
+          "label": "E-wall-30",
+          "id": "frame:wall:30x12x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:15x30",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "E-wall-30-hood",
+          "id": "frame:wall:30x12x20",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:30x20",
+              "count": 1
+            }
+          ],
+          "interior": [
+            "hood below"
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "E-wall-18",
+          "id": "frame:wall:18x12x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:18x30",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "filler",
+          "label": "E-wall-filler-right",
+          "width": 100
+        }
+      ]
+    }
+  ]
+}

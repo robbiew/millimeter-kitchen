@@ -15,7 +15,7 @@ from xml.sax.saxutils import escape
 
 from .bom import BomLine, bill_of_materials
 from .catalog import Item
-from .draw import counter_depth, counter_segments, item_depth, run_depth
+from .draw import corner_start, counter_depth, counter_segments, item_depth, run_depth
 from .model import Kitchen, Run, wall_frames
 from .scene import COUNTER_OVERHANG_DEFAULT
 
@@ -66,15 +66,8 @@ def _line(item: Item, qty: int, rule: str, detail: str = "") -> PurchaseLine:
 
 
 def _is_corner_start(k: Kitchen, run: Run) -> bool:
-    """A run that starts within the previous wall's cabinet depth starts in the corner, not in the open."""
-    order = list(k.room.order)
-    i = order.index(run.wall)
-    prev = order[i - 1] if i > 0 else None
-    if prev is None:
-        return False
-    prev_runs = [r for r in k.runs if r.wall == prev and r.level == run.level]
-    depth = max((run_depth(r) for r in prev_runs), default=0)
-    return run.start <= depth
+    """A run that starts within what the previous wall's cabinets occupy (their depth, or a corner cabinet's reach) starts in the corner."""
+    return corner_start(k, run)[0]
 
 
 def exposed_sides(k: Kitchen) -> list[tuple[Run, str, object]]:
@@ -136,9 +129,12 @@ def derive(k: Kitchen) -> PurchasePack:
             for fu in p.fronts:
                 if fu.item.kind == "front":
                     doors += fu.count
-                    packs += fu.count * (HINGE_PACKS_TALL_DOOR if fu.item.nominal_in.get("h", 0) > TALL_DOOR_IN else 1)
+                    if fu.item.type == "corner_door":
+                        packs += fu.count  # bi-fold set: one pack per set in this model; IKEA lists corner hinges separately
+                    else:
+                        packs += fu.count * (HINGE_PACKS_TALL_DOOR if fu.item.nominal_in.get("h", 0) > TALL_DOOR_IN else 1)
     add(HINGE_ID, packs, "hinges", f"{doors} doors")
-    assumptions.append(f"Hinges: one 2-pack per door up to {TALL_DOOR_IN}\" tall, {HINGE_PACKS_TALL_DOOR} packs per taller door. Horizontal (30x15, 36x15) doors may take a lift hinge instead.")
+    assumptions.append(f"Hinges: one 2-pack per door up to {TALL_DOOR_IN}\" tall, {HINGE_PACKS_TALL_DOOR} packs per taller door; one pack per corner bi-fold set (IKEA sells a corner hinge; check the planner). Horizontal (30x15, 36x15) doors may take a lift hinge instead.")
 
     # drawers behind drawer fronts
     for r in k.runs:
@@ -198,7 +194,7 @@ def countertop_slabs(k: Kitchen) -> list[dict]:
         depth = counter_depth(run) + COUNTER_OVERHANG_DEFAULT
         for i, (a0, a1) in enumerate(counter_segments(k, run)):
             slabs.append({"wall": run.wall, "start": a0, "end": a1, "length_mm": a1 - a0, "depth_mm": depth,
-                          "corner_start": i == 0 and a0 == run.start and _is_corner_start(k, run), "frame": frames[run.wall],
+                          "corner_start": i == 0 and _is_corner_start(k, run), "frame": frames[run.wall],
                           "cut_by": [p.label for p in run.items if p.kind == "appliance" and p.appliance and (p.end == a0 or p.start == a1)]})
     return slabs
 

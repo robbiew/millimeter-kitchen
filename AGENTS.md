@@ -82,6 +82,16 @@ similar) are deliberately out of scope; do not add them.
 - `mmk reconcile` is the acceptance test for buying: zero unexplained
   differences against the IKEA Kitchen Planner's item list.
 
+## Corner cabinets
+
+- A corner frame carries a `corner` block in the catalog: `reach_mm` along both
+  walls, `side_depth_mm`, `notch_mm` (0 for a blind corner) and
+  `front_width_in`. It must be the first or last item of its run, touching the
+  corner, and the adjacent wall's run must start at or beyond its reach.
+- `examples/kitchen.corner.json` is the fitting reference; `corner_overlap.json`
+  the failing one. Corner logic lives in `draw.py` (geometry helpers),
+  `rules.py` (`rule_corners`), `scene.py` (`_corner_boxes`).
+
 ## Units
 
 Millimeters internally, always integers. Inches appear only in `nominal`
@@ -119,7 +129,7 @@ mmk mcp --root .                                               # phase 5: MCP se
 mmk export kitchen.json                                        # everything derived + review page
 mmk purchase kitchen.json --out out/x/                         # phase 6: pack + countertop.svg
 mmk reconcile kitchen.json ikea-items.csv                      # phase 6: diff against IKEA's list
-python tools/build_catalog_seed.py > catalog/sektion-us-2026-09.json
+python tools/build_catalog_seed.py catalog/sektion-us-2026-09.json   # keeps verified entries
 python tools/make_fixtures.py
 ```
 

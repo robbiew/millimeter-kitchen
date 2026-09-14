@@ -7,7 +7,7 @@ entries to verified once the product page has been fetched.
 
 Only two article numbers were known at seed time; the rest are null.
 
-Run:  python tools/build_catalog_seed.py > catalog/sektion-us-2026-09.json
+Run:  python tools/build_catalog_seed.py catalog/sektion-us-2026-09.json   (keeps verified entries)
 """
 
 from __future__ import annotations
@@ -104,6 +104,27 @@ def build() -> dict:
         for h in (80, 90):
             items.append(frame("high", w, 24, h))
 
+    # corner cabinets. Sizes from published guides; verify per article before buying.
+    def corner(kind_type: str, id_: str, nominal: str, w_in: float, d_in: float, h_in: float, reach_in: float, side_in: float, notch_in: float, blind: bool, front_w: float, name: str, notes: str) -> dict:
+        # actual.w is the width along the cabinet's own wall; corner.reach_mm is what it occupies on the adjacent wall
+        return {
+            "id": id_, "kind": "frame", "type": kind_type, "brand": "IKEA", "series": "SEKTION", "name": name, "article": None,
+            "nominal": nominal, "nominal_in": {"w": w_in, "d": d_in, "h": h_in},
+            "actual": {"w": inch_to_mm(w_in), "d": inch_to_mm(side_in), "h": inch_to_mm(h_in)},
+            "corner": {"reach_mm": inch_to_mm(reach_in), "side_depth_mm": inch_to_mm(side_in), "notch_mm": inch_to_mm(notch_in), "blind": blind, "front_width_in": front_w},
+            "verified": False, "source": SOURCE, "notes": notes,
+        }
+    items.append(corner("base_corner", "frame:base_corner:38x38x30", "38x38x30", 38, 38, 30, 38, 24, 14, False, 17,
+                        "SEKTION corner base cabinet frame 38x38x30 (carousel)",
+                        "L-shaped: 38\" along each wall, 24\" deep legs, 14\" notch at the outer corner for a 2-piece bi-fold door (17\" set). Occupies 38\" of the adjacent wall too."))
+    items.append(corner("base_corner", "frame:base_corner_blind:47x24x30", "47x24x30", 47, 24, 30, 24, 24, 0, True, 24,
+                        "SEKTION blind corner base cabinet frame 47x24x30",
+                        "Straight 47\" frame; the 23\" nearest the corner has no door and is covered by the adjacent wall's first cabinet. Takes a 24\" door on the outer end. Published depth may be 26\"; verify."))
+    for h in (30, 40):
+        items.append(corner("wall_corner", f"frame:wall_corner:26x26x{h}", f"26x26x{h}", 26, 26, h, 26, 15, 11, False, 13,
+                            f"SEKTION corner wall cabinet frame 26x26x{h}",
+                            "L-shaped: 26\" along each wall, 15\" deep legs, 11\" notch for a 2-piece door (13\" set)."))
+
     for slug, series, finish in FRONT_SERIES:
         for w in DOOR_WIDTHS:
             for h in DOOR_HEIGHTS:
@@ -111,6 +132,14 @@ def build() -> dict:
         for w in WIDE_DOOR_WIDTHS:
             for h in WIDE_DOOR_HEIGHTS:
                 items.append(front("front", slug, series, finish, w, h))
+        for w, h, what in ((17, 30, "corner base"), (13, 30, "corner wall"), (13, 40, "corner wall")):
+            items.append({
+                "id": f"front:{slug}:corner-door:{w}x{h}", "kind": "front", "type": "corner_door", "brand": "IKEA", "series": series, "finish": finish,
+                "name": f"{series} 2-piece door for {what} cabinet {w}x{h} {finish}", "article": None,
+                "nominal": f"{w}x{h}", "nominal_in": {"w": w, "h": h},
+                "actual": {"w": inch_to_mm(w - FRONT_REVEAL_IN), "h": inch_to_mm(h - FRONT_REVEAL_IN)},
+                "verified": False, "source": SOURCE, "notes": "Two-piece bi-fold set; the nominal width is the set's total.",
+            })
         for w in DRAWER_FRONT_WIDTHS:
             for h in DRAWER_FRONT_HEIGHTS:
                 items.append(front("drawer_front", slug, series, finish, w, h))
@@ -149,6 +178,29 @@ def build() -> dict:
     }
 
 
+def merge_verified(new: dict, existing_path: Path) -> int:
+    """Carry article numbers and verification over from the existing catalog file; the seed never owns those."""
+    if not existing_path.exists():
+        return 0
+    prev = {i["id"]: i for i in json.loads(existing_path.read_text())["items"]}
+    n = 0
+    for item in new["items"]:
+        old = prev.get(item["id"])
+        if old and (old.get("verified") or old.get("article")):
+            for key in ("article", "verified", "verified_on", "source", "actual"):
+                if key in old:
+                    item[key] = old[key]
+            n += 1
+    return n
+
+
 if __name__ == "__main__":
-    json.dump(build(), sys.stdout, indent=2)
-    sys.stdout.write("\n")
+    catalog = build()
+    if len(sys.argv) > 1:
+        out = Path(sys.argv[1])
+        kept = merge_verified(catalog, out)
+        out.write_text(json.dumps(catalog, indent=2) + "\n")
+        print(f"wrote {out} with {len(catalog['items'])} items, kept {kept} verified entries", file=sys.stderr)
+    else:
+        json.dump(catalog, sys.stdout, indent=2)
+        sys.stdout.write("\n")

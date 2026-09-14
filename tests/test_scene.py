@@ -98,7 +98,7 @@ def test_counter_spans_run_at_counter_height(kitchen, glb_boxes):
 
 def test_counter_is_cut_around_the_range(kitchen, glb_boxes):
     counters = sorted(n for n in glb_boxes if n.startswith("counter E"))
-    assert counters == ["counter E 1905-2741", "counter E 610-1143"]
+    assert counters == ["counter E 1905-2741", "counter E 648-1143"]  # starts where the north slab's overhang ends
     rng = glb_boxes["E-range"]
     for n in counters:
         c = glb_boxes[n]

@@ -124,12 +124,71 @@ def run_depth(run: Run) -> int:
     return max((item_depth(p, run.level) for p in run.items), default=BASE_DEPTH_FALLBACK)
 
 
+CORNER_TOL = 3
+
+
+def prev_wall(k, wid: str) -> str | None:
+    o = list(k.room.order)
+    i = o.index(wid)
+    return o[i - 1] if i > 0 else None
+
+
+def next_wall(k, wid: str) -> str | None:
+    o = list(k.room.order)
+    i = o.index(wid)
+    return o[i + 1] if i + 1 < len(o) else None
+
+
+def run_at_end(k, wid: str, level: str) -> Run | None:
+    """The run on this wall and level that touches the wall's far end (the corner with the next wall)."""
+    L = k.room.wall(wid).planning_length
+    cands = [r for r in k.runs if r.wall == wid and r.level == level and r.items]
+    return max(cands, key=lambda r: r.end, default=None) if any(r.end >= L - CORNER_TOL for r in cands) else None
+
+
+def run_at_start(k, wid: str, level: str) -> Run | None:
+    """The run on this wall and level that comes first (its start faces the corner with the previous wall)."""
+    cands = [r for r in k.runs if r.wall == wid and r.level == level and r.items]
+    return min(cands, key=lambda r: r.start, default=None)
+
+
+def corner_reach(p: Placed, level: str) -> int:
+    """How far an item at a corner occupies the adjacent wall, measured from the corner along that wall."""
+    if p.catalog_item and p.catalog_item.corner:
+        return p.catalog_item.corner["reach_mm"]
+    return item_depth(p, level)
+
+
+def occupancy_from_prev(k, run: Run) -> int:
+    """How far the previous wall's cabinets (at this level) reach along this wall from the corner; 0 if none touch it."""
+    pw = prev_wall(k, run.wall)
+    if pw is None:
+        return 0
+    a = run_at_end(k, pw, run.level)
+    if a is None:
+        return 0
+    return corner_reach(a.items[-1], run.level)
+
+
+def corner_start(k, run: Run) -> tuple[bool, int]:
+    """(True, occupancy) when this run starts inside the corner the previous wall's cabinets already occupy."""
+    occ = occupancy_from_prev(k, run)
+    return (occ > 0 and run.start <= occ + CORNER_TOL, occ)
+
+
 def counter_segments(k, run: Run) -> list[tuple[int, int]]:
     """Intervals along a base run that carry countertop: everything except appliances
     that reach counter height (a range, a tall fridge). A dishwasher stays under it."""
     top = k.legs + max((item_height(p, "base") for p in run.items if p.kind == "cabinet"), default=762)
     out: list[tuple[int, int]] = []
     a0 = run.start
+    is_corner, _ = corner_start(k, run)
+    if is_corner:
+        # the previous wall's slab covers the corner to its own depth; this slab starts where that one ends
+        pw = prev_wall(k, run.wall)
+        prev_run = run_at_end(k, pw, "base") if pw else None
+        if prev_run is not None:
+            a0 = counter_depth(prev_run) + 38
     for p in run.items:
         if p.kind == "appliance" and p.appliance and p.appliance.height >= top:
             if p.start > a0:
@@ -238,7 +297,17 @@ def elevation_svg(k: Kitchen, wall_id: str, scale: int = DEFAULT_SCALE) -> str:
             cls = {"appliance": "appl", "filler": "filler", "panel": "filler"}.get(p.kind, "cab")
             svg.rect(X(b.x), Y(b.y0 + b.h), b.w, b.h, cls, data_label=p.label, data_kind=p.kind, data_level=run.level, data_width=str(b.w))
             cx, cy = X(b.x + b.w / 2), Y(b.y0 + b.h / 2)
-            if p.kind == "cabinet" and p.catalog_item:
+            if p.kind == "cabinet" and p.catalog_item and p.catalog_item.corner:
+                zone, at_end = corner_door_zone(k, run, b)
+                c = p.catalog_item.corner
+                rest = (b.x + zone, b.x + b.w) if at_end else (b.x, b.x + b.w - zone)
+                svg.rect(X(rest[0]), Y(b.y0 + b.h), rest[1] - rest[0], b.h, "filler")
+                svg.text(X((rest[0] + rest[1]) / 2), cy, "blind" if c["blind"] else "corner", "s", rotate=-90)
+                door_box = Box(p, b.x if at_end else b.x + b.w - zone, b.y0, zone, b.h)
+                _draw_fronts(svg, door_box, X, Y, pieces=1 if c["blind"] else 2)
+                svg.text(cx, cy - 6, p.catalog_item.nominal or "", "t")
+                svg.text(cx, cy + SMALL + 2, short_id(p.catalog_item), "s")
+            elif p.kind == "cabinet" and p.catalog_item:
                 _draw_fronts(svg, b, X, Y)
                 svg.text(cx, cy - 6, p.catalog_item.nominal or "", "t")
                 svg.text(cx, cy + SMALL + 2, short_id(p.catalog_item), "s")
@@ -303,14 +372,24 @@ def elevation_svg(k: Kitchen, wall_id: str, scale: int = DEFAULT_SCALE) -> str:
     return svg.render()
 
 
-def _draw_fronts(svg: Svg, b: Box, X, Y) -> None:
+def corner_door_zone(k, run: Run, b: Box) -> tuple[int, int | bool]:
+    """(width of the door zone along this wall, at_end) for a corner cabinet: the notch for an L-shaped
+    corner, the nominal door width for a blind corner; at_end is True when the corner is at the run's far end."""
+    c = b.p.catalog_item.corner
+    zone = c["notch_mm"] if c["notch_mm"] else int(round(c["front_width_in"] * 25.4))
+    L = k.room.wall(run.wall).planning_length
+    at_end = b.x + b.w >= L - CORNER_TOL
+    return zone, at_end
+
+
+def _draw_fronts(svg: Svg, b: Box, X, Y, pieces: int | None = None) -> None:
     """Split lines for doors (side by side) and drawer fronts (stacked), reveal 3 mm."""
     p = b.p
     doors = [fu for fu in p.fronts if fu.item.kind == "front"]
     drawers = [fu for fu in p.fronts if fu.item.kind == "drawer_front"]
     r = FRONT_REVEAL_MM
     if doors and not drawers:
-        n = sum(fu.count for fu in doors)
+        n = pieces or sum(fu.count for fu in doors)
         w = (b.w - r * (n + 1)) / n
         for i in range(n):
             x = b.x + r + i * (w + r)
@@ -387,6 +466,23 @@ def plan_svg(k: Kitchen, scale: int = DEFAULT_SCALE) -> str:
                 continue
             d = item_depth(p, run.level)
             c = cls or {"appliance": "appl", "filler": "filler", "panel": "filler"}.get(p.kind, "cab")
+            if p.catalog_item and p.catalog_item.corner:
+                cc = p.catalog_item.corner
+                L = k.room.wall(run.wall).planning_length
+                at_end = p.end >= L - CORNER_TOL
+                R, D = cc["reach_mm"], cc["side_depth_mm"]
+                rect_along(run.wall, p.start, p.end, 0, D, c, data_label=p.label, data_level=run.level, data_width=str(p.width), data_depth=str(D))
+                if cc["notch_mm"]:
+                    a0, a1 = (p.end - D, p.end) if at_end else (p.start, p.start + D)
+                    rect_along(run.wall, a0, a1, D, R, c, data_label=f"{p.label}/leg", data_level=run.level)
+                else:
+                    blind = (p.end - (R - int(round(cc["front_width_in"] * 25.4))), p.end) if at_end else (p.start, p.start + R - int(round(cc["front_width_in"] * 25.4)))
+                    rect_along(run.wall, blind[0], blind[1], 0, D, "filler")
+                if run.level != "wall":
+                    cx, cy = P(run.wall, p.start + p.width / 2, D / 2)
+                    _, _, hx, hy = frames[run.wall]
+                    svg.text(cx, cy + SMALL / 3, p.catalog_item.nominal or "", "s", rotate=(-90 if abs(hy) > abs(hx) else None))
+                continue
             rect_along(run.wall, p.start, p.end, 0, d, c, data_label=p.label, data_level=run.level, data_width=str(p.width), data_depth=str(d))
             if run.level != "wall" and p.width >= 300:
                 cx, cy = P(run.wall, p.start + p.width / 2, d / 2)

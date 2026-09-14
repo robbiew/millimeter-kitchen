@@ -26,6 +26,11 @@ class Item:
     verified: bool
     stock_mm: int | None = None
     pack: int | None = None
+    corner: dict | None = None
+
+    @property
+    def is_corner(self) -> bool:
+        return self.corner is not None
 
     @property
     def is_front(self) -> bool:
@@ -77,6 +82,7 @@ def catalog_from_dict(data: dict) -> Catalog:
             verified=bool(raw["verified"]),
             stock_mm=raw.get("stock_mm"),
             pack=raw.get("pack"),
+            corner=raw.get("corner"),
         )
     return Catalog(data["id"], items)
 
