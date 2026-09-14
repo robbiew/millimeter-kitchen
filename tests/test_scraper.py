@@ -88,8 +88,13 @@ def test_frame_families_and_generic_items():
     wall = dict(FRAME, id="frame:wall:30x15x30", type="wall", nominal_in={"w": 30, "d": 15, "h": 30})
     assert sc.match_item(wall, [node("1", "SEKTION", "Wall cabinet frame", '30x15x30 "')])[0]
     assert sc.match_item(wall, [node("1", "SEKTION", "Base cabinet", '30x15x30 "')])[0] is None
-    corner = dict(FRAME, id="frame:base_corner:38x38x30", type="base_corner", nominal_in={"w": 38, "d": 38, "h": 30})
-    assert sc.match_item(corner, [node("2", "SEKTION", "Corner base cabinet frame", '38x38x30 "')])[0]
+    corner = dict(FRAME, id="frame:base_corner:38x38x30", type="base_corner", nominal_in={"w": 38, "d": 24, "h": 30})
+    assert sc.match_item(corner, [node("2", "SEKTION", "Corner base cabinet frame", '38x24x30 "')])[0]
+    frame_only = node("70265501", "SEKTION", "Base corner cabinet frame", '38x24x30 "', "white")
+    with_carousel = node("70596756", "SEKTION", "Corner base cabinet", '38x24x30 "', "white")
+    assert sc.match_item(corner, [with_carousel, frame_only])[0] is frame_only
+    top = dict(FRAME, id="frame:wall_fridge:30x24x15", type="wall_fridge", nominal_in={"w": 30, "d": 24, "h": 15})
+    assert sc.match_item(top, [node("60265511", "SEKTION", "Top cabinet with ventilation", '30x24x15 "', "white")])[0]
     drawer = {"id": "drawer:maximera:low:15x24", "kind": "drawer", "type": None, "series": "MAXIMERA", "finish": None,
               "name": "MAXIMERA drawer, low, 15x24", "nominal_in": {"w": 15, "d": 24}}
     low = node("3", "MAXIMERA", "Drawer, low", '15x24 "')

@@ -154,8 +154,8 @@ def node_sizes(node: dict) -> list[float]:
 # SEKTION mostly as combinations ("SEKTION / MAXIMERA Base cabinet with 3
 # drawers"); the frame alone is name "SEKTION", typeName "Base cabinet" (or
 # "... cabinet frame"). A typeName made only of these words is a bare frame.
-FRAME_WORDS = {"base", "wall", "high", "top", "corner", "cabinet", "frame"}
-FRAME_NEEDS = {"base": {"base"}, "sink_base": {"base"}, "wall": {"wall"}, "wall_fridge": {"wall"}, "high": {"high"},
+FRAME_WORDS = {"base", "wall", "high", "top", "corner", "cabinet", "frame", "with", "ventilation"}
+FRAME_NEEDS = {"base": {"base"}, "sink_base": {"base"}, "wall": {"wall"}, "wall_fridge": {"top"}, "high": {"high"},
                "base_corner": {"corner", "base"}, "wall_corner": {"corner", "wall"}}
 FRONT_TYPES = {"door": lambda t: t == "door", "drawer": lambda t: t == "drawer front",
                "corner_door": lambda t: "door" in t and "corner" in t}
@@ -180,7 +180,7 @@ def family_query(item: dict) -> str:
     series = item.get("series") or ""
     kind, type_ = item["kind"], item.get("type")
     if kind == "frame":
-        words = {"base": "base cabinet", "sink_base": "base cabinet", "wall": "wall cabinet", "wall_fridge": "wall cabinet",
+        words = {"base": "base cabinet", "sink_base": "base cabinet", "wall": "wall cabinet", "wall_fridge": "top cabinet",
                  "high": "high cabinet", "base_corner": "corner base cabinet", "wall_corner": "corner wall cabinet"}[type_]
         return f"{series} {words}"
     if kind in ("front", "drawer_front"):
@@ -243,6 +243,10 @@ def match_item(item: dict, nodes: list[dict], tol_in: float = 0.3) -> tuple[dict
             hits.append(n)
         elif type_ok and (size_ok or finish_ok):
             near.append(n)        # the right kind of product in another size or finish; combinations never qualify
+    if len(hits) > 1 and kind == "frame":
+        framed = [n for n in hits if "frame" in _ascii(str(n.get("typeName") or ""))]
+        if len(framed) == 1:      # "Base corner cabinet frame" over "Corner base cabinet" (the latter is sold with its carousel)
+            return framed[0], [n for n in hits if n is not framed[0]] + near
     if len(hits) > 1 and not finish_words and kind in PREFER:
         preferred = [n for n in hits if PREFER[kind] in node_text(n)]
         if len(preferred) == 1:

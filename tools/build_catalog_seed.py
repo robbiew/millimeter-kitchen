@@ -59,7 +59,7 @@ def frame(kind_type: str, w: float, d: float, h: float, nominal: str | None = No
         "type": kind_type,
         "brand": "IKEA",
         "series": "SEKTION",
-        "name": f"SEKTION {kind_type.replace('_', ' ')} cabinet frame {nominal}",
+        "name": f"SEKTION {'top' if kind_type == 'wall_fridge' else kind_type.replace('_', ' ')} cabinet frame {nominal}",
         "article": KNOWN_ARTICLES.get(id_),
         "nominal": nominal,
         "nominal_in": {"w": w, "d": d, "h": h},
@@ -99,10 +99,12 @@ def build() -> dict:
         items.append(frame("sink_base", w, 24, 30))
     for w in WALL_WIDTHS:
         for h in WALL_HEIGHTS:
+            if w in (12, 21) and h in (15, 20):
+                continue   # not made: the 2026-09 sweep of ikea.com found no 12" or 21" frame at 15" or 20" high
             items.append(frame("wall", w, 14.75, h, nominal=f"{w:g}x14 3/4x{h:g}"))   # SEKTION wall frames are 15" nominal, 14 3/4" measured
-    for w in (24, 30, 36):
+    for w in (30, 36):   # ikea.com sells the 24"-deep "top cabinet with ventilation" only 30 and 36 wide
         for h in (15, 20):
-            items.append(frame("wall_fridge", w, 24, h, notes="Deep wall cabinet for over a refrigerator."))
+            items.append(frame("wall_fridge", w, 24, h, notes="Deep top cabinet for over a refrigerator; IKEA calls it 'top cabinet with ventilation'."))
     for w in (24, 30):
         for h in (80, 90):
             items.append(frame("high", w, 24, h))
@@ -117,14 +119,14 @@ def build() -> dict:
             "corner": {"reach_mm": inch_to_mm(reach_in), "side_depth_mm": inch_to_mm(side_in), "notch_mm": inch_to_mm(notch_in), "blind": blind, "front_width_in": front_w},
             "verified": False, "source": SOURCE, "notes": notes,
         }
-    items.append(corner("base_corner", "frame:base_corner:38x38x30", "38x38x30", 38, 38, 30, 38, 24, 14, False, 17,
+    items.append(corner("base_corner", "frame:base_corner:38x38x30", "38x24x30", 38, 24, 30, 38, 24, 14, False, 17,
                         "SEKTION corner base cabinet frame 38x38x30 (carousel)",
                         "L-shaped: 38\" along each wall, 24\" deep legs, 14\" notch at the outer corner for a 2-piece bi-fold door (17\" set). Occupies 38\" of the adjacent wall too."))
     items.append(corner("base_corner", "frame:base_corner_blind:47x24x30", "47x24x30", 47, 24, 30, 24, 24, 0, True, 24,
                         "SEKTION blind corner base cabinet frame 47x24x30",
                         "Straight 47\" frame; the 23\" nearest the corner has no door and is covered by the adjacent wall's first cabinet. Takes a 24\" door on the outer end. Published depth may be 26\"; verify."))
     for h in (30, 40):
-        items.append(corner("wall_corner", f"frame:wall_corner:26x26x{h}", f"26x26x{h}", 26, 26, h, 26, 15, 11, False, 13,
+        items.append(corner("wall_corner", f"frame:wall_corner:26x26x{h}", f"26x14 3/4x{h}", 26, 14.75, h, 26, 15, 11, False, 13,
                             f"SEKTION corner wall cabinet frame 26x26x{h}",
                             "L-shaped: 26\" along each wall, 15\" deep legs, 11\" notch for a 2-piece door (13\" set)."))
 
