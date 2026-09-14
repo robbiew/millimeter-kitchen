@@ -187,3 +187,21 @@ def load_kitchen(path: str | Path) -> Kitchen:
     room = load_room(room_path)
     catalog = load_catalog(resolve_catalog_path(data["catalog"], loaded.path))
     return resolve(data, loaded.path, room, catalog)
+
+
+def wall_frames(room: Room) -> dict[str, tuple[float, float, float, float]]:
+    """Plan-space origin (x, y) and unit heading (hx, hy) of each wall, y down on paper.
+
+    Walks the survey order and turns 90° clockwise at each corner, so the room is
+    always to the right of travel. Elevations, the plan and the 3D scene all use
+    this so a cabinet lands in the same place in every output.
+    """
+    frames: dict[str, tuple[float, float, float, float]] = {}
+    x, y = 0.0, 0.0
+    hx, hy = 1.0, 0.0
+    for wid in room.order:
+        frames[wid] = (x, y, hx, hy)
+        L = room.walls[wid].planning_length
+        x, y = x + hx * L, y + hy * L
+        hx, hy = -hy, hx
+    return frames

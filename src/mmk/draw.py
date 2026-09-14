@@ -13,7 +13,7 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 
 from .catalog import Item
-from .model import Kitchen, Placed, Run
+from .model import Kitchen, Placed, Run, wall_frames
 
 DEFAULT_SCALE = 20
 BASE_DEPTH_FALLBACK = 610
@@ -305,22 +305,8 @@ def _draw_fronts(svg: Svg, b: Box, X, Y) -> None:
 
 # ---------------------------------------------------------------- plan
 
-def _wall_frames(k: Kitchen) -> dict[str, tuple[float, float, float, float]]:
-    """Origin and unit heading of each wall in plan coordinates (y down), walking the
-    survey order and turning 90° clockwise at each corner. Room is to the right of travel."""
-    frames: dict[str, tuple[float, float, float, float]] = {}
-    x, y = 0.0, 0.0
-    hx, hy = 1.0, 0.0
-    for wid in k.room.order:
-        wall = k.room.walls[wid]
-        frames[wid] = (x, y, hx, hy)
-        x, y = x + hx * wall.planning_length, y + hy * wall.planning_length
-        hx, hy = -hy, hx  # rotate heading 90° clockwise (screen coords)
-    return frames
-
-
 def plan_svg(k: Kitchen, scale: int = DEFAULT_SCALE) -> str:
-    frames = _wall_frames(k)
+    frames = wall_frames(k.room)
     # extent
     pts = []
     for wid, (x, y, hx, hy) in frames.items():

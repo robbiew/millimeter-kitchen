@@ -3,11 +3,16 @@
 from __future__ import annotations
 
 import argparse
+import json
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
 from .catalog import load_catalog
 from .draw import DEFAULT_SCALE, write_drawings
+from .gltf import write_glb
+from .scene import build_scene
 from .findings import Finding, has_errors
 from .io import CATALOG_DIR, FileError
 from .model import load_kitchen
@@ -89,6 +94,39 @@ def cmd_draw(args: argparse.Namespace) -> int:
     return 0
 
 
+BLENDER_SCRIPT = Path(__file__).resolve().parents[2] / "tools" / "blender_render.py"
+
+
+def cmd_render(args: argparse.Namespace) -> int:
+    k = load_kitchen(args.kitchen)
+    findings = validate(k)
+    n_err = sum(f.is_error for f in findings)
+    if n_err and not args.force:
+        _print([f for f in findings if f.is_error])
+        print(f"{k.name}: {n_err} errors; fix them or pass --force to render anyway", file=sys.stderr)
+        return 1
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    scene = build_scene(k)
+    glb = write_glb(scene, out / "scene.glb")
+    cams = out / "cameras.json"
+    cams.write_text(json.dumps([{"name": c.name, "position": list(c.position), "target": list(c.target), "vfov_deg": c.vfov_deg, "aspect": c.aspect} for c in scene.cameras], indent=2) + "\n")
+    print(glb)
+    print(cams)
+    print(f"{len(scene.boxes)} boxes, {len(scene.cameras)} cameras")
+    if args.no_render:
+        return 0
+    blender = args.blender or shutil.which("blender")
+    if not blender or not Path(blender).exists():
+        where = f"'{blender}' does not exist" if blender else "blender not found on PATH"
+        print(f"{where}; pass --blender /path/to/blender, or open scene.glb in viewer/index.html", file=sys.stderr)
+        return 2
+    cmd = [blender, "--background", "--python", str(BLENDER_SCRIPT), "--", str(glb), str(cams), str(out),
+           "--engine", args.engine, "--size", args.size, "--samples", str(args.samples)]
+    print(" ".join(cmd))
+    return subprocess.call(cmd)
+
+
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(prog="mmk", description="Millimeter Kitchen: survey checks and layout validation.")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -120,6 +158,17 @@ def build_parser() -> argparse.ArgumentParser:
     d.add_argument("--scale", type=int, default=DEFAULT_SCALE, help="print scale denominator (default 20 = 1:20)")
     d.add_argument("--force", action="store_true", help="draw even if the validator reports errors")
     d.set_defaults(fn=cmd_draw)
+
+    r = sub.add_parser("render", help="phase 3: export scene.glb and cameras, then render each wall in Blender")
+    r.add_argument("kitchen")
+    r.add_argument("--out", default="out")
+    r.add_argument("--no-render", action="store_true", help="only write scene.glb and cameras.json")
+    r.add_argument("--blender", help="path to the blender executable (default: find on PATH)")
+    r.add_argument("--engine", default="EEVEE", choices=["EEVEE", "CYCLES"])
+    r.add_argument("--size", default="1600x1000")
+    r.add_argument("--samples", type=int, default=64)
+    r.add_argument("--force", action="store_true", help="render even if the validator reports errors")
+    r.set_defaults(fn=cmd_render)
     return ap
 
 

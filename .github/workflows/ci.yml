@@ -13,3 +13,4 @@ jobs:
       - run: mmk survey check examples/room.example.json
       - run: mmk validate examples/kitchen.fits.json
       - run: mmk draw examples/kitchen.fits.json --out out
+      - run: mmk render examples/kitchen.fits.json --out out --no-render

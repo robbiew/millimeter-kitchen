@@ -50,8 +50,11 @@ filler widths.
 
 ## Phase 3 — 3D scene in Blender
 
-A `bpy` script that builds the scene from `kitchen.json` with Home Builder 5
-parametric cabinets and exports glTF.
+`mmk render kitchen.json --out out/`. The scene is built in Python as boxes
+from `kitchen.json` and written to `scene.glb` (so the geometry can be tested
+without Blender), then `tools/blender_render.py` imports it, places one camera
+per wall and renders. Home Builder 5 parametric cabinets are an option for
+phase 4 detail, not a phase 3 requirement.
 
 **Accept:** the bounding box of every placed object matches its `actual`
 dimensions within 1 mm; regenerating replaces the scene without cleanup; one
@@ -92,7 +95,7 @@ its item list against the BOM.
 | 0 — Survey | **Scaffolded** | Protocol, schema, `mmk survey check` and tests exist. Real room not yet measured; `examples/room.example.json` is illustrative. |
 | 1 — Catalog + validator | **Scaffolded** | Six rules with good/bad fixtures pass. Catalog is a seed from published size guides, all `verified: false`; scraper written but untested against ikea.com. Corner cabinets not yet modeled. |
 | 2 — Elevations | **Scaffolded** | `mmk draw` writes an SVG elevation per wall and a plan view in real millimeters at a chosen print scale, with running dimensions, front splits, openings, services and a title block listing totals and fillers. Tests check geometry against the catalog. Corner geometry in plan assumes 90° turns; countertop outline export (build123d) deferred to phase 6. |
-| 3 — 3D | Not started | |
+| 3 — 3D | **Scaffolded** | `mmk render` builds the scene (walls cut around openings, floor, frames, door and drawer panels, toe kicks, counters, appliances, fillers) as axis-aligned boxes from `kitchen.json`, writes `scene.glb` with one named node per object and a camera per wall plus an overview, then runs `tools/blender_render.py` to render each camera. glTF bounding boxes are tested against the catalog within 1 mm and export is deterministic. The Blender script is written for 4.x but has not been executed yet (no Blender in the authoring environment). Home Builder 5 not used; plain boxes only. `viewer/index.html` is a three.js walkthrough, untested. |
 | 4 — Materials | Not started | |
 | 5 — Claude/MCP | Not started | |
 | 6 — Purchase pack | Not started | |
