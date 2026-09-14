@@ -31,8 +31,9 @@
         "grain": "horizontal",
         "base": "#5C3A22",
         "dark": "#3F2614",
-        "light": "#7A5236",
-        "rings": 12,
+        "light": "#6E4A2E",
+        "rings": 24,
+        "figure": 0.05,
         "seed": 1
       }
     },

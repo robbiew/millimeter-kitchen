@@ -44,22 +44,26 @@ def _hash(x: int, y: int, seed: int) -> float:
     return ((n ^ (n >> 16)) & 0xFFFFFF) / 0x1000000
 
 
-def _noise(x: float, y: float, period: int, seed: int) -> float:
-    """Periodic value noise with smoothstep, lattice period `period` cells."""
+def _noise(x: float, y: float, period: int, seed: int, period_y: int | None = None) -> float:
+    """Periodic value noise with smoothstep. The lattice wraps every `period`
+    cells in x and `period_y` (default: the same) cells in y, so a texture can
+    be sampled with many cells across the grain and few along it and still tile."""
+    py = period if period_y is None else period_y
     xi, yi = math.floor(x), math.floor(y)
     fx, fy = x - xi, y - yi
     sx, sy = fx * fx * (3 - 2 * fx), fy * fy * (3 - 2 * fy)
     x0, x1 = xi % period, (xi + 1) % period
-    y0, y1 = yi % period, (yi + 1) % period
+    y0, y1 = yi % py, (yi + 1) % py
     a = _hash(x0, y0, seed) + (_hash(x1, y0, seed) - _hash(x0, y0, seed)) * sx
     b = _hash(x0, y1, seed) + (_hash(x1, y1, seed) - _hash(x0, y1, seed)) * sx
     return a + (b - a) * sy
 
 
-def _fbm(x: float, y: float, period: int, seed: int, octaves: int = 3) -> float:
+def _fbm(x: float, y: float, period: int, seed: int, octaves: int = 3, period_y: int | None = None) -> float:
     v, amp, freq, total = 0.0, 1.0, 1.0, 0.0
+    py = period if period_y is None else period_y
     for _ in range(octaves):
-        v += amp * _noise(x * freq, y * freq, int(period * freq), seed)
+        v += amp * _noise(x * freq, y * freq, int(period * freq), seed, int(py * freq))
         total += amp
         amp *= 0.5
         freq *= 2
@@ -87,19 +91,31 @@ def _to_bytes(pixels: list[Color]) -> bytes:
 
 # ---------------------------------------------------------------- kinds
 
-def wood(size: int, base: Color, dark: Color, light: Color, seed: int = 1, rings: float = 14.0, planks: int = 0, plank_gap: float = 0.006) -> list[Color]:
-    """Grain runs along V (image vertical). Rings are wavy stripes across U with noise."""
+def wood(size: int, base: Color, dark: Color, light: Color, seed: int = 1, rings: float = 14.0, planks: int = 0, plank_gap: float = 0.006, figure: float = 0.08) -> list[Color]:
+    """Straight-grained wood. Grain runs along V (image vertical): the growth
+    rings are stripes across U that wander slowly along V (`figure` is how much,
+    in ring widths), and the pore texture is sampled with many lattice cells
+    across the grain and few along it so it streaks instead of swirling.
+    With `planks`, the image is that many boards across, each with its own
+    grain offset and a dark seam between them."""
     px: list[Color] = []
-    period = 8
+    across, along = 48, 3        # lattice cells across vs along the grain for the pore streaks
     for y in range(size):
         v = y / size
         for x in range(size):
             u = x / size
-            warp = _fbm(u * period, v * period * 0.5, period, seed, 3) - 0.5
-            band = 0.5 + 0.5 * math.sin((u + 0.35 * warp) * rings * math.tau)
-            fine = _fbm(u * period * 6, v * period * 1.5, period * 6, seed + 7, 2) - 0.5
-            t = _clamp(0.55 * band + 0.6 * fine + 0.45)
-            c = _mix(_mix(dark, base, t), light, max(0.0, fine) * 0.6)
+            uu, vv = u, v
+            if planks:
+                board = math.floor(u * planks)
+                uu = u + _hash(board, 1, seed)          # each board is a different slice of the log
+                vv = v + _hash(board, 2, seed)
+            # slow wander of the ring lines, a few cells across and along, gives the cathedral figure
+            drift = _fbm(uu * 4, vv * 2, 4, seed, 2, period_y=2) - 0.5
+            band = 0.5 + 0.5 * math.sin((uu + figure * drift) * rings * math.tau)
+            band = band * band                            # thin dark latewood lines, wide light earlywood
+            streak = _fbm(uu * across, vv * along, across, seed + 7, 3, period_y=along) - 0.5
+            t = _clamp(0.5 * band + 0.9 * streak + 0.45)
+            c = _mix(_mix(dark, base, t), light, max(0.0, streak) * 0.5)
             if planks:
                 pu = (u * planks) % 1.0
                 if pu < plank_gap or pu > 1 - plank_gap:
@@ -161,9 +177,9 @@ def render_texture(spec_key: str) -> bytes:
     kind = spec["kind"]
     size = int(spec.get("size", 384))
     if kind == "wood":
-        px = wood(size, _rgb(spec["base"]), _rgb(spec["dark"]), _rgb(spec["light"]), spec.get("seed", 1), spec.get("rings", 14.0))
+        px = wood(size, _rgb(spec["base"]), _rgb(spec["dark"]), _rgb(spec["light"]), spec.get("seed", 1), spec.get("rings", 14.0), figure=spec.get("figure", 0.08))
     elif kind == "plank":
-        px = wood(size, _rgb(spec["base"]), _rgb(spec["dark"]), _rgb(spec["light"]), spec.get("seed", 2), spec.get("rings", 10.0), planks=int(spec.get("planks", 6)))
+        px = wood(size, _rgb(spec["base"]), _rgb(spec["dark"]), _rgb(spec["light"]), spec.get("seed", 2), spec.get("rings", 10.0), planks=int(spec.get("planks", 6)), figure=spec.get("figure", 0.08))
     elif kind == "tile":
         s = spec["scale_mm"]
         px = tile(size, spec["tile_w_mm"] / s, spec["tile_h_mm"] / s, spec.get("grout_mm", 3) / s, _rgb(spec["base"]), _rgb(spec["grout"]), spec.get("seed", 3), spec.get("bond", "running"), spec.get("variation", 0.05))
