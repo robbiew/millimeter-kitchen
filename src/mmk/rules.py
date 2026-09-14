@@ -10,7 +10,7 @@ from collections.abc import Callable
 
 from .findings import Finding
 from .finishes import ROLES, load_finishes
-from .draw import CORNER_TOL, corner_reach, item_depth, next_wall, prev_wall, run_at_end, run_at_start
+from .draw import CORNER_TOL, corner_reach, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
 from .model import Kitchen, Run
 
 CLOSURE_TOLERANCE_MM = 3
@@ -183,23 +183,17 @@ def rule_front_fit(k: Kitchen) -> list[Finding]:
                     if frame.corner["notch_mm"] and fu.item.type != "corner_door":
                         out.append(Finding("error", "front_fit", f"{fu.item.id} is not a corner door set; an L-shaped corner cabinet takes a 2-piece corner door", run.wall, p.label))
                 continue
-            if doors:
-                bad = [fu for fu in doors if fu.item.nominal_in.get("h") != fh]
-                for fu in bad:
-                    out.append(Finding("error", "front_fit", f"door {fu.item.id} is {fu.item.nominal_in.get('h')}\" tall on a {fh}\" frame", run.wall, p.label))
-                total_w = sum(fu.item.nominal_in.get("w", 0) * fu.count for fu in doors)
-                if total_w != fw:
-                    out.append(Finding("error", "front_fit", f"doors total {total_w}\" wide on a {fw}\" frame", run.wall, p.label))
-            if drawers:
-                bad = [fu for fu in drawers if fu.item.nominal_in.get("w") != fw]
-                for fu in bad:
-                    out.append(Finding("error", "front_fit", f"drawer front {fu.item.id} is {fu.item.nominal_in.get('w')}\" wide on a {fw}\" frame", run.wall, p.label))
-                total_h = sum(fu.item.nominal_in.get("h", 0) * fu.count for fu in drawers)
-                if total_h != fh:
-                    out.append(Finding("error", "front_fit", f"drawer fronts stack to {total_h}\" on a {fh}\" frame", run.wall, p.label))
-            if doors and drawers:
-                # a door-and-drawer combo (e.g. 1 drawer over 2 doors) is common; not modeled in phase 1
-                out.append(Finding("warning", "front_fit", "doors and drawer fronts on one frame are not checked together yet", run.wall, p.label))
+            # rows top to bottom: each drawer front is a full-width row; consecutive same-height doors share a row
+            rows = front_rows(p)
+            for row in rows:
+                width = sum(it.nominal_in.get("w", 0) for it in row["panels"])
+                if width != fw:
+                    what = "doors total" if row["kind"] == "doors" else f"drawer front {row['panels'][0].id} is"
+                    out.append(Finding("error", "front_fit", f"{what} {width:g}\" wide on a {fw:g}\" frame", run.wall, p.label))
+            stack = sum(row["height_in"] for row in rows)
+            if stack != fh:
+                desc = " + ".join(f"{row['height_in']:g}" for row in rows)
+                out.append(Finding("error", "front_fit", f"fronts stack to {stack:g}\" ({desc}) on a {fh:g}\" frame", run.wall, p.label))
     return out
 
 

@@ -10,7 +10,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass, field
 
-from .draw import CORNER_TOL, FRONT_REVEAL_MM, counter_depth, counter_segments, elevation_boxes, item_depth, run_depth
+from .draw import CORNER_TOL, FRONT_REVEAL_MM, counter_depth, counter_segments, elevation_boxes, front_panels, item_depth, run_depth
 from .finishes import ROLES, Finish, FinishLibrary, load_finishes
 from .model import Kitchen, Run, wall_frames
 
@@ -103,29 +103,11 @@ def _front_material(p, lib: FinishLibrary, default: Finish) -> str:
 
 
 def _fronts(fr: _Frame, run: Run, b, face: float, mat: str) -> list[Box]:
-    """Door and drawer panels in front of the frame face, same splits as the elevation."""
+    """Door and drawer panels in front of the frame face, from the same row layout as the elevation."""
     p = b.p
-    doors = [fu for fu in p.fronts if fu.item.kind == "front"]
-    drawers = [fu for fu in p.fronts if fu.item.kind == "drawer_front"]
-    r = FRONT_REVEAL_MM
-    out = []
-    if doors and not drawers:
-        n = sum(fu.count for fu in doors)
-        w = (b.w - r * (n + 1)) / n
-        for i in range(n):
-            x = b.x + r + i * (w + r)
-            out.append(fr.box(f"{p.label}/door{i + 1}", "front", mat, x, x + w, face, face + FRONT_THICKNESS, b.y0 + r, b.y0 + b.h - r, front=doors[0].item.id))
-    elif drawers and not doors:
-        total_nom = sum(fu.item.nominal_in.get("h", 0) * fu.count for fu in drawers) or 1
-        y_top = b.y0 + b.h - r
-        i = 0
-        for fu in drawers:
-            for _ in range(fu.count):
-                h = (b.h - r) * fu.item.nominal_in.get("h", 0) / total_nom - r
-                i += 1
-                out.append(fr.box(f"{p.label}/drawer{i}", "front", mat, b.x + r, b.x + b.w - r, face, face + FRONT_THICKNESS, y_top - h, y_top, front=fu.item.id))
-                y_top -= h + r
-    return out
+    return [fr.box(f"{p.label}/{panel['name']}", "front", mat, panel["x"], panel["x"] + panel["w"], face, face + FRONT_THICKNESS,
+                   panel["y0"], panel["y0"] + panel["h"], front=panel["item"].id if panel["item"] else None)
+            for panel in front_panels(b)]
 
 
 def _corner_boxes(fr: _Frame, run: Run, b, k: Kitchen, mat_frame: str, mat_front: str, mat_kick: str) -> list[Box]:

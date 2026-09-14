@@ -141,7 +141,7 @@ CORNER = {
     "runs": [
         {"wall": "N", "level": "base", "items": [
             filler(99, "N-filler-left"),
-            cab("frame:base:30x24x30", "N-base-30", (f"{V}:door:15x30", 2)),
+            cab("frame:base:30x24x30", "N-base-30", (f"{V}:drawer:30x10", 1), (f"{V}:door:15x20", 2), interior=["MAXIMERA 30x24 medium"]),
             cab("frame:sink_base:36x24x30", "N-sink-36", (f"{V}:door:18x30", 2)),
             {"kind": "appliance", "label": "N-dishwasher", "ref": "dishwasher"},
             cab("frame:base:12x24x30", "N-base-12", (f"{V}:door:12x30", 1)),
@@ -155,7 +155,7 @@ CORNER = {
         {"wall": "E", "level": "base", "from": 965, "items": [
             cab("frame:base:18x24x30", "E-base-18-drawers", (f"{V}:drawer:18x10", 1), (f"{V}:drawer:18x20", 1)),
             {"kind": "appliance", "label": "E-range", "ref": "range"},
-            cab("frame:base:18x24x30", "E-base-18", (f"{V}:door:18x30", 1)),
+            cab("frame:base:18x24x30", "E-base-18", (f"{V}:drawer:18x10", 1), (f"{V}:door:18x20", 1), interior=["MAXIMERA 18x24 medium"]),
             filler(100, "E-filler-right"),
         ]},
         {"wall": "E", "level": "wall", "from": 660, "items": [
@@ -215,6 +215,11 @@ def missing_filler(k: dict) -> None:
     items[0] = cab("frame:base:18x24x30", "N-base-18-at-wall", (f"{V}:door:18x30", 1))  # …and widen 15 -> 18 so the run still closes
 
 
+def front_rows_mismatch(k: dict) -> None:
+    """A drawer over two doors that stack to 25 inches on a 30-inch frame."""
+    n_base(k)[2] = cab("frame:base:30x24x30", "N-base-30", (f"{V}:drawer:30x10", 1), (f"{V}:door:15x15", 2))
+
+
 def blocked_drain(k: dict) -> None:
     n_base(k)[3] = cab("frame:base:36x24x30", "N-base-36-not-a-sink", (f"{V}:door:18x30", 2))
 
@@ -226,6 +231,7 @@ BAD_CASES = {
     "wrong_size_front": ("a 15x30 door on an 18-wide frame", wrong_size_front),
     "missing_filler": ("the base run closes exactly but starts with a cabinet hard against the wall; IKEA wants 2 in of filler", missing_filler),
     "blocked_drain": ("the sink drain at 1676 mm falls inside a regular base cabinet, not a sink base", blocked_drain),
+    "front_rows_mismatch": ("a 10 drawer front over two 15 doors stacks to 25 on a 30 frame", front_rows_mismatch),
 }
 
 

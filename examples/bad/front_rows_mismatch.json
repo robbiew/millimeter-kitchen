@@ -1,9 +1,9 @@
 {
   "units": "mm",
-  "name": "Example L kitchen, variation C (corner cabinets)",
-  "room": "room.example.json",
+  "name": "Example L kitchen \u2014 BAD: front_rows_mismatch",
+  "room": "../room.example.json",
   "catalog": "sektion-us-2026-09",
-  "notes": "Carousel corner base and a corner wall cabinet at the N/E corner; the east runs start at the corner cabinets' reach.",
+  "notes": "a 10 drawer front over two 15 doors stacks to 25 on a 30 frame",
   "counter": {
     "thickness": 38,
     "overhang_front": 38,
@@ -49,7 +49,18 @@
         {
           "kind": "filler",
           "label": "N-filler-left",
-          "width": 99
+          "width": 76
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-base-15",
+          "id": "frame:base:15x24x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:15x30",
+              "count": 1
+            }
+          ]
         },
         {
           "kind": "cabinet",
@@ -61,12 +72,9 @@
               "count": 1
             },
             {
-              "id": "front:voxtorp-walnut:door:15x20",
+              "id": "front:voxtorp-walnut:door:15x15",
               "count": 2
             }
-          ],
-          "interior": [
-            "MAXIMERA 30x24 medium"
           ]
         },
         {
@@ -87,27 +95,79 @@
         },
         {
           "kind": "cabinet",
-          "label": "N-base-12",
-          "id": "frame:base:12x24x30",
+          "label": "N-base-18-drawers",
+          "id": "frame:base:18x24x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:12x30",
+              "id": "front:voxtorp-walnut:drawer:18x10",
+              "count": 1
+            },
+            {
+              "id": "front:voxtorp-walnut:drawer:18x20",
+              "count": 1
+            }
+          ],
+          "interior": [
+            "MAXIMERA 18x24 medium",
+            "MAXIMERA 18x24 high"
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-base-15-drawers",
+          "id": "frame:base:15x24x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:drawer:15x5",
+              "count": 1
+            },
+            {
+              "id": "front:voxtorp-walnut:drawer:15x10",
+              "count": 1
+            },
+            {
+              "id": "front:voxtorp-walnut:drawer:15x15",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "filler",
+          "label": "N-filler-right",
+          "width": 74
+        }
+      ]
+    },
+    {
+      "wall": "N",
+      "level": "wall",
+      "to": 1219,
+      "items": [
+        {
+          "kind": "filler",
+          "label": "N-wall-filler-left",
+          "width": 76
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-wall-15",
+          "id": "frame:wall:15x12x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:15x30",
               "count": 1
             }
           ]
         },
         {
           "kind": "cabinet",
-          "label": "N-corner",
-          "id": "frame:base_corner:38x38x30",
+          "label": "N-wall-30",
+          "id": "frame:wall:30x12x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:corner-door:17x30",
-              "count": 1
+              "id": "front:voxtorp-walnut:door:15x30",
+              "count": 2
             }
-          ],
-          "interior": [
-            "carousel"
           ]
         }
       ]
@@ -118,9 +178,15 @@
       "from": 2133,
       "items": [
         {
-          "kind": "gap",
-          "label": "N-wall-gap",
-          "width": 329
+          "kind": "cabinet",
+          "label": "N-wall-36",
+          "id": "frame:wall:36x12x30",
+          "fronts": [
+            {
+              "id": "front:voxtorp-walnut:door:18x30",
+              "count": 2
+            }
+          ]
         },
         {
           "kind": "cabinet",
@@ -134,34 +200,28 @@
           ]
         },
         {
-          "kind": "cabinet",
-          "label": "N-wall-corner",
-          "id": "frame:wall_corner:26x26x30",
-          "fronts": [
-            {
-              "id": "front:voxtorp-walnut:corner-door:13x30",
-              "count": 1
-            }
-          ]
+          "kind": "filler",
+          "label": "N-wall-filler-right",
+          "width": 75
         }
       ]
     },
     {
       "wall": "E",
       "level": "base",
-      "from": 965,
+      "from": 610,
       "items": [
         {
           "kind": "cabinet",
-          "label": "E-base-18-drawers",
-          "id": "frame:base:18x24x30",
+          "label": "E-base-21-drawers",
+          "id": "frame:base:21x24x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:drawer:18x10",
+              "id": "front:voxtorp-walnut:drawer:21x10",
               "count": 1
             },
             {
-              "id": "front:voxtorp-walnut:drawer:18x20",
+              "id": "front:voxtorp-walnut:drawer:21x20",
               "count": 1
             }
           ]
@@ -173,42 +233,35 @@
         },
         {
           "kind": "cabinet",
-          "label": "E-base-18",
-          "id": "frame:base:18x24x30",
+          "label": "E-base-30",
+          "id": "frame:base:30x24x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:drawer:18x10",
-              "count": 1
-            },
-            {
-              "id": "front:voxtorp-walnut:door:18x20",
-              "count": 1
+              "id": "front:voxtorp-walnut:door:15x30",
+              "count": 2
             }
-          ],
-          "interior": [
-            "MAXIMERA 18x24 medium"
           ]
         },
         {
           "kind": "filler",
           "label": "E-filler-right",
-          "width": 100
+          "width": 74
         }
       ]
     },
     {
       "wall": "E",
       "level": "wall",
-      "from": 660,
+      "from": 610,
       "items": [
         {
           "kind": "cabinet",
-          "label": "E-wall-30",
-          "id": "frame:wall:30x12x30",
+          "label": "E-wall-21",
+          "id": "frame:wall:21x12x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:15x30",
-              "count": 2
+              "id": "front:voxtorp-walnut:door:21x30",
+              "count": 1
             }
           ]
         },
@@ -228,19 +281,19 @@
         },
         {
           "kind": "cabinet",
-          "label": "E-wall-18",
-          "id": "frame:wall:18x12x30",
+          "label": "E-wall-30",
+          "id": "frame:wall:30x12x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:18x30",
-              "count": 1
+              "id": "front:voxtorp-walnut:door:15x30",
+              "count": 2
             }
           ]
         },
         {
           "kind": "filler",
           "label": "E-wall-filler-right",
-          "width": 100
+          "width": 74
         }
       ]
     }

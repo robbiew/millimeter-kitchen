@@ -11,6 +11,7 @@ EXPECTED_RULE = {
     "wrong_size_front": "front_fit",
     "missing_filler": "wall_filler_min",
     "blocked_drain": "service_conflict",
+    "front_rows_mismatch": "front_fit",
 }
 
 

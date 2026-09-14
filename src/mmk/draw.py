@@ -372,6 +372,62 @@ def elevation_svg(k: Kitchen, wall_id: str, scale: int = DEFAULT_SCALE) -> str:
     return svg.render()
 
 
+def front_rows(p: Placed) -> list[dict]:
+    """Fronts as horizontal rows, top to bottom, in the order the file lists them.
+
+    Each drawer front is a full-width row of its own. Consecutive doors of the
+    same nominal height form one row and sit side by side. A row is
+    {"kind": "drawer"|"doors", "height_in", "panels": [item, ...]} with one
+    entry per physical panel (count expanded).
+    """
+    rows: list[dict] = []
+    for fu in p.fronts:
+        h = fu.item.nominal_in.get("h", 0)
+        for _ in range(fu.count):
+            if fu.item.kind == "drawer_front":
+                rows.append({"kind": "drawer", "height_in": h, "panels": [fu.item]})
+            elif rows and rows[-1]["kind"] == "doors" and rows[-1]["height_in"] == h:
+                rows[-1]["panels"].append(fu.item)
+            else:
+                rows.append({"kind": "doors", "height_in": h, "panels": [fu.item]})
+    return rows
+
+
+def front_panels(b: Box, pieces: int | None = None) -> list[dict]:
+    """Panel rectangles for a frame face, in wall-local mm: x, w along the wall; y0, h up from the floor.
+
+    Rows take their share of the frame height by nominal height; panels in a
+    doors row share the width equally. `pieces` overrides the layout with one
+    row of equal panels (used for corner cabinets' bi-fold doors).
+    """
+    r = FRONT_REVEAL_MM
+    out: list[dict] = []
+    if pieces:
+        w = (b.w - r * (pieces + 1)) / pieces
+        item = b.p.fronts[0].item if b.p.fronts else None
+        for i in range(pieces):
+            out.append({"name": f"door{i + 1}", "x": b.x + r + i * (w + r), "w": w, "y0": b.y0 + r, "h": b.h - 2 * r, "item": item})
+        return out
+    rows = front_rows(b.p)
+    total_nom = sum(row["height_in"] for row in rows) or 1
+    y_top = b.y0 + b.h - r
+    n_door = n_drawer = 0
+    for row in rows:
+        h = (b.h - r) * row["height_in"] / total_nom - r
+        n = len(row["panels"])
+        w = (b.w - r * (n + 1)) / n
+        for i, item in enumerate(row["panels"]):
+            if row["kind"] == "drawer":
+                n_drawer += 1
+                name = f"drawer{n_drawer}"
+            else:
+                n_door += 1
+                name = f"door{n_door}"
+            out.append({"name": name, "x": b.x + r + i * (w + r), "w": w, "y0": y_top - h, "h": h, "item": item})
+        y_top -= h + r
+    return out
+
+
 def corner_door_zone(k, run: Run, b: Box) -> tuple[int, int | bool]:
     """(width of the door zone along this wall, at_end) for a corner cabinet: the notch for an L-shaped
     corner, the nominal door width for a blind corner; at_end is True when the corner is at the run's far end."""
@@ -383,26 +439,9 @@ def corner_door_zone(k, run: Run, b: Box) -> tuple[int, int | bool]:
 
 
 def _draw_fronts(svg: Svg, b: Box, X, Y, pieces: int | None = None) -> None:
-    """Split lines for doors (side by side) and drawer fronts (stacked), reveal 3 mm."""
-    p = b.p
-    doors = [fu for fu in p.fronts if fu.item.kind == "front"]
-    drawers = [fu for fu in p.fronts if fu.item.kind == "drawer_front"]
-    r = FRONT_REVEAL_MM
-    if doors and not drawers:
-        n = pieces or sum(fu.count for fu in doors)
-        w = (b.w - r * (n + 1)) / n
-        for i in range(n):
-            x = b.x + r + i * (w + r)
-            svg.rect(X(x), Y(b.y0 + b.h - r), w, b.h - 2 * r, "front")
-    elif drawers and not doors:
-        # stack from the top, each drawer front's nominal height scaled to the frame
-        total_nom = sum(fu.item.nominal_in.get("h", 0) * fu.count for fu in drawers) or 1
-        y_top = b.y0 + b.h - r
-        for fu in drawers:
-            for _ in range(fu.count):
-                h = (b.h - r) * fu.item.nominal_in.get("h", 0) / total_nom - r
-                svg.rect(X(b.x + r), Y(y_top), b.w - 2 * r, h, "front")
-                y_top -= h + r
+    """Door and drawer panels as the row layout lays them out, reveal 3 mm."""
+    for panel in front_panels(b, pieces):
+        svg.rect(X(panel["x"]), Y(panel["y0"] + panel["h"]), panel["w"], panel["h"], "front")
 
 
 # ---------------------------------------------------------------- plan

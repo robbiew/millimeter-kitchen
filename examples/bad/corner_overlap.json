@@ -57,9 +57,16 @@
           "id": "frame:base:30x24x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:15x30",
+              "id": "front:voxtorp-walnut:drawer:30x10",
+              "count": 1
+            },
+            {
+              "id": "front:voxtorp-walnut:door:15x20",
               "count": 2
             }
+          ],
+          "interior": [
+            "MAXIMERA 30x24 medium"
           ]
         },
         {
@@ -170,9 +177,16 @@
           "id": "frame:base:18x24x30",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:18x30",
+              "id": "front:voxtorp-walnut:drawer:18x10",
+              "count": 1
+            },
+            {
+              "id": "front:voxtorp-walnut:door:18x20",
               "count": 1
             }
+          ],
+          "interior": [
+            "MAXIMERA 18x24 medium"
           ]
         },
         {

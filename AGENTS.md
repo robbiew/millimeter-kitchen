@@ -61,6 +61,11 @@ similar) are deliberately out of scope; do not add them.
   refusal; fix the layout or the rule.
 - `examples/` holds generated test fixtures. Do not edit them to try a layout;
   `start_variation` copies one into `variations/`, and that is what you edit.
+- A cabinet's `fronts` list is its face top to bottom: each drawer front is a
+  full-width row, consecutive doors of the same height share a row. The rows
+  must tile the frame (`front_fit`); `draw.front_rows` / `front_panels` are
+  the one place that layout is computed, for the validator, the elevation and
+  the scene alike.
 - Items are addressed by `label`, which must be unique across the file
   (`duplicate_label` is an error). New items without a label get one.
 - A successful edit re-exports drawings, `scene.glb`, `cameras.json`, the
