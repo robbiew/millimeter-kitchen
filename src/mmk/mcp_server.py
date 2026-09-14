@@ -50,15 +50,17 @@ def build_server(root: Path):
         return tools.list_finishes(role)
 
     @server.tool()
-    def apply_ops(kitchen: str, ops: list[dict], dry_run: bool = False, draw_out: str | None = None, allow_fixture_edit: bool = False) -> dict:
+    def apply_ops(kitchen: str, ops: list[dict], dry_run: bool = False, out: str = "out", allow_fixture_edit: bool = False,
+                  render: bool = False, blender: str | None = None) -> dict:
         """Apply edit operations to the kitchen file. The file is written only if the result passes every fit rule; otherwise the
         call is refused and returns the errors, and the file is unchanged. Returns the bill-of-materials diff and the new runs.
         Ops: replace{label, items[]} | insert{wall, level, index|before|after, item} | remove{label} | move{label, before|after|index|to{wall,level,index}}
         | swap{label, with} | set_fronts{label, fronts[{id,count}]} | set_width{label, width} | set_material{role, key} | set{path, value}.
         Items: {kind:'cabinet', id, label?, fronts?} | {kind:'appliance', ref} | {kind:'filler'|'gap'|'panel', width}.
-        Pass draw_out to regenerate the SVG drawings after a successful edit. Files under examples/ are test fixtures and are refused
-        unless allow_fixture_edit is true; call start_variation first and edit the copy."""
-        return tools.apply_ops(root, kitchen, ops, dry_run, draw_out, allow_fixture_edit)
+        A successful edit re-exports the drawings, scene.glb and cameras.json into <out>/<kitchen stem>/ automatically; pass render=True
+        to also render one image per wall in Blender (slower). Files under examples/ are test fixtures and are refused unless
+        allow_fixture_edit is true; call start_variation first and edit the copy."""
+        return tools.apply_ops(root, kitchen, ops, dry_run, out, allow_fixture_edit, render, blender)
 
     @server.tool()
     def validate(kitchen: str) -> dict:
@@ -76,14 +78,10 @@ def build_server(root: Path):
         return tools.start_variation(root, kitchen, name)
 
     @server.tool()
-    def draw(kitchen: str, out: str = "out", scale: int = 20) -> dict:
-        """Write dimensioned SVG elevations and a plan view."""
-        return tools.draw(root, kitchen, out, scale)
-
-    @server.tool()
-    def render(kitchen: str, out: str = "out", blender: str | None = None, engine: str = "EEVEE", no_render: bool = False) -> dict:
-        """Export scene.glb and render one image per wall with Blender (if available)."""
-        return tools.render(root, kitchen, out, blender, engine, no_render)
+    def export(kitchen: str, out: str = "out", scale: int = 20, render: bool = False, blender: str | None = None, engine: str = "EEVEE") -> dict:
+        """Regenerate drawings, scene.glb, cameras.json and manifest.json into <out>/<kitchen stem>/ without editing anything.
+        render=True also produces one Blender image per wall. describe reports export_stale when the file changed since the last export."""
+        return tools.export(root, kitchen, out, scale, render, blender, engine)
 
     return server
 

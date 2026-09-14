@@ -169,12 +169,26 @@ def test_tools_describe_and_search(ws):
     assert any(x["key"] == "quartz-white" and x["default"] for x in f["finishes"])
 
 
-def test_tools_apply_with_drawings_and_refusal(ws):
-    out = tools.apply_ops(ws, "kitchen.json", [{"op": "set_material", "role": "counter", "key": "quartz-grey"}], draw_out="out")
-    assert out["ok"] and out["written"] and len(out["drawings"]) == 3
-    assert (ws / "out" / "elevation-N.svg").exists()
+def test_tools_apply_reexports_everything(ws):
+    from mmk.export import file_sha
+    from mmk.gltf import read_glb_boxes
+    out = tools.apply_ops(ws, "kitchen.json", [{"op": "set_material", "role": "counter", "key": "quartz-grey"}])
+    assert out["ok"] and out["written"]
+    ex = out["export"]
+    assert len(ex["drawings"]) == 3 and ex["renders"] == []
+    d = ws / "out" / "kitchen"
+    for name in ("elevation-N.svg", "plan.svg", "scene.glb", "cameras.json", "manifest.json"):
+        assert (d / name).exists(), name
+    manifest = json.loads((d / "manifest.json").read_text())
+    assert manifest["source_sha256"] == file_sha(ws / "kitchen.json") and manifest["renders_current"] is False
+    assert tools.describe(ws, "kitchen.json")["export_stale"] is False
+    assert read_glb_boxes(d / "scene.glb")["counter N 0-3655"]["material"] == "quartz-grey"
     refused = tools.apply_ops(ws, "kitchen.json", [{"op": "remove", "label": "N-filler-left"}])
-    assert not refused["ok"] and not refused["written"] and refused["errors"]
+    assert not refused["ok"] and not refused["written"] and refused["errors"] and "export" not in refused
+    (ws / "kitchen.json").write_text((ws / "kitchen.json").read_text() + "\n")  # a hand edit
+    assert tools.describe(ws, "kitchen.json")["export_stale"] is True
+    assert tools.export(ws, "kitchen.json")["ok"]
+    assert tools.describe(ws, "kitchen.json")["export_stale"] is False
     assert tools.validate_kitchen(ws, "kitchen.json")["ok"]
     assert any(l["id"] == "finish:counter" and "grey" in l["name"].lower() for l in tools.bom(ws, "kitchen.json")["lines"])
 
@@ -187,15 +201,18 @@ def test_tools_refuse_paths_outside_root(ws):
 def test_tools_variation_and_render_export(ws):
     v = tools.start_variation(ws, "kitchen.json", "drawers everywhere")
     assert v["ok"] and v["path"] == "drawers-everywhere.json"
-    r = tools.render(ws, "drawers-everywhere.json", out="out", no_render=True)
-    assert r["ok"] and (ws / "out" / "scene.glb").exists()
+    r = tools.export(ws, "drawers-everywhere.json")
+    assert r["ok"] and (ws / "out" / "drawers-everywhere" / "scene.glb").exists()
+    assert tools.describe(ws, "drawers-everywhere.json")["export_stale"] is False
+    assert tools.describe(ws, "kitchen.json")["export_stale"] is None  # never exported
 
 
 def test_cli_edit(ws, capsys):
     op = json.dumps({"op": "set_material", "role": "floor", "key": "tile-slate"})
-    assert main(["edit", str(ws / "kitchen.json"), op, "--draw", str(ws / "out")]) == 0
+    assert main(["edit", str(ws / "kitchen.json"), op, "--out", str(ws / "out")]) == 0
     out = capsys.readouterr().out
-    assert "written" in out and "finish:floor" in out and "elevation-N.svg" in out
+    assert "written" in out and "finish:floor" in out and "exported to" in out
+    assert (ws / "out" / "kitchen" / "scene.glb").exists()
     bad = json.dumps({"op": "remove", "label": "N-sink-36"})
     assert main(["edit", str(ws / "kitchen.json"), bad]) == 1
     assert "refused" in capsys.readouterr().out

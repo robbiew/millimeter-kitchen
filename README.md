@@ -76,6 +76,7 @@ mmk bom examples/kitchen.fits.json      # frames, fronts, fillers, appliances, f
 # Phase 5: edits that the validator must approve
 mmk edit examples/kitchen.fits.json '{"op":"set_material","role":"counter","key":"butcher-block-oak"}' --dry-run
 mmk edit examples/kitchen.fits.json '{"op":"remove","label":"N-base-30"}'   # refused: run_closure, file unchanged
+# a successful edit re-exports drawings + scene.glb into out/<file stem>/; add --render for Blender images
 ```
 
 ## Claude as a design assistant
@@ -106,7 +107,9 @@ Then ask, for example: "Start a variation of examples/kitchen.fits.json
 called drawers everywhere, replace the 30-inch base with two 15s with three
 drawers each, and redraw." Claude will call `start_variation` (which copies
 the fixture into `variations/`), `search_catalog` for the ids, `apply_ops`
-with a `replace`, and report the bill-of-materials diff. Ask for something
+with a `replace`, and report the bill-of-materials diff. Every successful
+edit re-exports the drawings and `scene.glb` into `out/<file stem>/`; ask for
+`export` with render on if you want fresh Blender images too. Ask for something
 that cannot fit and it reports the validator's refusal instead. Files under
 `examples/` are test fixtures and `apply_ops` refuses to change them.
 

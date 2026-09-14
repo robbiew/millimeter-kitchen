@@ -13,6 +13,7 @@ from .catalog import load_catalog
 from .bom import bill_of_materials, render_bom
 from .draw import DEFAULT_SCALE, write_drawings
 from .edit import EditError, apply
+from .export import export_all
 from .finishes import ROLES, load_finishes
 from .gltf import write_glb
 from .scene import build_scene
@@ -143,9 +144,9 @@ def cmd_edit(args: argparse.Namespace) -> int:
             sign = "+" if d["delta"] > 0 else ""
             print(f"  BOM {sign}{d['delta']:>3}  {d['id']}  ({d['before']} → {d['after']})")
         print("written" if res.written else ("dry run, not written" if res.ok else "refused, file unchanged"))
-    if res.ok and res.written and args.draw:
-        for p in write_drawings(load_kitchen(args.kitchen), args.draw):
-            print(p)
+    if res.ok and res.written and not args.no_export:
+        ex = export_all(load_kitchen(args.kitchen), args.out, render=args.render, blender=args.blender)
+        print(f"exported to {ex['out']}: {len(ex['drawings'])} drawings, scene.glb, cameras.json" + (f", {len(ex['renders'])} renders" if ex["renders"] else "") + (f" ({ex['render_note']})" if ex.get("render_note") else ""))
     return 0 if res.ok else 1
 
 
@@ -244,7 +245,10 @@ def build_parser() -> argparse.ArgumentParser:
     e.add_argument("kitchen")
     e.add_argument("ops", help="JSON op or list of ops, or @file.json")
     e.add_argument("--dry-run", action="store_true")
-    e.add_argument("--draw", metavar="DIR", help="regenerate drawings into DIR after a successful edit")
+    e.add_argument("--out", default="out", help="export root; outputs go to OUT/<kitchen stem>/ (default: out)")
+    e.add_argument("--no-export", action="store_true", help="do not regenerate drawings and scene after the edit")
+    e.add_argument("--render", action="store_true", help="also render in Blender after the edit")
+    e.add_argument("--blender", help="path to the blender executable")
     e.add_argument("--json", action="store_true", help="machine-readable result")
     e.set_defaults(fn=cmd_edit)
 

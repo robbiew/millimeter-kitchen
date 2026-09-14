@@ -63,6 +63,9 @@ similar) are deliberately out of scope; do not add them.
   `start_variation` copies one into `variations/`, and that is what you edit.
 - Items are addressed by `label`, which must be unique across the file
   (`duplicate_label` is an error). New items without a label get one.
+- A successful edit re-exports drawings, `scene.glb`, `cameras.json` and a
+  `manifest.json` (source hash) into `out/<kitchen stem>/`. Blender renders
+  are opt-in (`render=True`, `--render`) because they take seconds.
 - `src/mmk/tools.py` is the tool surface; `src/mmk/mcp_server.py` only
   registers it with FastMCP. Add a capability to `tools.py` with a test, then
   expose it in the server.
