@@ -85,7 +85,7 @@ def parse_measurements(html: str) -> dict[str, float]:
     if len(found) < 2:
         m = _MEASUREMENT_TEXT.search(html)
         if m:
-            parts = [x.strip().rstrip('"').strip() for x in m.group("text").lower().replace("\\\"", "").split("x")]
+            parts = [re.sub(r"[^0-9 /.]", "", x).strip() for x in m.group("text").lower().split("x")]
             keys = ("w", "d", "h") if len(parts) == 3 else ("w", "h")
             for k, v in zip(keys, parts):
                 try:
