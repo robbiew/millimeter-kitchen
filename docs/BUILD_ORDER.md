@@ -63,8 +63,10 @@ no manual step in Blender.
 
 ## Phase 4 — Materials and appearance
 
-Front series and finishes mapped to Blender materials; countertop, backsplash,
-floor and paint as named materials in the file.
+`catalog/finishes.json` maps front series and every other surface to PBR
+values; `kitchen.json` picks finishes by role in `materials`; `mmk bom` lists
+what the layout uses. Textures (wood grain, veining, tile grout) are a later
+refinement; phase 4 is flat PBR.
 
 **Accept:** changing one finish string and regenerating changes only that; the
 BOM lists the new front ids.
@@ -96,6 +98,6 @@ its item list against the BOM.
 | 1 — Catalog + validator | **Scaffolded** | Six rules with good/bad fixtures pass. Catalog is a seed from published size guides, all `verified: false`; scraper written but untested against ikea.com. Corner cabinets not yet modeled. |
 | 2 — Elevations | **Scaffolded** | `mmk draw` writes an SVG elevation per wall and a plan view in real millimeters at a chosen print scale, with running dimensions, front splits, openings, services and a title block listing totals and fillers. Tests check geometry against the catalog. Corner geometry in plan assumes 90° turns; countertop outline export (build123d) deferred to phase 6. |
 | 3 — 3D | **Scaffolded** | `mmk render` builds the scene (walls cut around openings, floor, frames, door and drawer panels, toe kicks, counters, appliances, fillers) as axis-aligned boxes from `kitchen.json`, writes `scene.glb` with one named node per object and a camera per wall plus an overview, then runs `tools/blender_render.py` to render each camera. glTF bounding boxes are tested against the catalog within 1 mm and export is deterministic. The Blender script has been run on macOS (Eevee, 3 renders in ~8 s) and writes `render-<camera>.png` per camera. Home Builder 5 not used; plain boxes only. `viewer/index.html` is a three.js walkthrough, untested. |
-| 4 — Materials | Not started | |
+| 4 — Materials | **Scaffolded** | `catalog/finishes.json` is the finish library (IKEA front series, frames, counters, backsplash, floor, wall paint, appliances, toe kick) with sRGB color, roughness and metallic. `kitchen.json` names finishes by role in a `materials` block; fronts take theirs from the catalog series. The scene carries them into glTF PBR materials, and a backsplash surface fills from the counter to the wall cabinets. `mmk bom` lists frames, fronts, fillers, appliances and finishes. Colors are approximations from product photos, no textures yet, and Blender renders with the new materials have not been checked visually. |
 | 5 — Claude/MCP | Not started | |
 | 6 — Purchase pack | Not started | |

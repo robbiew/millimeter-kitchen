@@ -65,11 +65,10 @@ def write_glb(scene: Scene, path: str | Path) -> Path:
 
     def material(name: str) -> int:
         if name not in mat_index:
-            r, g, b, a = scene.materials.get(name, scene.materials["frame"])
-            m = {"name": name, "pbrMetallicRoughness": {"baseColorFactor": [r, g, b, a], "metallicFactor": 0.0, "roughnessFactor": 0.6}}
-            if name == "appliance":
-                m["pbrMetallicRoughness"].update({"metallicFactor": 0.9, "roughnessFactor": 0.35})
-            if a < 1:
+            f = scene.materials[name]
+            m = {"name": name, "pbrMetallicRoughness": {"baseColorFactor": [round(v, 4) for v in f.rgba], "metallicFactor": f.metallic, "roughnessFactor": f.roughness},
+                 "extras": {"finish": f.name}}
+            if f.alpha < 1:
                 m["alphaMode"] = "BLEND"
             materials.append(m)
             mat_index[name] = len(materials) - 1
@@ -122,7 +121,7 @@ def write_glb(scene: Scene, path: str | Path) -> Path:
 
 
 def read_glb_boxes(path: str | Path) -> dict[str, dict]:
-    """Return {node name: {"min_mm": [...], "max_mm": [...], "size_mm": [...], "extras": {...}}} from position accessors."""
+    """Return {node name: {"min_mm", "max_mm", "size_mm", "extras", "material", "color"}} from position accessors."""
     data = Path(path).read_bytes()
     magic, version, length = struct.unpack_from("<III", data, 0)
     assert magic == 0x46546C67 and version == 2 and length == len(data)
@@ -144,5 +143,7 @@ def read_glb_boxes(path: str | Path) -> dict[str, dict]:
         xs, ys, zs = floats[0::3], floats[1::3], floats[2::3]
         mn = [min(xs) * MM_PER_M, min(ys) * MM_PER_M, min(zs) * MM_PER_M]
         mx = [max(xs) * MM_PER_M, max(ys) * MM_PER_M, max(zs) * MM_PER_M]
-        out[node["name"]] = {"min_mm": mn, "max_mm": mx, "size_mm": [b - a for a, b in zip(mn, mx)], "extras": node.get("extras", {})}
+        mat = gltf["materials"][prim["material"]]
+        out[node["name"]] = {"min_mm": mn, "max_mm": mx, "size_mm": [b - a for a, b in zip(mn, mx)], "extras": node.get("extras", {}),
+                             "material": mat["name"], "color": mat["pbrMetallicRoughness"]["baseColorFactor"]}
     return out

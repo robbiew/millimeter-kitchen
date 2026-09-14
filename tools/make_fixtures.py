@@ -74,6 +74,16 @@ FITS = {
     "notes": "Sink centered on the window; dishwasher right of sink; range on the east wall over the gas stub.",
     "counter": {"thickness": 38, "overhang_front": 38, "legs": 114, "material": "quartz"},
     "wall_cabinet_bottom": 1372,
+    "backsplash_height": 457,
+    "materials": {
+        "frame": "sektion-white",
+        "counter": "quartz-white",
+        "backsplash": "tile-white-subway",
+        "floor": "oak-natural",
+        "wall": "paint-warm-white",
+        "appliance": "stainless",
+        "toe_kick": "toe-kick-white",
+    },
     "appliances": {
         "dishwasher": {"name": "24in dishwasher (example)", "kind": "dishwasher", "width": 610, "depth": 622, "height": 864,
                         "clearance_front": 686, "clearance_to_wall": 51, "needs_water": True},

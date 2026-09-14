@@ -11,6 +11,7 @@ import math
 from dataclasses import dataclass, field
 
 from .draw import FRONT_REVEAL_MM, elevation_boxes, item_depth, run_depth
+from .finishes import ROLES, Finish, FinishLibrary, load_finishes
 from .model import Kitchen, Run, wall_frames
 
 WALL_THICKNESS = 100
@@ -25,21 +26,16 @@ CAMERA_TARGET_HEIGHT = 1100
 CAMERA_VFOV_DEG = 50.0
 CAMERA_ASPECT = 1.6
 
-# material name -> RGBA base color (phase 4 replaces these with real finishes)
-MATERIALS: dict[str, tuple[float, float, float, float]] = {
-    "frame": (0.93, 0.93, 0.92, 1),
-    "front": (0.85, 0.83, 0.80, 1),
-    "front:voxtorp-walnut": (0.42, 0.27, 0.17, 1),
-    "front:bodbyn-off-white": (0.94, 0.92, 0.86, 1),
-    "front:axstad-matt-white": (0.96, 0.96, 0.96, 1),
-    "counter": (0.78, 0.78, 0.76, 1),
-    "appliance": (0.66, 0.67, 0.69, 1),
-    "filler": (0.90, 0.90, 0.89, 1),
-    "toe_kick": (0.35, 0.35, 0.35, 1),
-    "wall": (0.92, 0.91, 0.88, 1),
-    "floor": (0.62, 0.50, 0.38, 1),
-    "glass": (0.70, 0.85, 0.95, 0.35),
-}
+BACKSPLASH_THICKNESS = 8
+
+
+def resolve_materials(k: Kitchen, lib: FinishLibrary) -> dict[str, Finish]:
+    """Role -> Finish for this kitchen: the file's `materials` block over the library defaults."""
+    out = {}
+    for role in ROLES:
+        key = k.materials.get(role, lib.defaults[role])
+        out[role] = lib[key]
+    return out
 
 
 @dataclass(frozen=True)
@@ -72,7 +68,7 @@ class Scene:
     name: str
     boxes: tuple[Box, ...]
     cameras: tuple[Camera, ...]
-    materials: dict[str, tuple[float, float, float, float]]
+    materials: dict[str, Finish]  # material name used on boxes -> finish
 
 
 class _Frame:
@@ -97,22 +93,21 @@ class _Frame:
         return Box(name, kind, material, mn, mx, dict(extras))
 
 
-def _front_material(p) -> str:
+def _front_material(p, lib: FinishLibrary, default: Finish) -> str:
+    """A front's finish is its catalog series slug (front:<slug>:...) when the library has it."""
     for fu in p.fronts:
         slug = fu.item.id.split(":")[1] if fu.item.id.count(":") >= 2 else ""
-        key = f"front:{slug}"
-        if key in MATERIALS:
-            return key
-    return "front"
+        if slug in lib and lib[slug].role == "front":
+            return slug
+    return default.key
 
 
-def _fronts(fr: _Frame, run: Run, b, face: float) -> list[Box]:
+def _fronts(fr: _Frame, run: Run, b, face: float, mat: str) -> list[Box]:
     """Door and drawer panels in front of the frame face, same splits as the elevation."""
     p = b.p
     doors = [fu for fu in p.fronts if fu.item.kind == "front"]
     drawers = [fu for fu in p.fronts if fu.item.kind == "drawer_front"]
     r = FRONT_REVEAL_MM
-    mat = _front_material(p)
     out = []
     if doors and not drawers:
         n = sum(fu.count for fu in doors)
@@ -133,7 +128,11 @@ def _fronts(fr: _Frame, run: Run, b, face: float) -> list[Box]:
     return out
 
 
-def build_scene(k: Kitchen) -> Scene:
+def build_scene(k: Kitchen, lib: FinishLibrary | None = None) -> Scene:
+    lib = lib or load_finishes()
+    mats = resolve_materials(k, lib)
+    M = {role: f.key for role, f in mats.items()}  # role -> material name
+    used: dict[str, Finish] = {f.key: f for f in mats.values()}
     frames = {wid: _Frame(*f) for wid, f in wall_frames(k.room).items()}
     boxes: list[Box] = []
     ceiling = k.room.min_ceiling
@@ -147,17 +146,17 @@ def build_scene(k: Kitchen) -> Scene:
         cursor = 0
         for o in cuts:
             if o.start > cursor:
-                boxes.append(fr.box(f"wall {wid} {cursor}-{o.start}", "wall", "wall", cursor, o.start, -WALL_THICKNESS, 0, 0, ceiling))
+                boxes.append(fr.box(f"wall {wid} {cursor}-{o.start}", "wall", M["wall"], cursor, o.start, -WALL_THICKNESS, 0, 0, ceiling))
             sill = o.sill if o.sill is not None else 0
             if sill > 0:
-                boxes.append(fr.box(f"wall {wid} under {o.label or o.kind}", "wall", "wall", o.start, o.end, -WALL_THICKNESS, 0, 0, sill))
+                boxes.append(fr.box(f"wall {wid} under {o.label or o.kind}", "wall", M["wall"], o.start, o.end, -WALL_THICKNESS, 0, 0, sill))
             if o.head < ceiling:
-                boxes.append(fr.box(f"wall {wid} over {o.label or o.kind}", "wall", "wall", o.start, o.end, -WALL_THICKNESS, 0, o.head, ceiling))
+                boxes.append(fr.box(f"wall {wid} over {o.label or o.kind}", "wall", M["wall"], o.start, o.end, -WALL_THICKNESS, 0, o.head, ceiling))
             if o.kind == "window":
-                boxes.append(fr.box(f"window {wid} {o.label or ''}".strip(), "glass", "glass", o.start, o.end, -WALL_THICKNESS / 2 - GLASS_THICKNESS / 2, -WALL_THICKNESS / 2 + GLASS_THICKNESS / 2, sill, o.head))
+                boxes.append(fr.box(f"window {wid} {o.label or ''}".strip(), "glass", M["glass"], o.start, o.end, -WALL_THICKNESS / 2 - GLASS_THICKNESS / 2, -WALL_THICKNESS / 2 + GLASS_THICKNESS / 2, sill, o.head))
             cursor = o.end
         if cursor < L:
-            boxes.append(fr.box(f"wall {wid} {cursor}-{L}", "wall", "wall", cursor, L, -WALL_THICKNESS, 0, 0, ceiling))
+            boxes.append(fr.box(f"wall {wid} {cursor}-{L}", "wall", M["wall"], cursor, L, -WALL_THICKNESS, 0, 0, ceiling))
 
     # floor: bounding box of the walls pushed ROOM_DEPTH_FOR_FLOOR into the room
     pts = []
@@ -168,7 +167,7 @@ def build_scene(k: Kitchen) -> Scene:
                 pts.append(fr.point(a, i, 0))
     fx0, fx1 = min(p[0] for p in pts), max(p[0] for p in pts)
     fz0, fz1 = min(p[2] for p in pts), max(p[2] for p in pts)
-    boxes.append(Box("floor", "floor", "floor", (fx0, -FLOOR_THICKNESS, fz0), (fx1, 0, fz1)))
+    boxes.append(Box("floor", "floor", M["floor"], (fx0, -FLOOR_THICKNESS, fz0), (fx1, 0, fz1)))
 
     # cabinets, appliances, fillers, fronts, toe kicks, counters
     for run in k.runs:
@@ -179,19 +178,39 @@ def build_scene(k: Kitchen) -> Scene:
                 continue
             d = item_depth(p, run.level)
             if p.kind == "cabinet":
-                boxes.append(fr.box(p.label, "cabinet", "frame", b.x, b.x + b.w, 0, d, b.y0, b.y0 + b.h,
+                boxes.append(fr.box(p.label, "cabinet", M["frame"], b.x, b.x + b.w, 0, d, b.y0, b.y0 + b.h,
                                     id=p.catalog_item.id if p.catalog_item else None, level=run.level))
-                boxes.extend(_fronts(fr, run, b, d))
+                fmat = _front_material(p, lib, mats["front"])
+                used[fmat] = lib[fmat]
+                boxes.extend(_fronts(fr, run, b, d, fmat))
                 if run.level == "base":
-                    boxes.append(fr.box(f"{p.label}/toe_kick", "toe_kick", "toe_kick", b.x, b.x + b.w, TOE_KICK_SETBACK, d, 0, b.y0))
+                    boxes.append(fr.box(f"{p.label}/toe_kick", "toe_kick", M["toe_kick"], b.x, b.x + b.w, TOE_KICK_SETBACK, d, 0, b.y0))
             elif p.kind == "appliance":
-                boxes.append(fr.box(p.label, "appliance", "appliance", b.x, b.x + b.w, 0, d, b.y0, b.y0 + b.h, appliance=p.appliance.kind if p.appliance else None, level=run.level))
+                boxes.append(fr.box(p.label, "appliance", M["appliance"], b.x, b.x + b.w, 0, d, b.y0, b.y0 + b.h, appliance=p.appliance.kind if p.appliance else None, level=run.level))
             elif p.kind in ("filler", "panel"):
-                boxes.append(fr.box(p.label, "filler", "filler", b.x, b.x + b.w, TOE_KICK_SETBACK if run.level == "base" else 0, d + (FRONT_THICKNESS if p.kind == "filler" else 0), b.y0, b.y0 + b.h, level=run.level))
+                boxes.append(fr.box(p.label, "filler", M["frame"], b.x, b.x + b.w, TOE_KICK_SETBACK if run.level == "base" else 0, d + (FRONT_THICKNESS if p.kind == "filler" else 0), b.y0, b.y0 + b.h, level=run.level))
         if run.level == "base" and run.items:
             cab_heights = [b.h + b.y0 for b in elevation_boxes(k, run) if b.p.kind == "cabinet"]
             top = max(cab_heights) if cab_heights else k.legs + 762
-            boxes.append(fr.box(f"counter {run.wall} {run.start}-{run.end}", "counter", "counter", run.start, run.end, 0, run_depth(run) + COUNTER_OVERHANG_DEFAULT, top, top + k.counter_thickness, wall=run.wall))
+            boxes.append(fr.box(f"counter {run.wall} {run.start}-{run.end}", "counter", M["counter"], run.start, run.end, 0, run_depth(run) + COUNTER_OVERHANG_DEFAULT, top, top + k.counter_thickness, wall=run.wall))
+            # backsplash: from the counter top up to the wall cabinets above, else backsplash_height
+            wall_runs = [r for r in k.runs if r.wall == run.wall and r.level == "wall"]
+            top_y = top + k.counter_thickness
+            cursor = run.start
+            spans: list[tuple[int, int, int]] = []
+            for wr in sorted(wall_runs, key=lambda r: r.start):
+                a0, a1 = max(wr.start, run.start), min(wr.end, run.end)
+                if a0 >= a1:
+                    continue
+                if a0 > cursor:
+                    spans.append((cursor, a0, top_y + k.backsplash_height))
+                spans.append((a0, a1, wr.bottom))
+                cursor = a1
+            if cursor < run.end:
+                spans.append((cursor, run.end, top_y + k.backsplash_height))
+            for a0, a1, y1 in spans:
+                if y1 > top_y:
+                    boxes.append(fr.box(f"backsplash {run.wall} {a0}-{a1}", "backsplash", M["backsplash"], a0, a1, 0, BACKSPLASH_THICKNESS, top_y, y1, wall=run.wall))
 
     # cameras: one per wall that has runs, plus an overview from the open side of the room
     cams: list[Camera] = []
@@ -208,4 +227,4 @@ def build_scene(k: Kitchen) -> Scene:
     far = first.point(-600, ROOM_DEPTH_FOR_FLOOR + 800, 0)
     cams.append(Camera("overview", (far[0], 1900, far[2]), (cx, 900, cz)))
 
-    return Scene(k.name, tuple(boxes), tuple(cams), dict(MATERIALS))
+    return Scene(k.name, tuple(boxes), tuple(cams), used)

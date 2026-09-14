@@ -1,0 +1,49 @@
+{
+  "id": "finishes-2026-09",
+  "note": "Material library for renders. Colors are sRGB approximations taken from product photography, not measured samples; roughness and metallic are physically-based guesses. A finish never carries a dimension. Front finishes are keyed by the catalog front slug (front:<slug>:...).",
+  "finishes": {
+    "sektion-white":        {"role": "frame",      "brand": "IKEA", "name": "SEKTION frame, white",             "color": "#F2F1EE", "roughness": 0.55, "metallic": 0.0},
+    "sektion-brown":        {"role": "frame",      "brand": "IKEA", "name": "SEKTION frame, brown",             "color": "#5B4634", "roughness": 0.55, "metallic": 0.0},
+
+    "voxtorp-walnut":       {"role": "front",      "brand": "IKEA", "name": "VOXTORP walnut effect",            "color": "#5C3A22", "roughness": 0.40, "metallic": 0.0},
+    "bodbyn-off-white":     {"role": "front",      "brand": "IKEA", "name": "BODBYN off-white",                 "color": "#EFEADF", "roughness": 0.50, "metallic": 0.0},
+    "axstad-matt-white":    {"role": "front",      "brand": "IKEA", "name": "AXSTAD matt white",                "color": "#F4F4F2", "roughness": 0.70, "metallic": 0.0},
+
+    "quartz-white":         {"role": "counter",    "name": "Quartz, white with light veining",   "color": "#EDEDE9", "roughness": 0.22, "metallic": 0.0},
+    "quartz-grey":          {"role": "counter",    "name": "Quartz, warm grey",                   "color": "#A8A7A2", "roughness": 0.25, "metallic": 0.0},
+    "butcher-block-oak":    {"role": "counter",    "name": "Butcher block, oak",                  "color": "#C49A64", "roughness": 0.50, "metallic": 0.0},
+    "laminate-black":       {"role": "counter",    "name": "Laminate, matte black",               "color": "#2B2B2A", "roughness": 0.45, "metallic": 0.0},
+
+    "tile-white-subway":    {"role": "backsplash", "name": "Ceramic subway tile, white gloss",    "color": "#F3F3F0", "roughness": 0.15, "metallic": 0.0},
+    "tile-zellige-green":   {"role": "backsplash", "name": "Zellige tile, sea green",             "color": "#6F9E92", "roughness": 0.20, "metallic": 0.0},
+    "paint-backsplash":     {"role": "backsplash", "name": "Painted wall, no tile",               "color": "#F1EEE6", "roughness": 0.85, "metallic": 0.0},
+
+    "oak-natural":          {"role": "floor",      "name": "Oak plank, natural",                  "color": "#B48E5E", "roughness": 0.55, "metallic": 0.0},
+    "tile-slate":           {"role": "floor",      "name": "Porcelain tile, slate",               "color": "#4B4F53", "roughness": 0.65, "metallic": 0.0},
+    "tile-white-large":     {"role": "floor",      "name": "Porcelain tile, warm white",          "color": "#E4E2DC", "roughness": 0.35, "metallic": 0.0},
+
+    "paint-warm-white":     {"role": "wall",       "name": "Wall paint, warm white",              "color": "#F1EEE6", "roughness": 0.90, "metallic": 0.0},
+    "paint-sage":           {"role": "wall",       "name": "Wall paint, sage",                    "color": "#B7C2AE", "roughness": 0.90, "metallic": 0.0},
+    "paint-charcoal":       {"role": "wall",       "name": "Wall paint, charcoal",                "color": "#3E4144", "roughness": 0.90, "metallic": 0.0},
+
+    "stainless":            {"role": "appliance",  "name": "Stainless steel",                     "color": "#B9BBBE", "roughness": 0.35, "metallic": 0.9},
+    "appliance-black":      {"role": "appliance",  "name": "Matte black appliance",               "color": "#232425", "roughness": 0.50, "metallic": 0.3},
+    "appliance-white":      {"role": "appliance",  "name": "White appliance",                     "color": "#EDEDEB", "roughness": 0.40, "metallic": 0.0},
+
+    "toe-kick-white":       {"role": "toe_kick",   "brand": "IKEA", "name": "FÖRBÄTTRA toe kick, white",         "color": "#EDECE8", "roughness": 0.55, "metallic": 0.0},
+    "toe-kick-black":       {"role": "toe_kick",   "name": "Toe kick, black",                      "color": "#2A2A2A", "roughness": 0.60, "metallic": 0.0},
+
+    "glass":                {"role": "glass",      "name": "Window glass",                        "color": "#B5D8EC", "roughness": 0.05, "metallic": 0.0, "alpha": 0.35}
+  },
+  "defaults": {
+    "frame": "sektion-white",
+    "front": "axstad-matt-white",
+    "counter": "quartz-white",
+    "backsplash": "tile-white-subway",
+    "floor": "oak-natural",
+    "wall": "paint-warm-white",
+    "appliance": "stainless",
+    "toe_kick": "toe-kick-white",
+    "glass": "glass"
+  }
+}

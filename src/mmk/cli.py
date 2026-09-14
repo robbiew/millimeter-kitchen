@@ -10,7 +10,9 @@ import sys
 from pathlib import Path
 
 from .catalog import load_catalog
+from .bom import bill_of_materials, render_bom
 from .draw import DEFAULT_SCALE, write_drawings
+from .finishes import ROLES, load_finishes
 from .gltf import write_glb
 from .scene import build_scene
 from .findings import Finding, has_errors
@@ -94,6 +96,33 @@ def cmd_draw(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_bom(args: argparse.Namespace) -> int:
+    k = load_kitchen(args.kitchen)
+    findings = validate(k)
+    n_err = sum(f.is_error for f in findings)
+    if n_err:
+        _print([f for f in findings if f.is_error])
+        print(f"{k.name}: {n_err} errors; a bill of materials is only meaningful for a layout that fits", file=sys.stderr)
+        return 1
+    lines = bill_of_materials(k)
+    if args.json:
+        print(json.dumps([l.__dict__ for l in lines], indent=2))
+    else:
+        print(render_bom(k, lines))
+    return 0
+
+
+def cmd_finishes_list(args: argparse.Namespace) -> int:
+    lib = load_finishes()
+    for role in ROLES:
+        if args.role and role != args.role:
+            continue
+        for f in lib.for_role(role):
+            star = " (default)" if lib.defaults[role] == f.key else ""
+            print(f"{role:10} {f.key:22} {f.name}{star}")
+    return 0
+
+
 BLENDER_SCRIPT = Path(__file__).resolve().parents[2] / "tools" / "blender_render.py"
 
 
@@ -169,6 +198,16 @@ def build_parser() -> argparse.ArgumentParser:
     r.add_argument("--samples", type=int, default=64)
     r.add_argument("--force", action="store_true", help="render even if the validator reports errors")
     r.set_defaults(fn=cmd_render)
+
+    b = sub.add_parser("bom", help="phase 4/6: list every catalog item the layout uses, with counts and article numbers")
+    b.add_argument("kitchen")
+    b.add_argument("--json", action="store_true")
+    b.set_defaults(fn=cmd_bom)
+
+    fin = sub.add_parser("finishes", help="phase 4: the finish library").add_subparsers(dest="sub", required=True)
+    fl = fin.add_parser("list")
+    fl.add_argument("--role", choices=ROLES)
+    fl.set_defaults(fn=cmd_finishes_list)
     return ap
 
 
