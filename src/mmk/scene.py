@@ -21,10 +21,10 @@ TOE_KICK_SETBACK = 76
 COUNTER_OVERHANG_DEFAULT = 38
 GLASS_THICKNESS = 12
 ROOM_DEPTH_FOR_FLOOR = 2600
-CAMERA_HEIGHT = 1500
-CAMERA_TARGET_HEIGHT = 1100
+CAMERA_HEIGHT = 1400
 CAMERA_VFOV_DEG = 50.0
 CAMERA_ASPECT = 1.6
+CAMERA_MARGIN = 1.15  # framing slack on both axes
 
 BACKSPLASH_THICKNESS = 8
 
@@ -219,9 +219,15 @@ def build_scene(k: Kitchen, lib: FinishLibrary | None = None) -> Scene:
             continue
         fr = frames[wid]
         L = k.room.walls[wid].planning_length
-        hfov = 2 * math.atan(math.tan(math.radians(CAMERA_VFOV_DEG / 2)) * CAMERA_ASPECT)
-        dist = min(max((L / 2) / math.tan(hfov / 2) * 1.15, 1800), 5000)
-        cams.append(Camera(f"wall-{wid}", fr.point(L / 2, dist, CAMERA_HEIGHT), fr.point(L / 2, 0, CAMERA_TARGET_HEIGHT)))
+        top = max((b.y0 + b.h for r in k.runs if r.wall == wid for b in elevation_boxes(k, r)), default=k.legs + 762)
+        target_y = top / 2
+        half_v = math.tan(math.radians(CAMERA_VFOV_DEG / 2))
+        half_h = half_v * CAMERA_ASPECT
+        # distance that fits the wall width and the floor-to-top height, whichever needs more
+        dist_w = (L / 2) * CAMERA_MARGIN / half_h
+        dist_h = max(top - target_y, target_y + (CAMERA_HEIGHT - target_y)) * CAMERA_MARGIN / half_v
+        dist = min(max(dist_w, dist_h, 1800), 6000)
+        cams.append(Camera(f"wall-{wid}", fr.point(L / 2, dist, CAMERA_HEIGHT), fr.point(L / 2, 0, target_y)))
     cx, cz = (fx0 + fx1) / 2, (fz0 + fz1) / 2
     first = frames[k.room.order[0]]
     far = first.point(-600, ROOM_DEPTH_FOR_FLOOR + 800, 0)

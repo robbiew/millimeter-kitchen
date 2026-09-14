@@ -17,7 +17,7 @@ class Finish:
     key: str
     role: str
     name: str
-    color: tuple[float, float, float]  # linear-ish 0..1 (sRGB values, as glTF baseColorFactor expects)
+    color: tuple[float, float, float]  # sRGB 0..1 as authored; use linear_rgba for glTF
     roughness: float
     metallic: float
     alpha: float = 1.0
@@ -25,7 +25,17 @@ class Finish:
 
     @property
     def rgba(self) -> tuple[float, float, float, float]:
+        """sRGB color with alpha, as authored in finishes.json."""
         return (*self.color, self.alpha)
+
+    @property
+    def linear_rgba(self) -> tuple[float, float, float, float]:
+        """glTF baseColorFactor is linear; a hex color from a product photo is sRGB."""
+        return (*(srgb_to_linear(c) for c in self.color), self.alpha)
+
+
+def srgb_to_linear(c: float) -> float:
+    return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
 
 
 def _hex_to_rgb(h: str) -> tuple[float, float, float]:

@@ -108,6 +108,14 @@ def test_cameras_one_per_wall_plus_overview(scene):
     n = next(c for c in scene.cameras if c.name == "wall-N")
     assert n.target[0] == pytest.approx(3655 / 2) and n.target[2] == pytest.approx(0)
     assert n.position[2] > 1500  # in front of the wall, inside the room
+    # the frustum at the wall covers the floor and the top of the wall cabinets
+    import math
+    dist = n.position[2]
+    half_v = dist * math.tan(math.radians(n.vfov_deg / 2))
+    top = 1372 + 762
+    assert n.target[1] - half_v <= 0 and n.target[1] + half_v >= top
+    half_h = half_v * n.aspect
+    assert half_h >= 3655 / 2
 
 
 def test_regeneration_is_deterministic(scene, tmp_path):

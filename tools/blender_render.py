@@ -96,7 +96,8 @@ def main(argv: list[str]) -> int:
     for c in cams:
         cam_data = bpy.data.cameras.new(c["name"])
         cam_data.sensor_fit = "VERTICAL"
-        cam_data.angle_y = math.radians(c["vfov_deg"])
+        cam_data.sensor_height = 24.0
+        cam_data.lens = (cam_data.sensor_height / 2) / math.tan(math.radians(c["vfov_deg"]) / 2)
         cam_data.clip_start, cam_data.clip_end = 0.05, 100
         cam = bpy.data.objects.new(c["name"], cam_data)
         cam.location = yup_to_blender([v / 1000 for v in c["position"]])

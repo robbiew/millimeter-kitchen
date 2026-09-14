@@ -66,8 +66,8 @@ def write_glb(scene: Scene, path: str | Path) -> Path:
     def material(name: str) -> int:
         if name not in mat_index:
             f = scene.materials[name]
-            m = {"name": name, "pbrMetallicRoughness": {"baseColorFactor": [round(v, 4) for v in f.rgba], "metallicFactor": f.metallic, "roughnessFactor": f.roughness},
-                 "extras": {"finish": f.name}}
+            m = {"name": name, "pbrMetallicRoughness": {"baseColorFactor": [round(v, 5) for v in f.linear_rgba], "metallicFactor": f.metallic, "roughnessFactor": f.roughness},
+                 "extras": {"finish": f.name, "srgb": [round(v, 4) for v in f.rgba]}}
             if f.alpha < 1:
                 m["alphaMode"] = "BLEND"
             materials.append(m)
