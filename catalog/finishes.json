@@ -30,10 +30,10 @@
         "scale_mm": 900,
         "grain": "horizontal",
         "base": "#5C3A22",
-        "dark": "#3F2614",
-        "light": "#6E4A2E",
-        "rings": 24,
-        "figure": 0.05,
+        "dark": "#452C1A",
+        "light": "#6B482C",
+        "rings": 22,
+        "figure": 0.06,
         "seed": 1
       }
     },

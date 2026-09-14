@@ -109,13 +109,16 @@ def wood(size: int, base: Color, dark: Color, light: Color, seed: int = 1, rings
                 board = math.floor(u * planks)
                 uu = u + _hash(board, 1, seed)          # each board is a different slice of the log
                 vv = v + _hash(board, 2, seed)
-            # slow wander of the ring lines, a few cells across and along, gives the cathedral figure
-            drift = _fbm(uu * 4, vv * 2, 4, seed, 2, period_y=2) - 0.5
-            band = 0.5 + 0.5 * math.sin((uu + figure * drift) * rings * math.tau)
-            band = band * band                            # thin dark latewood lines, wide light earlywood
+            # slow wander of the ring lines, a few cells across and along, gives the cathedral figure;
+            # a second, slower field varies the ring spacing so the stripes are not evenly spaced
+            drift = _fbm(uu * 4, vv * 2, 4, seed, 3, period_y=2) - 0.5
+            spacing = _fbm(uu * 2, vv * 1, 2, seed + 3, 2, period_y=1) - 0.5
+            phase = (uu + figure * drift) * rings + 1.5 * spacing
+            band = 0.5 + 0.5 * math.sin(phase * math.tau)
+            band = band * band * band                     # thin latewood lines, wide earlywood between
             streak = _fbm(uu * across, vv * along, across, seed + 7, 3, period_y=along) - 0.5
-            t = _clamp(0.5 * band + 0.9 * streak + 0.45)
-            c = _mix(_mix(dark, base, t), light, max(0.0, streak) * 0.5)
+            t = _clamp(0.35 * band + 0.8 * streak + 0.5)
+            c = _mix(_mix(dark, base, t), light, max(0.0, streak) * 0.45)
             if planks:
                 pu = (u * planks) % 1.0
                 if pu < plank_gap or pu > 1 - plank_gap:
