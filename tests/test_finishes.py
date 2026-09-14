@@ -139,8 +139,11 @@ def test_glb_colors_are_linearized(tmp_path):
     from mmk.finishes import srgb_to_linear
     k = load_kitchen(EXAMPLES / "kitchen.fits.json")
     b = _boxes(k, tmp_path, "lin")
-    walnut = load_finishes()["voxtorp-walnut"]
-    got = b["N-base-30/door1"]["color"][:3]
-    want = [srgb_to_linear(c) for c in walnut.color]
+    # Textured finishes write a white baseColorFactor (the texture carries the
+    # colour), so check linearization on the untextured frame material.
+    white = load_finishes()["sektion-white"]
+    assert white.texture is None
+    got = b["N-base-30"]["color"][:3]
+    want = [srgb_to_linear(c) for c in white.color]
     assert all(abs(g - w) < 1e-4 for g, w in zip(got, want))
-    assert got[0] < walnut.color[0]  # linear is darker than sRGB for mid tones
+    assert got[0] < white.color[0]  # linear is darker than sRGB for mid tones

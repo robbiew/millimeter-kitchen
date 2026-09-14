@@ -22,6 +22,7 @@ class Finish:
     metallic: float
     alpha: float = 1.0
     brand: str | None = None
+    texture: dict | None = None
 
     @property
     def rgba(self) -> tuple[float, float, float, float]:
@@ -48,7 +49,7 @@ class FinishLibrary:
         self.id = data["id"]
         self.finishes: dict[str, Finish] = {}
         for key, f in data["finishes"].items():
-            self.finishes[key] = Finish(key, f["role"], f["name"], _hex_to_rgb(f["color"]), float(f["roughness"]), float(f["metallic"]), float(f.get("alpha", 1.0)), f.get("brand"))
+            self.finishes[key] = Finish(key, f["role"], f["name"], _hex_to_rgb(f["color"]), float(f["roughness"]), float(f["metallic"]), float(f.get("alpha", 1.0)), f.get("brand"), f.get("texture"))
         self.defaults: dict[str, str] = dict(data["defaults"])
         for role in ROLES:
             if role not in self.defaults:

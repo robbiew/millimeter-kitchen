@@ -15,6 +15,7 @@ import struct
 from pathlib import Path
 
 from .scene import Box, Scene
+from .textures import texture_png
 
 MM_PER_M = 1000.0
 
@@ -29,19 +30,33 @@ _FACES = [
 ]
 
 
-def _box_geometry(b: Box) -> tuple[list[float], list[float], list[int]]:
+def _box_geometry(b: Box, uv_scale_mm: float | None = None, grain: str = "vertical") -> tuple[list[float], list[float], list[int], list[float]]:
+    """Positions, normals, indices and planar UVs. UVs are in the box's frame in units of uv_scale_mm,
+    so a texture tile covers a real-world square; `grain` = horizontal swaps the axes so the pattern's
+    vertical axis runs along the wall instead of up."""
     mn = [v / MM_PER_M for v in b.min]
     mx = [v / MM_PER_M for v in b.max]
     pos: list[float] = []
     nrm: list[float] = []
     idx: list[int] = []
+    uvs: list[float] = []
+    k = (1.0 / uv_scale_mm) if uv_scale_mm else 0.0
     for normal, corners in _FACES:
         base = len(pos) // 3
         for sx, sy, sz in corners:
-            pos += [mx[0] if sx else mn[0], mx[1] if sy else mn[1], mx[2] if sz else mn[2]]
+            x, y, z = (b.max[0] if sx else b.min[0]), (b.max[1] if sy else b.min[1]), (b.max[2] if sz else b.min[2])
+            pos += [x / MM_PER_M, y / MM_PER_M, z / MM_PER_M]
             nrm += list(map(float, normal))
+            if normal[0]:      # side faces: along the wall's depth and up
+                a, c = z, y
+            elif normal[1]:    # top/bottom: along the wall and into the room
+                a, c = x, z
+            else:              # front/back: along the wall and up
+                a, c = x, y
+            u, v = (a * k, -c * k) if grain != "horizontal" else (-c * k, a * k)
+            uvs += [u, v]
         idx += [base, base + 1, base + 2, base, base + 2, base + 3]
-    return pos, nrm, idx
+    return pos, nrm, idx, uvs
 
 
 def _pad4(b: bytes, fill: bytes = b"\x00") -> bytes:
@@ -56,6 +71,9 @@ def write_glb(scene: Scene, path: str | Path) -> Path:
     nodes: list[dict] = []
     materials: list[dict] = []
     mat_index: dict[str, int] = {}
+    images: list[dict] = []
+    textures: list[dict] = []
+    samplers: list[dict] = [{"magFilter": 9729, "minFilter": 9987, "wrapS": 10497, "wrapT": 10497}]
 
     def add_view(data: bytes, target: int) -> int:
         while len(buf) % 4:
@@ -71,21 +89,34 @@ def write_glb(scene: Scene, path: str | Path) -> Path:
                  "extras": {"finish": f.name, "srgb": [round(v, 4) for v in f.rgba]}}
             if f.alpha < 1:
                 m["alphaMode"] = "BLEND"
+            if f.texture:
+                data = texture_png(f.texture, f.key)
+                iv = add_view(data, 0)
+                buffer_views[iv].pop("target", None)
+                images.append({"bufferView": iv, "mimeType": "image/png", "name": f.key})
+                textures.append({"sampler": 0, "source": len(images) - 1})
+                m["pbrMetallicRoughness"]["baseColorTexture"] = {"index": len(textures) - 1, "texCoord": 0}
+                m["pbrMetallicRoughness"]["baseColorFactor"] = [1.0, 1.0, 1.0, f.alpha]  # the image carries the colour
+                m["extras"]["texture_scale_mm"] = f.texture.get("scale_mm")
             materials.append(m)
             mat_index[name] = len(materials) - 1
         return mat_index[name]
 
     for b in scene.boxes:
-        pos, nrm, idx = _box_geometry(b)
+        fin = scene.materials[b.material]
+        tex = fin.texture or {}
+        pos, nrm, idx, uvs = _box_geometry(b, tex.get("scale_mm"), tex.get("grain", "vertical"))
         pv = add_view(struct.pack(f"<{len(pos)}f", *pos), 34962)
         nv = add_view(struct.pack(f"<{len(nrm)}f", *nrm), 34962)
+        tv = add_view(struct.pack(f"<{len(uvs)}f", *uvs), 34962)
         iv = add_view(struct.pack(f"<{len(idx)}H", *idx), 34963)
         accessors.append({"bufferView": pv, "componentType": 5126, "count": len(pos) // 3, "type": "VEC3",
                           "min": [v / MM_PER_M for v in b.min], "max": [v / MM_PER_M for v in b.max]})
         accessors.append({"bufferView": nv, "componentType": 5126, "count": len(nrm) // 3, "type": "VEC3"})
+        accessors.append({"bufferView": tv, "componentType": 5126, "count": len(uvs) // 2, "type": "VEC2"})
         accessors.append({"bufferView": iv, "componentType": 5123, "count": len(idx), "type": "SCALAR"})
         a = len(accessors)
-        meshes.append({"name": b.name, "primitives": [{"attributes": {"POSITION": a - 3, "NORMAL": a - 2}, "indices": a - 1, "material": material(b.material)}]})
+        meshes.append({"name": b.name, "primitives": [{"attributes": {"POSITION": a - 4, "NORMAL": a - 3, "TEXCOORD_0": a - 2}, "indices": a - 1, "material": material(b.material)}]})
         node = {"name": b.name, "mesh": len(meshes) - 1, "extras": {"kind": b.kind, "size_mm": list(b.size), **{k: v for k, v in b.extras.items() if v is not None}}}
         if any(b.origin):
             node["translation"] = [round(v / MM_PER_M, 6) for v in b.origin]
@@ -108,6 +139,7 @@ def write_glb(scene: Scene, path: str | Path) -> Path:
         "meshes": meshes,
         "materials": materials,
         "cameras": cameras,
+        **({"images": images, "textures": textures, "samplers": samplers} if images else {}),
         "accessors": accessors,
         "bufferViews": buffer_views,
         "buffers": [{"byteLength": len(buf)}],
@@ -160,5 +192,6 @@ def read_glb_boxes(path: str | Path) -> dict[str, dict]:
         mat = gltf["materials"][prim["material"]]
         out[node["name"]] = {"min_mm": mn, "max_mm": mx, "size_mm": [(b - a) * MM_PER_M for a, b in zip(lmn, lmx)], "extras": node.get("extras", {}),
                              "material": mat["name"], "color": mat["pbrMetallicRoughness"]["baseColorFactor"],
+                             "textured": "baseColorTexture" in mat["pbrMetallicRoughness"],
                              "yaw_deg": math.degrees(yaw)}
     return out

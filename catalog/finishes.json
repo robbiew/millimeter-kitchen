@@ -1,39 +1,274 @@
 {
   "id": "finishes-2026-09",
-  "note": "Material library for renders. Colors are sRGB approximations taken from product photography, not measured samples; roughness and metallic are physically-based guesses. A finish never carries a dimension. Front finishes are keyed by the catalog front slug (front:<slug>:...).",
+  "note": "Material library for renders. Colors are sRGB approximations taken from product photography, not measured samples; roughness and metallic are physically-based guesses. A finish never carries a dimension. Front finishes are keyed by the catalog front slug (front:<slug>:...). A finish may carry a `texture` spec (see src/mmk/textures.py): a procedural image at `scale_mm` per tile; `grain` sets whether the pattern's long axis runs horizontally along the wall or vertically.",
   "finishes": {
-    "sektion-white":        {"role": "frame",      "brand": "IKEA", "name": "SEKTION frame, white",             "color": "#F2F1EE", "roughness": 0.55, "metallic": 0.0},
-    "sektion-brown":        {"role": "frame",      "brand": "IKEA", "name": "SEKTION frame, brown",             "color": "#5B4634", "roughness": 0.55, "metallic": 0.0},
-
-    "voxtorp-walnut":       {"role": "front",      "brand": "IKEA", "name": "VOXTORP walnut effect",            "color": "#5C3A22", "roughness": 0.40, "metallic": 0.0},
-    "bodbyn-off-white":     {"role": "front",      "brand": "IKEA", "name": "BODBYN off-white",                 "color": "#EFEADF", "roughness": 0.50, "metallic": 0.0},
-    "axstad-matt-white":    {"role": "front",      "brand": "IKEA", "name": "AXSTAD matt white",                "color": "#F4F4F2", "roughness": 0.70, "metallic": 0.0},
-
-    "quartz-white":         {"role": "counter",    "name": "Quartz, white with light veining",   "color": "#EDEDE9", "roughness": 0.22, "metallic": 0.0},
-    "quartz-grey":          {"role": "counter",    "name": "Quartz, warm grey",                   "color": "#A8A7A2", "roughness": 0.25, "metallic": 0.0},
-    "butcher-block-oak":    {"role": "counter",    "name": "Butcher block, oak",                  "color": "#C49A64", "roughness": 0.50, "metallic": 0.0},
-    "laminate-black":       {"role": "counter",    "name": "Laminate, matte black",               "color": "#2B2B2A", "roughness": 0.45, "metallic": 0.0},
-
-    "tile-white-subway":    {"role": "backsplash", "name": "Ceramic subway tile, white gloss",    "color": "#F3F3F0", "roughness": 0.15, "metallic": 0.0},
-    "tile-zellige-green":   {"role": "backsplash", "name": "Zellige tile, sea green",             "color": "#6F9E92", "roughness": 0.20, "metallic": 0.0},
-    "paint-backsplash":     {"role": "backsplash", "name": "Painted wall, no tile",               "color": "#F1EEE6", "roughness": 0.85, "metallic": 0.0},
-
-    "oak-natural":          {"role": "floor",      "name": "Oak plank, natural",                  "color": "#B48E5E", "roughness": 0.55, "metallic": 0.0},
-    "tile-slate":           {"role": "floor",      "name": "Porcelain tile, slate",               "color": "#4B4F53", "roughness": 0.65, "metallic": 0.0},
-    "tile-white-large":     {"role": "floor",      "name": "Porcelain tile, warm white",          "color": "#E4E2DC", "roughness": 0.35, "metallic": 0.0},
-
-    "paint-warm-white":     {"role": "wall",       "name": "Wall paint, warm white",              "color": "#F1EEE6", "roughness": 0.90, "metallic": 0.0},
-    "paint-sage":           {"role": "wall",       "name": "Wall paint, sage",                    "color": "#B7C2AE", "roughness": 0.90, "metallic": 0.0},
-    "paint-charcoal":       {"role": "wall",       "name": "Wall paint, charcoal",                "color": "#3E4144", "roughness": 0.90, "metallic": 0.0},
-
-    "stainless":            {"role": "appliance",  "name": "Stainless steel",                     "color": "#B9BBBE", "roughness": 0.35, "metallic": 0.9},
-    "appliance-black":      {"role": "appliance",  "name": "Matte black appliance",               "color": "#232425", "roughness": 0.50, "metallic": 0.3},
-    "appliance-white":      {"role": "appliance",  "name": "White appliance",                     "color": "#EDEDEB", "roughness": 0.40, "metallic": 0.0},
-
-    "toe-kick-white":       {"role": "toe_kick",   "brand": "IKEA", "name": "FÖRBÄTTRA toe kick, white",         "color": "#EDECE8", "roughness": 0.55, "metallic": 0.0},
-    "toe-kick-black":       {"role": "toe_kick",   "name": "Toe kick, black",                      "color": "#2A2A2A", "roughness": 0.60, "metallic": 0.0},
-
-    "glass":                {"role": "glass",      "name": "Window glass",                        "color": "#B5D8EC", "roughness": 0.05, "metallic": 0.0, "alpha": 0.35}
+    "sektion-white": {
+      "role": "frame",
+      "brand": "IKEA",
+      "name": "SEKTION frame, white",
+      "color": "#F2F1EE",
+      "roughness": 0.55,
+      "metallic": 0.0
+    },
+    "sektion-brown": {
+      "role": "frame",
+      "brand": "IKEA",
+      "name": "SEKTION frame, brown",
+      "color": "#5B4634",
+      "roughness": 0.55,
+      "metallic": 0.0
+    },
+    "voxtorp-walnut": {
+      "role": "front",
+      "brand": "IKEA",
+      "name": "VOXTORP walnut effect",
+      "color": "#5C3A22",
+      "roughness": 0.4,
+      "metallic": 0.0,
+      "texture": {
+        "kind": "wood",
+        "scale_mm": 900,
+        "grain": "horizontal",
+        "base": "#5C3A22",
+        "dark": "#3F2614",
+        "light": "#7A5236",
+        "rings": 12,
+        "seed": 1
+      }
+    },
+    "bodbyn-off-white": {
+      "role": "front",
+      "brand": "IKEA",
+      "name": "BODBYN off-white",
+      "color": "#EFEADF",
+      "roughness": 0.5,
+      "metallic": 0.0
+    },
+    "axstad-matt-white": {
+      "role": "front",
+      "brand": "IKEA",
+      "name": "AXSTAD matt white",
+      "color": "#F4F4F2",
+      "roughness": 0.7,
+      "metallic": 0.0
+    },
+    "quartz-white": {
+      "role": "counter",
+      "name": "Quartz, white with light veining",
+      "color": "#EDEDE9",
+      "roughness": 0.22,
+      "metallic": 0.0,
+      "texture": {
+        "kind": "stone",
+        "scale_mm": 1200,
+        "base": "#EDEDE9",
+        "vein": "#C9C9C4",
+        "strength": 0.5,
+        "seed": 5
+      }
+    },
+    "quartz-grey": {
+      "role": "counter",
+      "name": "Quartz, warm grey",
+      "color": "#A8A7A2",
+      "roughness": 0.25,
+      "metallic": 0.0,
+      "texture": {
+        "kind": "stone",
+        "scale_mm": 1200,
+        "base": "#A8A7A2",
+        "vein": "#8A8985",
+        "strength": 0.4,
+        "seed": 6
+      }
+    },
+    "butcher-block-oak": {
+      "role": "counter",
+      "name": "Butcher block, oak",
+      "color": "#C49A64",
+      "roughness": 0.5,
+      "metallic": 0.0,
+      "texture": {
+        "kind": "plank",
+        "scale_mm": 600,
+        "grain": "horizontal",
+        "base": "#C49A64",
+        "dark": "#9C7A4C",
+        "light": "#DDB98A",
+        "planks": 12,
+        "rings": 8,
+        "seed": 4
+      }
+    },
+    "laminate-black": {
+      "role": "counter",
+      "name": "Laminate, matte black",
+      "color": "#2B2B2A",
+      "roughness": 0.45,
+      "metallic": 0.0
+    },
+    "tile-white-subway": {
+      "role": "backsplash",
+      "name": "Ceramic subway tile, white gloss",
+      "color": "#F3F3F0",
+      "roughness": 0.15,
+      "metallic": 0.0,
+      "texture": {
+        "kind": "tile",
+        "scale_mm": 456,
+        "tile_w_mm": 152,
+        "tile_h_mm": 76,
+        "grout_mm": 3,
+        "base": "#F3F3F0",
+        "grout": "#C9C9C4",
+        "bond": "running",
+        "variation": 0.02
+      }
+    },
+    "tile-zellige-green": {
+      "role": "backsplash",
+      "name": "Zellige tile, sea green",
+      "color": "#6F9E92",
+      "roughness": 0.2,
+      "metallic": 0.0,
+      "texture": {
+        "kind": "tile",
+        "scale_mm": 400,
+        "tile_w_mm": 100,
+        "tile_h_mm": 100,
+        "grout_mm": 2,
+        "base": "#6F9E92",
+        "grout": "#DCE3DF",
+        "bond": "stacked",
+        "variation": 0.12
+      }
+    },
+    "paint-backsplash": {
+      "role": "backsplash",
+      "name": "Painted wall, no tile",
+      "color": "#F1EEE6",
+      "roughness": 0.85,
+      "metallic": 0.0
+    },
+    "oak-natural": {
+      "role": "floor",
+      "name": "Oak plank, natural",
+      "color": "#B48E5E",
+      "roughness": 0.55,
+      "metallic": 0.0,
+      "texture": {
+        "kind": "plank",
+        "scale_mm": 1200,
+        "grain": "horizontal",
+        "base": "#B48E5E",
+        "dark": "#8A6A42",
+        "light": "#CDAE80",
+        "planks": 8,
+        "rings": 9,
+        "seed": 2
+      }
+    },
+    "tile-slate": {
+      "role": "floor",
+      "name": "Porcelain tile, slate",
+      "color": "#4B4F53",
+      "roughness": 0.65,
+      "metallic": 0.0,
+      "texture": {
+        "kind": "tile",
+        "scale_mm": 1200,
+        "tile_w_mm": 600,
+        "tile_h_mm": 300,
+        "grout_mm": 4,
+        "base": "#4B4F53",
+        "grout": "#2E3134",
+        "bond": "running",
+        "variation": 0.06
+      }
+    },
+    "tile-white-large": {
+      "role": "floor",
+      "name": "Porcelain tile, warm white",
+      "color": "#E4E2DC",
+      "roughness": 0.35,
+      "metallic": 0.0,
+      "texture": {
+        "kind": "tile",
+        "scale_mm": 1200,
+        "tile_w_mm": 600,
+        "tile_h_mm": 600,
+        "grout_mm": 3,
+        "base": "#E4E2DC",
+        "grout": "#C7C4BC",
+        "bond": "stacked",
+        "variation": 0.03
+      }
+    },
+    "paint-warm-white": {
+      "role": "wall",
+      "name": "Wall paint, warm white",
+      "color": "#F1EEE6",
+      "roughness": 0.9,
+      "metallic": 0.0
+    },
+    "paint-sage": {
+      "role": "wall",
+      "name": "Wall paint, sage",
+      "color": "#B7C2AE",
+      "roughness": 0.9,
+      "metallic": 0.0
+    },
+    "paint-charcoal": {
+      "role": "wall",
+      "name": "Wall paint, charcoal",
+      "color": "#3E4144",
+      "roughness": 0.9,
+      "metallic": 0.0
+    },
+    "stainless": {
+      "role": "appliance",
+      "name": "Stainless steel",
+      "color": "#B9BBBE",
+      "roughness": 0.35,
+      "metallic": 0.9
+    },
+    "appliance-black": {
+      "role": "appliance",
+      "name": "Matte black appliance",
+      "color": "#232425",
+      "roughness": 0.5,
+      "metallic": 0.3
+    },
+    "appliance-white": {
+      "role": "appliance",
+      "name": "White appliance",
+      "color": "#EDEDEB",
+      "roughness": 0.4,
+      "metallic": 0.0
+    },
+    "toe-kick-white": {
+      "role": "toe_kick",
+      "brand": "IKEA",
+      "name": "FÖRBÄTTRA toe kick, white",
+      "color": "#EDECE8",
+      "roughness": 0.55,
+      "metallic": 0.0
+    },
+    "toe-kick-black": {
+      "role": "toe_kick",
+      "name": "Toe kick, black",
+      "color": "#2A2A2A",
+      "roughness": 0.6,
+      "metallic": 0.0
+    },
+    "glass": {
+      "role": "glass",
+      "name": "Window glass",
+      "color": "#B5D8EC",
+      "roughness": 0.05,
+      "metallic": 0.0,
+      "alpha": 0.35
+    }
   },
   "defaults": {
     "frame": "sektion-white",

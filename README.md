@@ -34,7 +34,7 @@ it. None of them writes a dimension on its own.
 | Validation | Python, `jsonschema`, pytest | Schema checks and the fit rules: run closure, fillers, clearances, openings, services, front sizes. | Built (phase 1) |
 | Geometry | build123d | Exact solids for countertop outlines and the countertop cut drawing. | Planned (phase 6) |
 | Drawings | Generated SVG | Dimensioned elevations per wall and a plan view for contractors and fabricators, at a chosen print scale. | Built (phase 2) |
-| 3D and renders | glTF export (pure Python) + Blender | `mmk render` writes `scene.glb` with a named node per cabinet, front, counter and wall, then Blender imports it and renders one image per wall. Finishes come from `catalog/finishes.json` by role; Home Builder 5 is optional detail. | Built (phases 3 and 4) |
+| 3D and renders | glTF export (pure Python) + Blender | `mmk render` writes `scene.glb` with a named node per cabinet, front, counter and wall, then Blender imports it and renders one image per wall. Finishes come from `catalog/finishes.json` by role, with procedural wood, tile and stone textures embedded in the glTF at real-world scale; Home Builder 5 is optional detail. | Built (phases 3 and 4) |
 | 3D and renders | blender-mcp | Lets an AI assistant adjust cameras, lighting and materials in the live scene. Never the path a dimension travels. | Planned (phase 4) |
 | Review | Static HTML + three.js | Every export writes `out/<file>/index.html` (drawings, renders, embedded 3D viewer, runs, purchase pack, assumptions) and `out/index.html` listing all layouts; pages flag themselves stale when the source file changes. | Built; viewer unverified in a browser |
 | Variations | Claude via `mmk mcp` (FastMCP) | Natural-language edits ("swap the 36 for two 18s with drawers") become `apply_ops` calls that are refused unless the result fits. Variations are sibling files; branch them in git. | Built (phase 5) |
@@ -134,10 +134,10 @@ pytest -q
 ```
 docs/                 plan, build order with status tracker, survey protocol
 schema/               JSON Schema for room, catalog and kitchen files
-catalog/              SEKTION catalog (regenerate with tools/build_catalog_seed.py <file>; verified entries survive) and finishes.json (hand-maintained)
+catalog/              SEKTION catalog (regenerate with tools/build_catalog_seed.py <file>; verified entries survive), finishes.json (hand-maintained) and textures/ (regenerate with tools/build_textures.py)
 examples/             one room, two kitchens that fit (one with corner cabinets), seven that do not
-src/mmk/              the package: units, io, room, catalog, model, rules, draw, scene, gltf, finishes, bom, edit, export, review, purchase, reconcile, planner_import, tools, mcp_server, cli
-tools/                catalog seed generator, fixture generator, product-page scraper, Blender render script
+src/mmk/              the package: units, io, room, catalog, model, rules, draw, scene, gltf, finishes, textures, bom, edit, export, review, purchase, reconcile, planner_import, tools, mcp_server, cli
+tools/                catalog seed generator, fixture generator, product-page scraper, texture builder, Blender render script
 viewer/               three.js walkthrough for scene.glb
 tests/                pytest
 ```
