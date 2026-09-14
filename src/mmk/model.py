@@ -52,6 +52,7 @@ class Placed:
     appliance: Appliance | None = None
     fronts: tuple[FrontUse, ...] = ()
     unresolved: str | None = None  # why width could not be determined
+    bottom: int | None = None      # wall level: explicit underside height for this item
 
     @property
     def end(self) -> int:
@@ -69,6 +70,7 @@ class Run:
     end: int
     bottom: int
     items: tuple[Placed, ...]
+    top: int | None = None  # wall level: explicit shared top line
 
     @property
     def length(self) -> int:
@@ -169,9 +171,9 @@ def resolve(data: dict, path: Path, room: Room, catalog: Catalog) -> Kitchen:
                     problems.append(f"{r['wall']}/{label}: {unresolved}")
                 if raw.get("id") and cat_item is None:
                     cat_item = catalog.get(raw["id"])
-            placed.append(Placed(i, kind, label, cursor, width, cat_item, appl, tuple(fronts), unresolved))
+            placed.append(Placed(i, kind, label, cursor, width, cat_item, appl, tuple(fronts), unresolved, raw.get("bottom")))
             cursor += width
-        runs.append(Run(r["wall"], r["level"], start, end, bottom, tuple(placed)))
+        runs.append(Run(r["wall"], r["level"], start, end, bottom, tuple(placed), r.get("top")))
 
     return Kitchen(
         name=data["name"], path=path, room=room, catalog=catalog, appliances=appliances, runs=tuple(runs),

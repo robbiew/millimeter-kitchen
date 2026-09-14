@@ -216,17 +216,24 @@ def build_scene(k: Kitchen, lib: FinishLibrary | None = None) -> Scene:
             top_y = top + k.counter_thickness
             cursor = run.start
             spans: list[tuple[int, int, int]] = []
-            for wr in sorted(wall_runs, key=lambda r: r.start):
-                a0, a1 = max(wr.start, run.start), min(wr.end, run.end)
+            above = sorted((b for wr in wall_runs for b in elevation_boxes(k, wr) if b.p.kind != "gap"), key=lambda b: b.x)
+            for b in above:
+                a0, a1 = max(b.x, run.start), min(b.x + b.w, run.end)
                 if a0 >= a1:
                     continue
                 if a0 > cursor:
                     spans.append((cursor, a0, top_y + k.backsplash_height))
-                spans.append((a0, a1, wr.bottom))
+                spans.append((a0, a1, b.y0))  # up to this cabinet's own underside
                 cursor = a1
             if cursor < run.end:
                 spans.append((cursor, run.end, top_y + k.backsplash_height))
+            merged: list[tuple[int, int, int]] = []
             for a0, a1, y1 in spans:
+                if merged and merged[-1][1] == a0 and merged[-1][2] == y1:
+                    merged[-1] = (merged[-1][0], a1, y1)
+                else:
+                    merged.append((a0, a1, y1))
+            for a0, a1, y1 in merged:
                 if y1 > top_y:
                     boxes.append(fr.box(f"backsplash {run.wall} {a0}-{a1}", "backsplash", M["backsplash"], a0, a1, 0, BACKSPLASH_THICKNESS, top_y, y1, wall=run.wall))
 

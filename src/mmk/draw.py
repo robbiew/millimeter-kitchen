@@ -220,15 +220,26 @@ class Box:
     h: int
 
 
+def wall_run_top(run: Run) -> int:
+    """The shared top line of a wall run: explicit, or the underside plus the tallest cabinet in it.
+    SEKTION wall cabinets hang from a rail at their top, so tops align and shorter cabinets sit higher."""
+    if run.top is not None:
+        return run.top
+    tallest = max((item_height(p, "wall") for p in run.items if p.kind == "cabinet"), default=762)
+    return run.bottom + tallest
+
+
 def elevation_boxes(k: Kitchen, run: Run) -> list[Box]:
     out = []
+    top = wall_run_top(run) if run.level == "wall" else None
     for p in run.items:
         if run.level == "base":
             y0, h = (0, p.appliance.height) if p.appliance else (k.legs, item_height(p, "base"))
         elif run.level == "high":
             y0, h = k.legs, item_height(p, "high")
         else:
-            y0, h = run.bottom, item_height(p, "wall")
+            h = item_height(p, "wall")
+            y0 = p.bottom if p.bottom is not None else top - h
         out.append(Box(p, p.start, y0, p.width, h))
     return out
 

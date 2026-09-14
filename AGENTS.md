@@ -66,6 +66,10 @@ similar) are deliberately out of scope; do not add them.
   must tile the frame (`front_fit`); `draw.front_rows` / `front_panels` are
   the one place that layout is computed, for the validator, the elevation and
   the scene alike.
+- Wall cabinets in a run share a top line (`top`, or `bottom` + the tallest
+  cabinet); a shorter cabinet's underside is higher, which is how a hood
+  cabinet clears the range. `draw.wall_run_top` is the one place this is
+  computed. An item-level `bottom` hangs one cabinet deliberately lower.
 - Items are addressed by `label`, which must be unique across the file
   (`duplicate_label` is an error). New items without a label get one.
 - A successful edit re-exports drawings, `scene.glb`, `cameras.json`, the

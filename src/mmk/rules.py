@@ -10,13 +10,14 @@ from collections.abc import Callable
 
 from .findings import Finding
 from .finishes import ROLES, load_finishes
-from .draw import CORNER_TOL, corner_reach, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
+from .draw import CORNER_TOL, corner_reach, elevation_boxes, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
 from .model import Kitchen, Run
 
 CLOSURE_TOLERANCE_MM = 3
 MIN_WALL_FILLER_MM = 51  # IKEA's 2" guidance at a wall end
 DEFAULT_DISHWASHER_WALL_CLEARANCE_MM = 51
-HOOD_TO_COOKTOP_MIN_MM = 610  # 24" over electric, most gas manufacturers want 24–30"
+HOOD_CLEARANCE_ELECTRIC_MM = 610  # 24" between cooktop and whatever hangs above it
+HOOD_CLEARANCE_GAS_MM = 762       # 30" for gas; the hood's own sheet may ask for more
 
 Rule = Callable[[Kitchen], list[Finding]]
 
@@ -110,6 +111,7 @@ def rule_opening_conflict(k: Kitchen) -> list[Finding]:
     out = []
     for run in k.runs:
         wall = k.room.wall(run.wall)
+        bottoms = {b.p.label: b.y0 for b in elevation_boxes(k, run)}
         for p in run.items:
             if p.kind in ("gap",) or p.width == 0:
                 continue
@@ -122,8 +124,9 @@ def rule_opening_conflict(k: Kitchen) -> list[Finding]:
                 elif run.level == "high":
                     out.append(Finding("error", "opening_conflict", f"high cabinet '{p.label}' ({p.start}–{p.end}) overlaps {o.kind} '{o.label or ''}' ({o.start}–{o.end})", run.wall, p.label))
                 else:  # wall level
-                    if run.bottom < o.head:
-                        out.append(Finding("error", "opening_conflict", f"wall cabinet '{p.label}' ({p.start}–{p.end}) hangs to {run.bottom} mm over {o.kind} '{o.label or ''}' whose head is at {o.head} mm", run.wall, p.label))
+                    bottom = bottoms.get(p.label, run.bottom)
+                    if bottom < o.head:
+                        out.append(Finding("error", "opening_conflict", f"wall cabinet '{p.label}' ({p.start}–{p.end}) hangs to {bottom} mm over {o.kind} '{o.label or ''}' whose head is at {o.head} mm", run.wall, p.label))
     return out
 
 
@@ -197,9 +200,36 @@ def rule_front_fit(k: Kitchen) -> list[Finding]:
     return out
 
 
+def rule_hood_clearance(k: Kitchen) -> list[Finding]:
+    """Whatever hangs over a range or cooktop must clear it by 24 in, 30 in for gas."""
+    out = []
+    for base in k.runs:
+        if base.level != "base":
+            continue
+        for p in base.items:
+            if p.kind != "appliance" or not p.appliance or p.appliance.kind not in ("range", "cooktop"):
+                continue
+            need = HOOD_CLEARANCE_GAS_MM if p.appliance.uses_gas else HOOD_CLEARANCE_ELECTRIC_MM
+            cook_top = p.appliance.height if p.appliance.kind == "range" else k.legs + 762 + k.counter_thickness
+            for wr in k.runs:
+                if wr.wall != base.wall or wr.level != "wall":
+                    continue
+                for b in elevation_boxes(k, wr):
+                    if b.p.kind == "gap" or not b.p.overlaps(p.start, p.end):
+                        continue
+                    gap = b.y0 - cook_top
+                    if gap < need:
+                        out.append(Finding("error", "hood_clearance", f"'{b.p.label}' hangs {gap} mm above the {'gas ' if p.appliance.uses_gas else ''}{p.appliance.kind} '{p.label}'; {need} mm is required. Use a shorter cabinet there (its top stays aligned with the run) or raise the run", wr.wall, b.p.label))
+    return out
+
+
 def rule_ceiling(k: Kitchen) -> list[Finding]:
     out = []
     for run in k.runs:
+        if run.level == "wall" and run.items:
+            top = max(b.y0 + b.h for b in elevation_boxes(k, run))
+            if top > k.room.min_ceiling:
+                out.append(Finding("error", "ceiling", f"wall run on {run.wall} tops out at {top} mm; ceiling is {k.room.min_ceiling} mm at its lowest", run.wall, run.items[0].label))
         if run.level != "high":
             continue
         for p in run.items:
@@ -299,6 +329,7 @@ RULES: tuple[Rule, ...] = (
     rule_opening_conflict,
     rule_service_conflict,
     rule_front_fit,
+    rule_hood_clearance,
     rule_ceiling,
     rule_corners,
     rule_unique_labels,

@@ -215,15 +215,15 @@
         {
           "kind": "cabinet",
           "label": "E-wall-30-hood",
-          "id": "frame:wall:30x12x20",
+          "id": "frame:wall:30x12x15",
           "fronts": [
             {
-              "id": "front:voxtorp-walnut:door:30x20",
+              "id": "front:voxtorp-walnut:door:30x15",
               "count": 1
             }
           ],
           "interior": [
-            "hood below"
+            "hood below; top aligned with the run, underside clears the gas range by 30 in"
           ]
         },
         {

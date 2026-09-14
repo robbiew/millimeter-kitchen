@@ -118,7 +118,7 @@ FITS = {
         ]},
         {"wall": "E", "level": "wall", "from": 610, "items": [
             cab("frame:wall:21x12x30", "E-wall-21", (f"{V}:door:21x30", 1)),
-            cab("frame:wall:30x12x20", "E-wall-30-hood", (f"{V}:door:30x20", 1), interior=["hood below"]),
+            cab("frame:wall:30x12x15", "E-wall-30-hood", (f"{V}:door:30x15", 1), interior=["hood below; top aligned with the run, underside clears the gas range by 30 in"]),
             cab("frame:wall:30x12x30", "E-wall-30", (f"{V}:door:15x30", 2)),
             filler(74, "E-wall-filler-right"),
         ]},
@@ -160,7 +160,7 @@ CORNER = {
         ]},
         {"wall": "E", "level": "wall", "from": 660, "items": [
             cab("frame:wall:30x12x30", "E-wall-30", (f"{V}:door:15x30", 2)),
-            cab("frame:wall:30x12x20", "E-wall-30-hood", (f"{V}:door:30x20", 1), interior=["hood below"]),
+            cab("frame:wall:30x12x15", "E-wall-30-hood", (f"{V}:door:30x15", 1), interior=["hood below; top aligned with the run, underside clears the gas range by 30 in"]),
             cab("frame:wall:18x12x30", "E-wall-18", (f"{V}:door:18x30", 1)),
             filler(100, "E-wall-filler-right"),
         ]},
@@ -171,7 +171,7 @@ CORNER = {
 def corner_overlap(k: dict) -> None:
     """The east base run starts at the wall-N cabinets' depth, inside the carousel's reach."""
     k["runs"][2]["from"] = 610
-    k["runs"][2]["items"][-1]["width"] = 455
+    k["runs"][2]["items"].insert(0, {"kind": "filler", "label": "E-filler-corner", "width": 355})
 
 
 def variant(name: str, note: str, mutate) -> dict:

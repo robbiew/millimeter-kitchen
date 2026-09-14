@@ -41,7 +41,7 @@ def test_overlap_fixture_is_refused():
     f = validate(load_kitchen(BAD / "corner_overlap.json"))
     assert errors(f) == {"corner_overlap"}
     e = next(x for x in f if x.rule == "corner_overlap")
-    assert e.wall == "E" and e.item == "E-base-18-drawers" and "965 mm" in e.message
+    assert e.wall == "E" and e.item == "E-filler-corner" and "965 mm" in e.message
 
 
 def test_dead_corner_warns_on_the_plain_example():
@@ -122,7 +122,7 @@ def test_blind_corner_variant(tmp_path):
     src["runs"][0]["items"][-2] = {"kind": "filler", "label": "N-filler-mid", "width": 76}
     src["runs"][0]["items"][-1] = {"kind": "cabinet", "label": "N-blind", "id": "frame:base_corner_blind:47x24x30", "fronts": [{"id": f"{V}:door:24x30", "count": 1}]}
     src["runs"][2]["from"] = 610
-    src["runs"][2]["items"][-1]["width"] = 455
+    src["runs"][2]["items"].insert(0, {"kind": "filler", "label": "E-filler-corner", "width": 355})
     k.write_text(json.dumps(src))
     kk = load_kitchen(k)
     f = validate(kk)

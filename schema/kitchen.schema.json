@@ -51,7 +51,7 @@
     },
     "wall_cabinet_bottom": {
       "$ref": "#/$defs/mm",
-      "description": "Default height of the underside of wall cabinets from the floor. 1372 mm (54\") is typical."
+      "description": "Default underside height of full-height wall cabinets from the floor. 1372 mm (54\") is typical. Shorter cabinets in the same run align their tops, not their bottoms."
     },
     "appliances": {
       "type": "object",
@@ -142,7 +142,7 @@
           },
           "bottom": {
             "$ref": "#/$defs/mm",
-            "description": "For wall-level runs, underside height from floor. Defaults to wall_cabinet_bottom."
+            "description": "For wall-level runs, the underside height of the full-height cabinets from the floor. Defaults to wall_cabinet_bottom. Cabinets in a run share a top line (they hang from the rail), so a shorter cabinet's underside is higher."
           },
           "items": {
             "type": "array",
@@ -207,9 +207,17 @@
                 },
                 "notes": {
                   "type": "string"
+                },
+                "bottom": {
+                  "$ref": "#/$defs/mm",
+                  "description": "Wall level only: hang this one item with its underside at this height instead of aligning its top with the run."
                 }
               }
             }
+          },
+          "top": {
+            "$ref": "#/$defs/mm",
+            "description": "For wall-level runs, the shared top line (rail height) from the floor. Overrides bottom + tallest cabinet."
           }
         }
       }
