@@ -93,8 +93,11 @@ generator, re-run it, and commit both.
 
 ## What this is NOT
 
-- Not a renderer. 3D and drawings are later phases and are generated, never
-  edited.
+- Not a hand-built model. Renders are a first-class deliverable (phases 3
+  and 4: a Blender scene, glTF for a walkthrough viewer, and photoreal images
+  with real IKEA finishes), but every one of them is generated from
+  `kitchen.json` and regenerated on change. Nobody edits a scene or an image
+  by hand, and no render ever feeds a dimension back into the file.
 - Not a replacement for the official IKEA Kitchen Planner. The last phase
   rebuilds the winning variation there and reconciles item lists.
 - Not related to any other project in this account; nothing is shared.

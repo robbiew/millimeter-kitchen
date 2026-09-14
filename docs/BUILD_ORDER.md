@@ -52,7 +52,9 @@ A `bpy` script that builds the scene from `kitchen.json` with Home Builder 5
 parametric cabinets and exports glTF.
 
 **Accept:** the bounding box of every placed object matches its `actual`
-dimensions within 1 mm; regenerating replaces the scene without cleanup.
+dimensions within 1 mm; regenerating replaces the scene without cleanup; one
+scripted camera produces a rendered image of each wall from `mmk render` with
+no manual step in Blender.
 
 ## Phase 4 — Materials and appearance
 
