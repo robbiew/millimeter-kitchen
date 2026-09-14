@@ -29,7 +29,7 @@ it. None of them writes a dimension on its own.
 |---|---|---|---|
 | Capture | Laser distance meter + tape | The only source of wall lengths. Entered by hand per `docs/SURVEY_PROTOCOL.md`. | In use (phase 0) |
 | Capture | Apple RoomPlan / Polycam / IKEA Kreativ | Optional LiDAR rough-in of the room envelope. Hints only; the survey overrides it. | Planned |
-| Catalog | IKEA US product pages | Actual cabinet and front dimensions per article number, read by `tools/scrape_sektion.py`. | Scraper written, untested |
+| Catalog | IKEA US product pages and search API | `tools/scrape_sektion.py --discover` finds each entry's article number by name and size, then verifies actual dimensions against the product page. | Verify pass works on ikea.com; discovery untested live |
 | Catalog | IKEA Rotera GLB models | IKEA's own mesh per article, fetched by `mmk ikea-models fetch` into a cache outside the repo and swapped into Blender renders with `--ikea-models`. Pictures only: the box scene places them, never the reverse, and `mmk ikea-models check` only reports when a model's size disagrees with the catalog. | Built; swap unverified in Blender |
 | Validation | Python, `jsonschema`, pytest | Schema checks and the fit rules: run closure, fillers, clearances, openings, services, front sizes. | Built (phase 1) |
 | Geometry | build123d | Exact solids for countertop outlines and the countertop cut drawing. | Planned (phase 6) |
