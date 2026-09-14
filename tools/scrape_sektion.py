@@ -37,6 +37,36 @@ def product_url(article: str) -> str:
     return f"https://www.ikea.com/us/en/p/-{article.replace('.', '')}/"
 
 
+def search_url(article: str) -> str:
+    """IKEA's search API returns structured product data, including itemMeasureReferenceText ("36x24x30 \"")."""
+    return f"https://sik.search.blue.cdtapps.com/us/en/search-result-page?q={article.replace('.', '')}&types=PRODUCT&size=5"
+
+
+def fetch_search(article: str) -> dict | None:
+    """The product entry from the search API whose item number matches, or None."""
+    import json as _json
+    try:
+        raw = fetch(search_url(article))
+    except Exception:  # noqa: BLE001
+        return None
+    try:
+        data = _json.loads(raw)
+    except ValueError:
+        return None
+    want = article.replace(".", "")
+    stack = [data]
+    while stack:
+        node = stack.pop()
+        if isinstance(node, dict):
+            item_no = str(node.get("itemNo") or node.get("itemNoGlobal") or node.get("id") or "").replace(".", "")
+            if item_no == want and ("itemMeasureReferenceText" in node or "measurementText" in node):
+                return node
+            stack.extend(node.values())
+        elif isinstance(node, list):
+            stack.extend(node)
+    return None
+
+
 def fetch(url: str) -> str:
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Language": "en-US"})
     with urllib.request.urlopen(req, timeout=30) as resp:
@@ -46,13 +76,14 @@ def fetch(url: str) -> str:
 # Anchors, most specific first. IKEA's product page ("PIP") renders the
 # measurements list with pip-product-dimensions__* classes and also embeds
 # product JSON with a measurementText like "36x24x30 \"".
-DUMP_ANCHORS = ("pip-product-dimensions", "measurementText", "productDimensions", "\"dimensions\"", "Width:")
+DUMP_ANCHORS = ("itemMeasureReferenceText", "measurementText", "pipf-product-dimensions", "product-dimensions", "measurement-label", "typeName")
+_LABEL_VALUE = re.compile(r'<span class="[^"]*measurement[^"]*label[^"]*">\s*([^<]{1,40}?)\s*</span>\s*([^<]{1,40}?)\s*<', re.I)
 
 _NUM = r"(?P<num>\d+(?:\s\d+/\d+)?(?:\.\d+)?)"
 # <dt ...>Width:</dt> <dd ...>36 "</dd>   (tags stripped first, so it reads: Width:  36 ")
 _LIST_INCH = re.compile(r"(?P<label>Width|Depth|Height)\s*:?\s+" + _NUM + r"\s*(?:\"|&quot;|”|in\b)", re.I)
 _LIST_CM = re.compile(r"(?P<label>Width|Depth|Height)\s*:?\s+" + _NUM + r"\s*cm\b", re.I)
-_MEASUREMENT_TEXT = re.compile(r'"measurementText"\s*:\s*"(?P<text>[^"]+)"')
+_MEASUREMENT_TEXT = re.compile(r'"(?:measurementText|itemMeasureReferenceText)"\s*:\s*"(?P<text>[^"]+)"')
 
 
 def _num(text: str) -> float:
@@ -61,6 +92,19 @@ def _num(text: str) -> float:
         whole, frac = text.split(" ", 1)
         return float(Fraction(whole) + Fraction(frac))
     return float(Fraction(text))
+
+
+def parse_measure_text(text: str) -> dict[str, float]:
+    """"36x24x30 \"" -> {w, d, h}; "18x30 \"" -> {w, h}."""
+    parts = [re.sub(r"[^0-9 /.]", "", x).strip() for x in text.lower().split("x")]
+    keys = ("w", "d", "h") if len(parts) == 3 else ("w", "h")
+    out: dict[str, float] = {}
+    for k, v in zip(keys, parts):
+        try:
+            out[k] = _num(v)
+        except (ValueError, ZeroDivisionError):
+            pass
+    return out
 
 
 def parse_measurements(html: str) -> dict[str, float]:
@@ -85,13 +129,8 @@ def parse_measurements(html: str) -> dict[str, float]:
     if len(found) < 2:
         m = _MEASUREMENT_TEXT.search(html)
         if m:
-            parts = [re.sub(r"[^0-9 /.]", "", x).strip() for x in m.group("text").lower().split("x")]
-            keys = ("w", "d", "h") if len(parts) == 3 else ("w", "h")
-            for k, v in zip(keys, parts):
-                try:
-                    found.setdefault(k, _num(v))
-                except (ValueError, ZeroDivisionError):
-                    pass
+            for k, v in parse_measure_text(m.group("text")).items():
+                found.setdefault(k, v)
     return found
 
 
@@ -117,16 +156,36 @@ def main(argv: list[str] | None = None) -> int:
         except Exception as exc:  # noqa: BLE001
             print(f"{item['id']} {art}: fetch failed: {exc}")
             continue
+        nominal = (item.get("nominal") or "").replace(" ", "")
         if args.dump:
             print(f"# {url}  ({len(html)} bytes)")
-            for anchor in DUMP_ANCHORS:
+            anchors = DUMP_ANCHORS + ((nominal,) if nominal else ())
+            for anchor in anchors:
                 hits = [m.start() for m in re.finditer(re.escape(anchor), html)][:3]
                 print(f"\n## anchor {anchor!r}: {len(hits)} hit(s) shown of {html.count(anchor)}")
                 for i in hits:
-                    print("   …" + html[max(0, i - 200): i + 500].replace("\n", " ") + "…")
-            print("\n## parsed:", parse_measurements(html))
+                    print("   …" + html[max(0, i - 200): i + 400].replace("\n", " ") + "…")
+            pairs = _LABEL_VALUE.findall(html)
+            print(f"\n## measurement label/value pairs on the page ({len(pairs)}):")
+            for label, value in pairs[:40]:
+                print(f"   {label.strip():30} {value.strip()}")
+            node = fetch_search(art)
+            print(f"\n## search API {search_url(art)}")
+            if node:
+                keys = ("itemNo", "name", "typeName", "itemMeasureReferenceText", "measurementText", "mainImageAlt")
+                print("   " + json.dumps({k: node.get(k) for k in keys if k in node}, ensure_ascii=False))
+            else:
+                print("   no matching product in the response (blocked, or the field names changed)")
+            print("\n## parsed from page:", parse_measurements(html))
             return 0
         got = parse_measurements(html)
+        source = url
+        if len(got) < 2:
+            node = fetch_search(art)
+            text = (node or {}).get("itemMeasureReferenceText") or (node or {}).get("measurementText")
+            if text:
+                got = parse_measure_text(text)
+                source = search_url(art)
         if not got:
             print(f"{item['id']} {art}: no measurements found; run with --dump and fix the regex")
             continue
@@ -142,7 +201,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.write:
             item["verified"] = True
             item["verified_on"] = today
-            item["source"] = url
+            item["source"] = source
             changed += 1
     if args.write and changed:
         path.write_text(json.dumps(data, indent=2) + "\n")
