@@ -15,14 +15,23 @@ from pathlib import Path
 from . import tools
 
 
-def build_server(root: Path):
+def _server_class():
+    """The MCP Python SDK renamed FastMCP to MCPServer in 2.0; the decorator and run() API is the same."""
     try:
-        from mcp.server.fastmcp import FastMCP
+        from mcp.server.mcpserver import MCPServer  # 2.x
+        return MCPServer
+    except ImportError:
+        pass
+    try:
+        from mcp.server.fastmcp import FastMCP  # 1.x
+        return FastMCP
     except ImportError as exc:  # pragma: no cover - exercised only without the extra installed
-        raise SystemExit("the MCP server needs the 'mcp' package: pip install -e '.[mcp]'") from exc
+        raise SystemExit(f"the MCP server needs the 'mcp' package: pip install -e '.[mcp]'  ({exc})") from exc
 
+
+def build_server(root: Path):
     root = root.resolve()
-    server = FastMCP(
+    server = _server_class()(
         "millimeter-kitchen",
         instructions=(
             "Millimeter Kitchen edits a kitchen layout file (kitchen.json) for an IKEA SEKTION remodel. "
