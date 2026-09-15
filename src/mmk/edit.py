@@ -21,7 +21,8 @@ from .io import FileError, load_validated
 from .model import Kitchen, kitchen_from_dict
 from .rules import validate
 
-OPS = ("replace", "insert", "remove", "move", "swap", "set_fronts", "set_width", "set_material", "set")
+OPS = ("replace", "insert", "remove", "move", "swap", "set_fronts", "set_width", "fit_width", "set_material", "set", "add_run", "remove_run")
+LEVELS = ("base", "wall", "high")
 
 
 class EditError(Exception):
@@ -188,6 +189,58 @@ def op_set_width(doc: dict, op: dict) -> str:
     return f"set {op['label']} width to {op['width']} mm"
 
 
+def op_fit_width(doc: dict, op: dict) -> str:
+    """Size a filler, panel or gap so its run closes exactly: the run's span less everything else in it.
+
+    The width is computed from the resolved run, never typed, and the validator still judges the result
+    (a strip narrower than the cut minimum, or a wall end under 51 mm, is refused as usual).
+    """
+    run, i = _find_label(doc, op["label"])
+    it = run["items"][i]
+    if it["kind"] not in ("filler", "panel", "gap"):
+        raise EditError(f"{op['label']} is a {it['kind']}; only fillers, panels and gaps can be fitted")
+    k = _resolve(doc)
+    placed = next((p for r in k.runs for p in r.items if p.label == op["label"]), None)
+    resolved_run = next(r for r in k.runs if any(p.label == op["label"] for p in r.items))
+    if any(p.unresolved for p in resolved_run.items):
+        raise EditError(f"cannot fit {op['label']}: an item in its run has an unknown catalog id")
+    width = resolved_run.length - (resolved_run.used - placed.width)
+    if width < 0:
+        raise EditError(f"cannot fit {op['label']}: the other items in its run already overrun the span by {-width} mm")
+    it["width"] = int(width)
+    return f"fitted {op['label']} to {width} mm"
+
+
+def op_add_run(doc: dict, op: dict) -> str:
+    """A new run on a wall: {wall, level, from?, to?, bottom?, items?[]}. Items are labelled like inserts."""
+    level = op.get("level")
+    if level not in LEVELS:
+        raise EditError(f"add_run needs a level, one of {', '.join(LEVELS)}")
+    walls = _resolve(doc).room.order
+    if op["wall"] not in walls:
+        raise EditError(f"room has no wall '{op['wall']}' (walls: {', '.join(walls)})")
+    run: dict[str, Any] = {"wall": op["wall"], "level": level, "items": []}
+    for key in ("from", "to", "bottom"):
+        if key in op and op[key] is not None:
+            run[key] = int(op[key])
+    if "top" in op and op["top"] is not None:
+        run["top"] = int(op["top"])
+    _runs(doc).append(run)
+    for it in op.get("items") or []:
+        run["items"].append(_label_new(doc, run, it))
+    span = f" from {run['from']}" if "from" in run else ""
+    span += f" to {run['to']}" if "to" in run else ""
+    return f"added a {level} run on wall {op['wall']}{span} with {len(run['items'])} item(s)"
+
+
+def op_remove_run(doc: dict, op: dict) -> str:
+    """Remove the n-th run (default the first) of a wall and level, with everything in it."""
+    run = _find_run(doc, op["wall"], op["level"], int(op.get("run", 0)))
+    _runs(doc).remove(run)
+    gone = [it.get("label") for it in run["items"]]
+    return f"removed the {op['level']} run on wall {op['wall']}" + (f" and its {len(gone)} item(s): {', '.join(gone)}" if gone else "")
+
+
 def op_set_material(doc: dict, op: dict) -> str:
     doc.setdefault("materials", {})[op["role"]] = op["key"]
     return f"set materials.{op['role']} = {op['key']}"
@@ -209,8 +262,18 @@ def op_set(doc: dict, op: dict) -> str:
 
 OP_FUNCS = {
     "replace": op_replace, "insert": op_insert, "remove": op_remove, "move": op_move, "swap": op_swap,
-    "set_fronts": op_set_fronts, "set_width": op_set_width, "set_material": op_set_material, "set": op_set,
+    "set_fronts": op_set_fronts, "set_width": op_set_width, "fit_width": op_fit_width, "set_material": op_set_material, "set": op_set,
+    "add_run": op_add_run, "remove_run": op_remove_run,
 }
+
+_RESOLVE_PATH: list[Path] = []   # the file being edited, so fit_width can resolve the room and catalog mid-batch
+
+
+def _resolve(doc: dict) -> Kitchen:
+    try:
+        return kitchen_from_dict(doc, _RESOLVE_PATH[-1])
+    except FileError as exc:
+        raise EditError(f"cannot resolve the layout: {exc}") from exc
 
 
 # ---------------------------------------------------------------- apply
@@ -247,19 +310,23 @@ def apply(path: str | Path, ops: list[dict], dry_run: bool = False) -> EditResul
     before_doc = loaded.data
     doc = copy.deepcopy(before_doc)
     messages = []
-    for n, op in enumerate(ops):
-        kind = op.get("op")
-        if kind not in OP_FUNCS:
-            raise EditError(f"op {n}: unknown op '{kind}' (one of {', '.join(OPS)})")
-        try:
-            messages.append(OP_FUNCS[kind](doc, op))
-        except KeyError as exc:
-            raise EditError(f"op {n} ({kind}): missing field {exc}") from exc
+    _RESOLVE_PATH.append(loaded.path)
+    try:
+        for n, op in enumerate(ops):
+            kind = op.get("op")
+            if kind not in OP_FUNCS:
+                raise EditError(f"op {n}: unknown op '{kind}' (one of {', '.join(OPS)})")
+            try:
+                messages.append(OP_FUNCS[kind](doc, op))
+            except KeyError as exc:
+                raise EditError(f"op {n} ({kind}): missing field {exc}") from exc
+    finally:
+        _RESOLVE_PATH.pop()
 
     try:
         k_before = kitchen_from_dict(before_doc, loaded.path)
         k_after = kitchen_from_dict(doc, loaded.path)
-    except FileError as exc:
+    except (FileError, KeyError) as exc:
         return EditResult(False, False, str(loaded.path), [Finding("error", "schema", str(exc))], message="; ".join(messages))
 
     findings = validate(k_after)

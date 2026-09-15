@@ -72,6 +72,8 @@
     <div id="runs" class="muted">loading…</div>
     <h2>Materials</h2>
     <div id="materials"></div>
+    <h2>Settings</h2>
+    <div id="settings"></div>
   </aside>
   <section>
     <h2 id="edTitle">Edit</h2>
@@ -90,7 +92,7 @@
 // catalog (search_catalog, list_finishes) and sends operations (apply_ops); the validator has the last word.
 const $ = (s, el = document) => el.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const S = { layouts: [], kitchen: null, fixture: false, D: null, raw: {}, frames: [], fronts: [], finishes: [], sel: null, ins: null, tab: 'plan', ts: Date.now(), busy: false };
+const S = { layouts: [], kitchen: null, fixture: false, D: null, raw: {}, doc: null, balance: {}, frames: [], fronts: [], finishes: [], sel: null, ins: null, tab: 'plan', ts: Date.now(), busy: false };
 const MAX_DOORS_PER_ROW = 4;
 
 async function api(path, params = {}) {
@@ -136,9 +138,10 @@ async function loadCatalog() {
 
 async function loadRaw() {
   // the file itself, so an edit can carry every field of an item (interior, notes, bottom …) that describe does not show
-  S.raw = {};
+  S.raw = {}; S.doc = null;
   try {
     const doc = await (await fetch('/' + urlPath(S.kitchen) + '?v=' + Date.now())).json();
+    S.doc = doc;
     for (const r of doc.runs || []) for (const it of r.items || []) if (it.label) S.raw[it.label] = it;
   } catch (e) { /* the page still works, edits just carry fewer fields */ }
 }
@@ -161,7 +164,7 @@ async function openLayout(path) {
 
 async function refresh() {
   [S.D] = await Promise.all([api('/api/describe', { kitchen: S.kitchen }), loadRaw()]);
-  renderStatus(); renderRuns(); renderMaterials(); renderEditor(); renderTabs(); renderView();
+  renderStatus(); renderRuns(); renderMaterials(); renderSettings(); renderEditor(); renderTabs(); renderView();
   if (S.D && S.D.ok && (S.D.errors.length || S.D.warnings.length) && !S.busy) setResult({ message: S.D.errors.length ? 'this layout does not fit as it stands' : 'this layout fits, with warnings', errors: S.D.errors, warnings: S.D.warnings });
 }
 
@@ -196,12 +199,60 @@ function renderRuns() {
         <button class="ins" data-run="${ri}" data-after="${esc(it.label)}">+ insert after ${esc(it.label)}</button>`;
     }).join('');
     const fit = r.used_mm === r.length_mm ? 'okc' : 'wrn';
-    return `<div class="run"><h3>Wall ${esc(r.wall)} · ${esc(r.level)}<small class="${fit}">${r.used_mm} / ${r.length_mm} mm</small></h3>
+    const key = runKey(r, ri), cuts = r.items.filter(it => ['filler', 'gap', 'panel'].includes(it.kind));
+    const bal = S.balance[key] || '';
+    return `<div class="run"><h3>Wall ${esc(r.wall)} · ${esc(r.level)}<small class="${fit}">${r.used_mm} / ${r.length_mm} mm</small>
+        <button class="rmrun" data-run="${ri}" title="remove this run and everything in it" style="float:right;padding:0 6px;font-size:12px">✕ run</button></h3>
+      <label class="f" style="margin-top:0">balance with <select class="bal" data-key="${esc(key)}" title="after an insert, replace or remove, this filler or gap is refitted so the run still closes">
+        <option value="">nothing (edits must close the run themselves)</option>${cuts.map(c => `<option value="${esc(c.label)}" ${bal === c.label ? 'selected' : ''}>${esc(c.label)} (${c.width} mm)</option>`).join('')}</select></label>
       <button class="ins" data-run="${ri}" data-after="">+ insert at start</button>${items}</div>`;
-  }).join('');
+  }).join('') + addRunHtml();
+  el.querySelectorAll('.bal').forEach(s => s.onchange = () => { S.balance[s.dataset.key] = s.value; });
+  el.querySelectorAll('.rmrun').forEach(b => b.onclick = () => { const r = D.runs[+b.dataset.run]; applyOps([{ op: 'remove_run', wall: r.wall, level: r.level, run: runOrdinal(r, +b.dataset.run) }], false); });
+  wireAddRun(el);
   el.querySelectorAll('.item').forEach(d => d.onclick = e => { if (e.target.tagName === 'BUTTON') return; S.sel = d.dataset.label; S.ins = null; renderRuns(); renderEditor(); });
   el.querySelectorAll('.item .act button').forEach(b => b.onclick = e => { e.stopPropagation(); quickOp(b.closest('.item').dataset.label, b.dataset.op); });
   el.querySelectorAll('.ins').forEach(b => b.onclick = () => { S.ins = { run: D.runs[+b.dataset.run], after: b.dataset.after || null }; S.sel = null; renderRuns(); renderEditor(); });
+}
+
+// Runs are addressed by wall, level and their ordinal among runs of that wall and level (the file may split a wall's run around a window).
+function runOrdinal(r, ri) { return S.D.runs.slice(0, ri).filter(x => x.wall === r.wall && x.level === r.level).length; }
+function runKey(r, ri) { return `${r.wall}/${r.level}/${runOrdinal(r, ri)}`; }
+function balancerFor(label, exclude) {
+  for (let ri = 0; ri < S.D.runs.length; ri++) {
+    const r = S.D.runs[ri];
+    if (!r.items.some(it => it.label === label)) continue;
+    const b = S.balance[runKey(r, ri)];
+    return b && b !== exclude && r.items.some(it => it.label === b) ? b : null;
+  }
+  return null;
+}
+function withBalance(ops, label, exclude) {
+  const b = balancerFor(label, exclude);
+  return b ? [...ops, { op: 'fit_width', label: b }] : ops;
+}
+
+function addRunHtml() {
+  const D = S.D;
+  return `<div class="run" style="margin-top:14px"><h3>New run</h3>
+    <div class="row"><select id="nrWall">${D.walls.map(w => `<option>${esc(w.id)}</option>`).join('')}</select>
+      <select id="nrLevel"><option>base</option><option>wall</option><option>high</option></select></div>
+    <div class="row"><input id="nrFrom" type="number" min="0" placeholder="from mm (0)" style="width:110px"> <input id="nrTo" type="number" min="0" placeholder="to mm (wall end)" style="width:130px"></div>
+    <div class="row"><button id="nrAdd" ${S.fixture ? 'disabled' : ''}>+ Add run</button></div>
+    <p class="hint">The run opens as one gap fitted to its span, so it closes at once; replace the gap with cabinets, balancing with it.</p></div>`;
+}
+function wireAddRun(el) {
+  const b = el.querySelector('#nrAdd');
+  if (!b) return;
+  b.onclick = () => {
+    const wall = el.querySelector('#nrWall').value, level = el.querySelector('#nrLevel').value;
+    const from = el.querySelector('#nrFrom').value, to = el.querySelector('#nrTo').value;
+    const label = `${wall}-${level}-open`;
+    const op = { op: 'add_run', wall, level, items: [{ kind: 'gap', label, width: 1 }] };
+    if (from !== '') op.from = Number(from);
+    if (to !== '') op.to = Number(to);
+    applyOps([op, { op: 'fit_width', label }], false);
+  };
 }
 
 function neighbours(label) {
@@ -212,7 +263,7 @@ function neighbours(label) {
 async function quickOp(label, op) {
   const n = neighbours(label);
   if (!n) return;
-  if (op === 'remove') return applyOps([{ op: 'remove', label }], false);
+  if (op === 'remove') return applyOps(withBalance([{ op: 'remove', label }], label, label), false);
   if (op === 'up' && n.prev) return applyOps([{ op: 'move', label, before: n.prev.label }], false);
   if (op === 'down' && n.next) return applyOps([{ op: 'move', label, after: n.next.label }], false);
 }
@@ -227,6 +278,33 @@ function renderMaterials() {
     return `<label class="f">${esc(role)}</label><select data-role="${esc(role)}" ${S.fixture ? 'disabled' : ''}>${opts.map(f => `<option value="${esc(f.key)}" ${D.materials[role] === f.key ? 'selected' : ''}>${esc(f.name)} (${esc(f.key)})</option>`).join('')}</select>`;
   }).join('') + `<p class="hint">Front finishes follow the catalog series of each front.</p>`;
   el.querySelectorAll('select').forEach(s => s.onchange = () => applyOps([{ op: 'set_material', role: s.dataset.role, key: s.value }], false));
+}
+
+// Kitchen-level numbers, edited through the `set` operation. Each is a value the owner decides or measures;
+// the page shows what the file has and sends back only what changed.
+const SETTINGS = [
+  ['wall_cabinet_bottom', 'wall cabinet underside, mm', d => d.wall_cabinet_bottom],
+  ['counter.thickness', 'counter thickness, mm', d => d.counter && d.counter.thickness],
+  ['counter.overhang_front', 'counter front overhang, mm', d => d.counter && d.counter.overhang_front],
+  ['counter.legs', 'leg height, mm', d => d.counter && d.counter.legs],
+  ['backsplash_height', 'backsplash height, mm', d => d.backsplash_height],
+];
+function renderSettings() {
+  const el = $('#settings');
+  if (!S.D || !S.D.ok || !S.doc) { el.textContent = ''; return; }
+  el.innerHTML = SETTINGS.map(([path, name, get]) => `<label class="f">${esc(name)} <span class="muted">${esc(path)}</span></label><input data-path="${esc(path)}" type="number" min="0" step="1" value="${get(S.doc) ?? ''}" placeholder="file default" ${S.fixture ? 'disabled' : ''}>`).join('')
+    + `<div class="row" style="margin-top:8px"><button id="setApply" ${S.fixture ? 'disabled' : ''}>Apply settings</button></div>`;
+  $('#setApply').onclick = () => {
+    const ops = [];
+    for (const [path, , get] of SETTINGS) {
+      const v = el.querySelector(`input[data-path="${path}"]`).value;
+      if (v === '' || Number(v) === get(S.doc)) continue;
+      if (!Number.isInteger(Number(v)) || Number(v) < 0) { setResult({ error: `${path}: whole millimetres only` }); return; }
+      ops.push({ op: 'set', path, value: Number(v) });
+    }
+    if (!ops.length) { setResult({ message: 'no setting changed' }); return; }
+    applyOps(ops, false);
+  };
 }
 
 // ---------------------------------------------------------------- editor
@@ -310,7 +388,10 @@ function formHtml(f) {
       const series = x.series || c.series || frontSeries()[0];
       const cands = rowCandidates(fc.w, type, series);
       const cur = cands.find(k => k.item.id === x.id);
-      if (!cur && cands[0]) { x.id = cands[0].item.id; if (type === 'door') x.count = cands[0].n; }
+      if (!cur && cands[0]) {   // a fresh row, or one the new frame cannot take: prefer the size that fills the frame's height
+        const pick = cands.find(k => nomH(k.item.nominal) === fh) || cands[0];
+        x.id = pick.item.id; if (type === 'door') x.count = pick.n;
+      }
       const n = (cands.find(k => k.item.id === x.id) || {}).n;
       return `<div class="front" data-i="${i}">
         <select data-k="type">${fc.types.map(t => `<option value="${t}" ${t === type ? 'selected' : ''}>${t.replace('_', ' ')}</option>`).join('')}</select>
@@ -377,12 +458,13 @@ function submitForm(f, dry) {
   if (S.ins) {
     const op = { op: 'insert', wall: S.ins.run.wall, level: S.ins.run.level, item };
     if (S.ins.after) op.after = S.ins.after; else op.index = 0;
-    ops = [op];
+    const ri = S.D.runs.indexOf(S.ins.run), b = S.balance[runKey(S.ins.run, ri)];
+    ops = b && S.ins.run.items.some(it => it.label === b) ? [op, { op: 'fit_width', label: b }] : [op];
   } else if (item.kind !== 'cabinet' && item.kind !== 'appliance' && f.kind === neighbours(S.sel).item.kind) {
-    ops = [{ op: 'set_width', label: S.sel, width: item.width }];
+    ops = withBalance([{ op: 'set_width', label: S.sel, width: item.width }], S.sel, S.sel);
   } else {
     if (item.kind === 'cabinet' && !item.label) item.label = S.sel;
-    ops = [{ op: 'replace', label: S.sel, items: [item] }];
+    ops = withBalance([{ op: 'replace', label: S.sel, items: [item] }], S.sel, S.sel);
   }
   return applyOps(ops, dry);
 }

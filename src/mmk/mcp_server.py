@@ -64,7 +64,10 @@ def build_server(root: Path):
         """Apply edit operations to the kitchen file. The file is written only if the result passes every fit rule; otherwise the
         call is refused and returns the errors, and the file is unchanged. Returns the bill-of-materials diff and the new runs.
         Ops: replace{label, items[]} | insert{wall, level, index|before|after, item} | remove{label} | move{label, before|after|index|to{wall,level,index}}
-        | swap{label, with} | set_fronts{label, fronts[{id,count}]} | set_width{label, width} | set_material{role, key} | set{path, value}.
+        | swap{label, with} | set_fronts{label, fronts[{id,count}]} | set_width{label, width} | fit_width{label} | set_material{role, key} | set{path, value}
+        | add_run{wall, level, from?, to?, bottom?, items?[]} | remove_run{wall, level, run?}.
+        A run must close after every batch: pair an insert, replace or remove with fit_width{label} on a filler or gap in the same run,
+        which sizes it so the run closes (the width is computed from the run, never guessed).
         Items: {kind:'cabinet', id, label?, fronts?} | {kind:'appliance', ref} | {kind:'filler'|'gap'|'panel', width}.
         A successful edit re-exports the drawings, scene.glb and cameras.json into <out>/<kitchen stem>/ automatically; pass render=True
         to also render one image per wall in Blender (slower). Files under examples/ are test fixtures and are refused unless

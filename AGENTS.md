@@ -89,6 +89,11 @@ similar) are deliberately out of scope; do not add them.
   MCP: `apply_ops`). It applies a batch of operations to a copy, validates,
   and writes only on a clean result. Never hand-edit a file to get around a
   refusal; fix the layout or the rule.
+- A run must close after every batch. `fit_width{label}` sizes a filler,
+  panel or gap from its run so the batch closes; pair it with the insert,
+  replace or remove in the same batch rather than typing the width.
+  `add_run` and `remove_run` add and drop whole runs; a new run usually
+  opens as one gap plus `fit_width` on it.
 - `examples/` holds generated test fixtures. Do not edit them to try a layout;
   `start_variation` copies one into `variations/`, and that is what you edit.
 - A cabinet's `fronts` list is its face top to bottom: each drawer front is a

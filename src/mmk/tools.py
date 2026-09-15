@@ -116,7 +116,9 @@ def apply_ops(root: Path, kitchen: str, ops: list[dict], dry_run: bool = False, 
               render: bool = False, blender: str | None = None) -> dict[str, Any]:
     """Apply edit operations. Writes the file only if the result validates; otherwise refuses and returns the errors.
     Ops: replace{label, items[]}, insert{wall, level, index|before|after, item}, remove{label}, move{label, before|after|index|to{}},
-    swap{label, with}, set_fronts{label, fronts[]}, set_width{label, width}, set_material{role, key}, set{path, value}.
+    swap{label, with}, set_fronts{label, fronts[]}, set_width{label, width}, fit_width{label} (size a filler/gap so its run closes),
+    set_material{role, key}, set{path, value}, add_run{wall, level, from?, to?, bottom?, items?[]}, remove_run{wall, level, run?}.
+    A run must close after every batch, so pair an insert, replace or remove with fit_width on a filler in the same run.
     Items: {kind: cabinet, id, label?, fronts?[{id,count}]} | {kind: appliance, ref} | {kind: filler|gap|panel, width}.
     Files under examples/ are fixtures: start_variation first, or pass allow_fixture_edit.
     A successful edit re-exports drawings, scene.glb and cameras.json into <out>/<kitchen stem>/; pass render=True to also render in Blender."""
