@@ -10,6 +10,7 @@ EXPECTED_RULE = {
     "wall_cabinet_over_window": "opening_conflict",
     "wrong_size_front": "front_fit",
     "missing_filler": "wall_filler_min",
+    "zero_width_filler": "cut_width_min",
     "blocked_drain": "service_conflict",
     "front_rows_mismatch": "front_fit",
 }

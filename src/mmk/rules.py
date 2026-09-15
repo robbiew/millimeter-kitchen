@@ -15,6 +15,7 @@ from .model import Kitchen, Run
 
 CLOSURE_TOLERANCE_MM = 3
 MIN_WALL_FILLER_MM = 51  # IKEA's 2" guidance at a wall end
+MIN_CUT_WIDTH_MM = 25    # narrowest strip a filler or panel can be cut and fixed to; a wall end still needs MIN_WALL_FILLER_MM
 DEFAULT_DISHWASHER_WALL_CLEARANCE_MM = 51
 HOOD_CLEARANCE_ELECTRIC_MM = 610  # 24" between cooktop and whatever hangs above it
 HOOD_CLEARANCE_GAS_MM = 762       # 30" for gas; the hood's own sheet may ask for more
@@ -81,6 +82,22 @@ def rule_wall_filler_min(k: Kitchen) -> list[Finding]:
             if p.kind != "filler" or p.width < MIN_WALL_FILLER_MM:
                 what = f"{p.kind} '{p.label}'" if p.kind != "filler" else f"a {p.width} mm filler"
                 out.append(Finding("error", "wall_filler_min", f"{run.level} run meets the wall at its {which} with {what}; IKEA wants a filler of at least {MIN_WALL_FILLER_MM} mm there", run.wall, p.label))
+    return out
+
+
+def rule_cut_width_min(k: Kitchen) -> list[Finding]:
+    """Every filler and panel is a strip that gets cut: it needs at least MIN_CUT_WIDTH_MM. A gap is an open span and needs any width at all.
+
+    A zero-width item satisfies run closure without changing a total, so this is the rule that catches an item a
+    client sent with no width (issue #2). The minimum for a cut strip is a workshop assumption, not an IKEA figure.
+    """
+    out = []
+    for run in k.runs:
+        for p in run.items:
+            if p.kind in ("filler", "panel") and p.width < MIN_CUT_WIDTH_MM:
+                out.append(Finding("error", "cut_width_min", f"{p.kind} '{p.label}' is {p.width} mm wide; a strip narrower than {MIN_CUT_WIDTH_MM} mm cannot be cut and fixed, so widen it or drop it", run.wall, p.label, {"width_mm": p.width}))
+            elif p.kind == "gap" and p.width < 1:
+                out.append(Finding("error", "cut_width_min", f"gap '{p.label}' has no width; a gap is an open span, so give it its width or drop it", run.wall, p.label, {"width_mm": p.width}))
     return out
 
 
@@ -334,6 +351,7 @@ RULES: tuple[Rule, ...] = (
     rule_ikea_fronts_only,
     rule_run_closure,
     rule_wall_filler_min,
+    rule_cut_width_min,
     rule_appliance_side_clearance,
     rule_opening_conflict,
     rule_service_conflict,

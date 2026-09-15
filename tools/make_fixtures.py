@@ -224,6 +224,11 @@ def blocked_drain(k: dict) -> None:
     n_base(k)[3] = cab("frame:base:36x24x30", "N-base-36-not-a-sink", (f"{V}:door:18x30", 2))
 
 
+def zero_width_filler(k: dict) -> None:
+    """A filler of no width between two cabinets: the run still closes, but nothing can be cut to 0 mm."""
+    n_base(k).insert(2, filler(0, "N-filler-zero"))
+
+
 BAD_CASES = {
     "run_too_long": ("the first base cabinet is 18 wide instead of 15; the run overshoots the wall by 76 mm", run_too_long),
     "dishwasher_against_wall": ("the dishwasher is the last item on the north wall with no filler; its door cannot clear the wall", dishwasher_against_wall),
@@ -232,6 +237,7 @@ BAD_CASES = {
     "missing_filler": ("the base run closes exactly but starts with a cabinet hard against the wall; IKEA wants 2 in of filler", missing_filler),
     "blocked_drain": ("the sink drain at 1676 mm falls inside a regular base cabinet, not a sink base", blocked_drain),
     "front_rows_mismatch": ("a 10 drawer front over two 15 doors stacks to 25 on a 30 frame", front_rows_mismatch),
+    "zero_width_filler": ("a 0 mm filler between the 15 and 30 base cabinets; the run closes, but a strip cannot be cut to nothing", zero_width_filler),
 }
 
 
