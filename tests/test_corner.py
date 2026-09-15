@@ -82,7 +82,7 @@ def test_east_runs_are_not_exposed_and_pack_derives(kitchen):
     sides = {(r.wall, side, item.label) for r, side, item in exposed_sides(kitchen)}
     assert not any(w == "E" and side == "start" for w, side, _ in sides)
     pack = {l.id: l for l in derive(kitchen).lines}
-    assert pack["frame:base_corner:38x38x30"].qty == 1 and pack[f"{V}:corner-door:17x30"].qty == 1
+    assert pack["frame:base_corner:38x38x30"].qty == 1 and pack[f"{V}:corner-door:13x30"].qty == 2   # one set for the base corner, one for the wall corner
     assert pack["frame:wall_corner:26x26x30"].qty == 1
     slabs = [(s["wall"], s["start"], s["end"]) for s in derive(kitchen).countertop]
     assert slabs == [("N", 0, 3655), ("E", 648, 1422), ("E", 2184, 2741)]
@@ -116,11 +116,11 @@ def test_corner_takes_a_corner_door_of_the_right_width(tmp_path):
 
 
 def test_blind_corner_variant(tmp_path):
-    """Swap the carousel for a blind corner: 47 wide, 24 door on the outer end, east run starts at the cabinet depth."""
+    """Swap the carousel for a blind corner: 50 wide (it takes the 12" cabinet's place too), 24 door on the outer end, east run starts at the cabinet depth."""
     k = _ws(tmp_path)
     src = json.loads(k.read_text())
-    src["runs"][0]["items"][-2] = {"kind": "filler", "label": "N-filler-mid", "width": 76}
-    src["runs"][0]["items"][-1] = {"kind": "cabinet", "label": "N-blind", "id": "frame:base_corner_blind:47x24x30", "fronts": [{"id": f"{V}:door:24x30", "count": 1}]}
+    del src["runs"][0]["items"][-2]          # N-base-12: 305 + 965 mm = the 1270 mm blind frame
+    src["runs"][0]["items"][-1] = {"kind": "cabinet", "label": "N-blind", "id": "frame:base_corner_blind:50x24x30", "fronts": [{"id": f"{V}:door:24x30", "count": 1}]}
     src["runs"][2]["from"] = 610
     src["runs"][2]["items"].insert(0, {"kind": "filler", "label": "E-filler-corner", "width": 355})
     k.write_text(json.dumps(src))
@@ -128,6 +128,6 @@ def test_blind_corner_variant(tmp_path):
     f = validate(kk)
     assert errors(f) == set(), [x.render() for x in f if x.is_error]
     b = read_glb_boxes(write_glb(build_scene(kk), tmp_path / "b.glb"))
-    assert [round(v) for v in b["N-blind"]["size_mm"]] == [1194, 762, 610]
+    assert [round(v) for v in b["N-blind"]["size_mm"]] == [1270, 762, 610]
     assert "N-blind/leg" not in b and abs(b["N-blind/door1"]["size_mm"][0] - (610 - 6)) <= 1
-    assert abs(b["N-blind/door1"]["min_mm"][0] - (3655 - 1194 + 3)) <= 1   # door on the outer end, away from the corner
+    assert abs(b["N-blind/door1"]["min_mm"][0] - (3655 - 1270 + 3)) <= 1   # door on the outer end, away from the corner

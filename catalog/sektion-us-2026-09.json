@@ -960,28 +960,28 @@
         "side_depth_mm": 610,
         "notch_mm": 356,
         "blind": false,
-        "front_width_in": 17
+        "front_width_in": 13
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "L-shaped: 38\" along each wall, 24\" deep legs, 14\" notch at the outer corner for a 2-piece bi-fold door (17\" set). Occupies 38\" of the adjacent wall too."
+      "notes": "L-shaped: 38\" along each wall, 24\" deep legs, 14\" notch at the outer corner for the 2-piece bi-fold door set (13x30). Occupies 38\" of the adjacent wall too."
     },
     {
-      "id": "frame:base_corner_blind:47x24x30",
+      "id": "frame:base_corner_blind:50x24x30",
       "kind": "frame",
       "type": "base_corner",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION blind corner base cabinet frame 47x24x30",
+      "name": "SEKTION corner base cabinet 50x24x30",
       "article": null,
-      "nominal": "47x24x30",
+      "nominal": "50x24x30",
       "nominal_in": {
-        "w": 47,
+        "w": 50,
         "d": 24,
         "h": 30
       },
       "actual": {
-        "w": 1194,
+        "w": 1270,
         "d": 610,
         "h": 762
       },
@@ -994,7 +994,7 @@
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Straight 47\" frame; the 23\" nearest the corner has no door and is covered by the adjacent wall's first cabinet. Takes a 24\" door on the outer end. Published depth may be 26\"; verify."
+      "notes": "Straight 50\" blind frame (ikea.com 2026-09: 'Corner base cabinet 50x24x30', 505.967.57; the old 47\" is gone); the part nearest the corner has no door and is covered by the adjacent wall's first cabinet. Takes a 24\" door on the outer end."
     },
     {
       "id": "frame:wall_corner:26x26x30",
@@ -1072,7 +1072,7 @@
       },
       "actual": {
         "w": 302,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1094,7 +1094,7 @@
       },
       "actual": {
         "w": 302,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1116,7 +1116,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1138,7 +1138,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 505
+        "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1160,7 +1160,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1182,7 +1182,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1204,7 +1204,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 1267
+        "h": 1270
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1226,7 +1226,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 1521
+        "h": 1524
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1248,7 +1248,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1270,7 +1270,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 505
+        "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1292,7 +1292,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1314,7 +1314,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1336,7 +1336,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 1267
+        "h": 1270
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1358,7 +1358,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 1521
+        "h": 1524
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1380,7 +1380,7 @@
       },
       "actual": {
         "w": 530,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1402,7 +1402,7 @@
       },
       "actual": {
         "w": 530,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1424,7 +1424,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 505
+        "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1446,7 +1446,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1468,7 +1468,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1490,7 +1490,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 1267
+        "h": 1270
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1512,121 +1512,11 @@
       },
       "actual": {
         "w": 606,
-        "h": 1521
+        "h": 1524
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:enkoping-walnut:door:30x15",
-      "kind": "front",
-      "type": "door",
-      "brand": "IKEA",
-      "series": "ENK\u00d6PING",
-      "finish": "brown walnut effect",
-      "name": "ENK\u00d6PING door 30x15 brown walnut effect",
-      "article": null,
-      "nominal": "30x15",
-      "nominal_in": {
-        "w": 30,
-        "h": 15
-      },
-      "actual": {
-        "w": 759,
-        "h": 378
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:enkoping-walnut:door:30x20",
-      "kind": "front",
-      "type": "door",
-      "brand": "IKEA",
-      "series": "ENK\u00d6PING",
-      "finish": "brown walnut effect",
-      "name": "ENK\u00d6PING door 30x20 brown walnut effect",
-      "article": null,
-      "nominal": "30x20",
-      "nominal_in": {
-        "w": 30,
-        "h": 20
-      },
-      "actual": {
-        "w": 759,
-        "h": 505
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:enkoping-walnut:door:36x15",
-      "kind": "front",
-      "type": "door",
-      "brand": "IKEA",
-      "series": "ENK\u00d6PING",
-      "finish": "brown walnut effect",
-      "name": "ENK\u00d6PING door 36x15 brown walnut effect",
-      "article": null,
-      "nominal": "36x15",
-      "nominal_in": {
-        "w": 36,
-        "h": 15
-      },
-      "actual": {
-        "w": 911,
-        "h": 378
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:enkoping-walnut:door:36x20",
-      "kind": "front",
-      "type": "door",
-      "brand": "IKEA",
-      "series": "ENK\u00d6PING",
-      "finish": "brown walnut effect",
-      "name": "ENK\u00d6PING door 36x20 brown walnut effect",
-      "article": null,
-      "nominal": "36x20",
-      "nominal_in": {
-        "w": 36,
-        "h": 20
-      },
-      "actual": {
-        "w": 911,
-        "h": 505
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:enkoping-walnut:corner-door:17x30",
-      "kind": "front",
-      "type": "corner_door",
-      "brand": "IKEA",
-      "series": "ENK\u00d6PING",
-      "finish": "brown walnut effect",
-      "name": "ENK\u00d6PING 2-piece door for corner base cabinet 17x30 brown walnut effect",
-      "article": null,
-      "nominal": "17x30",
-      "nominal_in": {
-        "w": 17,
-        "h": 30
-      },
-      "actual": {
-        "w": 429,
-        "h": 759
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
     },
     {
       "id": "front:enkoping-walnut:corner-door:13x30",
@@ -1635,7 +1525,7 @@
       "brand": "IKEA",
       "series": "ENK\u00d6PING",
       "finish": "brown walnut effect",
-      "name": "ENK\u00d6PING 2-piece door for corner wall cabinet 13x30 brown walnut effect",
+      "name": "ENK\u00d6PING 2-piece door for corner base cabinet 13x30 brown walnut effect",
       "article": null,
       "nominal": "13x30",
       "nominal_in": {
@@ -1644,33 +1534,11 @@
       },
       "actual": {
         "w": 327,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
-    },
-    {
-      "id": "front:enkoping-walnut:corner-door:13x40",
-      "kind": "front",
-      "type": "corner_door",
-      "brand": "IKEA",
-      "series": "ENK\u00d6PING",
-      "finish": "brown walnut effect",
-      "name": "ENK\u00d6PING 2-piece door for corner wall cabinet 13x40 brown walnut effect",
-      "article": null,
-      "nominal": "13x40",
-      "nominal_in": {
-        "w": 13,
-        "h": 40
-      },
-      "actual": {
-        "w": 327,
-        "h": 1013
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
+      "notes": "Two-piece bi-fold set for the 38\" corner base cabinet; also the only set for the 30\" corner wall cabinet. Each leaf is 13\" wide."
     },
     {
       "id": "front:enkoping-walnut:drawer:15x5",
@@ -1688,7 +1556,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1710,7 +1578,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1732,7 +1600,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1754,7 +1622,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 505
+        "h": 508
       },
       "notes": "Actual = nominal minus 1/8\" each way (reveal).",
       "verified": false,
@@ -1776,7 +1644,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1798,7 +1666,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1820,7 +1688,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1842,7 +1710,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 505
+        "h": 508
       },
       "notes": "Actual = nominal minus 1/8\" each way (reveal).",
       "verified": false,
@@ -1864,7 +1732,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1886,7 +1754,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1908,7 +1776,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1930,7 +1798,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 505
+        "h": 508
       },
       "notes": "Actual = nominal minus 1/8\" each way (reveal).",
       "verified": false,
@@ -1952,7 +1820,7 @@
       },
       "actual": {
         "w": 759,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1974,7 +1842,7 @@
       },
       "actual": {
         "w": 759,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -1996,33 +1864,11 @@
       },
       "actual": {
         "w": 759,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:enkoping-walnut:drawer:30x20",
-      "kind": "drawer_front",
-      "type": "drawer",
-      "brand": "IKEA",
-      "series": "ENK\u00d6PING",
-      "finish": "brown walnut effect",
-      "name": "ENK\u00d6PING drawer front 30x20 brown walnut effect",
-      "article": null,
-      "nominal": "30x20",
-      "nominal_in": {
-        "w": 30,
-        "h": 20
-      },
-      "actual": {
-        "w": 759,
-        "h": 505
-      },
-      "notes": "Actual = nominal minus 1/8\" each way (reveal).",
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
       "id": "front:enkoping-walnut:drawer:36x5",
@@ -2040,7 +1886,7 @@
       },
       "actual": {
         "w": 911,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2062,7 +1908,7 @@
       },
       "actual": {
         "w": 911,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2084,33 +1930,11 @@
       },
       "actual": {
         "w": 911,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:enkoping-walnut:drawer:36x20",
-      "kind": "drawer_front",
-      "type": "drawer",
-      "brand": "IKEA",
-      "series": "ENK\u00d6PING",
-      "finish": "brown walnut effect",
-      "name": "ENK\u00d6PING drawer front 36x20 brown walnut effect",
-      "article": null,
-      "nominal": "36x20",
-      "nominal_in": {
-        "w": 36,
-        "h": 20
-      },
-      "actual": {
-        "w": 911,
-        "h": 505
-      },
-      "notes": "Actual = nominal minus 1/8\" each way (reveal).",
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
       "id": "front:bodbyn-off-white:door:12x30",
@@ -2128,7 +1952,7 @@
       },
       "actual": {
         "w": 302,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2150,7 +1974,7 @@
       },
       "actual": {
         "w": 302,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2172,7 +1996,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2194,7 +2018,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 505
+        "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2216,7 +2040,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2238,7 +2062,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2260,7 +2084,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 1267
+        "h": 1270
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2282,7 +2106,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 1521
+        "h": 1524
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2304,7 +2128,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2326,7 +2150,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 505
+        "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2348,7 +2172,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2370,7 +2194,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2392,7 +2216,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 1267
+        "h": 1270
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2414,7 +2238,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 1521
+        "h": 1524
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2436,7 +2260,7 @@
       },
       "actual": {
         "w": 530,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2458,7 +2282,7 @@
       },
       "actual": {
         "w": 530,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2480,7 +2304,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 505
+        "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2502,7 +2326,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2524,7 +2348,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2546,7 +2370,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 1267
+        "h": 1270
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2568,121 +2392,11 @@
       },
       "actual": {
         "w": 606,
-        "h": 1521
+        "h": 1524
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:bodbyn-off-white:door:30x15",
-      "kind": "front",
-      "type": "door",
-      "brand": "IKEA",
-      "series": "BODBYN",
-      "finish": "off-white",
-      "name": "BODBYN door 30x15 off-white",
-      "article": null,
-      "nominal": "30x15",
-      "nominal_in": {
-        "w": 30,
-        "h": 15
-      },
-      "actual": {
-        "w": 759,
-        "h": 378
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:bodbyn-off-white:door:30x20",
-      "kind": "front",
-      "type": "door",
-      "brand": "IKEA",
-      "series": "BODBYN",
-      "finish": "off-white",
-      "name": "BODBYN door 30x20 off-white",
-      "article": null,
-      "nominal": "30x20",
-      "nominal_in": {
-        "w": 30,
-        "h": 20
-      },
-      "actual": {
-        "w": 759,
-        "h": 505
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:bodbyn-off-white:door:36x15",
-      "kind": "front",
-      "type": "door",
-      "brand": "IKEA",
-      "series": "BODBYN",
-      "finish": "off-white",
-      "name": "BODBYN door 36x15 off-white",
-      "article": null,
-      "nominal": "36x15",
-      "nominal_in": {
-        "w": 36,
-        "h": 15
-      },
-      "actual": {
-        "w": 911,
-        "h": 378
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:bodbyn-off-white:door:36x20",
-      "kind": "front",
-      "type": "door",
-      "brand": "IKEA",
-      "series": "BODBYN",
-      "finish": "off-white",
-      "name": "BODBYN door 36x20 off-white",
-      "article": null,
-      "nominal": "36x20",
-      "nominal_in": {
-        "w": 36,
-        "h": 20
-      },
-      "actual": {
-        "w": 911,
-        "h": 505
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:bodbyn-off-white:corner-door:17x30",
-      "kind": "front",
-      "type": "corner_door",
-      "brand": "IKEA",
-      "series": "BODBYN",
-      "finish": "off-white",
-      "name": "BODBYN 2-piece door for corner base cabinet 17x30 off-white",
-      "article": null,
-      "nominal": "17x30",
-      "nominal_in": {
-        "w": 17,
-        "h": 30
-      },
-      "actual": {
-        "w": 429,
-        "h": 759
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
     },
     {
       "id": "front:bodbyn-off-white:corner-door:13x30",
@@ -2691,7 +2405,7 @@
       "brand": "IKEA",
       "series": "BODBYN",
       "finish": "off-white",
-      "name": "BODBYN 2-piece door for corner wall cabinet 13x30 off-white",
+      "name": "BODBYN 2-piece door for corner base cabinet 13x30 off-white",
       "article": null,
       "nominal": "13x30",
       "nominal_in": {
@@ -2700,33 +2414,11 @@
       },
       "actual": {
         "w": 327,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
-    },
-    {
-      "id": "front:bodbyn-off-white:corner-door:13x40",
-      "kind": "front",
-      "type": "corner_door",
-      "brand": "IKEA",
-      "series": "BODBYN",
-      "finish": "off-white",
-      "name": "BODBYN 2-piece door for corner wall cabinet 13x40 off-white",
-      "article": null,
-      "nominal": "13x40",
-      "nominal_in": {
-        "w": 13,
-        "h": 40
-      },
-      "actual": {
-        "w": 327,
-        "h": 1013
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
+      "notes": "Two-piece bi-fold set for the 38\" corner base cabinet; also the only set for the 30\" corner wall cabinet. Each leaf is 13\" wide."
     },
     {
       "id": "front:bodbyn-off-white:drawer:15x5",
@@ -2744,7 +2436,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2766,7 +2458,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2788,7 +2480,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2810,7 +2502,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 505
+        "h": 508
       },
       "notes": "Actual = nominal minus 1/8\" each way (reveal).",
       "verified": false,
@@ -2832,7 +2524,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2854,7 +2546,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2876,7 +2568,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2898,7 +2590,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 505
+        "h": 508
       },
       "notes": "Actual = nominal minus 1/8\" each way (reveal).",
       "verified": false,
@@ -2920,7 +2612,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2942,7 +2634,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2964,7 +2656,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -2986,7 +2678,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 505
+        "h": 508
       },
       "notes": "Actual = nominal minus 1/8\" each way (reveal).",
       "verified": false,
@@ -3008,7 +2700,7 @@
       },
       "actual": {
         "w": 759,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3030,7 +2722,7 @@
       },
       "actual": {
         "w": 759,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3052,33 +2744,11 @@
       },
       "actual": {
         "w": 759,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:bodbyn-off-white:drawer:30x20",
-      "kind": "drawer_front",
-      "type": "drawer",
-      "brand": "IKEA",
-      "series": "BODBYN",
-      "finish": "off-white",
-      "name": "BODBYN drawer front 30x20 off-white",
-      "article": null,
-      "nominal": "30x20",
-      "nominal_in": {
-        "w": 30,
-        "h": 20
-      },
-      "actual": {
-        "w": 759,
-        "h": 505
-      },
-      "notes": "Actual = nominal minus 1/8\" each way (reveal).",
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
       "id": "front:bodbyn-off-white:drawer:36x5",
@@ -3096,7 +2766,7 @@
       },
       "actual": {
         "w": 911,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3118,7 +2788,7 @@
       },
       "actual": {
         "w": 911,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3140,33 +2810,11 @@
       },
       "actual": {
         "w": 911,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:bodbyn-off-white:drawer:36x20",
-      "kind": "drawer_front",
-      "type": "drawer",
-      "brand": "IKEA",
-      "series": "BODBYN",
-      "finish": "off-white",
-      "name": "BODBYN drawer front 36x20 off-white",
-      "article": null,
-      "nominal": "36x20",
-      "nominal_in": {
-        "w": 36,
-        "h": 20
-      },
-      "actual": {
-        "w": 911,
-        "h": 505
-      },
-      "notes": "Actual = nominal minus 1/8\" each way (reveal).",
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
       "id": "front:axstad-matt-white:door:12x30",
@@ -3184,7 +2832,7 @@
       },
       "actual": {
         "w": 302,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3206,7 +2854,7 @@
       },
       "actual": {
         "w": 302,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3228,7 +2876,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3250,7 +2898,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 505
+        "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3272,7 +2920,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3294,7 +2942,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3316,7 +2964,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 1267
+        "h": 1270
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3338,7 +2986,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 1521
+        "h": 1524
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3360,7 +3008,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3382,7 +3030,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 505
+        "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3404,7 +3052,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3426,7 +3074,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3448,7 +3096,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 1267
+        "h": 1270
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3470,7 +3118,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 1521
+        "h": 1524
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3492,7 +3140,7 @@
       },
       "actual": {
         "w": 530,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3514,7 +3162,7 @@
       },
       "actual": {
         "w": 530,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3536,7 +3184,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 505
+        "h": 508
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3558,7 +3206,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3580,7 +3228,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 1013
+        "h": 1016
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3602,7 +3250,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 1267
+        "h": 1270
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3624,121 +3272,11 @@
       },
       "actual": {
         "w": 606,
-        "h": 1521
+        "h": 1524
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:axstad-matt-white:door:30x15",
-      "kind": "front",
-      "type": "door",
-      "brand": "IKEA",
-      "series": "AXSTAD",
-      "finish": "matt white",
-      "name": "AXSTAD door 30x15 matt white",
-      "article": null,
-      "nominal": "30x15",
-      "nominal_in": {
-        "w": 30,
-        "h": 15
-      },
-      "actual": {
-        "w": 759,
-        "h": 378
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:axstad-matt-white:door:30x20",
-      "kind": "front",
-      "type": "door",
-      "brand": "IKEA",
-      "series": "AXSTAD",
-      "finish": "matt white",
-      "name": "AXSTAD door 30x20 matt white",
-      "article": null,
-      "nominal": "30x20",
-      "nominal_in": {
-        "w": 30,
-        "h": 20
-      },
-      "actual": {
-        "w": 759,
-        "h": 505
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:axstad-matt-white:door:36x15",
-      "kind": "front",
-      "type": "door",
-      "brand": "IKEA",
-      "series": "AXSTAD",
-      "finish": "matt white",
-      "name": "AXSTAD door 36x15 matt white",
-      "article": null,
-      "nominal": "36x15",
-      "nominal_in": {
-        "w": 36,
-        "h": 15
-      },
-      "actual": {
-        "w": 911,
-        "h": 378
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:axstad-matt-white:door:36x20",
-      "kind": "front",
-      "type": "door",
-      "brand": "IKEA",
-      "series": "AXSTAD",
-      "finish": "matt white",
-      "name": "AXSTAD door 36x20 matt white",
-      "article": null,
-      "nominal": "36x20",
-      "nominal_in": {
-        "w": 36,
-        "h": 20
-      },
-      "actual": {
-        "w": 911,
-        "h": 505
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:axstad-matt-white:corner-door:17x30",
-      "kind": "front",
-      "type": "corner_door",
-      "brand": "IKEA",
-      "series": "AXSTAD",
-      "finish": "matt white",
-      "name": "AXSTAD 2-piece door for corner base cabinet 17x30 matt white",
-      "article": null,
-      "nominal": "17x30",
-      "nominal_in": {
-        "w": 17,
-        "h": 30
-      },
-      "actual": {
-        "w": 429,
-        "h": 759
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
     },
     {
       "id": "front:axstad-matt-white:corner-door:13x30",
@@ -3747,7 +3285,7 @@
       "brand": "IKEA",
       "series": "AXSTAD",
       "finish": "matt white",
-      "name": "AXSTAD 2-piece door for corner wall cabinet 13x30 matt white",
+      "name": "AXSTAD 2-piece door for corner base cabinet 13x30 matt white",
       "article": null,
       "nominal": "13x30",
       "nominal_in": {
@@ -3756,33 +3294,11 @@
       },
       "actual": {
         "w": 327,
-        "h": 759
+        "h": 762
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
-    },
-    {
-      "id": "front:axstad-matt-white:corner-door:13x40",
-      "kind": "front",
-      "type": "corner_door",
-      "brand": "IKEA",
-      "series": "AXSTAD",
-      "finish": "matt white",
-      "name": "AXSTAD 2-piece door for corner wall cabinet 13x40 matt white",
-      "article": null,
-      "nominal": "13x40",
-      "nominal_in": {
-        "w": 13,
-        "h": 40
-      },
-      "actual": {
-        "w": 327,
-        "h": 1013
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Two-piece bi-fold set; the nominal width is the set's total."
+      "notes": "Two-piece bi-fold set for the 38\" corner base cabinet; also the only set for the 30\" corner wall cabinet. Each leaf is 13\" wide."
     },
     {
       "id": "front:axstad-matt-white:drawer:15x5",
@@ -3800,7 +3316,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3822,7 +3338,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3844,7 +3360,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3866,7 +3382,7 @@
       },
       "actual": {
         "w": 378,
-        "h": 505
+        "h": 508
       },
       "notes": "Actual = nominal minus 1/8\" each way (reveal).",
       "verified": false,
@@ -3888,7 +3404,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3910,7 +3426,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3932,7 +3448,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3954,7 +3470,7 @@
       },
       "actual": {
         "w": 454,
-        "h": 505
+        "h": 508
       },
       "notes": "Actual = nominal minus 1/8\" each way (reveal).",
       "verified": false,
@@ -3976,7 +3492,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -3998,7 +3514,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -4020,7 +3536,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -4042,7 +3558,7 @@
       },
       "actual": {
         "w": 606,
-        "h": 505
+        "h": 508
       },
       "notes": "Actual = nominal minus 1/8\" each way (reveal).",
       "verified": false,
@@ -4064,7 +3580,7 @@
       },
       "actual": {
         "w": 759,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -4086,7 +3602,7 @@
       },
       "actual": {
         "w": 759,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -4108,33 +3624,11 @@
       },
       "actual": {
         "w": 759,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:axstad-matt-white:drawer:30x20",
-      "kind": "drawer_front",
-      "type": "drawer",
-      "brand": "IKEA",
-      "series": "AXSTAD",
-      "finish": "matt white",
-      "name": "AXSTAD drawer front 30x20 matt white",
-      "article": null,
-      "nominal": "30x20",
-      "nominal_in": {
-        "w": 30,
-        "h": 20
-      },
-      "actual": {
-        "w": 759,
-        "h": 505
-      },
-      "notes": "Actual = nominal minus 1/8\" each way (reveal).",
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
       "id": "front:axstad-matt-white:drawer:36x5",
@@ -4152,7 +3646,7 @@
       },
       "actual": {
         "w": 911,
-        "h": 124
+        "h": 127
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -4174,7 +3668,7 @@
       },
       "actual": {
         "w": 911,
-        "h": 251
+        "h": 254
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
@@ -4196,33 +3690,11 @@
       },
       "actual": {
         "w": 911,
-        "h": 378
+        "h": 381
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Actual = nominal minus 1/8\" each way (reveal)."
-    },
-    {
-      "id": "front:axstad-matt-white:drawer:36x20",
-      "kind": "drawer_front",
-      "type": "drawer",
-      "brand": "IKEA",
-      "series": "AXSTAD",
-      "finish": "matt white",
-      "name": "AXSTAD drawer front 36x20 matt white",
-      "article": null,
-      "nominal": "36x20",
-      "nominal_in": {
-        "w": 36,
-        "h": 20
-      },
-      "actual": {
-        "w": 911,
-        "h": 505
-      },
-      "notes": "Actual = nominal minus 1/8\" each way (reveal).",
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages."
     },
     {
       "id": "drawer:maximera:15x24:low",
@@ -4324,27 +3796,6 @@
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "One per drawer front: 10\" fronts take a medium drawer. Runners included.",
-      "nominal_in": {
-        "w": 15,
-        "d": 15
-      }
-    },
-    {
-      "id": "drawer:maximera:15x15:high",
-      "kind": "drawer",
-      "brand": "IKEA",
-      "series": "MAXIMERA",
-      "name": "MAXIMERA drawer, high, 15x15",
-      "article": null,
-      "nominal": "15x15",
-      "actual": {
-        "w": 381,
-        "d": 381,
-        "h": 381
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "One per drawer front: 15\" fronts take a high drawer. Runners included.",
       "nominal_in": {
         "w": 15,
         "d": 15
@@ -4456,27 +3907,6 @@
       }
     },
     {
-      "id": "drawer:maximera:18x15:high",
-      "kind": "drawer",
-      "brand": "IKEA",
-      "series": "MAXIMERA",
-      "name": "MAXIMERA drawer, high, 18x15",
-      "article": null,
-      "nominal": "18x15",
-      "actual": {
-        "w": 457,
-        "d": 381,
-        "h": 381
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "One per drawer front: 15\" fronts take a high drawer. Runners included.",
-      "nominal_in": {
-        "w": 18,
-        "d": 15
-      }
-    },
-    {
       "id": "drawer:maximera:24x24:low",
       "kind": "drawer",
       "brand": "IKEA",
@@ -4576,27 +4006,6 @@
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "One per drawer front: 10\" fronts take a medium drawer. Runners included.",
-      "nominal_in": {
-        "w": 24,
-        "d": 15
-      }
-    },
-    {
-      "id": "drawer:maximera:24x15:high",
-      "kind": "drawer",
-      "brand": "IKEA",
-      "series": "MAXIMERA",
-      "name": "MAXIMERA drawer, high, 24x15",
-      "article": null,
-      "nominal": "24x15",
-      "actual": {
-        "w": 610,
-        "d": 381,
-        "h": 381
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "One per drawer front: 15\" fronts take a high drawer. Runners included.",
       "nominal_in": {
         "w": 24,
         "d": 15
@@ -4708,27 +4117,6 @@
       }
     },
     {
-      "id": "drawer:maximera:30x15:high",
-      "kind": "drawer",
-      "brand": "IKEA",
-      "series": "MAXIMERA",
-      "name": "MAXIMERA drawer, high, 30x15",
-      "article": null,
-      "nominal": "30x15",
-      "actual": {
-        "w": 762,
-        "d": 381,
-        "h": 381
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "One per drawer front: 15\" fronts take a high drawer. Runners included.",
-      "nominal_in": {
-        "w": 30,
-        "d": 15
-      }
-    },
-    {
       "id": "drawer:maximera:36x24:low",
       "kind": "drawer",
       "brand": "IKEA",
@@ -4834,27 +4222,6 @@
       }
     },
     {
-      "id": "drawer:maximera:36x15:high",
-      "kind": "drawer",
-      "brand": "IKEA",
-      "series": "MAXIMERA",
-      "name": "MAXIMERA drawer, high, 36x15",
-      "article": null,
-      "nominal": "36x15",
-      "actual": {
-        "w": 914,
-        "d": 381,
-        "h": 381
-      },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "One per drawer front: 15\" fronts take a high drawer. Runners included.",
-      "nominal_in": {
-        "w": 36,
-        "d": 15
-      }
-    },
-    {
       "id": "cover_panel:forbattra:enkoping-walnut:25x30",
       "kind": "cover_panel",
       "brand": "IKEA",
@@ -4918,44 +4285,44 @@
       "finish": "brown walnut effect"
     },
     {
-      "id": "cover_panel:forbattra:enkoping-walnut:15x32.5",
+      "id": "cover_panel:forbattra:enkoping-walnut:15x31",
       "kind": "cover_panel",
       "brand": "IKEA",
       "series": "FORBATTRA",
-      "name": "F\u00d6RB\u00c4TTRA cover panel 15x32 1/2 brown walnut effect",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 15x31 1/8 brown walnut effect",
       "article": null,
-      "nominal": "15x32 1/2",
+      "nominal": "15x31 1/8",
       "actual": {
         "w": 381,
-        "h": 826
+        "h": 791
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Exposed wall cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 15,
-        "h": 32.5
+        "h": 31.125
       },
       "finish": "brown walnut effect"
     },
     {
-      "id": "cover_panel:forbattra:enkoping-walnut:15x42.5",
+      "id": "cover_panel:forbattra:enkoping-walnut:15x41",
       "kind": "cover_panel",
       "brand": "IKEA",
       "series": "FORBATTRA",
-      "name": "F\u00d6RB\u00c4TTRA cover panel 15x42 1/2 brown walnut effect",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 15x41 1/8 brown walnut effect",
       "article": null,
-      "nominal": "15x42 1/2",
+      "nominal": "15x41 1/8",
       "actual": {
         "w": 381,
-        "h": 1080
+        "h": 1045
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Exposed wall cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 15,
-        "h": 42.5
+        "h": 41.125
       },
       "finish": "brown walnut effect"
     },
@@ -4981,21 +4348,25 @@
       "finish": "brown walnut effect"
     },
     {
-      "id": "toe_kick:forbattra:enkoping-walnut:87",
+      "id": "toe_kick:forbattra:enkoping-walnut:84",
       "kind": "toe_kick",
       "brand": "IKEA",
       "series": "FORBATTRA",
-      "name": "F\u00d6RB\u00c4TTRA toekick 87x4 1/2 brown walnut effect",
+      "name": "F\u00d6RB\u00c4TTRA toekick 84x4 1/2 brown walnut effect",
       "article": null,
-      "nominal": "87x4 1/2",
+      "nominal": "84x4 1/2",
       "actual": {
-        "w": 2210,
+        "w": 2134,
         "h": 114
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Stock length; count = base run length / 2210 mm, rounded up.",
-      "stock_mm": 2210,
+      "notes": "Stock length; count = base run length / 2134 mm, rounded up.",
+      "stock_mm": 2134,
+      "nominal_in": {
+        "w": 84,
+        "h": 4.5
+      },
       "finish": "brown walnut effect"
     },
     {
@@ -5062,44 +4433,44 @@
       "finish": "off-white"
     },
     {
-      "id": "cover_panel:forbattra:bodbyn-off-white:15x32.5",
+      "id": "cover_panel:forbattra:bodbyn-off-white:15x31",
       "kind": "cover_panel",
       "brand": "IKEA",
       "series": "FORBATTRA",
-      "name": "F\u00d6RB\u00c4TTRA cover panel 15x32 1/2 off-white",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 15x31 1/8 off-white",
       "article": null,
-      "nominal": "15x32 1/2",
+      "nominal": "15x31 1/8",
       "actual": {
         "w": 381,
-        "h": 826
+        "h": 791
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Exposed wall cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 15,
-        "h": 32.5
+        "h": 31.125
       },
       "finish": "off-white"
     },
     {
-      "id": "cover_panel:forbattra:bodbyn-off-white:15x42.5",
+      "id": "cover_panel:forbattra:bodbyn-off-white:15x41",
       "kind": "cover_panel",
       "brand": "IKEA",
       "series": "FORBATTRA",
-      "name": "F\u00d6RB\u00c4TTRA cover panel 15x42 1/2 off-white",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 15x41 1/8 off-white",
       "article": null,
-      "nominal": "15x42 1/2",
+      "nominal": "15x41 1/8",
       "actual": {
         "w": 381,
-        "h": 1080
+        "h": 1045
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Exposed wall cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 15,
-        "h": 42.5
+        "h": 41.125
       },
       "finish": "off-white"
     },
@@ -5125,21 +4496,25 @@
       "finish": "off-white"
     },
     {
-      "id": "toe_kick:forbattra:bodbyn-off-white:87",
+      "id": "toe_kick:forbattra:bodbyn-off-white:84",
       "kind": "toe_kick",
       "brand": "IKEA",
       "series": "FORBATTRA",
-      "name": "F\u00d6RB\u00c4TTRA toekick 87x4 1/2 off-white",
+      "name": "F\u00d6RB\u00c4TTRA toekick 84x4 1/2 off-white",
       "article": null,
-      "nominal": "87x4 1/2",
+      "nominal": "84x4 1/2",
       "actual": {
-        "w": 2210,
+        "w": 2134,
         "h": 114
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Stock length; count = base run length / 2210 mm, rounded up.",
-      "stock_mm": 2210,
+      "notes": "Stock length; count = base run length / 2134 mm, rounded up.",
+      "stock_mm": 2134,
+      "nominal_in": {
+        "w": 84,
+        "h": 4.5
+      },
       "finish": "off-white"
     },
     {
@@ -5206,44 +4581,44 @@
       "finish": "matt white"
     },
     {
-      "id": "cover_panel:forbattra:axstad-matt-white:15x32.5",
+      "id": "cover_panel:forbattra:axstad-matt-white:15x31",
       "kind": "cover_panel",
       "brand": "IKEA",
       "series": "FORBATTRA",
-      "name": "F\u00d6RB\u00c4TTRA cover panel 15x32 1/2 matt white",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 15x31 1/8 matt white",
       "article": null,
-      "nominal": "15x32 1/2",
+      "nominal": "15x31 1/8",
       "actual": {
         "w": 381,
-        "h": 826
+        "h": 791
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Exposed wall cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 15,
-        "h": 32.5
+        "h": 31.125
       },
       "finish": "matt white"
     },
     {
-      "id": "cover_panel:forbattra:axstad-matt-white:15x42.5",
+      "id": "cover_panel:forbattra:axstad-matt-white:15x41",
       "kind": "cover_panel",
       "brand": "IKEA",
       "series": "FORBATTRA",
-      "name": "F\u00d6RB\u00c4TTRA cover panel 15x42 1/2 matt white",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 15x41 1/8 matt white",
       "article": null,
-      "nominal": "15x42 1/2",
+      "nominal": "15x41 1/8",
       "actual": {
         "w": 381,
-        "h": 1080
+        "h": 1045
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Exposed wall cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 15,
-        "h": 42.5
+        "h": 41.125
       },
       "finish": "matt white"
     },
@@ -5269,21 +4644,25 @@
       "finish": "matt white"
     },
     {
-      "id": "toe_kick:forbattra:axstad-matt-white:87",
+      "id": "toe_kick:forbattra:axstad-matt-white:84",
       "kind": "toe_kick",
       "brand": "IKEA",
       "series": "FORBATTRA",
-      "name": "F\u00d6RB\u00c4TTRA toekick 87x4 1/2 matt white",
+      "name": "F\u00d6RB\u00c4TTRA toekick 84x4 1/2 matt white",
       "article": null,
-      "nominal": "87x4 1/2",
+      "nominal": "84x4 1/2",
       "actual": {
-        "w": 2210,
+        "w": 2134,
         "h": 114
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Stock length; count = base run length / 2210 mm, rounded up.",
-      "stock_mm": 2210,
+      "notes": "Stock length; count = base run length / 2134 mm, rounded up.",
+      "stock_mm": 2134,
+      "nominal_in": {
+        "w": 84,
+        "h": 4.5
+      },
       "finish": "matt white"
     },
     {
@@ -5300,15 +4679,19 @@
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Every base, wall and high run hangs on rail; count = run lengths / 2134 mm, rounded up per wall.",
-      "stock_mm": 2134
+      "stock_mm": 2134,
+      "nominal_in": {
+        "w": 84
+      }
     },
     {
       "id": "legs:sektion:4pack",
       "kind": "legs",
       "brand": "IKEA",
       "series": "SEKTION",
-      "name": "SEKTION leg, 4 pack",
+      "name": "SEKTION leg for cabinet 4 1/2, 4 pack",
       "article": null,
+      "nominal": "4 1/2",
       "actual": {
         "w": 0,
         "h": 114
@@ -5316,14 +4699,17 @@
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "One pack per base or high cabinet. Counter height 36\" = 30\" frame + legs + 1 1/2\" top.",
-      "pack": 4
+      "pack": 4,
+      "nominal_in": {
+        "h": 4.5
+      }
     },
     {
       "id": "hinge:utrusta:2pack",
       "kind": "hinge",
       "brand": "IKEA",
       "series": "UTRUSTA",
-      "name": "UTRUSTA hinge w built-in damper for kitchen, 2 pack",
+      "name": "UTRUSTA hinge, 2 pack",
       "article": null,
       "actual": {
         "w": 0

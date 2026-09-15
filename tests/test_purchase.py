@@ -37,7 +37,7 @@ def test_rail_per_wall_and_level(pack):
 def test_legs_and_hinges(pack):
     b = by_id(pack)
     assert b["legs:sektion:4pack"].qty == 7          # 5 base on N, 2 on E
-    assert b["hinge:utrusta:2pack"].qty == 18        # 10 + 4 + 2 + 1 + 1 doors (E-base-21 is a door cabinet), none taller than 40"
+    assert b["hinge:utrusta:2pack"].qty == 19        # 10 + 4 + 2 + 1 + 1 + 1 doors (E-base-21 is a door cabinet, the hood cabinet has two), none taller than 40"
 
 
 def test_one_drawer_per_drawer_front(pack):
@@ -55,12 +55,12 @@ def test_exposed_sides_and_cover_panels(kitchen, pack):
     assert not any(level == "base" for _, level, _, _ in sides)  # base runs end at walls or in the corner
     b = by_id(pack)
     # 3 exposed wall sides + 1 panel of wall filler stock; base filler stock 1
-    assert b["cover_panel:forbattra:enkoping-walnut:15x32.5"].qty == 4
+    assert b["cover_panel:forbattra:enkoping-walnut:15x31"].qty == 4
     assert b["cover_panel:forbattra:enkoping-walnut:25x30"].qty == 1
 
 
 def test_toe_kick_from_base_run_length(pack):
-    assert by_id(pack)["toe_kick:forbattra:enkoping-walnut:87"].qty == 3      # (3655 + 2131) / 2210 -> 3
+    assert by_id(pack)["toe_kick:forbattra:enkoping-walnut:84"].qty == 3      # (3655 + 2131) / 2134 -> 3
 
 
 def test_pack_flags_and_text(kitchen, pack):

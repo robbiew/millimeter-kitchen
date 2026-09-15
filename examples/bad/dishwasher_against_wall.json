@@ -258,8 +258,8 @@
           "id": "frame:wall:30x15x15",
           "fronts": [
             {
-              "id": "front:enkoping-walnut:door:30x15",
-              "count": 1
+              "id": "front:enkoping-walnut:door:15x15",
+              "count": 2
             }
           ],
           "interior": [

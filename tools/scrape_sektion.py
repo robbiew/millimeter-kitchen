@@ -196,11 +196,12 @@ def discovery_query(item: dict) -> str:
 
 def _name_words(item: dict) -> set[str]:
     """Descriptive words of a catalog name, minus the series, sizes and filler: 'MAXIMERA drawer, low, 15x24' -> {drawer, low}."""
-    text = re.sub(r"\([^)]*\)", " ", _ascii(item["name"])).replace(",", " ")
+    text = re.sub(r"\([^)]*\)", " ", _ascii(item["name"])).replace(",", " ").replace("-", " ")
     series = _ascii(item.get("series") or "")
+    finish = set(_ascii(item.get("finish") or "").replace("-", " ").split())
     out = set()
     for w in text.split():
-        if w == series or w in STOP or any(ch.isdigit() for ch in w):
+        if w == series or w in STOP or w in finish or any(ch.isdigit() for ch in w):
             continue
         out.add(w)
     return out
@@ -220,7 +221,12 @@ def match_item(item: dict, nodes: list[dict], tol_in: float = 0.3) -> tuple[dict
     finish_words = [w for w in _ascii(item.get("finish") or "").replace("-", " ").split() if w not in ("effect", "finish")]
     want = [v for k, v in (item.get("nominal_in") or {}).items() if k in ("w", "d", "h")]
     hits, near = [], []
+    seen: set[str] = set()
     for n in nodes:
+        art = node_article(n)
+        if art in seen:
+            continue                      # the sweep cache and the text search both returned it
+        seen.add(art)
         name = _ascii(str(n.get("name") or "")).strip()
         if name != series:
             continue                      # "SEKTION / MAXIMERA ..." is a combination, not the frame

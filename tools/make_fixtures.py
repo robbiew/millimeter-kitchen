@@ -118,7 +118,7 @@ FITS = {
         ]},
         {"wall": "E", "level": "wall", "from": 610, "items": [
             cab("frame:wall:21x15x30", "E-wall-21", (f"{V}:door:21x30", 1)),
-            cab("frame:wall:30x15x15", "E-wall-30-hood", (f"{V}:door:30x15", 1), interior=["hood below; top aligned with the run, underside clears the gas range by 30 in"]),
+            cab("frame:wall:30x15x15", "E-wall-30-hood", (f"{V}:door:15x15", 2), interior=["hood below; top aligned with the run, underside clears the gas range by 30 in"]),
             cab("frame:wall:30x15x30", "E-wall-30", (f"{V}:door:15x30", 2)),
             filler(74, "E-wall-filler-right"),
         ]},
@@ -145,7 +145,7 @@ CORNER = {
             cab("frame:sink_base:36x24x30", "N-sink-36", (f"{V}:door:18x30", 2)),
             {"kind": "appliance", "label": "N-dishwasher", "ref": "dishwasher"},
             cab("frame:base:12x24x30", "N-base-12", (f"{V}:door:12x30", 1)),
-            cab("frame:base_corner:38x38x30", "N-corner", (f"{V}:corner-door:17x30", 1), interior=["carousel"]),
+            cab("frame:base_corner:38x38x30", "N-corner", (f"{V}:corner-door:13x30", 1), interior=["carousel"]),
         ]},
         {"wall": "N", "level": "wall", "from": 2133, "items": [
             {"kind": "gap", "label": "N-wall-gap", "width": 329},
@@ -160,7 +160,7 @@ CORNER = {
         ]},
         {"wall": "E", "level": "wall", "from": 660, "items": [
             cab("frame:wall:30x15x30", "E-wall-30", (f"{V}:door:15x30", 2)),
-            cab("frame:wall:30x15x15", "E-wall-30-hood", (f"{V}:door:30x15", 1), interior=["hood below; top aligned with the run, underside clears the gas range by 30 in"]),
+            cab("frame:wall:30x15x15", "E-wall-30-hood", (f"{V}:door:15x15", 2), interior=["hood below; top aligned with the run, underside clears the gas range by 30 in"]),
             cab("frame:wall:18x15x30", "E-wall-18", (f"{V}:door:18x30", 1)),
             filler(100, "E-wall-filler-right"),
         ]},

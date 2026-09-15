@@ -23,7 +23,7 @@ RAIL_ID = "rail:sektion:84"
 LEGS_ID = "legs:sektion:4pack"
 HINGE_ID = "hinge:utrusta:2pack"
 DRAWER_HEIGHT_FOR_FRONT = {5: "low", 10: "medium", 15: "high", 20: "high"}
-COVER_PANEL_SIZE_FOR_LEVEL = {"base": "25x30", "wall": "15x32.5", "high": "25x90"}   # FÖRBÄTTRA sizes per cabinet level
+COVER_PANEL_SIZE_FOR_LEVEL = {"base": "25x30", "wall": "15x31", "high": "25x90"}   # FÖRBÄTTRA sizes per cabinet level
 
 
 def front_slug(k: Kitchen) -> str | None:
@@ -46,7 +46,7 @@ def cover_panel_id(k: Kitchen, level: str) -> str | None:
 
 def toe_kick_id(k: Kitchen) -> str | None:
     slug = front_slug(k)
-    return f"toe_kick:forbattra:{slug}:87" if slug else None
+    return f"toe_kick:forbattra:{slug}:84" if slug else None
 HINGE_PACKS_TALL_DOOR = 2
 TALL_DOOR_IN = 40
 
