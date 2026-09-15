@@ -28,8 +28,9 @@ from .edit import is_fixture
 from .export import is_stale
 
 VIEWER_DIR = Path(__file__).resolve().parents[2] / "viewer"
+WRITE_LOCK = threading.Lock()   # one mutation at a time: apply reads, validates, writes and exports as a unit
 APP_PAGE = VIEWER_DIR / "app.html"
-DEFAULT_HOST = "127.0.0.1"
+DEFAULT_HOST = "127.0.0.1"   # loopback only: the API writes project files and has no authentication
 DEFAULT_PORT = 8760
 LAYOUT_GLOBS = ("*.json", "examples/*.json", "variations/*.json")
 
@@ -95,16 +96,27 @@ def dispatch(root: Path, method: str, path: str, query: dict[str, str], body: di
             b = body if isinstance(body, dict) else {}
             if path == "/api/apply":
                 ops = b.get("ops")
-                if not isinstance(ops, list) or not ops:
-                    raise ValueError("ops must be a non-empty list of operations")
-                return 200, tools.apply_ops(root, _kitchen(b), ops, dry_run=bool(b.get("dry_run")), render=bool(b.get("render")))
+                if not isinstance(ops, list) or not ops or not all(isinstance(o, dict) and isinstance(o.get("op"), str) for o in ops):
+                    raise ValueError("ops must be a non-empty list of operations, each an object with an 'op'")
+                with WRITE_LOCK:
+                    return 200, tools.apply_ops(root, _kitchen(b), ops, dry_run=bool(b.get("dry_run")), render=bool(b.get("render")))
             if path == "/api/variation":
                 name = b.get("name")
                 if not name or not isinstance(name, str):
                     raise ValueError("name is required")
-                return 200, tools.start_variation(root, _kitchen(b), name)
+                with WRITE_LOCK:
+                    return 200, tools.start_variation(root, _kitchen(b), name)
             if path == "/api/export":
-                return 200, tools.export(root, _kitchen(b), render=bool(b.get("render")), ikea_models=bool(b.get("ikea_models")))
+                with WRITE_LOCK:
+                    return 200, tools.export(root, _kitchen(b), render=bool(b.get("render")), ikea_models=bool(b.get("ikea_models")))
+            if path == "/api/reconcile":
+                ikea_list = b.get("ikea_list")
+                if not ikea_list or not isinstance(ikea_list, str):
+                    raise ValueError("ikea_list (a CSV/TSV path relative to the project root) is required")
+                expl = b.get("explanations")
+                if expl is not None and not isinstance(expl, dict):
+                    raise ValueError("explanations must be an object of {article: reason}")
+                return 200, tools.reconcile(root, _kitchen(b), ikea_list, expl)
         else:
             return 405, {"ok": False, "error": f"{method} not allowed"}
     except ValueError as exc:
@@ -184,6 +196,8 @@ class Handler(SimpleHTTPRequestHandler):
 
 
 def make_server(root: Path, host: str = DEFAULT_HOST, port: int = DEFAULT_PORT, quiet: bool = True) -> ThreadingHTTPServer:
+    if host not in ("127.0.0.1", "localhost", "::1"):
+        raise ValueError(f"refusing to bind {host}: the editor writes project files and has no authentication, so it serves loopback only")
     root = root.resolve()
 
     def factory(*args: Any, **kwargs: Any) -> Handler:

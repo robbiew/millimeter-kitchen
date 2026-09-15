@@ -56,13 +56,38 @@ def test_dispatch_catalog_finishes_and_errors(root):
     assert status == 200 and [i["id"] for i in c["items"]] == ["frame:base:18x24x30"]
     status, f = serve.dispatch(root, "GET", "/api/finishes", {"role": "counter"})
     assert status == 200 and any(x["key"] == "quartz-white" and x["default"] for x in f["finishes"])
+    assert c["items"][0]["corner"] is None
+    status, c = serve.dispatch(root, "GET", "/api/catalog", {"kind": "frame", "type": "base_corner", "kitchen": "examples/kitchen.fits.json"})
+    assert status == 200 and any(i["corner"] and i["corner"]["front_width_in"] == 13 for i in c["items"])   # the page needs the face width
     assert serve.dispatch(root, "GET", "/api/catalog", {"width_in": "wide"})[0] == 400
     assert serve.dispatch(root, "GET", "/api/describe", {})[0] == 400
     assert serve.dispatch(root, "POST", "/api/apply", {}, {"kitchen": "x.json", "ops": []})[0] == 400
+    assert serve.dispatch(root, "POST", "/api/apply", {}, {"kitchen": "x.json", "ops": [None]})[0] == 400
+    assert serve.dispatch(root, "POST", "/api/apply", {}, {"kitchen": "x.json", "ops": [{"label": "x"}]})[0] == 400
+    assert serve.dispatch(root, "POST", "/api/reconcile", {}, {"kitchen": "examples/kitchen.fits.json"})[0] == 400
+    assert serve.dispatch(root, "POST", "/api/reconcile", {}, {"kitchen": "examples/kitchen.fits.json", "ikea_list": "l.csv", "explanations": "no"})[0] == 400
     assert serve.dispatch(root, "GET", "/api/nothing", {})[0] == 404
     assert serve.dispatch(root, "DELETE", "/api/layouts", {})[0] == 405
     status, d = serve.dispatch(root, "GET", "/api/describe", {"kitchen": "../outside.json"})
     assert status == 200 and d["ok"] is False and "outside" in d["error"]
+
+
+def test_dispatch_reconcile_route(root):
+    """The browser API carries the whole tool surface, reconcile included."""
+    status, pack = serve.dispatch(root, "GET", "/api/purchase", {"kitchen": "examples/kitchen.fits.json"})
+    assert status == 200 and pack["ok"]
+    rows = ["article,qty"] + [f"{l['article']},{l['qty']}" for l in pack["lines"] if l.get("article")]
+    (root / "items.csv").write_text("\n".join(rows) + "\n")
+    status, r = serve.dispatch(root, "POST", "/api/reconcile", {}, {"kitchen": "examples/kitchen.fits.json", "ikea_list": "items.csv"})
+    assert status == 200 and r["ok"] is True and r["open_differences"] == 0
+    (root / "short.csv").write_text("\n".join(rows[:-1]) + "\n")
+    status, r = serve.dispatch(root, "POST", "/api/reconcile", {}, {"kitchen": "examples/kitchen.fits.json", "ikea_list": "short.csv"})
+    assert status == 200 and r["ok"] is False and r["open_differences"] == 1
+
+
+def test_server_binds_loopback_only(root):
+    with pytest.raises(ValueError, match="loopback"):
+        serve.make_server(root, host="0.0.0.0", port=0)
 
 
 @pytest.fixture

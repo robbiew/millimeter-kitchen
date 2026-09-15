@@ -92,7 +92,7 @@ def search_catalog(root: Path, kitchen: str | None = None, kind: str | None = No
         if text and text.lower() not in (it.id + " " + it.name).lower():
             continue
         out.append({"id": it.id, "kind": it.kind, "type": it.type, "series": it.series, "finish": it.finish, "nominal": it.nominal,
-                    "actual_mm": {"w": it.w, "d": it.d, "h": it.h}, "article": it.article, "verified": it.verified})
+                    "actual_mm": {"w": it.w, "d": it.d, "h": it.h}, "article": it.article, "verified": it.verified, "corner": it.corner})
         if len(out) >= limit:
             break
     return {"ok": True, "catalog": cat.id, "count": len(out), "items": out}

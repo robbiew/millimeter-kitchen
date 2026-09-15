@@ -86,9 +86,12 @@
 
 <script>
 'use strict';
+// The page never computes a dimension. It reads the layout (describe), offers ids from the layout's own
+// catalog (search_catalog, list_finishes) and sends operations (apply_ops); the validator has the last word.
 const $ = (s, el = document) => el.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const S = { layouts: [], kitchen: null, fixture: false, D: null, frames: [], fronts: [], finishes: [], sel: null, ins: null, tab: 'plan', ts: Date.now(), busy: false };
+const S = { layouts: [], kitchen: null, fixture: false, D: null, raw: {}, frames: [], fronts: [], finishes: [], sel: null, ins: null, tab: 'plan', ts: Date.now(), busy: false };
+const MAX_DOORS_PER_ROW = 4;
 
 async function api(path, params = {}) {
   const q = Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== '').map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`).join('&');
@@ -100,27 +103,44 @@ async function post(path, body) {
   return r.json();
 }
 const stem = p => p.replace(/^.*\//, '').replace(/\.json$/, '');
-const outUrl = f => `/out/${stem(S.kitchen)}/${f}?v=${S.ts}`;
+const urlPath = p => p.split('/').map(encodeURIComponent).join('/');
+const outUrl = f => `/out/${encodeURIComponent(stem(S.kitchen))}/${f}?v=${S.ts}`;
 const nomW = it => it && it.nominal ? Number(it.nominal.split('x')[0]) : null;
 const nomH = nominal => Number(String(nominal).split('x')[1]);
 const shortId = id => id ? id.replace(/^(frame|front|drawer_front):/, '') : '';
+const frontById = id => S.fronts.find(y => y.id === id);
 
 // ---------------------------------------------------------------- loading
 async function boot() {
-  const [lay, fr, fd, fdr, fin] = await Promise.all([
-    api('/api/layouts'), api('/api/catalog', { kind: 'frame', limit: 1000 }), api('/api/catalog', { kind: 'front', limit: 1000 }),
-    api('/api/catalog', { kind: 'drawer_front', limit: 1000 }), api('/api/finishes')]);
+  const [lay, fin] = await Promise.all([api('/api/layouts'), api('/api/finishes')]);
   S.layouts = lay.layouts || [];
-  S.frames = fr.items || [];
-  S.fronts = [...(fd.items || []), ...(fdr.items || [])];
   S.finishes = fin.finishes || [];
-  const sel = $('#layout');
-  sel.innerHTML = S.layouts.map(l => `<option value="${esc(l.path)}">${esc(l.name)} — ${esc(l.path)}${l.fixture ? ' (fixture)' : ''}</option>`).join('');
-  sel.onchange = () => openLayout(sel.value);
+  renderLayoutSelect();
+  $('#layout').onchange = () => openLayout($('#layout').value);
   const want = new URLSearchParams(location.search).get('kitchen');
   const first = S.layouts.find(l => l.path === want) || S.layouts.find(l => !l.fixture) || S.layouts[0];
-  if (first) { sel.value = first.path; await openLayout(first.path); }
+  if (first) { $('#layout').value = first.path; await openLayout(first.path); }
   else $('#runs').textContent = 'No kitchen files found under the project root.';
+}
+
+function renderLayoutSelect() {
+  $('#layout').innerHTML = S.layouts.map(l => `<option value="${esc(l.path)}">${esc(l.name)} — ${esc(l.path)}${l.fixture ? ' (fixture)' : ''}</option>`).join('');
+}
+
+async function loadCatalog() {
+  // the layout's own catalog, not the newest one in the repo: a layout may pin an older or a local catalog
+  const [fr, fd, fdr] = await Promise.all(['frame', 'front', 'drawer_front'].map(kind => api('/api/catalog', { kind, limit: 1000, kitchen: S.kitchen })));
+  S.frames = fr.items || [];
+  S.fronts = [...(fd.items || []), ...(fdr.items || [])];
+}
+
+async function loadRaw() {
+  // the file itself, so an edit can carry every field of an item (interior, notes, bottom …) that describe does not show
+  S.raw = {};
+  try {
+    const doc = await (await fetch('/' + urlPath(S.kitchen) + '?v=' + Date.now())).json();
+    for (const r of doc.runs || []) for (const it of r.items || []) if (it.label) S.raw[it.label] = it;
+  } catch (e) { /* the page still works, edits just carry fewer fields */ }
 }
 
 async function openLayout(path) {
@@ -128,6 +148,7 @@ async function openLayout(path) {
   const l = S.layouts.find(x => x.path === path);
   S.fixture = !!(l && l.fixture);
   history.replaceState(null, '', '?kitchen=' + encodeURIComponent(path));
+  await loadCatalog();
   await refresh();
   if (S.D && S.D.ok && S.D.export_stale !== false && !S.D.errors.length) {
     setResult({ message: 'exporting drawings and scene…' });
@@ -139,7 +160,7 @@ async function openLayout(path) {
 }
 
 async function refresh() {
-  S.D = await api('/api/describe', { kitchen: S.kitchen });
+  [S.D] = await Promise.all([api('/api/describe', { kitchen: S.kitchen }), loadRaw()]);
   renderStatus(); renderRuns(); renderMaterials(); renderEditor(); renderTabs(); renderView();
   if (S.D && S.D.ok && (S.D.errors.length || S.D.warnings.length) && !S.busy) setResult({ message: S.D.errors.length ? 'this layout does not fit as it stands' : 'this layout fits, with warnings', errors: S.D.errors, warnings: S.D.warnings });
 }
@@ -150,7 +171,6 @@ function renderStatus() {
   if (!D || !D.ok) { st.innerHTML = `<span class="pill bad">${esc(D && D.error || 'could not read layout')}</span>`; return; }
   st.innerHTML = `<span class="pill ${D.errors.length ? 'bad' : 'ok'}">${D.errors.length} errors</span> <span class="pill ${D.warnings.length ? 'warn' : 'mute'}">${D.warnings.length} warnings</span>`
     + (S.fixture ? ' <span class="pill mute" title="files under examples/ are test fixtures">fixture, read only</span>' : '');
-  $('#branchBtn').disabled = false;
 }
 
 function frontsSummary(fr) {
@@ -173,15 +193,15 @@ function renderRuns() {
           <button data-op="down" ${next ? '' : 'disabled'} title="move right">→</button>
           <button data-op="remove" title="remove">✕</button>
         </span></div>
-        <button class="ins" data-ins="${ri}:${esc(it.label)}">+ insert after ${esc(it.label)}</button>`;
+        <button class="ins" data-run="${ri}" data-after="${esc(it.label)}">+ insert after ${esc(it.label)}</button>`;
     }).join('');
     const fit = r.used_mm === r.length_mm ? 'okc' : 'wrn';
     return `<div class="run"><h3>Wall ${esc(r.wall)} · ${esc(r.level)}<small class="${fit}">${r.used_mm} / ${r.length_mm} mm</small></h3>
-      <button class="ins" data-ins="${ri}:">+ insert at start</button>${items}</div>`;
+      <button class="ins" data-run="${ri}" data-after="">+ insert at start</button>${items}</div>`;
   }).join('');
   el.querySelectorAll('.item').forEach(d => d.onclick = e => { if (e.target.tagName === 'BUTTON') return; S.sel = d.dataset.label; S.ins = null; renderRuns(); renderEditor(); });
   el.querySelectorAll('.item .act button').forEach(b => b.onclick = e => { e.stopPropagation(); quickOp(b.closest('.item').dataset.label, b.dataset.op); });
-  el.querySelectorAll('.ins').forEach(b => b.onclick = () => { const [ri, after] = b.dataset.ins.split(':'); S.ins = { run: D.runs[+ri], after: after || null }; S.sel = null; renderRuns(); renderEditor(); });
+  el.querySelectorAll('.ins').forEach(b => b.onclick = () => { S.ins = { run: D.runs[+b.dataset.run], after: b.dataset.after || null }; S.sel = null; renderRuns(); renderEditor(); });
 }
 
 function neighbours(label) {
@@ -213,6 +233,41 @@ function renderMaterials() {
 function frameTypes() { return [...new Set(S.frames.map(f => f.type))]; }
 function frontSeries() { return [...new Set(S.fronts.map(f => f.series))]; }
 
+// A frame's face: the width its fronts must fill, and which front types it takes.
+// A corner frame with a notch takes the bi-fold corner-door set; a blind corner takes ordinary fronts on its door width.
+function face(frame) {
+  if (!frame) return { w: null, types: ['door', 'drawer'] };
+  if (frame.corner) return { w: frame.corner.front_width_in, types: frame.corner.blind ? ['door', 'drawer'] : ['corner_door'] };
+  return { w: nomW(frame), types: ['door', 'drawer'] };
+}
+
+// Fronts that can make one row on a face `w` inches wide: a drawer front or corner set is the full width; a row of
+// doors is `n` equal doors side by side (n up to MAX_DOORS_PER_ROW). Returns [{item, n}].
+function rowCandidates(w, type, series) {
+  const out = [];
+  for (const y of S.fronts) {
+    if (y.type !== type || y.series !== series) continue;
+    const yw = nomW(y);
+    if (type === 'door') { const n = w / yw; if (Number.isInteger(n) && n >= 1 && n <= MAX_DOORS_PER_ROW) out.push({ item: y, n }); }
+    else if (yw === w) out.push({ item: y, n: 1 });
+  }
+  return out;
+}
+
+// The validator's row semantics (draw.front_rows): each drawer front is a row of its own; consecutive doors of the
+// same height share one row. Sum of row heights in nominal inches, for the tile check shown next to the frame height.
+function rowsHeight(fronts) {
+  let sum = 0, lastDoorH = null;
+  for (const x of fronts) {
+    const c = frontById(x.id);
+    if (!c) continue;
+    const h = nomH(c.nominal);
+    if (c.type === 'drawer') { sum += h * (x.count || 1); lastDoorH = null; }
+    else { if (lastDoorH !== h) sum += h; lastDoorH = h; }
+  }
+  return sum;
+}
+
 function renderEditor() {
   const el = $('#editor'), D = S.D;
   if (!D || !D.ok) { el.textContent = ''; return; }
@@ -234,10 +289,11 @@ function renderEditor() {
     ${S.fixture ? '<p class="hint">This file is a test fixture. “Try” still runs the validator; “Start variation” makes an editable copy.</p>' : ''}`;
   el.innerHTML = html;
   const body = $('#edBody');
-  const form = { kind, type: curType, frameId: item && item.id, fronts: curFronts, width: (item && item.width) || 76, ref: item && item.ref, label: item && item.label };
+  // width is never defaulted: a filler's width is a purchasing dimension and comes from the file or from the user
+  const form = { kind, type: curType, frameId: item && item.id, fronts: curFronts, width: item ? item.width : null, ref: item && item.ref, label: item && item.label };
   const draw = () => { body.innerHTML = formHtml(form); wireForm(body, form, draw); };
   draw();
-  if (S.ins) $('#edKind').onchange = e => { form.kind = e.target.value; form.fronts = []; form.width = 76; draw(); };
+  if (S.ins) $('#edKind').onchange = e => { form.kind = e.target.value; form.fronts = []; form.width = null; draw(); };
   $('#tryBtn').onclick = () => submitForm(form, true);
   $('#applyBtn').onclick = () => submitForm(form, false);
 }
@@ -247,23 +303,25 @@ function formHtml(f) {
     const frames = S.frames.filter(x => x.type === f.type);
     if (!frames.find(x => x.id === f.frameId)) f.frameId = frames[0] && frames[0].id;
     const fr = S.frames.find(x => x.id === f.frameId);
-    const w = nomW(fr), fh = fr ? Number(fr.nominal.split('x')[2]) : null;
-    const sum = f.fronts.reduce((a, x) => { const c = S.fronts.find(y => y.id === x.id); return a + (c ? nomH(c.nominal) * (c.type === 'door' ? 1 : x.count) : 0); }, 0);
+    const fc = face(fr), fh = fr ? Number(fr.nominal.split('x')[2]) : null;
     const rows = f.fronts.map((x, i) => {
-      const c = S.fronts.find(y => y.id === x.id) || {};
-      const series = x.series || c.series || frontSeries()[0], type = x.type || c.type || 'door';
-      const sizes = S.fronts.filter(y => y.series === series && y.type === type && nomW(y) === w);
-      if (!sizes.find(y => y.id === x.id) && sizes[0]) x.id = sizes[0].id;
+      const c = frontById(x.id) || {};
+      const type = fc.types.includes(x.type || c.type) ? (x.type || c.type) : fc.types[0];
+      const series = x.series || c.series || frontSeries()[0];
+      const cands = rowCandidates(fc.w, type, series);
+      const cur = cands.find(k => k.item.id === x.id);
+      if (!cur && cands[0]) { x.id = cands[0].item.id; if (type === 'door') x.count = cands[0].n; }
+      const n = (cands.find(k => k.item.id === x.id) || {}).n;
       return `<div class="front" data-i="${i}">
-        <select data-k="type"><option ${type === 'door' ? 'selected' : ''}>door</option><option ${type === 'drawer' ? 'selected' : ''}>drawer</option></select>
+        <select data-k="type">${fc.types.map(t => `<option value="${t}" ${t === type ? 'selected' : ''}>${t.replace('_', ' ')}</option>`).join('')}</select>
         <select data-k="series">${frontSeries().map(s => `<option ${s === series ? 'selected' : ''}>${esc(s)}</option>`).join('')}</select>
-        <select data-k="id">${sizes.map(y => `<option value="${esc(y.id)}" ${y.id === x.id ? 'selected' : ''}>${esc(y.nominal)} ${esc(y.finish || '')}</option>`).join('') || '<option value="">no size for this width</option>'}</select>
-        <input data-k="count" type="number" min="1" max="4" value="${x.count || 1}" title="doors side by side in one row; drawers are one per row">
+        <select data-k="id">${cands.map(k => `<option value="${esc(k.item.id)}" ${k.item.id === x.id ? 'selected' : ''}>${esc(k.item.nominal)}${k.n > 1 ? ' ×' + k.n : ''} ${esc(k.item.finish || '')}</option>`).join('') || '<option value="">no size for this face</option>'}</select>
+        <input data-k="count" type="number" min="1" max="${MAX_DOORS_PER_ROW}" value="${x.count || 1}" title="${type === 'drawer' ? 'stacked drawer rows of this size' : 'doors side by side in this row'}" ${type === 'door' && n ? `data-n="${n}"` : ''}>
         <button data-k="del" title="remove row">✕</button></div>`;
     }).join('');
     return `<label class="f">frame type</label><select data-k="type">${frameTypes().map(t => `<option ${t === f.type ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select>
       <label class="f">frame</label><select data-k="frameId">${frames.map(x => `<option value="${esc(x.id)}" ${x.id === f.frameId ? 'selected' : ''}>${esc(x.nominal)} · ${esc(x.article || '')}</option>`).join('')}</select>
-      <label class="f">fronts, top to bottom <span class="muted">(rows sum ${sum} in, frame ${fh ?? '?'} in)</span></label>
+      <label class="f">fronts, top to bottom <span class="muted">(rows sum ${rowsHeight(f.fronts)} in, frame ${fh ?? '?'} in${fr && fr.corner ? `, face ${fc.w} in` : ''})</span></label>
       ${rows}<button data-k="add" style="margin-top:4px">+ front row</button>
       <label class="f">label</label><input data-k="label" value="${esc(f.label || '')}" placeholder="auto">`;
   }
@@ -273,36 +331,48 @@ function formHtml(f) {
     return `<label class="f">appliance</label><select data-k="ref">${refs.map(r => `<option ${r === f.ref ? 'selected' : ''}>${esc(r)}</option>`).join('')}</select>
       <p class="hint">${refs.map(r => `${esc(r)}: ${esc(S.D.appliances[r].name)}, ${S.D.appliances[r].width} mm`).join('<br>')}</p>`;
   }
-  return `<label class="f">${esc(f.kind)} width, mm</label><input data-k="width" type="number" min="1" value="${f.width}">`;
+  return `<label class="f">${esc(f.kind)} width, mm</label><input data-k="width" type="number" min="1" step="1" value="${f.width ?? ''}" placeholder="required" required>
+    <p class="hint">Measured or worked out from the run; the page never fills this in for you.</p>`;
 }
 
 function wireForm(body, f, redraw) {
   body.querySelectorAll('[data-k]').forEach(c => {
     const row = c.closest('.front'), i = row ? +row.dataset.i : null;
-    if (c.dataset.k === 'add') c.onclick = () => { f.fronts.push({ id: '', count: 1, type: 'door' }); redraw(); };
+    if (c.dataset.k === 'add') c.onclick = () => { f.fronts.push({ id: '', count: 1 }); redraw(); };
     else if (c.dataset.k === 'del') c.onclick = () => { f.fronts.splice(i, 1); redraw(); };
     else c.onchange = () => {
       const v = c.type === 'number' ? Number(c.value) : c.value;
-      if (row) { const x = f.fronts[i]; x[c.dataset.k] = v; if (c.dataset.k === 'type' || c.dataset.k === 'series') x.id = ''; }
-      else { f[c.dataset.k] = v; if (c.dataset.k === 'type') f.frameId = null; }
-      if (c.dataset.k !== 'label' && c.dataset.k !== 'count' && c.dataset.k !== 'width') redraw();
+      if (row) {
+        const x = f.fronts[i];
+        x[c.dataset.k] = v;
+        if (c.dataset.k === 'type' || c.dataset.k === 'series') x.id = '';
+        if (c.dataset.k === 'id') { const opt = c.selectedOptions[0]; const m = opt && /×(\d+)/.exec(opt.textContent); x.count = m ? Number(m[1]) : 1; }
+      } else { f[c.dataset.k] = v; if (c.dataset.k === 'type') f.frameId = null; }
+      if (!['label', 'count', 'width'].includes(c.dataset.k)) redraw();
     };
   });
 }
 
+// The item to send. For an existing item every field the file has (interior, notes, bottom …) is kept and only
+// what the form edits is replaced, so a front change never drops the cabinet's hanging height or its interior.
 function buildItem(f) {
+  const raw = !S.ins && S.raw[S.sel] && S.raw[S.sel].kind === f.kind ? { ...S.raw[S.sel] } : {};
   if (f.kind === 'cabinet') {
-    const item = { kind: 'cabinet', id: f.frameId };
+    const item = { ...raw, kind: 'cabinet', id: f.frameId };
+    delete item.fronts;
     if (f.fronts.length) item.fronts = f.fronts.map(x => ({ id: x.id, count: x.count || 1 }));
-    if (f.label) item.label = f.label;
+    if (f.label) item.label = f.label; else delete item.label;
     return item;
   }
-  if (f.kind === 'appliance') return { kind: 'appliance', ref: f.ref };
-  return { kind: f.kind, width: Number(f.width) };
+  if (f.kind === 'appliance') return { ...raw, kind: 'appliance', ref: f.ref };
+  const w = Number(f.width);
+  if (!Number.isInteger(w) || w <= 0) { setResult({ error: `enter the ${f.kind} width in whole millimetres` }); return null; }
+  return { ...raw, kind: f.kind, width: w };
 }
 
 function submitForm(f, dry) {
   const item = buildItem(f);
+  if (!item) return;
   let ops;
   if (S.ins) {
     const op = { op: 'insert', wall: S.ins.run.wall, level: S.ins.run.level, item };
@@ -362,15 +432,15 @@ async function renderView() {
   const el = $('#view'), t = S.tab;
   if (!S.D || !S.D.ok) { el.innerHTML = ''; return; }
   const noExport = S.D.export_stale === null ? (S.D.errors.length ? '<p class="muted">Nothing exported yet: the layout has errors, and drawings are only made from a layout that fits. Fix the errors below and they will appear.</p>' : '<p class="muted">Nothing exported yet.</p>') : '';
-  const stale = S.D.export_stale ? '<p class="hint">These drawings are older than the file; they refresh after the next edit that fits.</p>' : '';
-  if (t === 'plan') el.innerHTML = noExport || `<img src="${outUrl('plan.svg')}" alt="plan">${stale}`;
-  else if (t.startsWith('wall-')) el.innerHTML = noExport || `<img src="${outUrl('elevation-' + t.slice(5) + '.svg')}" alt="elevation">${stale}`;
-  else if (t === '3d') el.innerHTML = noExport || `<iframe src="/viewer/index.html?scene=${encodeURIComponent('/out/' + stem(S.kitchen) + '/scene.glb')}&v=${S.ts}"></iframe><p class="hint">Drag to orbit, scroll to zoom; buttons jump to the export's cameras.</p>`;
-  else if (t === 'review') el.innerHTML = noExport || `<iframe src="${outUrl('index.html')}" style="height:75vh"></iframe>`;
+  const stale = S.D.export_stale ? `<p class="hint wrn">Older than the file: this was exported before the latest change${S.D.errors.length ? ', and the layout as it stands has errors' : ''}. It refreshes after the next edit that fits.</p>` : '';
+  if (t === 'plan') el.innerHTML = noExport || `${stale}<img src="${outUrl('plan.svg')}" alt="plan">`;
+  else if (t.startsWith('wall-')) el.innerHTML = noExport || `${stale}<img src="${outUrl('elevation-' + encodeURIComponent(t.slice(5)) + '.svg')}" alt="elevation">`;
+  else if (t === '3d') el.innerHTML = noExport || `${stale}<iframe src="/viewer/index.html?scene=${encodeURIComponent('/out/' + stem(S.kitchen) + '/scene.glb')}&v=${S.ts}"></iframe><p class="hint">Drag to orbit, scroll to zoom; buttons jump to the export's cameras.</p>`;
+  else if (t === 'review') el.innerHTML = noExport || `${stale}<iframe src="${outUrl('index.html')}" style="height:75vh"></iframe>`;
   else if (t === 'renders') {
-    const m = await (await fetch(outUrl('manifest.json'))).json().catch(() => null);
+    const m = await fetch(outUrl('manifest.json')).then(r => r.ok ? r.json() : null).catch(() => null);
     const pngs = m ? m.files.filter(f => f.endsWith('.png')) : [];
-    el.innerHTML = pngs.length ? `<div class="renders">${pngs.map(p => `<figure><img src="${outUrl(p)}"><figcaption class="muted">${esc(p)}${m.renders_current ? '' : ' · older than the current layout'}</figcaption></figure>`).join('')}</div>`
+    el.innerHTML = pngs.length ? `${stale}<div class="renders">${pngs.map(p => `<figure><img src="${outUrl(encodeURIComponent(p))}"><figcaption class="muted">${esc(p)}${m.renders_current ? '' : ' · older than the current layout'}</figcaption></figure>`).join('')}</div>`
       : `<p class="muted">No Blender renders yet. “Render in Blender” in the header makes one image per camera.</p>`;
   } else if (t === 'bom') {
     const b = await api('/api/bom', { kitchen: S.kitchen });
@@ -392,9 +462,8 @@ $('#branchGo').onclick = async () => {
   $('#branchForm').hidden = true; $('#branchName').value = '';
   const lay = await api('/api/layouts');
   S.layouts = lay.layouts || [];
-  const sel = $('#layout');
-  sel.innerHTML = S.layouts.map(l => `<option value="${esc(l.path)}">${esc(l.name)} — ${esc(l.path)}${l.fixture ? ' (fixture)' : ''}</option>`).join('');
-  sel.value = r.path;
+  renderLayoutSelect();
+  $('#layout').value = r.path;
   setResult({ message: `started ${r.path}; ${r.git_hint}` });
   await openLayout(r.path);
 };
@@ -406,6 +475,7 @@ $('#renderBtn').onclick = async () => {
     const r = await post('/api/export', { kitchen: S.kitchen, render: true });
     S.ts = Date.now();
     setResult(r.ok ? { message: `rendered ${r.renders.length} image(s)` + (r.render_note ? ` (${r.render_note})` : '') } : { message: 'render failed', errors: [r.error || r.render_error || r.render_note] });
+    await refresh();
     S.tab = 'renders'; renderTabs(); renderView();
   } finally { S.busy = false; $('#renderBtn').disabled = false; }
 };
