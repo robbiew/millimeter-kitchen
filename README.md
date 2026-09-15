@@ -1,15 +1,14 @@
 # Millimeter Kitchen
 
-> **Work in progress.** Phases 0 to 3 (room survey checks, SEKTION catalog,
-> fit validator, dimensioned drawings, 3D scene export and Blender rendering)
-> are scaffolded and tested, `mmk render` produces Blender renders, and phase 4
-> gives every surface a named finish, and phase 5 lets Claude edit the layout
-> through an MCP server whose every change is validator-gated, and phase 6
-> derives the purchase pack and reconciles it against IKEA's item list. What
-> blocks buying is the catalog: only two entries carry verified article numbers. The catalog's dimensions come from
-> published size guides and are not yet verified against IKEA product pages,
-> so nothing here is ready to buy from. See the status tracker at the bottom of
-> [docs/BUILD_ORDER.md](docs/BUILD_ORDER.md).
+> **Work in progress.** Every phase is built and tested: room survey checks,
+> a SEKTION catalog verified article by article on ikea.com, the fit
+> validator, dimensioned drawings, a 3D scene with real-scale textures and
+> Blender renders, named finishes, validator-gated edits from Claude over MCP,
+> and a purchase pack with reconciliation against IKEA's item list. What is
+> still missing is the real room: `examples/room.example.json` is illustrative,
+> and the purchase pack has not yet been reconciled against a real IKEA
+> Kitchen Planner export, so nothing here is ready to buy from. See the status
+> tracker at the bottom of [docs/BUILD_ORDER.md](docs/BUILD_ORDER.md).
 
 A dimension-accurate planning tool for a kitchen remodel using IKEA SEKTION
 frames and IKEA fronts. The layout is a plain JSON file; a deterministic
@@ -29,17 +28,18 @@ it. None of them writes a dimension on its own.
 |---|---|---|---|
 | Capture | Laser distance meter + tape | The only source of wall lengths. Entered by hand per `docs/SURVEY_PROTOCOL.md`. | In use (phase 0) |
 | Capture | Apple RoomPlan / Polycam / IKEA Kreativ | Optional LiDAR rough-in of the room envelope. Hints only; the survey overrides it. | Planned |
-| Catalog | IKEA US product pages and search API | `tools/scrape_sektion.py --sweep` enumerates an article family by number (the leading digit is a Luhn check), `--discover` matches entries by series, type, size and finish, and the verify pass reads each product page. | Built; 208 of 215 entries carry an article verified on ikea.com (2026-09-15) |
-| Catalog | IKEA Rotera GLB models | IKEA's own mesh per article, fetched by `mmk ikea-models fetch` into a cache outside the repo and swapped into Blender renders with `--ikea-models`. Pictures only: the box scene places them, never the reverse, and `mmk ikea-models check` only reports when a model's size disagrees with the catalog. | Built; swap unverified in Blender |
+| Catalog | IKEA US product pages and search API | `tools/scrape_sektion.py --sweep` enumerates an article family by number (the leading digit is a Luhn check), `--discover` matches entries by series, type, size and finish, and the verify pass reads each product page. | Built; all 215 entries carry an article number and the product page's size, verified on ikea.com (2026-09-14) |
+| Catalog | IKEA Rotera GLB models | IKEA's own mesh per article, fetched by `mmk ikea-models fetch` into a cache outside the repo and swapped into Blender renders with `--ikea-models`. Pictures only: the box scene places them, never the reverse, and `mmk ikea-models check` only reports when a model's size disagrees with the catalog. | Built; swap checked in Blender renders |
 | Validation | Python, `jsonschema`, pytest | Schema checks and the fit rules: run closure, fillers, clearances, openings, services, front sizes. | Built (phase 1) |
 | Geometry | build123d | Exact solids for countertop outlines and the countertop cut drawing. | Planned (phase 6) |
 | Drawings | Generated SVG | Dimensioned elevations per wall and a plan view for contractors and fabricators, at a chosen print scale. | Built (phase 2) |
 | 3D and renders | glTF export (pure Python) + Blender | `mmk render` writes `scene.glb` with a named node per cabinet, front, counter and wall, then Blender imports it and renders one image per wall. Finishes come from `catalog/finishes.json` by role, with procedural wood, tile and stone textures embedded in the glTF at real-world scale; Home Builder 5 is optional detail. | Built (phases 3 and 4) |
 | 3D and renders | blender-mcp | Lets an AI assistant adjust cameras, lighting and materials in the live scene. Never the path a dimension travels. | Planned (phase 4) |
-| Review | Static HTML + three.js | Every export writes `out/<file>/index.html` (drawings, renders, embedded 3D viewer, runs, purchase pack, assumptions) and `out/index.html` listing all layouts; pages flag themselves stale when the source file changes. | Built; viewer unverified in a browser |
+| Review | Static HTML + three.js | Every export writes `out/<file>/index.html` (drawings, renders, embedded 3D viewer, runs, purchase pack, assumptions) and `out/index.html` listing all layouts; pages flag themselves stale when the source file changes. | Built; checked in Chrome |
 | Variations | Claude via `mmk mcp` (MCP Python SDK, 1.x or 2.x) | Natural-language edits ("swap the 36 for two 18s with drawers") become `apply_ops` calls that are refused unless the result fits. Variations are sibling files; branch them in git. | Built (phase 5) |
+| Variations | Layout editor, `mmk serve` | A local page (standard-library HTTP server, no build step) that lists the runs, edits frames, fronts, fillers, appliances and finishes through the same validator-gated operations, and shows the plan, elevations, 3D scene, BOM and purchase pack, refreshed after every edit that fits. | Built; checked in Chrome |
 | Mood | GenRoom, MeltFlex, Decor8 | Photo-to-photo restyles for finishes and lighting, fed a validated render. Pictures only. | Optional (phase 4) |
-| Purchase | IKEA Kitchen Planner | The final arbiter. `mmk purchase` derives the full pack; `mmk reconcile` diffs it against the planner's item list saved as CSV. | Built, blocked on catalog articles (phase 6) |
+| Purchase | IKEA Kitchen Planner | The final arbiter. `mmk purchase` derives the full pack; `mmk reconcile` diffs it against the planner's item list saved as CSV. | Built; waits on a real planner export to reconcile (phase 6) |
 
 ## Install
 
@@ -93,6 +93,9 @@ mmk catalog import ikea-items.csv --write      # article numbers from the planne
 # Review in a browser: every export writes out/<file>/index.html and out/index.html
 mmk export examples/kitchen.fits.json           # or any successful mmk edit / apply_ops
 python -m http.server                           # then open http://localhost:8000/out/
+
+# Edit in a browser: the layout editor over the same operations as mmk edit and the MCP server
+mmk serve                                       # opens http://127.0.0.1:8760/ ; fixtures are read only, "Start variation" copies one
 ```
 
 ## Claude as a design assistant
