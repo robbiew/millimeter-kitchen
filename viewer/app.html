@@ -1,0 +1,414 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Millimeter Kitchen</title>
+<style>
+  :root{--ink:#1d1d1f;--muted:#6b6f76;--line:#d9dbe0;--ground:#f4f5f7;--panel:#fff;--ok:#1a7f37;--warn:#9a6700;--bad:#c0242b;--accent:#1f5fbf;--sel:#e8f0fe}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--ground);color:var(--ink);font:14px/1.4 system-ui,-apple-system,sans-serif}
+  body{display:flex;flex-direction:column;height:100vh}
+  header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:8px 14px;background:var(--panel);border-bottom:1px solid var(--line)}
+  header strong{font-size:16px;margin-right:6px}
+  main{flex:1;display:grid;grid-template-columns:320px 360px 1fr;gap:0;min-height:0}
+  main>*{overflow:auto;border-right:1px solid var(--line);padding:12px 14px;background:var(--panel)}
+  main>:last-child{border-right:0;background:var(--ground)}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:14px 0 6px}
+  h2:first-child{margin-top:0}
+  h3{font-size:14px;margin:12px 0 4px}
+  h3 small{color:var(--muted);font-weight:normal;margin-left:6px}
+  .run{margin-bottom:8px}
+  .item{display:grid;grid-template-columns:1fr auto;gap:2px 8px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;margin:3px 0;cursor:pointer;background:var(--panel)}
+  .item:hover{border-color:var(--accent)}
+  .item.sel{background:var(--sel);border-color:var(--accent)}
+  .item .lab{font-weight:600}
+  .item .kind{font-size:11px;color:var(--muted);text-transform:uppercase;text-align:right}
+  .item .det{grid-column:1/3;color:var(--muted);font-size:12px}
+  .item .act{grid-column:1/3;display:flex;gap:4px;justify-content:flex-end}
+  .item .act button{padding:1px 6px;font-size:12px}
+  .ins{display:block;width:100%;text-align:left;border:1px dashed var(--line);background:transparent;color:var(--muted);border-radius:6px;padding:2px 8px;font-size:12px;cursor:pointer}
+  .ins:hover{border-color:var(--accent);color:var(--accent)}
+  button,select,input{font:inherit;color:inherit}
+  button{padding:4px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);cursor:pointer}
+  button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  button:disabled{opacity:.5;cursor:not-allowed}
+  select,input{padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--panel);max-width:100%}
+  label.f{display:block;margin:8px 0 2px;font-size:12px;color:var(--muted)}
+  .row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:4px 0}
+  .front{display:grid;grid-template-columns:1fr 1fr 1.4fr auto auto;gap:4px;margin:4px 0;align-items:center}
+  .front input{width:48px}
+  .pill{display:inline-block;padding:1px 8px;border-radius:10px;font-size:12px;border:1px solid}
+  .pill.ok{color:var(--ok);border-color:var(--ok)}.pill.warn{color:var(--warn);border-color:var(--warn)}.pill.bad{color:var(--bad);border-color:var(--bad)}.pill.mute{color:var(--muted);border-color:var(--line)}
+  .tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+  .tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  #view{background:var(--panel);border:1px solid var(--line);border-radius:6px;min-height:60vh;padding:8px}
+  #view img{max-width:100%;display:block}
+  #view iframe{width:100%;height:70vh;border:0;background:#e9ebee}
+  #view table{border-collapse:collapse;width:100%}#view td,#view th{padding:3px 6px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}
+  #view pre{white-space:pre-wrap;font-size:12px}
+  .renders img{margin-bottom:8px}
+  footer{border-top:1px solid var(--line);background:var(--panel);padding:8px 14px;max-height:30vh;overflow:auto;font-size:13px}
+  footer .msg{font-weight:600}
+  footer ul{margin:4px 0 0 18px;padding:0}
+  .err{color:var(--bad)}.wrn{color:var(--warn)}.okc{color:var(--ok)}
+  table.diff{border-collapse:collapse;margin-top:6px}table.diff td{padding:1px 8px 1px 0;font-size:12px}
+  .muted{color:var(--muted)}
+  .hint{font-size:12px;color:var(--muted);margin-top:6px}
+  code{background:var(--ground);padding:0 4px;border-radius:3px;font-size:12px}
+  @media (max-width:1100px){main{grid-template-columns:1fr 1fr}main>:last-child{grid-column:1/3}}
+  @media (max-width:700px){main{grid-template-columns:1fr}main>:last-child{grid-column:auto}}
+</style>
+<header>
+  <strong>Millimeter Kitchen</strong>
+  <select id="layout" title="layout file"></select>
+  <button id="branchBtn" title="copy this layout to variations/ and edit the copy">Start variation</button>
+  <span id="branchForm" hidden><input id="branchName" placeholder="name, e.g. drawers everywhere" size="28"> <button id="branchGo" class="primary">Create</button> <button id="branchCancel">Cancel</button></span>
+  <span id="status"></span>
+  <span style="flex:1"></span>
+  <button id="renderBtn" title="one Blender image per camera; takes seconds">Render in Blender</button>
+</header>
+<main>
+  <aside>
+    <h2>Runs</h2>
+    <div id="runs" class="muted">loading…</div>
+    <h2>Materials</h2>
+    <div id="materials"></div>
+  </aside>
+  <section>
+    <h2 id="edTitle">Edit</h2>
+    <div id="editor" class="muted">Select an item on the left, or “+ insert”.</div>
+  </section>
+  <section>
+    <div class="tabs" id="tabs"></div>
+    <div id="view"></div>
+  </section>
+</main>
+<footer id="result"><span class="muted">Every change goes through the fit validator. “Try” shows what it would say without writing; “Apply” writes only if the result fits.</span></footer>
+
+<script>
+'use strict';
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const S = { layouts: [], kitchen: null, fixture: false, D: null, frames: [], fronts: [], finishes: [], sel: null, ins: null, tab: 'plan', ts: Date.now(), busy: false };
+
+async function api(path, params = {}) {
+  const q = Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== '').map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`).join('&');
+  const r = await fetch(path + (q ? '?' + q : ''));
+  return r.json();
+}
+async function post(path, body) {
+  const r = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  return r.json();
+}
+const stem = p => p.replace(/^.*\//, '').replace(/\.json$/, '');
+const outUrl = f => `/out/${stem(S.kitchen)}/${f}?v=${S.ts}`;
+const nomW = it => it && it.nominal ? Number(it.nominal.split('x')[0]) : null;
+const nomH = nominal => Number(String(nominal).split('x')[1]);
+const shortId = id => id ? id.replace(/^(frame|front|drawer_front):/, '') : '';
+
+// ---------------------------------------------------------------- loading
+async function boot() {
+  const [lay, fr, fd, fdr, fin] = await Promise.all([
+    api('/api/layouts'), api('/api/catalog', { kind: 'frame', limit: 1000 }), api('/api/catalog', { kind: 'front', limit: 1000 }),
+    api('/api/catalog', { kind: 'drawer_front', limit: 1000 }), api('/api/finishes')]);
+  S.layouts = lay.layouts || [];
+  S.frames = fr.items || [];
+  S.fronts = [...(fd.items || []), ...(fdr.items || [])];
+  S.finishes = fin.finishes || [];
+  const sel = $('#layout');
+  sel.innerHTML = S.layouts.map(l => `<option value="${esc(l.path)}">${esc(l.name)} — ${esc(l.path)}${l.fixture ? ' (fixture)' : ''}</option>`).join('');
+  sel.onchange = () => openLayout(sel.value);
+  const want = new URLSearchParams(location.search).get('kitchen');
+  const first = S.layouts.find(l => l.path === want) || S.layouts.find(l => !l.fixture) || S.layouts[0];
+  if (first) { sel.value = first.path; await openLayout(first.path); }
+  else $('#runs').textContent = 'No kitchen files found under the project root.';
+}
+
+async function openLayout(path) {
+  S.kitchen = path; S.sel = null; S.ins = null;
+  const l = S.layouts.find(x => x.path === path);
+  S.fixture = !!(l && l.fixture);
+  history.replaceState(null, '', '?kitchen=' + encodeURIComponent(path));
+  await refresh();
+  if (S.D && S.D.ok && S.D.export_stale !== false && !S.D.errors.length) {
+    setResult({ message: 'exporting drawings and scene…' });
+    const ex = await post('/api/export', { kitchen: S.kitchen });
+    S.ts = Date.now();
+    await refresh();
+    setResult(ex.ok ? { message: 'exported drawings, scene and purchase pack' } : { message: 'export failed', errors: [ex.error || ex.render_error] });
+  }
+}
+
+async function refresh() {
+  S.D = await api('/api/describe', { kitchen: S.kitchen });
+  renderStatus(); renderRuns(); renderMaterials(); renderEditor(); renderTabs(); renderView();
+  if (S.D && S.D.ok && (S.D.errors.length || S.D.warnings.length) && !S.busy) setResult({ message: S.D.errors.length ? 'this layout does not fit as it stands' : 'this layout fits, with warnings', errors: S.D.errors, warnings: S.D.warnings });
+}
+
+// ---------------------------------------------------------------- left column
+function renderStatus() {
+  const D = S.D, st = $('#status');
+  if (!D || !D.ok) { st.innerHTML = `<span class="pill bad">${esc(D && D.error || 'could not read layout')}</span>`; return; }
+  st.innerHTML = `<span class="pill ${D.errors.length ? 'bad' : 'ok'}">${D.errors.length} errors</span> <span class="pill ${D.warnings.length ? 'warn' : 'mute'}">${D.warnings.length} warnings</span>`
+    + (S.fixture ? ' <span class="pill mute" title="files under examples/ are test fixtures">fixture, read only</span>' : '');
+  $('#branchBtn').disabled = false;
+}
+
+function frontsSummary(fr) {
+  return fr.map(f => `${shortId(f.id).replace(/^[^:]+:/, '')}${f.count > 1 ? ' ×' + f.count : ''}`).join(' / ');
+}
+
+function renderRuns() {
+  const D = S.D, el = $('#runs');
+  if (!D || !D.ok) { el.textContent = ''; return; }
+  el.innerHTML = D.runs.map((r, ri) => {
+    const items = r.items.map((it, i) => {
+      const prev = r.items[i - 1], next = r.items[i + 1];
+      const det = it.kind === 'cabinet' ? `${esc(shortId(it.id))} · ${it.width} mm<br>${esc(frontsSummary(it.fronts))}`
+        : it.kind === 'appliance' ? `${esc(it.ref)} · ${it.width} mm` : `${it.width} mm`;
+      return `<div class="item${S.sel === it.label ? ' sel' : ''}" data-label="${esc(it.label)}">
+        <span class="lab">${esc(it.label)}</span><span class="kind">${esc(it.kind)}</span>
+        <span class="det">${det}</span>
+        <span class="act">
+          <button data-op="up" ${prev ? '' : 'disabled'} title="move left">←</button>
+          <button data-op="down" ${next ? '' : 'disabled'} title="move right">→</button>
+          <button data-op="remove" title="remove">✕</button>
+        </span></div>
+        <button class="ins" data-ins="${ri}:${esc(it.label)}">+ insert after ${esc(it.label)}</button>`;
+    }).join('');
+    const fit = r.used_mm === r.length_mm ? 'okc' : 'wrn';
+    return `<div class="run"><h3>Wall ${esc(r.wall)} · ${esc(r.level)}<small class="${fit}">${r.used_mm} / ${r.length_mm} mm</small></h3>
+      <button class="ins" data-ins="${ri}:">+ insert at start</button>${items}</div>`;
+  }).join('');
+  el.querySelectorAll('.item').forEach(d => d.onclick = e => { if (e.target.tagName === 'BUTTON') return; S.sel = d.dataset.label; S.ins = null; renderRuns(); renderEditor(); });
+  el.querySelectorAll('.item .act button').forEach(b => b.onclick = e => { e.stopPropagation(); quickOp(b.closest('.item').dataset.label, b.dataset.op); });
+  el.querySelectorAll('.ins').forEach(b => b.onclick = () => { const [ri, after] = b.dataset.ins.split(':'); S.ins = { run: D.runs[+ri], after: after || null }; S.sel = null; renderRuns(); renderEditor(); });
+}
+
+function neighbours(label) {
+  for (const r of S.D.runs) { const i = r.items.findIndex(it => it.label === label); if (i >= 0) return { run: r, i, item: r.items[i], prev: r.items[i - 1], next: r.items[i + 1] }; }
+  return null;
+}
+
+async function quickOp(label, op) {
+  const n = neighbours(label);
+  if (!n) return;
+  if (op === 'remove') return applyOps([{ op: 'remove', label }], false);
+  if (op === 'up' && n.prev) return applyOps([{ op: 'move', label, before: n.prev.label }], false);
+  if (op === 'down' && n.next) return applyOps([{ op: 'move', label, after: n.next.label }], false);
+}
+
+function renderMaterials() {
+  const D = S.D, el = $('#materials');
+  if (!D || !D.ok) { el.textContent = ''; return; }
+  const roles = [...new Set([...Object.keys(D.materials), ...S.finishes.map(f => f.role)])];
+  el.innerHTML = roles.map(role => {
+    const opts = S.finishes.filter(f => f.role === role);
+    if (!opts.length) return '';
+    return `<label class="f">${esc(role)}</label><select data-role="${esc(role)}" ${S.fixture ? 'disabled' : ''}>${opts.map(f => `<option value="${esc(f.key)}" ${D.materials[role] === f.key ? 'selected' : ''}>${esc(f.name)} (${esc(f.key)})</option>`).join('')}</select>`;
+  }).join('') + `<p class="hint">Front finishes follow the catalog series of each front.</p>`;
+  el.querySelectorAll('select').forEach(s => s.onchange = () => applyOps([{ op: 'set_material', role: s.dataset.role, key: s.value }], false));
+}
+
+// ---------------------------------------------------------------- editor
+function frameTypes() { return [...new Set(S.frames.map(f => f.type))]; }
+function frontSeries() { return [...new Set(S.fronts.map(f => f.series))]; }
+
+function renderEditor() {
+  const el = $('#editor'), D = S.D;
+  if (!D || !D.ok) { el.textContent = ''; return; }
+  let item = null, title = 'Edit';
+  if (S.sel) { const n = neighbours(S.sel); item = n && n.item; title = `Edit ${S.sel}`; }
+  else if (S.ins) { title = `Insert on wall ${S.ins.run.wall} ${S.ins.run.level}` + (S.ins.after ? ` after ${S.ins.after}` : ' at start'); }
+  $('#edTitle').textContent = title;
+  if (!item && !S.ins) { el.className = 'muted'; el.textContent = 'Select an item on the left, or “+ insert”.'; return; }
+  el.className = '';
+  const kind = item ? item.kind : 'cabinet';
+  const levelType = S.ins ? (S.ins.run.level === 'wall' ? 'wall' : 'base') : null;
+  const frame = item && item.id ? S.frames.find(f => f.id === item.id) : null;
+  const curType = frame ? frame.type : levelType;
+  const curFronts = item ? item.fronts.map(f => ({ ...f })) : [];
+  let html = '';
+  if (S.ins) html += `<label class="f">kind</label><select id="edKind"><option value="cabinet">cabinet</option><option value="filler">filler</option><option value="panel">panel</option><option value="gap">gap</option><option value="appliance">appliance</option></select>`;
+  html += `<div id="edBody"></div>
+    <div class="row" style="margin-top:12px"><button id="tryBtn">Try (dry run)</button><button id="applyBtn" class="primary" ${S.fixture ? 'disabled title="start a variation to edit a fixture"' : ''}>Apply</button></div>
+    ${S.fixture ? '<p class="hint">This file is a test fixture. “Try” still runs the validator; “Start variation” makes an editable copy.</p>' : ''}`;
+  el.innerHTML = html;
+  const body = $('#edBody');
+  const form = { kind, type: curType, frameId: item && item.id, fronts: curFronts, width: (item && item.width) || 76, ref: item && item.ref, label: item && item.label };
+  const draw = () => { body.innerHTML = formHtml(form); wireForm(body, form, draw); };
+  draw();
+  if (S.ins) $('#edKind').onchange = e => { form.kind = e.target.value; form.fronts = []; form.width = 76; draw(); };
+  $('#tryBtn').onclick = () => submitForm(form, true);
+  $('#applyBtn').onclick = () => submitForm(form, false);
+}
+
+function formHtml(f) {
+  if (f.kind === 'cabinet') {
+    const frames = S.frames.filter(x => x.type === f.type);
+    if (!frames.find(x => x.id === f.frameId)) f.frameId = frames[0] && frames[0].id;
+    const fr = S.frames.find(x => x.id === f.frameId);
+    const w = nomW(fr), fh = fr ? Number(fr.nominal.split('x')[2]) : null;
+    const sum = f.fronts.reduce((a, x) => { const c = S.fronts.find(y => y.id === x.id); return a + (c ? nomH(c.nominal) * (c.type === 'door' ? 1 : x.count) : 0); }, 0);
+    const rows = f.fronts.map((x, i) => {
+      const c = S.fronts.find(y => y.id === x.id) || {};
+      const series = x.series || c.series || frontSeries()[0], type = x.type || c.type || 'door';
+      const sizes = S.fronts.filter(y => y.series === series && y.type === type && nomW(y) === w);
+      if (!sizes.find(y => y.id === x.id) && sizes[0]) x.id = sizes[0].id;
+      return `<div class="front" data-i="${i}">
+        <select data-k="type"><option ${type === 'door' ? 'selected' : ''}>door</option><option ${type === 'drawer' ? 'selected' : ''}>drawer</option></select>
+        <select data-k="series">${frontSeries().map(s => `<option ${s === series ? 'selected' : ''}>${esc(s)}</option>`).join('')}</select>
+        <select data-k="id">${sizes.map(y => `<option value="${esc(y.id)}" ${y.id === x.id ? 'selected' : ''}>${esc(y.nominal)} ${esc(y.finish || '')}</option>`).join('') || '<option value="">no size for this width</option>'}</select>
+        <input data-k="count" type="number" min="1" max="4" value="${x.count || 1}" title="doors side by side in one row; drawers are one per row">
+        <button data-k="del" title="remove row">✕</button></div>`;
+    }).join('');
+    return `<label class="f">frame type</label><select data-k="type">${frameTypes().map(t => `<option ${t === f.type ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select>
+      <label class="f">frame</label><select data-k="frameId">${frames.map(x => `<option value="${esc(x.id)}" ${x.id === f.frameId ? 'selected' : ''}>${esc(x.nominal)} · ${esc(x.article || '')}</option>`).join('')}</select>
+      <label class="f">fronts, top to bottom <span class="muted">(rows sum ${sum} in, frame ${fh ?? '?'} in)</span></label>
+      ${rows}<button data-k="add" style="margin-top:4px">+ front row</button>
+      <label class="f">label</label><input data-k="label" value="${esc(f.label || '')}" placeholder="auto">`;
+  }
+  if (f.kind === 'appliance') {
+    const refs = Object.keys(S.D.appliances);
+    if (!refs.includes(f.ref)) f.ref = refs[0];
+    return `<label class="f">appliance</label><select data-k="ref">${refs.map(r => `<option ${r === f.ref ? 'selected' : ''}>${esc(r)}</option>`).join('')}</select>
+      <p class="hint">${refs.map(r => `${esc(r)}: ${esc(S.D.appliances[r].name)}, ${S.D.appliances[r].width} mm`).join('<br>')}</p>`;
+  }
+  return `<label class="f">${esc(f.kind)} width, mm</label><input data-k="width" type="number" min="1" value="${f.width}">`;
+}
+
+function wireForm(body, f, redraw) {
+  body.querySelectorAll('[data-k]').forEach(c => {
+    const row = c.closest('.front'), i = row ? +row.dataset.i : null;
+    if (c.dataset.k === 'add') c.onclick = () => { f.fronts.push({ id: '', count: 1, type: 'door' }); redraw(); };
+    else if (c.dataset.k === 'del') c.onclick = () => { f.fronts.splice(i, 1); redraw(); };
+    else c.onchange = () => {
+      const v = c.type === 'number' ? Number(c.value) : c.value;
+      if (row) { const x = f.fronts[i]; x[c.dataset.k] = v; if (c.dataset.k === 'type' || c.dataset.k === 'series') x.id = ''; }
+      else { f[c.dataset.k] = v; if (c.dataset.k === 'type') f.frameId = null; }
+      if (c.dataset.k !== 'label' && c.dataset.k !== 'count' && c.dataset.k !== 'width') redraw();
+    };
+  });
+}
+
+function buildItem(f) {
+  if (f.kind === 'cabinet') {
+    const item = { kind: 'cabinet', id: f.frameId };
+    if (f.fronts.length) item.fronts = f.fronts.map(x => ({ id: x.id, count: x.count || 1 }));
+    if (f.label) item.label = f.label;
+    return item;
+  }
+  if (f.kind === 'appliance') return { kind: 'appliance', ref: f.ref };
+  return { kind: f.kind, width: Number(f.width) };
+}
+
+function submitForm(f, dry) {
+  const item = buildItem(f);
+  let ops;
+  if (S.ins) {
+    const op = { op: 'insert', wall: S.ins.run.wall, level: S.ins.run.level, item };
+    if (S.ins.after) op.after = S.ins.after; else op.index = 0;
+    ops = [op];
+  } else if (item.kind !== 'cabinet' && item.kind !== 'appliance' && f.kind === neighbours(S.sel).item.kind) {
+    ops = [{ op: 'set_width', label: S.sel, width: item.width }];
+  } else {
+    if (item.kind === 'cabinet' && !item.label) item.label = S.sel;
+    ops = [{ op: 'replace', label: S.sel, items: [item] }];
+  }
+  return applyOps(ops, dry);
+}
+
+// ---------------------------------------------------------------- applying
+async function applyOps(ops, dry) {
+  if (S.busy) return;
+  S.busy = true;
+  setResult({ message: (dry ? 'trying ' : 'applying ') + ops.map(o => o.op).join(', ') + '…' });
+  try {
+    const res = await post('/api/apply', { kitchen: S.kitchen, ops, dry_run: dry });
+    setResult(res, dry);
+    if (res.ok && res.written) {
+      S.ts = Date.now();
+      if (S.sel) { const still = res.runs.some(r => r.items.some(it => it.label === S.sel)); if (!still) S.sel = null; }
+      S.ins = null;
+      await refresh();
+    }
+  } finally { S.busy = false; }
+}
+
+function setResult(res, dry) {
+  const el = $('#result');
+  let h = '';
+  if (res.error && !res.message) h += `<div class="msg err">${esc(res.error)}</div>`;
+  else if (res.message) {
+    const cls = res.ok === false ? 'err' : (res.written ? 'okc' : '');
+    h += `<div class="msg ${cls}">${esc(res.message)}${res.ok && dry ? ' <span class="muted">(dry run, not written)</span>' : ''}${res.ok && res.written ? ' <span class="muted">(written and re-exported)</span>' : ''}${res.ok === false && res.errors ? ' <span class="muted">(refused, file unchanged)</span>' : ''}</div>`;
+  }
+  if (res.errors && res.errors.length) h += `<ul>${res.errors.map(e => `<li class="err">${esc(e)}</li>`).join('')}</ul>`;
+  if (res.warnings && res.warnings.length) h += `<ul>${res.warnings.map(e => `<li class="wrn">${esc(e)}</li>`).join('')}</ul>`;
+  if (res.bom_diff && res.bom_diff.length) h += `<table class="diff">${res.bom_diff.map(d => `<tr><td class="${d.delta > 0 ? 'okc' : d.delta < 0 ? 'err' : 'muted'}">${d.delta > 0 ? '+' + d.delta : d.delta < 0 ? d.delta : '~'}</td><td>${esc(d.id)}</td><td class="muted">${esc(d.name)} (${d.before} → ${d.after})</td></tr>`).join('')}</table>`;
+  el.innerHTML = h || '<span class="muted">ready</span>';
+}
+
+// ---------------------------------------------------------------- views
+function renderTabs() {
+  const D = S.D, el = $('#tabs');
+  if (!D || !D.ok) { el.innerHTML = ''; return; }
+  const tabs = [['plan', 'Plan'], ...D.walls.map(w => ['wall-' + w.id, 'Wall ' + w.id]), ['3d', '3D'], ['renders', 'Renders'], ['bom', 'BOM'], ['purchase', 'Purchase pack'], ['review', 'Review page']];
+  if (!tabs.find(t => t[0] === S.tab)) S.tab = 'plan';
+  el.innerHTML = tabs.map(([k, n]) => `<button class="${S.tab === k ? 'on' : ''}" data-tab="${k}">${esc(n)}</button>`).join('');
+  el.querySelectorAll('button').forEach(b => b.onclick = () => { S.tab = b.dataset.tab; renderTabs(); renderView(); });
+}
+
+async function renderView() {
+  const el = $('#view'), t = S.tab;
+  if (!S.D || !S.D.ok) { el.innerHTML = ''; return; }
+  const noExport = S.D.export_stale === null ? (S.D.errors.length ? '<p class="muted">Nothing exported yet: the layout has errors, and drawings are only made from a layout that fits. Fix the errors below and they will appear.</p>' : '<p class="muted">Nothing exported yet.</p>') : '';
+  const stale = S.D.export_stale ? '<p class="hint">These drawings are older than the file; they refresh after the next edit that fits.</p>' : '';
+  if (t === 'plan') el.innerHTML = noExport || `<img src="${outUrl('plan.svg')}" alt="plan">${stale}`;
+  else if (t.startsWith('wall-')) el.innerHTML = noExport || `<img src="${outUrl('elevation-' + t.slice(5) + '.svg')}" alt="elevation">${stale}`;
+  else if (t === '3d') el.innerHTML = noExport || `<iframe src="/viewer/index.html?scene=${encodeURIComponent('/out/' + stem(S.kitchen) + '/scene.glb')}&v=${S.ts}"></iframe><p class="hint">Drag to orbit, scroll to zoom; buttons jump to the export's cameras.</p>`;
+  else if (t === 'review') el.innerHTML = noExport || `<iframe src="${outUrl('index.html')}" style="height:75vh"></iframe>`;
+  else if (t === 'renders') {
+    const m = await (await fetch(outUrl('manifest.json'))).json().catch(() => null);
+    const pngs = m ? m.files.filter(f => f.endsWith('.png')) : [];
+    el.innerHTML = pngs.length ? `<div class="renders">${pngs.map(p => `<figure><img src="${outUrl(p)}"><figcaption class="muted">${esc(p)}${m.renders_current ? '' : ' · older than the current layout'}</figcaption></figure>`).join('')}</div>`
+      : `<p class="muted">No Blender renders yet. “Render in Blender” in the header makes one image per camera.</p>`;
+  } else if (t === 'bom') {
+    const b = await api('/api/bom', { kitchen: S.kitchen });
+    el.innerHTML = b.ok ? `<table><tr><th>qty</th><th>id</th><th>name</th><th>article</th><th>detail</th></tr>${b.lines.map(l => `<tr><td>${l.qty}</td><td>${esc(l.id)}</td><td>${esc(l.name)}</td><td>${esc(l.article || '')}</td><td class="muted">${esc(l.detail || '')}</td></tr>`).join('')}</table>` : `<p class="err">${esc(b.error)}</p>`;
+  } else if (t === 'purchase') {
+    const p = await api('/api/purchase', { kitchen: S.kitchen });
+    el.innerHTML = p.ok ? `<pre>${esc(p.text)}</pre>` : `<p class="err">${esc(p.error)}</p>`;
+  }
+}
+
+// ---------------------------------------------------------------- header actions
+$('#branchBtn').onclick = () => { $('#branchForm').hidden = false; $('#branchName').focus(); };
+$('#branchCancel').onclick = () => { $('#branchForm').hidden = true; };
+$('#branchGo').onclick = async () => {
+  const name = $('#branchName').value.trim();
+  if (!name) return;
+  const r = await post('/api/variation', { kitchen: S.kitchen, name });
+  if (!r.ok) { setResult(r); return; }
+  $('#branchForm').hidden = true; $('#branchName').value = '';
+  const lay = await api('/api/layouts');
+  S.layouts = lay.layouts || [];
+  const sel = $('#layout');
+  sel.innerHTML = S.layouts.map(l => `<option value="${esc(l.path)}">${esc(l.name)} — ${esc(l.path)}${l.fixture ? ' (fixture)' : ''}</option>`).join('');
+  sel.value = r.path;
+  setResult({ message: `started ${r.path}; ${r.git_hint}` });
+  await openLayout(r.path);
+};
+$('#renderBtn').onclick = async () => {
+  if (S.busy) return;
+  S.busy = true; $('#renderBtn').disabled = true;
+  setResult({ message: 'rendering in Blender…' });
+  try {
+    const r = await post('/api/export', { kitchen: S.kitchen, render: true });
+    S.ts = Date.now();
+    setResult(r.ok ? { message: `rendered ${r.renders.length} image(s)` + (r.render_note ? ` (${r.render_note})` : '') } : { message: 'render failed', errors: [r.error || r.render_error || r.render_note] });
+    S.tab = 'renders'; renderTabs(); renderView();
+  } finally { S.busy = false; $('#renderBtn').disabled = false; }
+};
+
+boot();
+</script>

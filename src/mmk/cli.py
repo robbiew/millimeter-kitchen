@@ -275,6 +275,11 @@ def cmd_mcp(args: argparse.Namespace) -> int:
     return mcp_main(Path(args.root))
 
 
+def cmd_serve(args: argparse.Namespace) -> int:
+    from .serve import serve
+    return serve(Path(args.root), host=args.host, port=args.port, open_browser=not args.no_open, quiet=not args.verbose)
+
+
 BLENDER_SCRIPT = Path(__file__).resolve().parents[2] / "tools" / "blender_render.py"
 
 
@@ -423,6 +428,14 @@ def build_parser() -> argparse.ArgumentParser:
     m = sub.add_parser("mcp", help="phase 5: run the MCP server over stdio (needs the mcp extra)")
     m.add_argument("--root", default=".", help="project root; kitchen paths are relative to it")
     m.set_defaults(fn=cmd_mcp)
+
+    sv = sub.add_parser("serve", help="layout editor in the browser: a local server over the same operations as mmk edit and the MCP server")
+    sv.add_argument("--root", default=".", help="project root; kitchen paths are relative to it")
+    sv.add_argument("--host", default="127.0.0.1")
+    sv.add_argument("--port", type=int, default=8760)
+    sv.add_argument("--no-open", action="store_true", help="do not open the browser")
+    sv.add_argument("--verbose", action="store_true", help="log every request")
+    sv.set_defaults(fn=cmd_serve)
     return ap
 
 
