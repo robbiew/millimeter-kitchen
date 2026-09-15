@@ -1,7 +1,9 @@
-"""Write examples/room.example.json, examples/kitchen.fits.json and examples/bad/*.json.
+"""Write examples/room.example.json, examples/kitchen.fits.json, examples/bad/*.json and examples/warn/*.json.
 
 The fixtures are generated so that each bad kitchen is the fitting kitchen
-with exactly one deliberate change. Re-run after changing the fitting layout.
+with exactly one deliberate change that the validator refuses, and each
+warn kitchen one change that still fits but draws a warning. Re-run after
+changing the fitting layout.
 
 Run:  python tools/make_fixtures.py
 """
@@ -15,6 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 EX = ROOT / "examples"
 BAD = EX / "bad"
+WARN = EX / "warn"
 
 # ---- room: an L of two walls, illustrative, not a real survey -----------------
 ROOM = {
@@ -179,9 +182,9 @@ def corner_overlap(k: dict) -> None:
     k["runs"][2]["items"].insert(0, {"kind": "filler", "label": "E-filler-corner", "width": 355})
 
 
-def variant(name: str, note: str, mutate) -> dict:
+def variant(name: str, note: str, mutate, tag: str = "BAD") -> dict:
     k = copy.deepcopy(FITS)
-    k["name"] = f"Example L kitchen — BAD: {name}"
+    k["name"] = f"Example L kitchen — {tag}: {name}"
     k["notes"] = note
     k["room"] = "../room.example.json"
     mutate(k)
@@ -261,6 +264,33 @@ BAD_CASES = {
 }
 
 
+def exposed_side(k: dict) -> None:
+    """The north wall's second wall run ends in a gap instead of a filler: N-wall-21's end side shows."""
+    items = k["runs"][2]["items"]
+    items[-1] = {"kind": "gap", "label": "N-wall-gap", "width": items[-1]["width"]}
+
+
+def filler_stock(k: dict) -> None:
+    """The north corner filler leg grows past one cover panel's width; the dead gap gives up the difference."""
+    items = n_base(k)
+    leg, gap = items[-2], items[-1]
+    grow = 700 - leg["width"]
+    leg["width"] += grow
+    gap["width"] -= grow
+
+
+def backsplash_window(k: dict) -> None:
+    """A 600 mm backsplash band, well into the sink window (sill 1067 mm, band from 952 mm)."""
+    k["backsplash_height"] = 600
+
+
+WARN_CASES = {
+    "exposed_side": ("the wall run at the window ends in a gap, so the last wall cabinet's side shows and needs a cover panel", exposed_side),
+    "filler_stock": ("a 700 mm corner filler leg, wider than the cover panel it is ripped from", filler_stock),
+    "backsplash_window": ("a 600 mm backsplash band that runs into the sink window", backsplash_window),
+}
+
+
 def write(path: Path, data: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2) + "\n")
@@ -278,4 +308,6 @@ if __name__ == "__main__":
     bad_corner["room"] = "../room.example.json"
     corner_overlap(bad_corner)
     write(BAD / "corner_overlap.json", bad_corner)
-    print(f"wrote {EX / 'room.example.json'}, {EX / 'kitchen.fits.json'}, {EX / 'kitchen.corner.json'} and {len(BAD_CASES) + 1} bad fixtures")
+    for name, (note, fn) in WARN_CASES.items():
+        write(WARN / f"{name}.json", variant(name, note, fn, tag="WARN"))
+    print(f"wrote {EX / 'room.example.json'}, {EX / 'kitchen.fits.json'}, {EX / 'kitchen.corner.json'}, {len(BAD_CASES) + 1} bad fixtures and {len(WARN_CASES)} warn fixtures")

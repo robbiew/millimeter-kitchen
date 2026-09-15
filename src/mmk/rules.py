@@ -12,7 +12,7 @@ from collections.abc import Callable
 
 from .findings import Finding
 from .finishes import ROLES, load_finishes
-from .draw import CORNER_SLACK, CORNER_TOL, FRONT_THICKNESS, backsplash_spans, corner_clearances, corner_reach, elevation_boxes, exposed_sides, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
+from .draw import CORNER_SLACK, CORNER_TOL, FRONT_THICKNESS, backsplash_spans, corner_clearances, counter_top, corner_reach, elevation_boxes, exposed_sides, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
 from .model import Kitchen, Run
 
 CLOSURE_TOLERANCE_MM = 3
@@ -457,14 +457,16 @@ def rule_backsplash_window(k: Kitchen) -> list[Finding]:
         if run.level != "base" or not run.items:
             continue
         wall = k.room.wall(run.wall)
+        band_bottom = counter_top(k, run) + k.counter_thickness
         for o in wall.openings:
             if o.kind != "window" or o.sill is None:
                 continue
             for a0, a1, y1 in backsplash_spans(k, run):
                 lo, hi = max(a0, o.start), min(a1, o.end)
-                if lo < hi and y1 > o.sill:
+                overlap = min(y1, o.head) - max(o.sill, band_bottom)   # the band's own height inside the window's
+                if lo < hi and overlap > 0:
                     name = f"window '{o.label}'" if o.label else "the window"
-                    out.append(Finding("warning", "backsplash_window", f"the backsplash band (to {y1} mm) runs {y1 - o.sill} mm into {name} (sill {o.sill} mm) over {lo}–{hi} mm; tile to the sill, lower the band there, or change backsplash_height", run.wall, o.label, {"overlap_mm": y1 - o.sill, "from": lo, "to": hi}))
+                    out.append(Finding("warning", "backsplash_window", f"the backsplash band (to {y1} mm) runs {overlap} mm into {name} (sill {o.sill} mm) over {lo}–{hi} mm; tile to the sill, lower the band there, or change backsplash_height", run.wall, o.label, {"overlap_mm": overlap, "from": lo, "to": hi}))
     return out
 
 

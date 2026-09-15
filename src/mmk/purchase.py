@@ -188,13 +188,13 @@ def derive(k: Kitchen) -> PurchasePack:
     # filler stock from cover panels
     for level in COVER_PANEL_SIZE_FOR_LEVEL:
         pid = cover_panel_id(k, level)
-        widths = [p.width for r in k.runs if r.level == level for p in r.items if p.kind == "filler"]
+        widths = [p.width for r in k.runs if r.level == level for p in r.items if p.kind in ("filler", "panel")]
         if not widths or not pid:
             continue
         panel_w = filler_stock_width(k, level)
         n = math.ceil(sum(widths) / panel_w)
-        add(pid, n, "filler stock", f"{level} fillers {', '.join(str(w) for w in widths)} mm ripped from {panel_w} mm wide panels")
-    assumptions.append("Fillers: ripped from cover panels of the same level; count assumes the strips can share a panel by total width. Check the grain direction on wood-effect finishes.")
+        add(pid, n, "filler stock", f"{level} fillers and panels {', '.join(str(w) for w in widths)} mm ripped from {panel_w} mm wide panels")
+    assumptions.append("Fillers and panels: ripped from cover panels of the same level; count assumes the strips can share a panel by total width, and a strip wider than the panel needs two pieces (the filler_stock warning says which). Check the grain direction on wood-effect finishes.")
 
     return PurchasePack(lines, assumptions, countertop=countertop_slabs(k))
 

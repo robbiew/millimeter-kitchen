@@ -41,11 +41,18 @@ item:
 Also: every catalog entry used in a purchase must be `"verified": true`
 (product page fetched by the scraper). Until then `mmk validate` warns.
 
-Warning-only rules (`corner_gap`, `exposed_side`, `filler_stock`,
-`backsplash_window`, `unverified_dimensions`) have no fixture under
-`examples/bad/`, because the layout still fits; they are tested on copies of
-the fitting kitchen in `tests/test_validate.py`, and where a warning has a
-purchase consequence the test checks the pack says the same thing.
+Warning-only rules keep the layout fitting, so their fixtures live under
+`examples/warn/` (generated like `examples/bad/`: the fitting kitchen with
+one change) and each must draw its warning with zero errors:
+
+| fixture | rule |
+|---|---|
+| `warn/exposed_side.json` | `exposed_side` |
+| `warn/filler_stock.json` | `filler_stock` |
+| `warn/backsplash_window.json` | `backsplash_window` |
+
+Where a warning has a purchase consequence the test checks the pack says
+the same thing.
 
 ## Phase 2 — Dimensioned elevations and plan
 

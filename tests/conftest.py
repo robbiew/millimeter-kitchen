@@ -7,6 +7,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 EXAMPLES = ROOT / "examples"
 BAD = EXAMPLES / "bad"
+WARN = EXAMPLES / "warn"
 CATALOG = ROOT / "catalog" / "sektion-us-2026-09.json"
 
 
