@@ -32,6 +32,7 @@ item:
 | `wall_cabinet_over_window.json` | `opening_conflict` |
 | `wrong_size_front.json` | `front_fit` |
 | `missing_filler.json` | `wall_filler_min` |
+| `zero_width_filler.json` | `cut_width_min` |
 | `blocked_drain.json` | `service_conflict` |
 | `corner_overlap.json` | `corner_overlap` |
 

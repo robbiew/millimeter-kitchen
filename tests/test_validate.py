@@ -1,3 +1,6 @@
+import json
+import shutil
+
 import pytest
 
 from mmk.model import load_kitchen
@@ -10,6 +13,7 @@ EXPECTED_RULE = {
     "wall_cabinet_over_window": "opening_conflict",
     "wrong_size_front": "front_fit",
     "missing_filler": "wall_filler_min",
+    "zero_width_filler": "cut_width_min",
     "blocked_drain": "service_conflict",
     "front_rows_mismatch": "front_fit",
 }
@@ -110,3 +114,27 @@ def test_non_ikea_front_is_rejected(tmp_path):
     p.write_text(json.dumps(src))
     rules = {f.rule for f in errors(validate(load_kitchen(p)))}
     assert "ikea_fronts_only" in rules
+
+
+def _fits_with(mutate, tmp_path):
+    """The fitting kitchen after one change to its north base run, as a Kitchen."""
+    shutil.copy(EXAMPLES / "room.example.json", tmp_path / "room.example.json")
+    kit = json.loads((EXAMPLES / "kitchen.fits.json").read_text())
+    mutate(kit["runs"][0]["items"])
+    (tmp_path / "kitchen.json").write_text(json.dumps(kit))
+    return load_kitchen(tmp_path / "kitchen.json")
+
+
+@pytest.mark.parametrize("kind,width,expect", [
+    ("filler", 25, False), ("filler", 24, True), ("filler", 0, True),    # the 25 mm boundary
+    ("panel", 25, False), ("panel", 24, True),                           # panels are cut strips too
+    ("gap", 1, False), ("gap", 0, True),                                 # a gap is an open span: any width, but a width
+])
+def test_cut_width_min_boundaries(tmp_path, kind, width, expect):
+    def mutate(items):
+        items.insert(2, {"kind": kind, "label": "N-cut", "width": width})
+        items[0]["width"] -= width   # keep the run closed: take it from the 76 mm left filler
+    hits = [f for f in errors(validate(_fits_with(mutate, tmp_path))) if f.rule == "cut_width_min"]
+    assert bool(hits) is expect, [f.render() for f in hits]
+    if expect:
+        assert hits[0].item == "N-cut" and hits[0].wall == "N" and hits[0].extra["width_mm"] == width
