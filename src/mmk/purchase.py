@@ -15,7 +15,7 @@ from xml.sax.saxutils import escape
 
 from .bom import BomLine, bill_of_materials
 from .catalog import Item
-from .draw import corner_start, counter_depth, counter_segments, item_depth, run_depth
+from .draw import corner_start, counter_corner_start, counter_depth, counter_segments, item_depth, run_depth
 from .model import Kitchen, Run, wall_frames
 
 RAIL_ID = "rail:sektion:84"
@@ -225,7 +225,7 @@ def countertop_slabs(k: Kitchen) -> list[dict]:
         depth = counter_depth(run) + k.counter_overhang
         for i, (a0, a1) in enumerate(counter_segments(k, run)):
             slabs.append({"wall": run.wall, "start": a0, "end": a1, "length_mm": a1 - a0, "depth_mm": depth,
-                          "corner_start": i == 0 and _is_corner_start(k, run), "frame": frames[run.wall],
+                          "corner_start": i == 0 and counter_corner_start(k, run)[0], "frame": frames[run.wall],
                           "cut_by": [p.label for p in run.items if p.kind == "appliance" and p.appliance and (p.end == a0 or p.start == a1)]})
     return slabs
 

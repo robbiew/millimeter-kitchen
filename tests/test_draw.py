@@ -35,8 +35,10 @@ def test_page_size_is_viewbox_over_scale(elevation_n):
 def test_every_cabinet_rect_is_its_catalog_width(kitchen, elevation_n):
     n_base = next(r for r in kitchen.runs if r.wall == "N" and r.level == "base")
     rects = {r.get("data-label"): r for r in elevation_n.iterfind(".//s:rect[@data-label]", NS)}
-    assert len(rects) == sum(len(r.items) for r in kitchen.runs if r.wall == "N")
+    assert len(rects) == sum(1 for r in kitchen.runs if r.wall == "N" for p in r.items if p.kind != "gap")   # a gap draws nothing
     for p in n_base.items:
+        if p.kind == "gap":
+            continue
         r = rects[p.label]
         assert float(r.get("width")) == p.width
         if p.catalog_item:
@@ -45,8 +47,9 @@ def test_every_cabinet_rect_is_its_catalog_width(kitchen, elevation_n):
         if p.appliance:
             assert float(r.get("height")) == p.appliance.height
     # items are contiguous along x, in file order
-    xs = [float(rects[p.label].get("x")) for p in n_base.items]
-    ws = [float(rects[p.label].get("width")) for p in n_base.items]
+    drawn = [p for p in n_base.items if p.kind != "gap"]   # the dead gap at the corner draws nothing and is the last item
+    xs = [float(rects[p.label].get("x")) for p in drawn]
+    ws = [float(rects[p.label].get("width")) for p in drawn]
     for x0, w0, x1 in zip(xs, ws, xs[1:]):
         assert x0 + w0 == x1
 
@@ -57,7 +60,7 @@ def test_base_cabinets_sit_on_legs_and_wall_cabinets_at_bottom_height(kitchen, e
     for ln in elevation_n.iterfind(".//s:line[@class='floor']", NS):
         floor_y = float(ln.get("y1"))
         break
-    base = rects["N-base-15"]
+    base = rects["N-base-30"]
     assert floor_y - (float(base.get("y")) + float(base.get("height"))) == kitchen.legs
     wall = rects["N-wall-15"]
     assert floor_y - (float(wall.get("y")) + float(wall.get("height"))) == kitchen.wall_cabinet_bottom
@@ -66,13 +69,13 @@ def test_base_cabinets_sit_on_legs_and_wall_cabinets_at_bottom_height(kitchen, e
 def test_labels_carry_nominal_and_catalog_id(elevation_n):
     texts = [t.text for t in elevation_n.iterfind(".//s:text", NS) if t.text]
     assert "36x24x30" in texts and "sink_base:36x24x30" in texts
-    assert "18x24x30" in texts and "base:18x24x30" in texts
+    assert "30x24x30" in texts and "base:30x24x30" in texts
 
 
 def test_title_block_lists_totals_and_fillers(elevation_n):
     texts = " | ".join(t.text for t in elevation_n.iterfind(".//s:text", NS) if t.text)
     assert "planning length 3655 mm" in texts
-    assert "base run 0–3655: 3655 mm used of 3655 · fillers 76 mm, 74 mm" in texts
+    assert "base run 0–3655: 3655 mm used of 3655 · fillers 76 mm, 283 mm" in texts
     assert "3655 mm overall" in texts
 
 

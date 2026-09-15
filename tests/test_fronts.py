@@ -43,9 +43,9 @@ def test_drawer_over_two_doors_fits(tmp_path):
 
 def test_drawer_over_one_door_and_two_drawer_rows_over_doors(tmp_path):
     k = _ws(tmp_path)
-    assert _set(k, "N-base-18-drawers", [("drawer:18x10", 1), ("door:18x20", 1)]).ok
+    assert _set(k, "E-base-18", [("drawer:18x10", 1), ("door:18x20", 1)]).ok
     # 5 + 5 drawers over a 20 door
-    assert _set(k, "N-base-18-drawers", [("drawer:18x5", 2), ("door:18x20", 1)]).ok
+    assert _set(k, "E-base-18", [("drawer:18x5", 2), ("door:18x20", 1)]).ok
 
 
 @pytest.mark.parametrize("fronts,fragment", [

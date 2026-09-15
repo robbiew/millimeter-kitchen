@@ -70,7 +70,7 @@ def test_batch_of_ops_is_validated_as_a_whole(ws):
     assert not single.ok and "76 mm gap" in single.errors[0].message
     both = apply(k, [
         {"op": "replace", "label": "N-base-15-drawers", "items": [{"kind": "cabinet", "id": "frame:base:12x24x30", "fronts": [{"id": f"{V}:door:12x30", "count": 1}]}]},
-        {"op": "set_width", "label": "N-filler-right", "width": 150},
+        {"op": "set_width", "label": "N-filler-corner", "width": 283 + 76},
     ])
     assert both.ok, both.message
     assert any(d["id"] == "frame:base:12x24x30" and d["delta"] == 1 for d in both.bom_diff)
@@ -91,59 +91,59 @@ def test_unknown_finish_is_refused(ws):
 
 
 def test_remove_leaves_a_gap_and_is_refused(ws):
-    res = apply(ws / "kitchen.json", [{"op": "remove", "label": "N-base-18-drawers"}])
+    res = apply(ws / "kitchen.json", [{"op": "remove", "label": "N-base-30"}])
     assert not res.ok and res.errors[0].rule == "run_closure"
 
 
 def test_move_dishwasher_next_to_the_wall_is_refused(ws):
-    ok = apply(ws / "kitchen.json", [{"op": "move", "label": "N-dishwasher", "after": "N-base-15-drawers"}], dry_run=True)
-    assert ok.ok  # 74 mm filler still separates it from the wall
-    res = apply(ws / "kitchen.json", [{"op": "move", "label": "N-dishwasher", "after": "N-filler-right"}])
+    ok = apply(ws / "kitchen.json", [{"op": "move", "label": "N-dishwasher", "after": "N-sink-36"}], dry_run=True)
+    assert ok.ok  # where it already is: the sink pins the drain and the corner doors pin the rest
+    res = apply(ws / "kitchen.json", [{"op": "move", "label": "N-dishwasher", "after": "N-corner-dead"}])
     assert not res.ok
     assert {"appliance_side_clearance", "wall_filler_min"} <= {f.rule for f in res.errors}
 
 
 def test_swap_two_cabinets(ws):
-    res = apply(ws / "kitchen.json", [{"op": "swap", "label": "N-base-18-drawers", "with": "N-base-15-drawers"}])
-    assert res.ok
+    res = apply(ws / "kitchen.json", [{"op": "swap", "label": "N-base-15-drawers", "with": "N-base-30"}])
+    assert res.ok, res.message
     n_base = next(r for r in res.runs if r["wall"] == "N" and r["level"] == "base")
     labels = [i["label"] for i in n_base["items"]]
-    assert labels.index("N-base-15-drawers") < labels.index("N-base-18-drawers")
+    assert labels.index("N-base-30") < labels.index("N-base-15-drawers")
     assert res.bom_diff == []  # same things, different order
 
 
 def test_insert_auto_labels_and_requires_closure(ws):
     k = ws / "kitchen.json"
     res = apply(k, [
-        {"op": "set_width", "label": "E-filler-right", "width": 74 + 610 - 533},
-        {"op": "replace", "label": "E-base-21", "items": [{"kind": "cabinet", "id": "frame:base:24x24x30", "fronts": [{"id": f"{V}:door:12x30", "count": 2}]}]},
+        {"op": "set_width", "label": "E-filler-right", "width": 55 + 610 - 381},
+        {"op": "replace", "label": "E-base-15", "items": [{"kind": "cabinet", "id": "frame:base:24x24x30", "fronts": [{"id": f"{V}:door:12x30", "count": 2}]}]},
     ])
-    assert not res.ok  # 610 replaces 533 (+77) and the filler grew by 77 too: run is 77 mm too long
-    res = apply(k, [{"op": "replace", "label": "E-base-21", "items": [
-        {"kind": "cabinet", "id": "frame:base:18x24x30", "fronts": [{"id": f"{V}:door:18x30", "count": 1}]},
+    assert not res.ok  # 610 replaces 381 (+229) and the filler grew by 229 too: run is 229 mm too long
+    res = apply(k, [{"op": "replace", "label": "E-base-18", "items": [
+        {"kind": "cabinet", "id": "frame:base:15x24x30", "fronts": [{"id": f"{V}:door:15x30", "count": 1}]},
         {"kind": "filler", "width": 76},
     ]}])
     assert res.ok, res.message
     e_base = next(r for r in res.runs if r["wall"] == "E" and r["level"] == "base")
-    assert e_base["items"][0]["label"] == "E-base:18x24x30" or e_base["items"][0]["label"].startswith("E-")
-    assert e_base["items"][1]["kind"] == "filler" and e_base["items"][1]["label"].startswith("E-filler")
+    assert e_base["items"][3]["label"].startswith("E-") and e_base["items"][3]["id"] == "frame:base:15x24x30"
+    assert e_base["items"][4]["kind"] == "filler" and e_base["items"][4]["label"].startswith("E-filler")
 
 
 def test_fit_width_sizes_a_filler_from_the_run(ws):
     """Replace the 30 base with an 18 and let the right filler take up the 305 mm; the width is computed, not typed."""
     k = ws / "kitchen.json"
-    before = next(it for r in apply(k, [], dry_run=True).runs if r["wall"] == "N" and r["level"] == "base" for it in r["items"] if it["label"] == "N-filler-right")["width"]
+    before = next(it for r in apply(k, [], dry_run=True).runs if r["wall"] == "N" and r["level"] == "base" for it in r["items"] if it["label"] == "N-filler-corner")["width"]
     res = apply(k, [
-        {"op": "replace", "label": "N-base-30", "items": [{"kind": "cabinet", "id": "frame:base:18x24x30", "label": "N-base-18", "fronts": [{"id": f"{V}:door:18x30", "count": 1}]}]},
-        {"op": "fit_width", "label": "N-filler-right"},
+        {"op": "replace", "label": "N-base-30", "items": [{"kind": "cabinet", "id": "frame:base:18x24x30", "label": "N-base-18-b", "fronts": [{"id": f"{V}:door:18x30", "count": 1}]}]},
+        {"op": "fit_width", "label": "N-filler-corner"},
     ])
     assert res.ok and res.written, res.message
     n_base = next(r for r in res.runs if r["wall"] == "N" and r["level"] == "base")
     assert n_base["used_mm"] == n_base["length_mm"]
-    assert next(it for it in n_base["items"] if it["label"] == "N-filler-right")["width"] == before + 762 - 457
-    assert "fitted N-filler-right to" in res.message
+    assert next(it for it in n_base["items"] if it["label"] == "N-filler-corner")["width"] == before + 762 - 457
+    assert "fitted N-filler-corner to" in res.message
     with pytest.raises(EditError, match="overrun"):   # a 24 base cannot come out of a 76 mm filler
-        apply(k, [{"op": "insert", "wall": "N", "level": "base", "after": "N-base-15", "item": {"kind": "cabinet", "id": "frame:base:24x24x30"}},
+        apply(k, [{"op": "insert", "wall": "N", "level": "base", "after": "N-base-15-drawers", "item": {"kind": "cabinet", "id": "frame:base:24x24x30"}},
                   {"op": "fit_width", "label": "N-filler-left"}], dry_run=True)
     with pytest.raises(EditError, match="only fillers"):
         apply(k, [{"op": "fit_width", "label": "N-sink-36"}], dry_run=True)
@@ -153,7 +153,7 @@ def test_add_run_and_remove_run(ws):
     k = ws / "kitchen.json"
     res = apply(k, [{"op": "remove_run", "wall": "E", "level": "wall"}])
     assert res.ok and res.written and not any(r["wall"] == "E" and r["level"] == "wall" for r in res.runs), res.message
-    assert "removed the wall run on wall E and its 4 item(s)" in res.message
+    assert "removed the wall run on wall E and its 5 item(s)" in res.message
     # a new wall run on E, opened with a gap that fit_width sizes to the span: closure without typing a number
     res = apply(k, [
         {"op": "add_run", "wall": "E", "level": "wall", "from": 610, "items": [{"kind": "gap", "label": "E-wall-open", "width": 1}]},
@@ -177,7 +177,7 @@ def test_add_run_and_remove_run(ws):
 
 
 def test_set_fronts_wrong_size_is_refused(ws):
-    res = apply(ws / "kitchen.json", [{"op": "set_fronts", "label": "N-base-18-drawers", "fronts": [{"id": f"{V}:door:15x30", "count": 1}]}])
+    res = apply(ws / "kitchen.json", [{"op": "set_fronts", "label": "E-base-18", "fronts": [{"id": f"{V}:door:15x30", "count": 1}]}])
     assert not res.ok and res.errors[0].rule == "front_fit"
 
 
@@ -189,10 +189,10 @@ def test_bad_label_and_bad_op_raise(ws):
 
 
 def test_duplicate_labels_are_an_error(ws):
-    res = apply(ws / "kitchen.json", [{"op": "replace", "label": "N-base-15", "items": [{"kind": "cabinet", "id": "frame:base:15x24x30", "label": "N-base-15", "fronts": [{"id": f"{V}:door:15x30", "count": 1}]}]}])
+    res = apply(ws / "kitchen.json", [{"op": "replace", "label": "N-base-15-drawers", "items": [{"kind": "cabinet", "id": "frame:base:15x24x30", "label": "N-base-15-drawers", "fronts": [{"id": f"{V}:door:15x30", "count": 1}]}]}])
     assert res.ok  # same label reused after removal is fine
     with pytest.raises(EditError):
-        apply(ws / "kitchen.json", [{"op": "insert", "wall": "N", "level": "base", "index": 0, "item": {"kind": "filler", "width": 10, "label": "N-base-15"}}])
+        apply(ws / "kitchen.json", [{"op": "insert", "wall": "N", "level": "base", "index": 0, "item": {"kind": "filler", "width": 10, "label": "N-base-15-drawers"}}])
 
 
 def test_branch_copies_and_names(ws):

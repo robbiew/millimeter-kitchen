@@ -125,6 +125,7 @@ def run_depth(run: Run) -> int:
 
 
 CORNER_TOL = 3
+FRONT_THICKNESS = 19   # a SEKTION front stands this far in front of its frame
 
 
 def prev_wall(k, wid: str) -> str | None:
@@ -208,13 +209,21 @@ def corner_start(k, run: Run) -> tuple[bool, int]:
     return (occ > 0 and run.start <= occ + CORNER_SLACK, occ)
 
 
+def counter_corner_start(k, run: Run) -> tuple[bool, int]:
+    """Like corner_start, for the countertop: an L-shaped top is continuous across a dead corner, so a base run that
+    starts within the dead corner's reach (the previous wall's depth, a front, and the deepest pull-out) still starts
+    its slab where the previous wall's slab ends. A run further down the wall is a separate run after an opening."""
+    occ = occupancy_from_prev(k, run)
+    return (occ > 0 and run.start <= 2 * occ + FRONT_THICKNESS + CORNER_SLACK, occ)
+
+
 def counter_segments(k, run: Run) -> list[tuple[int, int]]:
     """Intervals along a base run that carry countertop: everything except appliances
     that reach counter height (a range, a tall fridge). A dishwasher stays under it."""
     top = k.legs + max((item_height(p, "base") for p in run.items if p.kind == "cabinet"), default=762)
     out: list[tuple[int, int]] = []
     a0 = run.start
-    is_corner, _ = corner_start(k, run)
+    is_corner, _ = counter_corner_start(k, run)
     if is_corner:
         # the previous wall's slab covers the corner to its own depth; this slab starts where that one ends
         pw = prev_wall(k, run.wall)

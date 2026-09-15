@@ -60,11 +60,13 @@ def test_appliances_and_fillers_match(kitchen, glb_boxes):
 def test_north_wall_cabinets_lie_along_x_from_wall_start(kitchen, glb_boxes):
     n_base = next(r for r in kitchen.runs if r.wall == "N" and r.level == "base")
     for p in n_base.items:
+        if p.kind == "gap":
+            continue   # nothing stands in a gap
         b = glb_boxes[p.label]
         assert abs(b["min_mm"][0] - p.start) <= 1 and abs(b["max_mm"][0] - p.end) <= 1
         if p.kind != "filler":  # fillers are set back like the toe kick
             assert abs(b["min_mm"][2] - 0) <= 1  # back against the wall line (Z = 0)
-    first = glb_boxes["N-base-15"]
+    first = glb_boxes["N-base-15-drawers"]
     assert abs(first["min_mm"][1] - kitchen.legs) <= 1  # sits on legs
 
 
@@ -98,7 +100,7 @@ def test_counter_spans_run_at_counter_height(kitchen, glb_boxes):
 
 def test_counter_is_cut_around_the_range(kitchen, glb_boxes):
     counters = sorted(n for n in glb_boxes if n.startswith("counter E"))
-    assert counters == ["counter E 1905-2741", "counter E 648-1143"]  # starts where the north slab's overhang ends
+    assert counters == ["counter E 2229-2741", "counter E 648-1467"]  # starts where the north slab's overhang ends, across the dead corner
     rng = glb_boxes["E-range"]
     for n in counters:
         c = glb_boxes[n]
