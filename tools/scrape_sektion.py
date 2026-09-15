@@ -459,6 +459,14 @@ def main(argv: list[str] | None = None) -> int:
             continue
         if item.get("verified") and not args.article and not args.dump:
             continue   # already checked against the product page
+        if item["kind"] == "hinge":
+            print(f"{item['id']} {art}: article recorded; a hinge's '110 °' is an angle, not a length, so no size to verify")
+            if args.write:
+                item["verified"] = True
+                item["verified_on"] = today
+                item["source"] = product_url(art)
+                changed += 1
+            continue
         time.sleep(args.delay)
         url = product_url(art)
         try:
