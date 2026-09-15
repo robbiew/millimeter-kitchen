@@ -94,7 +94,7 @@ def front(kind: str, slug: str, series: str, finish: str, w: float, h: float) ->
         "article": None,
         "nominal": f"{w:g}x{h:g}",
         "nominal_in": {"w": w, "h": h},
-        "actual": {"w": inch_to_mm(w - FRONT_REVEAL_IN), "h": inch_to_mm(h)},   # ikea.com: 14 7/8" x 30" for a 15x30 door
+        "actual": {"w": inch_to_mm(w - FRONT_REVEAL_IN), "h": inch_to_mm(h - FRONT_REVEAL_IN)},   # ikea.com's 3D mesh: 378 x 759 mm for a 15x30 door; the page rounds the height to 30"
         **({"notes": "IKEA sells no 20\" drawer front; this is the 20\" door article hung on a high drawer."} if kind == "drawer_front" and h == 20 else {}),
         "verified": False,
         "source": SOURCE,
@@ -151,7 +151,7 @@ def build() -> dict:
             "id": f"front:{slug}:corner-door:{w}x{h}", "kind": "front", "type": "corner_door", "brand": "IKEA", "series": series, "finish": finish,
             "name": f"{series} 2-piece door for corner base cabinet {w}x{h} {finish}", "article": None,
             "nominal": f"{w}x{h}", "nominal_in": {"w": w, "h": h},
-            "actual": {"w": inch_to_mm(w - FRONT_REVEAL_IN), "h": inch_to_mm(h)},
+            "actual": {"w": inch_to_mm(13.25), "h": inch_to_mm(h - FRONT_REVEAL_IN)},   # ikea.com: 13 1/4" wide
             "verified": False, "source": SOURCE, "notes": "Two-piece bi-fold set for the 38\" corner base cabinet; also the only set for the 30\" corner wall cabinet. Each leaf is 13\" wide.",
         })
         for w in DRAWER_FRONT_WIDTHS:
@@ -182,7 +182,8 @@ def build() -> dict:
             frac = {0.125: " 1/8", 0.5: " 1/2"}.get(round(h % 1, 3), "")
             nominal = f"{w:g}x{int(h)}{frac}" if frac else f"{w:g}x{h:g}"
             items.append({**hw(f"cover_panel:forbattra:{slug}:{size}", "cover_panel", f"FÖRBÄTTRA cover panel {nominal} {finish}", nominal,
-                                {"w": inch_to_mm(w), "h": inch_to_mm(h)}, f"Exposed {level} cabinet sides, and ripped into filler strips.",
+                                {"w": inch_to_mm(24.625 if w == 25 else 15.375), "h": inch_to_mm(h)},   # ikea.com: 24 5/8" and 15 3/8" wide
+                                f"Exposed {level} cabinet sides, and ripped into filler strips.",
                                 nominal_in={"w": w, "h": h}), "finish": finish})
         items.append({**hw(f"toe_kick:forbattra:{slug}:84", "toe_kick", f"FÖRBÄTTRA toekick 84x4 1/2 {finish}", "84x4 1/2",
                             {"w": inch_to_mm(84), "h": inch_to_mm(4.5)}, "Stock length; count = base run length / 2134 mm, rounded up.",

@@ -241,6 +241,12 @@ def check_item(item: Item, client: ModelClient, tolerance: float = 3.0, fetch: b
         return ModelCheck(item.id, art, None, None, (item.w, item.h, item.d), (None, None, None), tolerance)
     size = glb_size(glb)
     cat = (item.w, item.h, item.d)
+    # IKEA's wall-frame meshes are authored with a different up axis (height along depth); measure them stood up
+    if cat[1] is not None and cat[2] is not None:
+        as_is = abs(size[1] - cat[1]) + abs(size[2] - cat[2])
+        swapped = abs(size[2] - cat[1]) + abs(size[1] - cat[2])
+        if swapped + 0.5 < as_is:
+            size = (size[0], size[2], size[1])
     deltas = tuple(None if c is None else s - c for s, c in zip(size, cat))
     return ModelCheck(item.id, art, glb, size, cat, deltas, tolerance)  # type: ignore[arg-type]
 

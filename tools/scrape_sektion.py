@@ -501,7 +501,10 @@ def main(argv: list[str] | None = None) -> int:
             continue
         mm = {k: inch_to_mm(v) for k, v in got.items()}  # w/d/h
         want = item["actual"]
-        diffs = {k: (want.get(k), mm.get(k)) for k in ("w", "d", "h") if k in want and k in mm and abs(want[k] - mm[k]) > TOLERANCE_MM}
+        tol = {k: TOLERANCE_MM for k in ("w", "d", "h")}
+        if item["kind"] in ("front", "drawer_front"):
+            tol["h"] = 4   # the page lists a front's height as the nominal inch; IKEA's 3D mesh puts a 30" door at 759 mm
+        diffs = {k: (want.get(k), mm.get(k)) for k in ("w", "d", "h") if k in want and k in mm and abs(want[k] - mm[k]) > tol[k]}
         if diffs:
             print(f"{item['id']} {art}: MISMATCH {diffs} (catalog, page)" + ("" if args.accept_page else "  [catalog kept; --accept-page to take the page values]"))
             if not args.accept_page:

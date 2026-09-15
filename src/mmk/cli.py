@@ -216,7 +216,7 @@ def _articles_from_args(args: argparse.Namespace) -> list[tuple[str, str]]:
             for line in bill_of_materials(k):
                 if line.article and line.article not in seen:
                     seen.add(line.article)
-                    out.append((line.id, line.article))
+                    out.append((line.id, normalize_article(line.article)))
         else:
             out.append((what, normalize_article(what)))
     return out

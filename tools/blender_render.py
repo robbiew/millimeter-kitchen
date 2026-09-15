@@ -22,7 +22,7 @@ import sys
 from pathlib import Path
 
 import bpy
-from mathutils import Vector
+from mathutils import Quaternion, Vector
 
 
 def yup_to_blender(v):
@@ -103,6 +103,21 @@ def swap_in_models(scene, mapping: dict) -> None:
         bpy.context.view_layer.update()
         blo, bhi = world_bounds([box])
         mlo, mhi = world_bounds(copies)
+        rotated = ""
+        # IKEA's wall-frame meshes are authored with a different up axis: the model's height lands on the
+        # box's depth. If swapping height and depth fits the box much better, stand the model up.
+        bx = [(b - a) for a, b in zip(blo, bhi)]
+        mx = [(b - a) for a, b in zip(mlo, mhi)]
+        local_box = box.matrix_world.to_quaternion().inverted() @ Vector(bx)      # box size in the box's own frame
+        local_model = root.matrix_world.to_quaternion().inverted() @ Vector(mx)   # model size in that same frame
+        lb, lm = [abs(v) for v in local_box], [abs(v) for v in local_model]
+        as_is = abs(lm[1] - lb[1]) + abs(lm[2] - lb[2])
+        swapped = abs(lm[2] - lb[1]) + abs(lm[1] - lb[2])
+        if swapped + 0.01 < as_is:
+            root.rotation_euler = (box.matrix_world.to_quaternion() @ Quaternion((1, 0, 0), math.radians(90))).to_euler()
+            bpy.context.view_layer.update()
+            mlo, mhi = world_bounds(copies)
+            rotated = "; stood up (mesh was on its back)"
         root.location = root.location + (blo - mlo)
         bpy.context.view_layer.update()
         box.hide_render = True
@@ -111,7 +126,7 @@ def swap_in_models(scene, mapping: dict) -> None:
         size_model = [(b - a) * 1000 for a, b in zip(mlo, mhi)]
         dev = max(abs(a - b) for a, b in zip(size_box, size_model))
         note = "" if dev <= 3 else f"  (differs from the box by up to {dev:.0f} mm; not scaled)"
-        print(f"models: {name} <- {art} {'x'.join(f'{v:.0f}' for v in size_model)}{note}")
+        print(f"models: {name} <- {art} {'x'.join(f'{v:.0f}' for v in size_model)}{note}{rotated}")
 
 
 def main(argv: list[str]) -> int:

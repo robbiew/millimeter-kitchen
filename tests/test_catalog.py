@@ -9,11 +9,11 @@ def test_known_articles_present():
     assert cat["frame:base:15x15x30"].d == 375
 
 
-def test_fronts_are_an_eighth_under_nominal_in_width():
+def test_fronts_are_an_eighth_under_nominal():
     cat = load_catalog(CATALOG)
     door = cat["front:enkoping-walnut:door:18x30"]
     assert door.brand == "IKEA"
-    assert (door.w, door.h) == (454, 762)   # ikea.com: 17 7/8" x 30"; only the width is under nominal
+    assert (door.w, door.h) == (454, 759)   # ikea.com's mesh: 17 7/8" x 29 7/8"; the page rounds the height to 30"
 
 
 def test_every_front_is_ikea():
