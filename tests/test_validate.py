@@ -140,3 +140,43 @@ def test_cut_width_min_boundaries(tmp_path, kind, width, expect):
     assert bool(hits) is expect, [f.render() for f in hits]
     if expect:
         assert hits[0].item == "N-cut" and hits[0].wall == "N" and hits[0].extra["width_mm"] == width
+
+
+def _warnings(k, rule):
+    return [f for f in validate(k) if not f.is_error and f.rule == rule]
+
+
+def test_exposed_side_warns_with_the_pack(tmp_path):
+    """Warning-only rules have no bad fixture: they run on copies of the fitting kitchen (docs/BUILD_ORDER.md)."""
+    from mmk.purchase import derive
+
+    shutil.copy(EXAMPLES / "room.example.json", tmp_path / "room.example.json")
+    kit = json.loads((EXAMPLES / "kitchen.fits.json").read_text())
+    n_wall2 = kit["runs"][2]
+    n_wall2["items"][-1] = {"kind": "gap", "label": "N-wall-gap", "width": n_wall2["items"][-1]["width"]}   # a gap in place of the filler
+    (tmp_path / "kitchen.json").write_text(json.dumps(kit))
+    k = load_kitchen(tmp_path / "kitchen.json")
+    w = [x for x in _warnings(k, "exposed_side") if x.item == "N-wall-21"]   # besides the two sides at the window
+    assert [(x.wall, x.item, x.extra["side"]) for x in w] == [("N", "N-wall-21", "end")] and "N-wall-gap" in w[0].message and "cover panel" in w[0].message
+    assert not errors(validate(k))                                    # it still fits; buying is where it matters
+    pack = derive(k)
+    assert any(l.rule == "cover panel" and "N-wall-21 end side is exposed to the gap 'N-wall-gap'" in l.detail for l in pack.lines)
+    fits = load_kitchen(EXAMPLES / "kitchen.fits.json")
+    assert {x.item for x in _warnings(fits, "exposed_side")} == {"N-wall-30", "N-wall-36"}   # the two sides at the window, as the pack has always said
+
+
+def test_filler_stock_warns_for_a_filler_wider_than_its_panel(tmp_path):
+    from mmk.purchase import filler_stock_width
+
+    shutil.copy(EXAMPLES / "room.example.json", tmp_path / "room.example.json")
+    kit = json.loads((EXAMPLES / "kitchen.fits.json").read_text())
+    stock = filler_stock_width(load_kitchen(EXAMPLES / "kitchen.fits.json"), "base")
+    items = kit["runs"][0]["items"]
+    leg, gap = items[-2], items[-1]
+    leg["width"], gap["width"] = stock + 40, gap["width"] - 40 - (stock - leg["width"])   # the north leg grows past one panel; the gap gives it up
+    (tmp_path / "kitchen.json").write_text(json.dumps(kit))
+    k = load_kitchen(tmp_path / "kitchen.json")
+    w = _warnings(k, "filler_stock")
+    assert [(x.item, x.extra["stock_mm"]) for x in w] == [("N-filler-corner", stock)] and f"{stock + 40} mm" in w[0].message
+    assert not errors(validate(k))
+    assert _warnings(load_kitchen(EXAMPLES / "kitchen.fits.json"), "filler_stock") == []

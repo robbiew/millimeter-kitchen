@@ -15,7 +15,7 @@ from xml.sax.saxutils import escape
 
 from .bom import BomLine, bill_of_materials
 from .catalog import Item
-from .draw import corner_start, counter_corner_start, counter_depth, counter_segments, item_depth, run_depth
+from .draw import counter_corner_start, counter_depth, counter_segments, exposed_sides, item_depth, run_depth
 from .model import Kitchen, Run, wall_frames
 
 RAIL_ID = "rail:sektion:84"
@@ -93,24 +93,11 @@ def _line(item: Item, qty: int, rule: str, detail: str = "") -> PurchaseLine:
     return PurchaseLine(item.id, item.kind, item.name, qty, item.article, item.verified, detail, rule, True)
 
 
-def _is_corner_start(k: Kitchen, run: Run) -> bool:
-    """A run that starts within what the previous wall's cabinets occupy (their depth, or a corner cabinet's reach) starts in the corner."""
-    return corner_start(k, run)[0]
-
-
-def exposed_sides(k: Kitchen) -> list[tuple[Run, str, object]]:
-    """(run, 'start'|'end', item) for every run end that is neither at a wall nor in a corner."""
-    out = []
-    for run in k.runs:
-        if not run.items:
-            continue
-        L = k.room.wall(run.wall).planning_length
-        first, last = run.items[0], run.items[-1]
-        if run.start > 0 and not _is_corner_start(k, run) and first.kind not in ("gap", "filler"):
-            out.append((run, "start", first))
-        if run.end < L and last.kind not in ("gap", "filler"):
-            out.append((run, "end", last))
-    return out
+def filler_stock_width(k: Kitchen, level: str) -> int:
+    """The width of the cover panel fillers of this level are ripped from; a wider filler needs two pieces."""
+    pid = cover_panel_id(k, level)
+    panel = k.catalog.get(pid) if pid else None
+    return panel.w if panel and panel.w else 635
 
 
 def derive(k: Kitchen) -> PurchasePack:
@@ -183,11 +170,11 @@ def derive(k: Kitchen) -> PurchasePack:
     assumptions.append("Drawers: one MAXIMERA drawer per drawer front, sized by front height (5\" low, 10\" medium, 15\" and 20\" high) and frame depth. Interior drawers behind doors are not derived.")
 
     # cover panels on exposed sides
-    for run, side, item in exposed_sides(k):
+    for run, side, item, faces in exposed_sides(k):
         pid = cover_panel_id(k, run.level)
         if pid:
-            add(pid, 1, "cover panel", f"{item.label} {side} side is exposed")
-    assumptions.append("Cover panels: one per exposed cabinet side (a run end that is not against a wall and not in a corner). Dishwasher side panels and end panels that the appliance hides are not added.")
+            add(pid, 1, "cover panel", f"{item.label} {side} side is exposed to {faces}")
+    assumptions.append("Cover panels: one per exposed cabinet side (a run end that is not against a wall and not in a corner, or a cabinet beside a gap). Dishwasher side panels and end panels that the appliance hides are not added.")
 
     # toe kick
     tk_id = toe_kick_id(k)
@@ -204,8 +191,7 @@ def derive(k: Kitchen) -> PurchasePack:
         widths = [p.width for r in k.runs if r.level == level for p in r.items if p.kind == "filler"]
         if not widths or not pid:
             continue
-        panel = cat.get(pid)
-        panel_w = panel.w if panel else 635
+        panel_w = filler_stock_width(k, level)
         n = math.ceil(sum(widths) / panel_w)
         add(pid, n, "filler stock", f"{level} fillers {', '.join(str(w) for w in widths)} mm ripped from {panel_w} mm wide panels")
     assumptions.append("Fillers: ripped from cover panels of the same level; count assumes the strips can share a panel by total width. Check the grain direction on wood-effect finishes.")

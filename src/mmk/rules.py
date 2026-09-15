@@ -12,7 +12,7 @@ from collections.abc import Callable
 
 from .findings import Finding
 from .finishes import ROLES, load_finishes
-from .draw import CORNER_SLACK, CORNER_TOL, FRONT_THICKNESS, corner_clearances, corner_reach, elevation_boxes, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
+from .draw import CORNER_SLACK, CORNER_TOL, FRONT_THICKNESS, corner_clearances, corner_reach, elevation_boxes, exposed_sides, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
 from .model import Kitchen, Run
 
 CLOSURE_TOLERANCE_MM = 3
@@ -422,6 +422,33 @@ def rule_corner_swing(k: Kitchen) -> list[Finding]:
     return out
 
 
+def rule_exposed_side(k: Kitchen) -> list[Finding]:
+    """A cabinet side that shows needs a cover panel; the purchase pack derives it from the same list (issue #7)."""
+    from .purchase import cover_panel_id   # the pack's panel choice, so the warning names what the pack will buy
+
+    out = []
+    for run, side, p, faces in exposed_sides(k):
+        pid = cover_panel_id(k, run.level)
+        out.append(Finding("warning", "exposed_side", f"{run.level}: the {side} side of '{p.label}' faces {faces} and shows; it needs a cover panel" + (f" ({pid} in the purchase pack)" if pid else ""), run.wall, p.label, {"side": side}))
+    return out
+
+
+def rule_filler_stock(k: Kitchen) -> list[Finding]:
+    """A filler or panel wider than the cover panel it is ripped from cannot be one piece (issue #7)."""
+    from .purchase import filler_stock_width
+
+    out = []
+    for run in k.runs:
+        stock = None
+        for p in run.items:
+            if p.kind not in ("filler", "panel"):
+                continue
+            stock = filler_stock_width(k, run.level) if stock is None else stock
+            if p.width > stock:
+                out.append(Finding("warning", "filler_stock", f"{run.level}: {p.kind} '{p.label}' is {p.width} mm wide but the {run.level} cover panels it is ripped from are {stock} mm; plan two pieces or a different panel", run.wall, p.label, {"stock_mm": stock}))
+    return out
+
+
 def rule_unique_labels(k: Kitchen) -> list[Finding]:
     """Edits address items by label, so a label may appear once in the whole file."""
     seen: dict[str, str] = {}
@@ -464,6 +491,8 @@ RULES: tuple[Rule, ...] = (
     rule_ceiling,
     rule_corners,
     rule_corner_swing,
+    rule_exposed_side,
+    rule_filler_stock,
     rule_unique_labels,
     rule_finishes,
     rule_unverified_catalog,

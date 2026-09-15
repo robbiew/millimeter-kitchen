@@ -209,6 +209,28 @@ def corner_start(k, run: Run) -> tuple[bool, int]:
     return (occ > 0 and run.start <= occ + CORNER_SLACK, occ)
 
 
+def exposed_sides(k) -> list[tuple[Run, str, Placed, str]]:
+    """(run, 'start'|'end', item, what it faces) for every cabinet side that shows: a run end that is neither at a
+    wall nor in a corner, and a cabinet beside an explicit gap. The purchase pack derives one cover panel per entry
+    and the validator warns with the same list, so the two never disagree."""
+    out = []
+    for run in k.runs:
+        if not run.items:
+            continue
+        L = k.room.wall(run.wall).planning_length
+        first, last = run.items[0], run.items[-1]
+        if run.start > 0 and not corner_start(k, run)[0] and first.kind not in ("gap", "filler"):
+            out.append((run, "start", first, "the open end of the run"))
+        if run.end < L and last.kind not in ("gap", "filler"):
+            out.append((run, "end", last, "the open end of the run"))
+        for prev, p in zip(run.items, run.items[1:]):
+            if prev.kind == "cabinet" and p.kind == "gap":
+                out.append((run, "end", prev, f"the gap '{p.label}'"))
+            if p.kind == "cabinet" and prev.kind == "gap":
+                out.append((run, "start", p, f"the gap '{prev.label}'"))
+    return out
+
+
 def counter_corner_start(k, run: Run) -> tuple[bool, int]:
     """Like corner_start, for the countertop: an L-shaped top is continuous across a dead corner. A base run says it
     closes a dead corner by opening with a filler or panel (the leg of the corner filler) within the dead corner's

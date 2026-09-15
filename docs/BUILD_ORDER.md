@@ -41,6 +41,12 @@ item:
 Also: every catalog entry used in a purchase must be `"verified": true`
 (product page fetched by the scraper). Until then `mmk validate` warns.
 
+Warning-only rules (`corner_gap`, `exposed_side`, `filler_stock`,
+`backsplash_window`, `unverified_dimensions`) have no fixture under
+`examples/bad/`, because the layout still fits; they are tested on copies of
+the fitting kitchen in `tests/test_validate.py`, and where a warning has a
+purchase consequence the test checks the pack says the same thing.
+
 ## Phase 2 — Dimensioned elevations and plan
 
 Deliverables: `mmk draw kitchen.json --out out/ --scale 20`. SVG elevation per wall and a

@@ -8,7 +8,8 @@ import pytest
 from mmk.cli import main
 from mmk.export import export_all
 from mmk.model import load_kitchen
-from mmk.purchase import countertop_svg, derive, exposed_sides, render_pack
+from mmk.draw import exposed_sides
+from mmk.purchase import countertop_svg, derive, render_pack
 from mmk.reconcile import norm_article, read_ikea_list, reconcile
 from tests.conftest import EXAMPLES
 
@@ -48,7 +49,7 @@ def test_one_drawer_per_drawer_front(pack):
 
 
 def test_exposed_sides_and_cover_panels(kitchen, pack):
-    sides = {(r.wall, r.level, side, item.label) for r, side, item in exposed_sides(kitchen)}
+    sides = {(r.wall, r.level, side, item.label) for r, side, item, _ in exposed_sides(kitchen)}
     assert ("N", "wall", "end", "N-wall-30") in sides          # at the window
     assert ("N", "wall", "start", "N-wall-36") in sides        # other side of the window
     assert not any(wall == "E" for wall, _, _, _ in sides)     # the east runs open with the filler leg of the corner filler
