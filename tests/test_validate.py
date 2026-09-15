@@ -5,7 +5,7 @@ import pytest
 
 from mmk.model import load_kitchen
 from mmk.rules import validate
-from tests.conftest import BAD, EXAMPLES
+from tests.conftest import BAD, EXAMPLES, WARN
 
 EXPECTED_RULE = {
     "run_too_long": "run_closure",
@@ -140,3 +140,123 @@ def test_cut_width_min_boundaries(tmp_path, kind, width, expect):
     assert bool(hits) is expect, [f.render() for f in hits]
     if expect:
         assert hits[0].item == "N-cut" and hits[0].wall == "N" and hits[0].extra["width_mm"] == width
+
+
+def _warnings(k, rule):
+    return [f for f in validate(k) if not f.is_error and f.rule == rule]
+
+
+def test_exposed_side_warns_with_the_pack(tmp_path):
+    """Warning-only rules have no bad fixture: they run on copies of the fitting kitchen (docs/BUILD_ORDER.md)."""
+    from mmk.purchase import derive
+
+    shutil.copy(EXAMPLES / "room.example.json", tmp_path / "room.example.json")
+    kit = json.loads((EXAMPLES / "kitchen.fits.json").read_text())
+    n_wall2 = kit["runs"][2]
+    n_wall2["items"][-1] = {"kind": "gap", "label": "N-wall-gap", "width": n_wall2["items"][-1]["width"]}   # a gap in place of the filler
+    (tmp_path / "kitchen.json").write_text(json.dumps(kit))
+    k = load_kitchen(tmp_path / "kitchen.json")
+    w = [x for x in _warnings(k, "exposed_side") if x.item == "N-wall-21"]   # besides the two sides at the window
+    assert [(x.wall, x.item, x.extra["side"]) for x in w] == [("N", "N-wall-21", "end")] and "N-wall-gap" in w[0].message and "cover panel" in w[0].message
+    assert not errors(validate(k))                                    # it still fits; buying is where it matters
+    pack = derive(k)
+    assert any(l.rule == "cover panel" and "N-wall-21 end side is exposed to the gap 'N-wall-gap'" in l.detail for l in pack.lines)
+    fits = load_kitchen(EXAMPLES / "kitchen.fits.json")
+    assert {x.item for x in _warnings(fits, "exposed_side")} == {"N-wall-30", "N-wall-36"}   # the two sides at the window, as the pack has always said
+
+
+def test_filler_stock_warns_for_a_filler_wider_than_its_panel(tmp_path):
+    from mmk.purchase import filler_stock_width
+
+    shutil.copy(EXAMPLES / "room.example.json", tmp_path / "room.example.json")
+    kit = json.loads((EXAMPLES / "kitchen.fits.json").read_text())
+    stock = filler_stock_width(load_kitchen(EXAMPLES / "kitchen.fits.json"), "base")
+    items = kit["runs"][0]["items"]
+    leg, gap = items[-2], items[-1]
+    leg["width"], gap["width"] = stock + 40, gap["width"] - 40 - (stock - leg["width"])   # the north leg grows past one panel; the gap gives it up
+    (tmp_path / "kitchen.json").write_text(json.dumps(kit))
+    k = load_kitchen(tmp_path / "kitchen.json")
+    w = _warnings(k, "filler_stock")
+    assert [(x.item, x.extra["stock_mm"]) for x in w] == [("N-filler-corner", stock)] and f"{stock + 40} mm" in w[0].message
+    assert not errors(validate(k))
+    assert _warnings(load_kitchen(EXAMPLES / "kitchen.fits.json"), "filler_stock") == []
+
+
+def test_backsplash_window_warns_and_a_lower_band_clears_it(tmp_path):
+    fits = load_kitchen(EXAMPLES / "kitchen.fits.json")
+    w = _warnings(fits, "backsplash_window")
+    band_top = fits.legs + 762 + fits.counter_thickness + fits.backsplash_height    # 1409 in the example
+    assert [(x.wall, x.item, x.extra) for x in w] == [("N", "sink window", {"overlap_mm": band_top - 1067, "from": 1219, "to": 2133})]
+    assert "sill 1067 mm" in w[0].message
+    shutil.copy(EXAMPLES / "room.example.json", tmp_path / "room.example.json")
+    kit = json.loads((EXAMPLES / "kitchen.fits.json").read_text())
+    kit["backsplash_height"] = 1067 - (fits.legs + 762 + fits.counter_thickness)   # the band stops at the sill
+    (tmp_path / "kitchen.json").write_text(json.dumps(kit))
+    assert _warnings(load_kitchen(tmp_path / "kitchen.json"), "backsplash_window") == []
+
+
+EXPECTED_WARNING = {"exposed_side": "exposed_side", "filler_stock": "filler_stock", "backsplash_window": "backsplash_window"}
+
+
+@pytest.mark.parametrize("name,rule", EXPECTED_WARNING.items(), ids=list(EXPECTED_WARNING))
+def test_each_warn_fixture_fits_with_its_warning(name, rule):
+    """examples/warn/: the fitting kitchen with one change that still fits but draws the rule's warning."""
+    findings = validate(load_kitchen(WARN / f"{name}.json"))
+    assert not errors(findings), name
+    hit = [f for f in findings if not f.is_error and f.rule == rule]
+    assert hit, f"{name}: expected warning {rule}, got {[f.rule for f in findings]}"
+    assert hit[0].wall == "N" and (hit[0].item or hit[0].extra)
+
+
+def test_warn_fixtures_add_one_warning_to_the_fitting_kitchen():
+    base = {f.rule for f in validate(load_kitchen(EXAMPLES / "kitchen.fits.json")) if not f.is_error}
+    for name, rule in EXPECTED_WARNING.items():
+        got = {f.rule for f in validate(load_kitchen(WARN / f"{name}.json")) if not f.is_error}
+        assert got <= base | {rule}, (name, got - base)
+
+
+def test_exposed_side_ignores_panels_and_touching_runs(tmp_path):
+    """A cover panel at an open end is not a cabinet side, and two runs that meet on one wall hide each other's ends."""
+    shutil.copy(EXAMPLES / "room.example.json", tmp_path / "room.example.json")
+    kit = json.loads((EXAMPLES / "kitchen.fits.json").read_text())
+    n_wall2 = kit["runs"][2]
+    n_wall2["items"][-1] = {"kind": "panel", "label": "N-wall-end-panel", "width": n_wall2["items"][-1]["width"]}
+    (tmp_path / "kitchen.json").write_text(json.dumps(kit))
+    assert {x.item for x in _warnings(load_kitchen(tmp_path / "kitchen.json"), "exposed_side")} == {"N-wall-30", "N-wall-36"}
+    # split the north base run in two at the sink: the halves touch, so neither end shows
+    kit = json.loads((EXAMPLES / "kitchen.fits.json").read_text())
+    n_base = kit["runs"][0]
+    left, right = n_base["items"][:3], n_base["items"][3:]
+    kit["runs"][0] = {"wall": "N", "level": "base", "to": 1219, "items": left}
+    kit["runs"].append({"wall": "N", "level": "base", "from": 1219, "items": right})
+    (tmp_path / "kitchen.json").write_text(json.dumps(kit))
+    k = load_kitchen(tmp_path / "kitchen.json")
+    assert not errors(validate(k)) and not any(x.wall == "N" and k.runs[0].level == "base" and x.item in ("N-base-30", "N-sink-36") for x in _warnings(k, "exposed_side"))
+
+
+def test_filler_stock_counts_panels_in_the_pack(tmp_path):
+    from mmk.purchase import derive, filler_stock_width
+
+    k = load_kitchen(WARN / "filler_stock.json")
+    stock = filler_stock_width(k, "base")
+    line = next(l for l in derive(k).lines if l.rule == "filler stock" and "base" in l.detail)
+    assert line.qty >= 2 and "700" in line.detail                     # a 700 mm strip alone needs a second panel
+    shutil.copy(EXAMPLES / "room.example.json", tmp_path / "room.example.json")
+    kit = json.loads((WARN / "filler_stock.json").read_text())
+    kit["room"] = "room.example.json"
+    kit["runs"][0]["items"][-2]["kind"] = "panel"                       # the same strip as a panel counts the same way
+    (tmp_path / "kitchen.json").write_text(json.dumps(kit))
+    k2 = load_kitchen(tmp_path / "kitchen.json")
+    line2 = next(l for l in derive(k2).lines if l.rule == "filler stock" and "base" in l.detail)
+    assert line2.qty == line.qty and [x.item for x in _warnings(k2, "filler_stock")] == ["N-filler-corner"] and stock < 700
+
+
+def test_backsplash_window_overlap_is_clamped_to_the_window(tmp_path):
+    shutil.copy(EXAMPLES / "room.example.json", tmp_path / "room.example.json")
+    room = json.loads((EXAMPLES / "room.example.json").read_text())
+    win = next(o for o in room["walls"][0]["openings"] if o["kind"] == "window")
+    win["sill"], win["head"] = 1000, 1100                               # a short window entirely inside the band
+    (tmp_path / "room.example.json").write_text(json.dumps(room))
+    shutil.copy(EXAMPLES / "kitchen.fits.json", tmp_path / "kitchen.json")
+    w = _warnings(load_kitchen(tmp_path / "kitchen.json"), "backsplash_window")
+    assert [x.extra["overlap_mm"] for x in w] == [100]

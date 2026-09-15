@@ -10,7 +10,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass, field
 
-from .draw import CORNER_TOL, FRONT_REVEAL_MM, FRONT_THICKNESS, counter_depth, counter_segments, elevation_boxes, front_panels, item_depth, run_depth
+from .draw import BACKSPLASH_THICKNESS, CORNER_TOL, FRONT_REVEAL_MM, FRONT_THICKNESS, backsplash_spans, counter_depth, counter_segments, counter_top, elevation_boxes, front_panels, item_depth, run_depth
 from .finishes import ROLES, Finish, FinishLibrary, load_finishes
 from .model import DEFAULT_COUNTER_OVERHANG, Kitchen, Run, wall_frames
 
@@ -25,7 +25,6 @@ CAMERA_VFOV_DEG = 50.0
 CAMERA_ASPECT = 1.6
 CAMERA_MARGIN = 1.15  # framing slack on both axes
 
-BACKSPLASH_THICKNESS = 8
 
 
 def resolve_materials(k: Kitchen, lib: FinishLibrary) -> dict[str, Finish]:
@@ -221,35 +220,13 @@ def build_scene(k: Kitchen, lib: FinishLibrary | None = None) -> Scene:
             elif p.kind in ("filler", "panel"):
                 boxes.append(fr.box(p.label, "filler", M["frame"], b.x, b.x + b.w, TOE_KICK_SETBACK if run.level == "base" else 0, d + (FRONT_THICKNESS if p.kind == "filler" else 0), b.y0, b.y0 + b.h, level=run.level))
         if run.level == "base" and run.items:
-            cab_heights = [b.h + b.y0 for b in elevation_boxes(k, run) if b.p.kind == "cabinet"]
-            top = max(cab_heights) if cab_heights else k.legs + 762
+            top = counter_top(k, run)
             for a0, a1 in counter_segments(k, run):
                 boxes.append(fr.box(f"counter {run.wall} {a0}-{a1}", "counter", M["counter"], a0, a1, 0, counter_depth(run) + k.counter_overhang, top, top + k.counter_thickness, wall=run.wall))
-            # backsplash: from the counter top up to the wall cabinets above, else backsplash_height
-            wall_runs = [r for r in k.runs if r.wall == run.wall and r.level == "wall"]
+            # backsplash: from the counter top up to the wall cabinets above, else backsplash_height; continuous through an inside corner
             top_y = top + k.counter_thickness
-            cursor = run.start
-            spans: list[tuple[int, int, int]] = []
-            above = sorted((b for wr in wall_runs for b in elevation_boxes(k, wr) if b.p.kind != "gap"), key=lambda b: b.x)
-            for b in above:
-                a0, a1 = max(b.x, run.start), min(b.x + b.w, run.end)
-                if a0 >= a1:
-                    continue
-                if a0 > cursor:
-                    spans.append((cursor, a0, top_y + k.backsplash_height))
-                spans.append((a0, a1, b.y0))  # up to this cabinet's own underside
-                cursor = a1
-            if cursor < run.end:
-                spans.append((cursor, run.end, top_y + k.backsplash_height))
-            merged: list[tuple[int, int, int]] = []
-            for a0, a1, y1 in spans:
-                if merged and merged[-1][1] == a0 and merged[-1][2] == y1:
-                    merged[-1] = (merged[-1][0], a1, y1)
-                else:
-                    merged.append((a0, a1, y1))
-            for a0, a1, y1 in merged:
-                if y1 > top_y:
-                    boxes.append(fr.box(f"backsplash {run.wall} {a0}-{a1}", "backsplash", M["backsplash"], a0, a1, 0, BACKSPLASH_THICKNESS, top_y, y1, wall=run.wall))
+            for a0, a1, y1 in backsplash_spans(k, run):
+                boxes.append(fr.box(f"backsplash {run.wall} {a0}-{a1}", "backsplash", M["backsplash"], a0, a1, 0, BACKSPLASH_THICKNESS, top_y, y1, wall=run.wall))
 
     # cameras: one per wall that has runs, plus an overview from the open side of the room
     cams: list[Camera] = []

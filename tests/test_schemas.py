@@ -1,7 +1,7 @@
 import pytest
 
 from mmk.io import FileError, load_validated
-from tests.conftest import BAD, CATALOG, EXAMPLES
+from tests.conftest import BAD, CATALOG, EXAMPLES, WARN
 
 
 def test_room_example_validates():
@@ -12,7 +12,7 @@ def test_catalog_validates():
     load_validated(CATALOG, "catalog")
 
 
-@pytest.mark.parametrize("path", [EXAMPLES / "kitchen.fits.json", *sorted(BAD.glob("*.json"))], ids=lambda p: p.stem)
+@pytest.mark.parametrize("path", [EXAMPLES / "kitchen.fits.json", *sorted(BAD.glob("*.json")), *sorted(WARN.glob("*.json"))], ids=lambda p: p.stem)
 def test_kitchen_files_validate(path):
     load_validated(path, "kitchen")
 

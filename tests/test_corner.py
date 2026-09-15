@@ -8,7 +8,8 @@ import pytest
 from mmk.edit import apply
 from mmk.gltf import read_glb_boxes, write_glb
 from mmk.model import load_kitchen
-from mmk.purchase import derive, exposed_sides
+from mmk.draw import exposed_sides
+from mmk.purchase import derive
 from mmk.draw import elevation_svg, plan_svg
 from mmk.rules import validate
 from mmk.scene import build_scene
@@ -79,7 +80,7 @@ def test_counter_runs_through_the_corner(kitchen, boxes):
 
 
 def test_east_runs_are_not_exposed_and_pack_derives(kitchen):
-    sides = {(r.wall, side, item.label) for r, side, item in exposed_sides(kitchen)}
+    sides = {(r.wall, side, item.label) for r, side, item, _ in exposed_sides(kitchen)}
     assert not any(w == "E" and side == "start" for w, side, _ in sides)
     pack = {l.id: l for l in derive(kitchen).lines}
     assert pack["frame:base_corner:38x38x30"].qty == 1 and pack[f"{V}:corner-door:13x30"].qty == 2   # one set for the base corner, one for the wall corner

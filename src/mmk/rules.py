@@ -12,7 +12,7 @@ from collections.abc import Callable
 
 from .findings import Finding
 from .finishes import ROLES, load_finishes
-from .draw import CORNER_SLACK, CORNER_TOL, FRONT_THICKNESS, corner_clearances, corner_reach, elevation_boxes, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
+from .draw import CORNER_SLACK, CORNER_TOL, FRONT_THICKNESS, backsplash_spans, corner_clearances, counter_top, corner_reach, elevation_boxes, exposed_sides, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
 from .model import Kitchen, Run
 
 CLOSURE_TOLERANCE_MM = 3
@@ -422,6 +422,54 @@ def rule_corner_swing(k: Kitchen) -> list[Finding]:
     return out
 
 
+def rule_exposed_side(k: Kitchen) -> list[Finding]:
+    """A cabinet side that shows needs a cover panel; the purchase pack derives it from the same list (issue #7)."""
+    from .purchase import cover_panel_id   # the pack's panel choice, so the warning names what the pack will buy
+
+    out = []
+    for run, side, p, faces in exposed_sides(k):
+        pid = cover_panel_id(k, run.level)
+        out.append(Finding("warning", "exposed_side", f"{run.level}: the {side} side of '{p.label}' faces {faces} and shows; it needs a cover panel" + (f" ({pid} in the purchase pack)" if pid else ""), run.wall, p.label, {"side": side}))
+    return out
+
+
+def rule_filler_stock(k: Kitchen) -> list[Finding]:
+    """A filler or panel wider than the cover panel it is ripped from cannot be one piece (issue #7)."""
+    from .purchase import filler_stock_width
+
+    out = []
+    for run in k.runs:
+        stock = None
+        for p in run.items:
+            if p.kind not in ("filler", "panel"):
+                continue
+            stock = filler_stock_width(k, run.level) if stock is None else stock
+            if p.width > stock:
+                out.append(Finding("warning", "filler_stock", f"{run.level}: {p.kind} '{p.label}' is {p.width} mm wide but the {run.level} cover panels it is ripped from are {stock} mm; plan two pieces or a different panel", run.wall, p.label, {"stock_mm": stock}))
+    return out
+
+
+def rule_backsplash_window(k: Kitchen) -> list[Finding]:
+    """The backsplash band runs into a window whose sill is below the band's top (issue #8). The owner decides what
+    happens there (tile to the sill, a lower band under the window, another backsplash_height), so this is a warning."""
+    out = []
+    for run in k.runs:
+        if run.level != "base" or not run.items:
+            continue
+        wall = k.room.wall(run.wall)
+        band_bottom = counter_top(k, run) + k.counter_thickness
+        for o in wall.openings:
+            if o.kind != "window" or o.sill is None:
+                continue
+            for a0, a1, y1 in backsplash_spans(k, run):
+                lo, hi = max(a0, o.start), min(a1, o.end)
+                overlap = min(y1, o.head) - max(o.sill, band_bottom)   # the band's own height inside the window's
+                if lo < hi and overlap > 0:
+                    name = f"window '{o.label}'" if o.label else "the window"
+                    out.append(Finding("warning", "backsplash_window", f"the backsplash band (to {y1} mm) runs {overlap} mm into {name} (sill {o.sill} mm) over {lo}–{hi} mm; tile to the sill, lower the band there, or change backsplash_height", run.wall, o.label, {"overlap_mm": overlap, "from": lo, "to": hi}))
+    return out
+
+
 def rule_unique_labels(k: Kitchen) -> list[Finding]:
     """Edits address items by label, so a label may appear once in the whole file."""
     seen: dict[str, str] = {}
@@ -464,6 +512,9 @@ RULES: tuple[Rule, ...] = (
     rule_ceiling,
     rule_corners,
     rule_corner_swing,
+    rule_exposed_side,
+    rule_filler_stock,
+    rule_backsplash_window,
     rule_unique_labels,
     rule_finishes,
     rule_unverified_catalog,

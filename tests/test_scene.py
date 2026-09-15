@@ -153,3 +153,42 @@ def test_cli_render_refuses_invalid_and_reports_missing_blender(tmp_path):
     rc = main(["render", str(EXAMPLES / "kitchen.fits.json"), "--out", str(tmp_path), "--blender", str(tmp_path / "nope")])
     assert rc == 2
     assert (tmp_path / "scene.glb").exists()  # the export still happened
+
+
+def _corner_room(tmp_path, theta):
+    from tests.test_square import DIAG
+    room = json.loads((EXAMPLES / "room.example.json").read_text())
+    room["corners"][0]["diagonal"] = DIAG[theta]
+    (tmp_path / "room.example.json").write_text(json.dumps(room))
+
+
+@pytest.mark.parametrize("name,theta", [("kitchen.fits.json", 90), ("kitchen.corner.json", 90), ("kitchen.fits.json", 85), ("kitchen.fits.json", 92)])
+def test_backsplash_is_continuous_through_the_inside_corner(tmp_path, name, theta):
+    """The north tile reaches the corner; the east tile starts where its face meets the north tile's face; neither box
+    intrudes into the other beyond the tile's own thickness, at square and surveyed off-square corners alike."""
+    import math
+
+    from mmk.draw import BACKSPLASH_THICKNESS, backsplash_corner_start
+
+    _corner_room(tmp_path, theta)
+    import shutil
+    shutil.copy(EXAMPLES / name, tmp_path / "k.json")
+    k = load_kitchen(tmp_path / "k.json")
+    La = k.room.wall("N").planning_length
+    scene = build_scene(k)
+    north = [b for b in scene.boxes if b.name.startswith("backsplash N ")]
+    east = [b for b in scene.boxes if b.name.startswith("backsplash E ")]
+    assert north and east
+    assert abs(max(b.max[0] for b in north) - La) <= 1                                   # the north tile reaches the corner
+    east_run = next(r for r in k.runs if r.wall == "E" and r.level == "base")
+    start = backsplash_corner_start(k, east_run)
+    assert start == math.ceil(BACKSPLASH_THICKNESS / math.tan(math.radians(k.room.corner_angle("N", "E")) / 2))
+    assert min(int(b.name.split()[2].split("-")[0]) for b in east) == start
+    first = min(east, key=lambda b: int(b.name.split()[2].split("-")[0]))
+    corners = first.world_corners()
+    # world: north tile occupies x <= La, 0 <= z <= t. No east-tile corner may lie inside it by more than a millimetre;
+    # its nearest corner meets the north tile's face (z = t) within the tile thickness
+    t = BACKSPLASH_THICKNESS
+    assert all(not (c[0] < La - 1 and 1 < c[2] < t - 1) for c in corners), corners
+    nearest = min(corners, key=lambda c: (c[0] - La) ** 2 + (c[2] - t) ** 2)
+    assert abs(nearest[2] - t) <= t and abs(nearest[0] - La) <= t + 1
