@@ -63,6 +63,21 @@ def _touches_wall_end(k: Kitchen, run: Run) -> bool:
     return run.end >= k.room.wall(run.wall).planning_length
 
 
+def rule_run_overlap(k: Kitchen) -> list[Finding]:
+    """Two runs on the same wall and level must not share any of their span (a wall may be split around a window, never doubled up)."""
+    out = []
+    by_key: dict[tuple[str, str], list] = {}
+    for run in k.runs:
+        by_key.setdefault((run.wall, run.level), []).append(run)
+    for (wall, level), runs in by_key.items():
+        runs = sorted(runs, key=lambda r: (r.start, r.end))
+        for prev, run in zip(runs, runs[1:]):
+            if run.start < prev.end:
+                first = run.items[0].label if run.items else None
+                out.append(Finding("error", "run_overlap", f"two {level} runs on wall {wall} overlap: {prev.start}-{prev.end} mm and {run.start}-{run.end} mm share {min(prev.end, run.end) - run.start} mm; split runs must not touch the same span", wall, first, {"overlap_mm": min(prev.end, run.end) - run.start}))
+    return out
+
+
 def rule_wall_filler_min(k: Kitchen) -> list[Finding]:
     """Where a run meets a room wall it must begin/end with a filler of at least 51 mm."""
     out = []
@@ -350,6 +365,7 @@ RULES: tuple[Rule, ...] = (
     rule_resolution,
     rule_ikea_fronts_only,
     rule_run_closure,
+    rule_run_overlap,
     rule_wall_filler_min,
     rule_cut_width_min,
     rule_appliance_side_clearance,

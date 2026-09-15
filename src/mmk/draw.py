@@ -220,7 +220,7 @@ def counter_segments(k, run: Run) -> list[tuple[int, int]]:
         pw = prev_wall(k, run.wall)
         prev_run = run_at_end(k, pw, "base") if pw else None
         if prev_run is not None:
-            a0 = counter_depth(prev_run) + 38
+            a0 = counter_depth(prev_run) + k.counter_overhang
     for p in run.items:
         if p.kind == "appliance" and p.appliance and p.appliance.height >= top:
             if p.start > a0:
@@ -540,7 +540,7 @@ def plan_svg(k: Kitchen, scale: int = DEFAULT_SCALE) -> str:
         if run.level == "base":
             d = run_depth(run)
             for a0, a1 in counter_segments(k, run):
-                rect_along(run.wall, a0, a1, 0, counter_depth(run) + 38, "counter")
+                rect_along(run.wall, a0, a1, 0, counter_depth(run) + k.counter_overhang, "counter")
     for run in k.runs:
         cls = "wallcab" if run.level == "wall" else None
         for p in run.items:

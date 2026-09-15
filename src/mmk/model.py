@@ -16,6 +16,7 @@ from .room import Room, load_room
 DEFAULT_WALL_CABINET_BOTTOM = 1372  # 54"
 DEFAULT_LEGS = 114                   # SEKTION legs, nominal 4 1/2"
 DEFAULT_COUNTER_THICKNESS = 38       # 1 1/2"
+DEFAULT_COUNTER_OVERHANG = 38        # 1 1/2" past the front of the frames
 DEFAULT_BACKSPLASH_HEIGHT = 457      # 18"
 
 
@@ -94,6 +95,7 @@ class Kitchen:
     wall_cabinet_bottom: int
     materials: dict[str, str] = field(default_factory=dict)  # role -> finish key, as written in the file
     backsplash_height: int = DEFAULT_BACKSPLASH_HEIGHT
+    counter_overhang: int = DEFAULT_COUNTER_OVERHANG   # counter.overhang_front: how far the slab passes the frame fronts
     problems: list[str] = field(default_factory=list)  # resolution problems (unknown ids etc.)
 
 
@@ -179,6 +181,7 @@ def resolve(data: dict, path: Path, room: Room, catalog: Catalog) -> Kitchen:
         name=data["name"], path=path, room=room, catalog=catalog, appliances=appliances, runs=tuple(runs),
         legs=int(counter.get("legs", DEFAULT_LEGS)),
         counter_thickness=int(counter.get("thickness", DEFAULT_COUNTER_THICKNESS)),
+        counter_overhang=int(counter.get("overhang_front", DEFAULT_COUNTER_OVERHANG)),
         wall_cabinet_bottom=wall_bottom, materials=dict(data.get("materials", {})),
         backsplash_height=int(data.get("backsplash_height", DEFAULT_BACKSPLASH_HEIGHT)), problems=problems,
     )

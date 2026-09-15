@@ -17,7 +17,6 @@ from .bom import BomLine, bill_of_materials
 from .catalog import Item
 from .draw import corner_start, counter_depth, counter_segments, item_depth, run_depth
 from .model import Kitchen, Run, wall_frames
-from .scene import COUNTER_OVERHANG_DEFAULT
 
 RAIL_ID = "rail:sektion:84"
 LEGS_ID = "legs:sektion:4pack"
@@ -223,7 +222,7 @@ def countertop_slabs(k: Kitchen) -> list[dict]:
     for run in k.runs:
         if run.level != "base" or not run.items:
             continue
-        depth = counter_depth(run) + COUNTER_OVERHANG_DEFAULT
+        depth = counter_depth(run) + k.counter_overhang
         for i, (a0, a1) in enumerate(counter_segments(k, run)):
             slabs.append({"wall": run.wall, "start": a0, "end": a1, "length_mm": a1 - a0, "depth_mm": depth,
                           "corner_start": i == 0 and _is_corner_start(k, run), "frame": frames[run.wall],
@@ -252,7 +251,7 @@ def countertop_svg(k: Kitchen, scale: int = 20) -> str:
            '<style>.slab{fill:#e4e4e0;stroke:#000;stroke-width:4}.t{font:42px Helvetica,Arial,sans-serif}.s{font:34px Helvetica,Arial,sans-serif}.dim{stroke:#000;stroke-width:2}</style>',
            f'<rect x="{minx:g}" y="{miny:g}" width="{W:g}" height="{H:g}" fill="#fff"/>',
            f'<text x="{minx + M:g}" y="{miny + 90:g}" class="t" font-weight="bold">Countertop outline — {escape(k.name)}</text>',
-           f'<text x="{minx + M:g}" y="{miny + 150:g}" class="s">plan view, real mm; depth includes the {COUNTER_OVERHANG_DEFAULT} mm front overhang; corner joint where slabs overlap. Sink cut-out and seams are the fabricator\'s.</text>']
+           f'<text x="{minx + M:g}" y="{miny + 150:g}" class="s">plan view, real mm; depth includes the {k.counter_overhang} mm front overhang; corner joint where slabs overlap. Sink cut-out and seams are the fabricator\'s.</text>']
     total_len = 0
     for s, c in polys:
         out.append(f'<polygon points="{" ".join(f"{x:g},{y:g}" for x, y in c)}" class="slab" data-wall="{s["wall"]}" data-length="{s["length_mm"]}" data-depth="{s["depth_mm"]}"/>')

@@ -1,0 +1,312 @@
+{
+  "units": "mm",
+  "name": "Example L kitchen \u2014 BAD: run_overlap",
+  "room": "../room.example.json",
+  "catalog": "sektion-us-2026-09",
+  "notes": "a second north base run from 76 to 457 mm, closed on its own, sits on top of the first run's 15 base",
+  "counter": {
+    "thickness": 38,
+    "overhang_front": 38,
+    "legs": 114,
+    "material": "quartz"
+  },
+  "wall_cabinet_bottom": 1372,
+  "backsplash_height": 457,
+  "materials": {
+    "frame": "sektion-white",
+    "counter": "quartz-white",
+    "backsplash": "tile-white-subway",
+    "floor": "oak-natural",
+    "wall": "paint-warm-white",
+    "appliance": "stainless",
+    "toe_kick": "toe-kick-white"
+  },
+  "appliances": {
+    "dishwasher": {
+      "name": "24in dishwasher (example)",
+      "kind": "dishwasher",
+      "width": 610,
+      "depth": 622,
+      "height": 864,
+      "clearance_front": 686,
+      "clearance_to_wall": 51,
+      "needs_water": true
+    },
+    "range": {
+      "name": "30in gas range (example)",
+      "kind": "range",
+      "width": 762,
+      "depth": 690,
+      "height": 914,
+      "uses_gas": true
+    }
+  },
+  "runs": [
+    {
+      "wall": "N",
+      "level": "base",
+      "items": [
+        {
+          "kind": "filler",
+          "label": "N-filler-left",
+          "width": 76
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-base-15",
+          "id": "frame:base:15x24x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:15x30",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-base-30",
+          "id": "frame:base:30x24x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:15x30",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-sink-36",
+          "id": "frame:sink_base:36x24x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:18x30",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "kind": "appliance",
+          "label": "N-dishwasher",
+          "ref": "dishwasher"
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-base-18-drawers",
+          "id": "frame:base:18x24x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:drawer:18x10",
+              "count": 1
+            },
+            {
+              "id": "front:enkoping-walnut:drawer:18x20",
+              "count": 1
+            }
+          ],
+          "interior": [
+            "MAXIMERA 18x24 medium",
+            "MAXIMERA 18x24 high"
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-base-15-drawers",
+          "id": "frame:base:15x24x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:drawer:15x5",
+              "count": 1
+            },
+            {
+              "id": "front:enkoping-walnut:drawer:15x10",
+              "count": 1
+            },
+            {
+              "id": "front:enkoping-walnut:drawer:15x15",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "filler",
+          "label": "N-filler-right",
+          "width": 74
+        }
+      ]
+    },
+    {
+      "wall": "N",
+      "level": "wall",
+      "to": 1219,
+      "items": [
+        {
+          "kind": "filler",
+          "label": "N-wall-filler-left",
+          "width": 76
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-wall-15",
+          "id": "frame:wall:15x15x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:15x30",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-wall-30",
+          "id": "frame:wall:30x15x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:15x30",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "wall": "N",
+      "level": "wall",
+      "from": 2133,
+      "items": [
+        {
+          "kind": "cabinet",
+          "label": "N-wall-36",
+          "id": "frame:wall:36x15x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:18x30",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "N-wall-21",
+          "id": "frame:wall:21x15x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:21x30",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "filler",
+          "label": "N-wall-filler-right",
+          "width": 75
+        }
+      ]
+    },
+    {
+      "wall": "E",
+      "level": "base",
+      "from": 610,
+      "items": [
+        {
+          "kind": "cabinet",
+          "label": "E-base-21",
+          "id": "frame:base:21x24x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:21x30",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "appliance",
+          "label": "E-range",
+          "ref": "range"
+        },
+        {
+          "kind": "cabinet",
+          "label": "E-base-30",
+          "id": "frame:base:30x24x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:15x30",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "kind": "filler",
+          "label": "E-filler-right",
+          "width": 74
+        }
+      ]
+    },
+    {
+      "wall": "E",
+      "level": "wall",
+      "from": 610,
+      "items": [
+        {
+          "kind": "cabinet",
+          "label": "E-wall-21",
+          "id": "frame:wall:21x15x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:21x30",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "E-wall-30-hood",
+          "id": "frame:wall:30x15x15",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:15x15",
+              "count": 2
+            }
+          ],
+          "interior": [
+            "hood below; top aligned with the run, underside clears the gas range by 30 in"
+          ]
+        },
+        {
+          "kind": "cabinet",
+          "label": "E-wall-30",
+          "id": "frame:wall:30x15x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:15x30",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "kind": "filler",
+          "label": "E-wall-filler-right",
+          "width": 74
+        }
+      ]
+    },
+    {
+      "wall": "N",
+      "level": "base",
+      "from": 76,
+      "to": 457,
+      "items": [
+        {
+          "kind": "cabinet",
+          "label": "N-base-15-again",
+          "id": "frame:base:15x24x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:15x30",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

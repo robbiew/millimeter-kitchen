@@ -129,6 +129,53 @@ def test_insert_auto_labels_and_requires_closure(ws):
     assert e_base["items"][1]["kind"] == "filler" and e_base["items"][1]["label"].startswith("E-filler")
 
 
+def test_fit_width_sizes_a_filler_from_the_run(ws):
+    """Replace the 30 base with an 18 and let the right filler take up the 305 mm; the width is computed, not typed."""
+    k = ws / "kitchen.json"
+    before = next(it for r in apply(k, [], dry_run=True).runs if r["wall"] == "N" and r["level"] == "base" for it in r["items"] if it["label"] == "N-filler-right")["width"]
+    res = apply(k, [
+        {"op": "replace", "label": "N-base-30", "items": [{"kind": "cabinet", "id": "frame:base:18x24x30", "label": "N-base-18", "fronts": [{"id": f"{V}:door:18x30", "count": 1}]}]},
+        {"op": "fit_width", "label": "N-filler-right"},
+    ])
+    assert res.ok and res.written, res.message
+    n_base = next(r for r in res.runs if r["wall"] == "N" and r["level"] == "base")
+    assert n_base["used_mm"] == n_base["length_mm"]
+    assert next(it for it in n_base["items"] if it["label"] == "N-filler-right")["width"] == before + 762 - 457
+    assert "fitted N-filler-right to" in res.message
+    with pytest.raises(EditError, match="overrun"):   # a 24 base cannot come out of a 76 mm filler
+        apply(k, [{"op": "insert", "wall": "N", "level": "base", "after": "N-base-15", "item": {"kind": "cabinet", "id": "frame:base:24x24x30"}},
+                  {"op": "fit_width", "label": "N-filler-left"}], dry_run=True)
+    with pytest.raises(EditError, match="only fillers"):
+        apply(k, [{"op": "fit_width", "label": "N-sink-36"}], dry_run=True)
+
+
+def test_add_run_and_remove_run(ws):
+    k = ws / "kitchen.json"
+    res = apply(k, [{"op": "remove_run", "wall": "E", "level": "wall"}])
+    assert res.ok and res.written and not any(r["wall"] == "E" and r["level"] == "wall" for r in res.runs), res.message
+    assert "removed the wall run on wall E and its 4 item(s)" in res.message
+    # a new wall run on E, opened with a gap that fit_width sizes to the span: closure without typing a number
+    res = apply(k, [
+        {"op": "add_run", "wall": "E", "level": "wall", "from": 610, "items": [{"kind": "gap", "label": "E-wall-open", "width": 1}]},
+        {"op": "fit_width", "label": "E-wall-open"},
+    ])
+    assert res.ok, res.message
+    e_wall = next(r for r in res.runs if r["wall"] == "E" and r["level"] == "wall")
+    assert e_wall["span"] == [610, 2741] and e_wall["used_mm"] == e_wall["length_mm"] == 2131
+    assert e_wall["items"][0]["label"] == "E-wall-open" and e_wall["items"][0]["width"] == 2131
+    assert json.loads(k.read_text())["runs"][-1] == {"wall": "E", "level": "wall", "from": 610, "items": [{"kind": "gap", "label": "E-wall-open", "width": 2131}]}
+    with pytest.raises(EditError, match="no wall 'S'"):
+        apply(k, [{"op": "add_run", "wall": "S", "level": "base"}], dry_run=True)
+    with pytest.raises(EditError, match="needs a level"):
+        apply(k, [{"op": "add_run", "wall": "E", "level": "roof"}], dry_run=True)
+    with pytest.raises(EditError, match="only 1 wall run"):
+        apply(k, [{"op": "remove_run", "wall": "E", "level": "wall", "run": 1}], dry_run=True)
+    # an empty run cannot close, so the validator refuses it and the file is untouched
+    sha = _sha(k)
+    res = apply(k, [{"op": "add_run", "wall": "E", "level": "high", "from": 610}])
+    assert not res.ok and any(f.rule == "run_closure" for f in res.errors) and _sha(k) == sha
+
+
 def test_set_fronts_wrong_size_is_refused(ws):
     res = apply(ws / "kitchen.json", [{"op": "set_fronts", "label": "N-base-18-drawers", "fronts": [{"id": f"{V}:door:15x30", "count": 1}]}])
     assert not res.ok and res.errors[0].rule == "front_fit"
@@ -236,3 +283,25 @@ def test_fixture_guard_and_variations_dir(tmp_path):
     applied = tools.apply_ops(root, "variations/slate-floor.json", op)
     assert applied["ok"] and applied["written"]
     assert tools.apply_ops(root, "examples/kitchen.fits.json", op, allow_fixture_edit=True)["ok"]
+
+
+def test_counter_overhang_flows_to_scene_drawing_and_slabs(ws):
+    """counter.overhang_front is authored in the file and must reach every derived output, never a hard-coded 38."""
+    from mmk.draw import plan_svg
+    from mmk.model import load_kitchen
+    from mmk.purchase import countertop_slabs
+    from mmk.scene import build_scene
+
+    k = ws / "kitchen.json"
+    def n_counter_depth(kit):
+        return max(b.size[2] for b in build_scene(kit).boxes if b.kind == "counter" and b.name.startswith("counter N"))
+    before = load_kitchen(k)
+    d0, slab0 = n_counter_depth(before), countertop_slabs(before)[0]["depth_mm"]
+    res = apply(k, [{"op": "set", "path": "counter.overhang_front", "value": 50}])
+    assert res.ok and res.written, res.message
+    after = load_kitchen(k)
+    assert after.counter_overhang == 50 and before.counter_overhang == 38
+    assert n_counter_depth(after) == d0 + 12
+    assert countertop_slabs(after)[0]["depth_mm"] == slab0 + 12
+    assert "50 mm front overhang" in __import__("mmk.purchase", fromlist=["countertop_svg"]).countertop_svg(after)
+    assert plan_svg(after) != plan_svg(before)
