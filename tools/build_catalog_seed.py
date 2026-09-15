@@ -37,6 +37,7 @@ KNOWN_ARTICLES = {
     "cover_panel:forbattra:bodbyn-off-white:15x42": "402.664.08",
     "cover_panel:forbattra:axstad-matt-white:15x32": "105.678.32",
     "cover_panel:forbattra:axstad-matt-white:15x42": "905.678.33",
+    "hinge:utrusta:2pack": "805.248.82",   # UTRUSTA hinge w b-in damper for kitchen 110°; the search lists it only for the bare query "UTRUSTA hinge"
 }
 
 # FÖRBÄTTRA wall panels: the newer finishes (ENKÖPING) are 15x31 1/8 and 15x41 1/8, the older lines 15x32 1/2 and 15x42 1/2
