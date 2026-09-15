@@ -153,3 +153,21 @@ def test_cli_render_refuses_invalid_and_reports_missing_blender(tmp_path):
     rc = main(["render", str(EXAMPLES / "kitchen.fits.json"), "--out", str(tmp_path), "--blender", str(tmp_path / "nope")])
     assert rc == 2
     assert (tmp_path / "scene.glb").exists()  # the export still happened
+
+
+def test_backsplash_is_continuous_through_the_inside_corner(tmp_path):
+    """The north tile reaches the corner and the east tile starts against it: they meet within a millimetre and do not overlap."""
+    from mmk.draw import BACKSPLASH_THICKNESS
+
+    for name in ("kitchen.fits.json", "kitchen.corner.json"):
+        k = load_kitchen(EXAMPLES / name)
+        b = read_glb_boxes(write_glb(build_scene(k), tmp_path / "s.glb"))
+        north = [n for n in b if n.startswith("backsplash N ")]
+        east = [n for n in b if n.startswith("backsplash E ")]
+        assert north and east, name
+        assert abs(max(b[n]["max_mm"][0] for n in north) - k.room.wall("N").planning_length) <= 1, name     # to the corner
+        east_start = min(int(n.split()[2].split("-")[0]) for n in east)
+        assert east_start == BACKSPLASH_THICKNESS, name                                                       # against the north tile
+        # the east tile's near end sits at the corner plane in world space: x = north wall length, within the tile's thickness
+        first = b[next(n for n in east if n.startswith(f"backsplash E {east_start}-"))]
+        assert abs(first["max_mm"][0] - k.room.wall("N").planning_length) <= BACKSPLASH_THICKNESS + 1, name

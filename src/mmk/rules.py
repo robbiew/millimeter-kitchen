@@ -12,7 +12,7 @@ from collections.abc import Callable
 
 from .findings import Finding
 from .finishes import ROLES, load_finishes
-from .draw import CORNER_SLACK, CORNER_TOL, FRONT_THICKNESS, corner_clearances, corner_reach, elevation_boxes, exposed_sides, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
+from .draw import CORNER_SLACK, CORNER_TOL, FRONT_THICKNESS, backsplash_spans, corner_clearances, corner_reach, elevation_boxes, exposed_sides, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
 from .model import Kitchen, Run
 
 CLOSURE_TOLERANCE_MM = 3
@@ -449,6 +449,25 @@ def rule_filler_stock(k: Kitchen) -> list[Finding]:
     return out
 
 
+def rule_backsplash_window(k: Kitchen) -> list[Finding]:
+    """The backsplash band runs into a window whose sill is below the band's top (issue #8). The owner decides what
+    happens there (tile to the sill, a lower band under the window, another backsplash_height), so this is a warning."""
+    out = []
+    for run in k.runs:
+        if run.level != "base" or not run.items:
+            continue
+        wall = k.room.wall(run.wall)
+        for o in wall.openings:
+            if o.kind != "window" or o.sill is None:
+                continue
+            for a0, a1, y1 in backsplash_spans(k, run):
+                lo, hi = max(a0, o.start), min(a1, o.end)
+                if lo < hi and y1 > o.sill:
+                    name = f"window '{o.label}'" if o.label else "the window"
+                    out.append(Finding("warning", "backsplash_window", f"the backsplash band (to {y1} mm) runs {y1 - o.sill} mm into {name} (sill {o.sill} mm) over {lo}–{hi} mm; tile to the sill, lower the band there, or change backsplash_height", run.wall, o.label, {"overlap_mm": y1 - o.sill, "from": lo, "to": hi}))
+    return out
+
+
 def rule_unique_labels(k: Kitchen) -> list[Finding]:
     """Edits address items by label, so a label may appear once in the whole file."""
     seen: dict[str, str] = {}
@@ -493,6 +512,7 @@ RULES: tuple[Rule, ...] = (
     rule_corner_swing,
     rule_exposed_side,
     rule_filler_stock,
+    rule_backsplash_window,
     rule_unique_labels,
     rule_finishes,
     rule_unverified_catalog,

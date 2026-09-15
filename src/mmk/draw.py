@@ -231,6 +231,44 @@ def exposed_sides(k) -> list[tuple[Run, str, Placed, str]]:
     return out
 
 
+BACKSPLASH_THICKNESS = 8   # tile plus adhesive, standing on the counter against the wall
+
+
+def counter_top(k, run: Run) -> int:
+    """Where this base run's countertop sits: on the tallest cabinet in it, on legs."""
+    cab_heights = [b.h + b.y0 for b in elevation_boxes(k, run) if b.p.kind == "cabinet"]
+    return max(cab_heights) if cab_heights else k.legs + 762
+
+
+def backsplash_spans(k, run: Run) -> list[tuple[int, int, int]]:
+    """(from, to, top) along the wall for a base run's backsplash: from the counter top up to the underside of the wall
+    cabinet above, else up by backsplash_height. A run that starts in the corner starts its tile against the previous
+    wall's tile, so an inside corner is continuous. Spans of one height are merged."""
+    top_y = counter_top(k, run) + k.counter_thickness
+    start = BACKSPLASH_THICKNESS if counter_corner_start(k, run)[0] else run.start
+    wall_runs = [r for r in k.runs if r.wall == run.wall and r.level == "wall"]
+    above = sorted((b for wr in wall_runs for b in elevation_boxes(k, wr) if b.p.kind != "gap"), key=lambda b: b.x)
+    cursor = start
+    spans: list[tuple[int, int, int]] = []
+    for b in above:
+        a0, a1 = max(b.x, start), min(b.x + b.w, run.end)
+        if a0 >= a1:
+            continue
+        if a0 > cursor:
+            spans.append((cursor, a0, top_y + k.backsplash_height))
+        spans.append((a0, a1, b.y0))   # up to this cabinet's own underside
+        cursor = a1
+    if cursor < run.end:
+        spans.append((cursor, run.end, top_y + k.backsplash_height))
+    merged: list[tuple[int, int, int]] = []
+    for a0, a1, y1 in spans:
+        if merged and merged[-1][1] == a0 and merged[-1][2] == y1:
+            merged[-1] = (merged[-1][0], a1, y1)
+        else:
+            merged.append((a0, a1, y1))
+    return [(a0, a1, y1) for a0, a1, y1 in merged if y1 > top_y]
+
+
 def counter_corner_start(k, run: Run) -> tuple[bool, int]:
     """Like corner_start, for the countertop: an L-shaped top is continuous across a dead corner. A base run says it
     closes a dead corner by opening with a filler or panel (the leg of the corner filler) within the dead corner's

@@ -180,3 +180,16 @@ def test_filler_stock_warns_for_a_filler_wider_than_its_panel(tmp_path):
     assert [(x.item, x.extra["stock_mm"]) for x in w] == [("N-filler-corner", stock)] and f"{stock + 40} mm" in w[0].message
     assert not errors(validate(k))
     assert _warnings(load_kitchen(EXAMPLES / "kitchen.fits.json"), "filler_stock") == []
+
+
+def test_backsplash_window_warns_and_a_lower_band_clears_it(tmp_path):
+    fits = load_kitchen(EXAMPLES / "kitchen.fits.json")
+    w = _warnings(fits, "backsplash_window")
+    band_top = fits.legs + 762 + fits.counter_thickness + fits.backsplash_height    # 1409 in the example
+    assert [(x.wall, x.item, x.extra) for x in w] == [("N", "sink window", {"overlap_mm": band_top - 1067, "from": 1219, "to": 2133})]
+    assert "sill 1067 mm" in w[0].message
+    shutil.copy(EXAMPLES / "room.example.json", tmp_path / "room.example.json")
+    kit = json.loads((EXAMPLES / "kitchen.fits.json").read_text())
+    kit["backsplash_height"] = 1067 - (fits.legs + 762 + fits.counter_thickness)   # the band stops at the sill
+    (tmp_path / "kitchen.json").write_text(json.dumps(kit))
+    assert _warnings(load_kitchen(tmp_path / "kitchen.json"), "backsplash_window") == []
