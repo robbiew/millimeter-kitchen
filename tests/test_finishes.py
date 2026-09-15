@@ -120,7 +120,7 @@ def test_bom_lists_frames_fronts_fillers_and_finishes():
     lines = {l.id: l for l in bill_of_materials(k)}
     assert lines["frame:base:15x24x30"].qty == 2
     assert lines["front:enkoping-walnut:door:15x30"].qty == 10  # N-base-15, N-base-30 x2, N-wall-15, N-wall-30 x2, E-base-30 x2, E-wall-30 x2
-    assert lines["frame:sink_base:36x24x30"].qty == 1 and lines["frame:sink_base:36x24x30"].article is None
+    assert lines["frame:sink_base:36x24x30"].qty == 1 and lines["frame:sink_base:36x24x30"].article == "802.653.98"   # the sink base is the plain 36" frame
     assert lines["filler:cut"].qty == 6 and "76 mm" in lines["filler:cut"].detail
     assert lines["finish:counter"].name.startswith("Quartz")
     assert lines["appliance:range"].qty == 1

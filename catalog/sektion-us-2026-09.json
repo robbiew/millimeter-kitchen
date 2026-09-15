@@ -3224,7 +3224,7 @@
       "series": "AXSTAD",
       "finish": "matt white",
       "name": "AXSTAD door 18x50 matt white",
-      "article": null,
+      "article": "604.260.57",
       "nominal": "18x50",
       "nominal_in": {
         "w": 18,
@@ -4437,7 +4437,7 @@
       "brand": "IKEA",
       "series": "FORBATTRA",
       "name": "F\u00d6RB\u00c4TTRA cover panel 25x80 brown walnut effect",
-      "article": null,
+      "article": "705.585.18",
       "nominal": "25x80",
       "actual": {
         "w": 635,
@@ -4630,44 +4630,44 @@
       "verified_on": "2026-09-14"
     },
     {
-      "id": "cover_panel:forbattra:bodbyn-off-white:15x31",
+      "id": "cover_panel:forbattra:bodbyn-off-white:15x32",
       "kind": "cover_panel",
       "brand": "IKEA",
       "series": "FORBATTRA",
-      "name": "F\u00d6RB\u00c4TTRA cover panel 15x31 1/8 off-white",
-      "article": null,
-      "nominal": "15x31 1/8",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 15x32 1/2 off-white",
+      "article": "602.664.07",
+      "nominal": "15x32 1/2",
       "actual": {
         "w": 381,
-        "h": 791
+        "h": 826
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Exposed wall cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 15,
-        "h": 31.125
+        "h": 32.5
       },
       "finish": "off-white"
     },
     {
-      "id": "cover_panel:forbattra:bodbyn-off-white:15x41",
+      "id": "cover_panel:forbattra:bodbyn-off-white:15x42",
       "kind": "cover_panel",
       "brand": "IKEA",
       "series": "FORBATTRA",
-      "name": "F\u00d6RB\u00c4TTRA cover panel 15x41 1/8 off-white",
-      "article": null,
-      "nominal": "15x41 1/8",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 15x42 1/2 off-white",
+      "article": "402.664.08",
+      "nominal": "15x42 1/2",
       "actual": {
         "w": 381,
-        "h": 1045
+        "h": 1080
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Exposed wall cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 15,
-        "h": 41.125
+        "h": 42.5
       },
       "finish": "off-white"
     },
@@ -4783,44 +4783,44 @@
       "verified_on": "2026-09-14"
     },
     {
-      "id": "cover_panel:forbattra:axstad-matt-white:15x31",
+      "id": "cover_panel:forbattra:axstad-matt-white:15x32",
       "kind": "cover_panel",
       "brand": "IKEA",
       "series": "FORBATTRA",
-      "name": "F\u00d6RB\u00c4TTRA cover panel 15x31 1/8 matt white",
-      "article": null,
-      "nominal": "15x31 1/8",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 15x32 1/2 matt white",
+      "article": "105.678.32",
+      "nominal": "15x32 1/2",
       "actual": {
         "w": 381,
-        "h": 791
+        "h": 826
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Exposed wall cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 15,
-        "h": 31.125
+        "h": 32.5
       },
       "finish": "matt white"
     },
     {
-      "id": "cover_panel:forbattra:axstad-matt-white:15x41",
+      "id": "cover_panel:forbattra:axstad-matt-white:15x42",
       "kind": "cover_panel",
       "brand": "IKEA",
       "series": "FORBATTRA",
-      "name": "F\u00d6RB\u00c4TTRA cover panel 15x41 1/8 matt white",
-      "article": null,
-      "nominal": "15x41 1/8",
+      "name": "F\u00d6RB\u00c4TTRA cover panel 15x42 1/2 matt white",
+      "article": "905.678.33",
+      "nominal": "15x42 1/2",
       "actual": {
         "w": 381,
-        "h": 1045
+        "h": 1080
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
       "notes": "Exposed wall cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 15,
-        "h": 41.125
+        "h": 42.5
       },
       "finish": "matt white"
     },
@@ -4915,15 +4915,19 @@
       "kind": "hinge",
       "brand": "IKEA",
       "series": "UTRUSTA",
-      "name": "UTRUSTA hinge, 2 pack",
+      "name": "UTRUSTA hinge w built-in damper for kitchen 110\u00b0, 2 pack",
       "article": null,
+      "nominal": "110\u00b0",
       "actual": {
         "w": 0
       },
       "verified": false,
       "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "One pack per door up to 40\" tall, two packs per taller door.",
-      "pack": 2
+      "notes": "One pack per door up to 40\" tall, two packs per taller door. The 110\u00b0 soft-close hinge is the standard door hinge; 153\u00b0 is for corner and pull-out fronts.",
+      "pack": 2,
+      "nominal_in": {
+        "w": 110
+      }
     }
   ]
 }

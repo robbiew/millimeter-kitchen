@@ -23,7 +23,7 @@ RAIL_ID = "rail:sektion:84"
 LEGS_ID = "legs:sektion:4pack"
 HINGE_ID = "hinge:utrusta:2pack"
 DRAWER_HEIGHT_FOR_FRONT = {5: "low", 10: "medium", 15: "high", 20: "high"}
-COVER_PANEL_SIZE_FOR_LEVEL = {"base": "25x30", "wall": "15x31", "high": "25x90"}   # FÖRBÄTTRA sizes per cabinet level
+COVER_PANEL_SIZE_FOR_LEVEL = {"base": "25x30", "wall": "15x3*", "high": "25x90"}   # FÖRBÄTTRA sizes per level; wall panels differ by finish line
 
 
 def front_slug(k: Kitchen) -> str | None:
@@ -41,7 +41,14 @@ def front_slug(k: Kitchen) -> str | None:
 def cover_panel_id(k: Kitchen, level: str) -> str | None:
     size = COVER_PANEL_SIZE_FOR_LEVEL.get(level)
     slug = front_slug(k)
-    return f"cover_panel:forbattra:{slug}:{size}" if size and slug else None
+    if not (size and slug):
+        return None
+    if level == "wall":   # 15x31 1/8 for the newer finishes, 15x32 1/2 for the older ones: the shortest 15" panel over 30"
+        prefix = f"cover_panel:forbattra:{slug}:15x"
+        panels = sorted((i for i in k.catalog.items(kind="cover_panel") if i.id.startswith(prefix) and 30 <= (i.nominal_in.get("h") or 0) < 40),
+                        key=lambda i: i.nominal_in["h"])
+        return panels[0].id if panels else None
+    return f"cover_panel:forbattra:{slug}:{size}"
 
 
 def toe_kick_id(k: Kitchen) -> str | None:

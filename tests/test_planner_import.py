@@ -28,8 +28,14 @@ SAMPLE = '''Article number,Product,Quantity,Price
 
 @pytest.fixture
 def cat(tmp_path):
+    """A copy of the catalog with the articles and verification stripped, as it was before ikea.com was consulted."""
+    data = json.loads(CATALOG.read_text())
+    for it in data["items"]:
+        it["article"] = None
+        it["verified"] = False
+        it.pop("verified_on", None)
     dst = tmp_path / "catalog.json"
-    shutil.copy(CATALOG, dst)
+    dst.write_text(json.dumps(data))
     return dst
 
 

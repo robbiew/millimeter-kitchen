@@ -22,12 +22,14 @@ def test_every_front_is_ikea():
 
 
 def test_verified_entries_carry_an_article_and_source():
-    """Seed entries are unverified; the scraper or the planner import flips them, and only with an article number."""
+    """The scraper or the planner import flips an entry to verified, and only with an article number.
+    Since 2026-09-15 nearly the whole catalog has been checked against ikea.com; what is left has no article."""
     import json
     raw = {i["id"]: i for i in json.loads(CATALOG.read_text())["items"]}
     cat = load_catalog(CATALOG)
     verified = [it for it in cat.items() if it.verified]
-    assert len(verified) < len(cat.items()) / 2
+    assert len(verified) >= 0.9 * len(cat.items())
+    assert all(not it.verified for it in cat.items() if not it.article)
     for it in verified:
         assert it.article, it.id
         assert raw[it.id].get("verified_on") and raw[it.id].get("source"), it.id

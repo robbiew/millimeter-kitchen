@@ -123,7 +123,7 @@ def test_model_map_covers_every_node_for_a_cached_article(tmp_path, monkeypatch)
     cat._items[frame.id] = replace(frame, article="802.653.98")
     scene = build_scene(k)
     arts = im.scene_articles(scene, cat)
-    assert arts["N-base-30"] == "802.653.98" and all(cat.get(b.extras["id"]).article == arts[b.name] for b in scene.boxes if b.name in arts)
+    assert arts["N-base-30"] == "802.653.98" and all(cat.get(b.extras.get("front") if b.kind == "front" else b.extras.get("id")).article == arts[b.name] for b in scene.boxes if b.name in arts)
     empty = im.ModelClient(cache=tmp_path / "none")
     assert im.model_map(scene, cat, empty) == {}                    # nothing cached, nothing mapped, no network
     cache = _cache_with_model(tmp_path, "802.653.98", frame.w, frame.h, frame.d)

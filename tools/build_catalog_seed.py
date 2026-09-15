@@ -30,7 +30,18 @@ KNOWN_ARTICLES = {
     "frame:base:30x24x30": "302.653.86",   # from ikea.com's search API, 2026-09-14; verify with tools/scrape_sektion.py
     "frame:base:24x24x30": "902.653.88",
     "frame:base:18x24x30": "202.653.96",
+    # settled by hand from ikea.com listings on 2026-09-15 (the text search ranked them out); the verify pass checks them
+    "front:axstad-matt-white:door:18x50": "604.260.57",
+    "cover_panel:forbattra:enkoping-walnut:25x80": "705.585.18",
+    "cover_panel:forbattra:bodbyn-off-white:15x32": "602.664.07",
+    "cover_panel:forbattra:bodbyn-off-white:15x42": "402.664.08",
+    "cover_panel:forbattra:axstad-matt-white:15x32": "105.678.32",
+    "cover_panel:forbattra:axstad-matt-white:15x42": "905.678.33",
 }
+
+# FÖRBÄTTRA wall panels: the newer finishes (ENKÖPING) are 15x31 1/8 and 15x41 1/8, the older lines 15x32 1/2 and 15x42 1/2
+WALL_PANEL_HEIGHTS = {"enkoping-walnut": (31.125, 41.125)}
+WALL_PANEL_HEIGHTS_DEFAULT = (32.5, 42.5)
 
 FRONT_SERIES = [
     # id slug, series, finish
@@ -165,9 +176,11 @@ def build() -> dict:
                                 nominal_in={"w": w, "d": d}))
     # FÖRBÄTTRA panels and toe kicks come in each front finish; sizes are ikea.com's (wall panels overhang the frame)
     for slug, series, finish in FRONT_SERIES:
-        for w, h, level in ((25, 30, "base"), (25, 80, "high"), (25, 90, "high"), (15, 31.125, "wall"), (15, 41.125, "wall"), (15, 90, "high")):
+        wall_h = WALL_PANEL_HEIGHTS.get(slug, WALL_PANEL_HEIGHTS_DEFAULT)
+        for w, h, level in ((25, 30, "base"), (25, 80, "high"), (25, 90, "high"), (15, wall_h[0], "wall"), (15, wall_h[1], "wall"), (15, 90, "high")):
             size = f"{w:g}x{int(h)}"
-            nominal = f"{w:g}x{'31 1/8' if h == 31.125 else '41 1/8' if h == 41.125 else f'{h:g}'}"
+            frac = {0.125: " 1/8", 0.5: " 1/2"}.get(round(h % 1, 3), "")
+            nominal = f"{w:g}x{int(h)}{frac}" if frac else f"{w:g}x{h:g}"
             items.append({**hw(f"cover_panel:forbattra:{slug}:{size}", "cover_panel", f"FÖRBÄTTRA cover panel {nominal} {finish}", nominal,
                                 {"w": inch_to_mm(w), "h": inch_to_mm(h)}, f"Exposed {level} cabinet sides, and ripped into filler strips.",
                                 nominal_in={"w": w, "h": h}), "finish": finish})
@@ -179,8 +192,10 @@ def build() -> dict:
                     {"w": inch_to_mm(84)}, "Every base, wall and high run hangs on rail; count = run lengths / 2134 mm, rounded up per wall.", stock_mm=inch_to_mm(84), nominal_in={"w": 84}))
     items.append(hw("legs:sektion:4pack", "legs", "SEKTION leg for cabinet 4 1/2, 4 pack", "4 1/2",
                     {"w": 0, "h": inch_to_mm(4.5)}, "One pack per base or high cabinet. Counter height 36\" = 30\" frame + legs + 1 1/2\" top.", pack=4, nominal_in={"h": 4.5}))
-    items.append(hw("hinge:utrusta:2pack", "hinge", "UTRUSTA hinge, 2 pack", None,
-                    {"w": 0}, "One pack per door up to 40\" tall, two packs per taller door.", pack=2))
+    items.append(hw("hinge:utrusta:2pack", "hinge", "UTRUSTA hinge w built-in damper for kitchen 110°, 2 pack", "110°",
+                    {"w": 0}, "One pack per door up to 40\" tall, two packs per taller door. The 110° soft-close hinge is the standard door hinge; 153° is for corner and pull-out fronts.", pack=2, nominal_in={"w": 110}))
+    for it in items:   # hand-read article numbers apply to every kind, not only frames
+        it["article"] = it.get("article") or KNOWN_ARTICLES.get(it["id"])
     return {
         "id": CATALOG_ID,
         "market": "us",

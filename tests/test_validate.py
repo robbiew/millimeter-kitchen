@@ -28,9 +28,23 @@ def test_fitting_kitchen_has_no_errors():
         assert abs(run.used - run.length) <= 3, (run.wall, run.level, run.used, run.length)
 
 
-def test_fitting_kitchen_warns_until_catalog_is_verified():
+def test_fitting_kitchen_warns_until_catalog_is_verified(tmp_path):
+    import json
+    import shutil
+    from tests.conftest import CATALOG
+
     findings = validate(load_kitchen(EXAMPLES / "kitchen.fits.json"))
-    assert any(f.rule == "unverified_dimensions" for f in findings)
+    assert not any(f.rule == "unverified_dimensions" for f in findings)   # every item it uses was checked on ikea.com
+    # the same kitchen against a catalog where one of its frames is not verified
+    shutil.copy(EXAMPLES / "room.example.json", tmp_path / "room.example.json")
+    data = json.loads(CATALOG.read_text())
+    next(i for i in data["items"] if i["id"] == "frame:base:30x24x30")["verified"] = False
+    (tmp_path / "cat.json").write_text(json.dumps(data))
+    kit = json.loads((EXAMPLES / "kitchen.fits.json").read_text())
+    kit["catalog"] = "cat.json"
+    (tmp_path / "kitchen.json").write_text(json.dumps(kit))
+    findings = validate(load_kitchen(tmp_path / "kitchen.json"))
+    assert any(f.rule == "unverified_dimensions" and "frame:base:30x24x30" in f.message for f in findings)
 
 
 @pytest.mark.parametrize("name,rule", EXPECTED_RULE.items(), ids=list(EXPECTED_RULE))
