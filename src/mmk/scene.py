@@ -12,13 +12,13 @@ from dataclasses import dataclass, field
 
 from .draw import CORNER_TOL, FRONT_REVEAL_MM, counter_depth, counter_segments, elevation_boxes, front_panels, item_depth, run_depth
 from .finishes import ROLES, Finish, FinishLibrary, load_finishes
-from .model import Kitchen, Run, wall_frames
+from .model import DEFAULT_COUNTER_OVERHANG, Kitchen, Run, wall_frames
 
 WALL_THICKNESS = 100
 FLOOR_THICKNESS = 50
 FRONT_THICKNESS = 19
 TOE_KICK_SETBACK = 76
-COUNTER_OVERHANG_DEFAULT = 38
+COUNTER_OVERHANG_DEFAULT = DEFAULT_COUNTER_OVERHANG   # the file's counter.overhang_front wins; see Kitchen.counter_overhang
 GLASS_THICKNESS = 12
 ROOM_DEPTH_FOR_FLOOR = 2600
 CAMERA_HEIGHT = 1400
@@ -225,7 +225,7 @@ def build_scene(k: Kitchen, lib: FinishLibrary | None = None) -> Scene:
             cab_heights = [b.h + b.y0 for b in elevation_boxes(k, run) if b.p.kind == "cabinet"]
             top = max(cab_heights) if cab_heights else k.legs + 762
             for a0, a1 in counter_segments(k, run):
-                boxes.append(fr.box(f"counter {run.wall} {a0}-{a1}", "counter", M["counter"], a0, a1, 0, counter_depth(run) + COUNTER_OVERHANG_DEFAULT, top, top + k.counter_thickness, wall=run.wall))
+                boxes.append(fr.box(f"counter {run.wall} {a0}-{a1}", "counter", M["counter"], a0, a1, 0, counter_depth(run) + k.counter_overhang, top, top + k.counter_thickness, wall=run.wall))
             # backsplash: from the counter top up to the wall cabinets above, else backsplash_height
             wall_runs = [r for r in k.runs if r.wall == run.wall and r.level == "wall"]
             top_y = top + k.counter_thickness

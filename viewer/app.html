@@ -247,7 +247,8 @@ function wireAddRun(el) {
   b.onclick = () => {
     const wall = el.querySelector('#nrWall').value, level = el.querySelector('#nrLevel').value;
     const from = el.querySelector('#nrFrom').value, to = el.querySelector('#nrTo').value;
-    const label = `${wall}-${level}-open`;
+    let label = `${wall}-${level}-open`;   // unique in the file: a wall may carry several runs of one level (split around a window)
+    for (let n = 2; S.raw[label]; n++) label = `${wall}-${level}-open-${n}`;
     const op = { op: 'add_run', wall, level, items: [{ kind: 'gap', label, width: 1 }] };
     if (from !== '') op.from = Number(from);
     if (to !== '') op.to = Number(to);

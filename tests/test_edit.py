@@ -283,3 +283,25 @@ def test_fixture_guard_and_variations_dir(tmp_path):
     applied = tools.apply_ops(root, "variations/slate-floor.json", op)
     assert applied["ok"] and applied["written"]
     assert tools.apply_ops(root, "examples/kitchen.fits.json", op, allow_fixture_edit=True)["ok"]
+
+
+def test_counter_overhang_flows_to_scene_drawing_and_slabs(ws):
+    """counter.overhang_front is authored in the file and must reach every derived output, never a hard-coded 38."""
+    from mmk.draw import plan_svg
+    from mmk.model import load_kitchen
+    from mmk.purchase import countertop_slabs
+    from mmk.scene import build_scene
+
+    k = ws / "kitchen.json"
+    def n_counter_depth(kit):
+        return max(b.size[2] for b in build_scene(kit).boxes if b.kind == "counter" and b.name.startswith("counter N"))
+    before = load_kitchen(k)
+    d0, slab0 = n_counter_depth(before), countertop_slabs(before)[0]["depth_mm"]
+    res = apply(k, [{"op": "set", "path": "counter.overhang_front", "value": 50}])
+    assert res.ok and res.written, res.message
+    after = load_kitchen(k)
+    assert after.counter_overhang == 50 and before.counter_overhang == 38
+    assert n_counter_depth(after) == d0 + 12
+    assert countertop_slabs(after)[0]["depth_mm"] == slab0 + 12
+    assert "50 mm front overhang" in __import__("mmk.purchase", fromlist=["countertop_svg"]).countertop_svg(after)
+    assert plan_svg(after) != plan_svg(before)

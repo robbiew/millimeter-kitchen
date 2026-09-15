@@ -224,6 +224,12 @@ def blocked_drain(k: dict) -> None:
     n_base(k)[3] = cab("frame:base:36x24x30", "N-base-36-not-a-sink", (f"{V}:door:18x30", 2))
 
 
+def run_overlap(k: dict) -> None:
+    """A second base run on the north wall, closed on its own span but on top of the first run's cabinets."""
+    k["runs"].append({"wall": "N", "level": "base", "from": 76, "to": 457,
+                      "items": [cab("frame:base:15x24x30", "N-base-15-again", (f"{V}:door:15x30", 1))]})
+
+
 def zero_width_filler(k: dict) -> None:
     """A filler of no width between two cabinets: the run still closes, but nothing can be cut to 0 mm."""
     n_base(k).insert(2, filler(0, "N-filler-zero"))
@@ -238,6 +244,7 @@ BAD_CASES = {
     "blocked_drain": ("the sink drain at 1676 mm falls inside a regular base cabinet, not a sink base", blocked_drain),
     "front_rows_mismatch": ("a 10 drawer front over two 15 doors stacks to 25 on a 30 frame", front_rows_mismatch),
     "zero_width_filler": ("a 0 mm filler between the 15 and 30 base cabinets; the run closes, but a strip cannot be cut to nothing", zero_width_filler),
+    "run_overlap": ("a second north base run from 76 to 457 mm, closed on its own, sits on top of the first run's 15 base", run_overlap),
 }
 
 

@@ -33,6 +33,7 @@ item:
 | `wrong_size_front.json` | `front_fit` |
 | `missing_filler.json` | `wall_filler_min` |
 | `zero_width_filler.json` | `cut_width_min` |
+| `run_overlap.json` | `run_overlap` |
 | `blocked_drain.json` | `service_conflict` |
 | `corner_overlap.json` | `corner_overlap` |
 
