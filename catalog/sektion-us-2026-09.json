@@ -3234,9 +3234,10 @@
         "w": 454,
         "h": 1267
       },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
-      "notes": "Actual = nominal minus 1/8\" each way (reveal)."
+      "verified": true,
+      "source": "https://www.ikea.com/us/en/p/-60426057/",
+      "notes": "Actual = nominal minus 1/8\" each way (reveal).",
+      "verified_on": "2026-09-14"
     },
     {
       "id": "front:axstad-matt-white:door:18x60",
@@ -4440,17 +4441,18 @@
       "article": "705.585.18",
       "nominal": "25x80",
       "actual": {
-        "w": 635,
+        "w": 625,
         "h": 2032
       },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "verified": true,
+      "source": "https://www.ikea.com/us/en/p/-70558518/",
       "notes": "Exposed high cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 25,
         "h": 80
       },
-      "finish": "brown walnut effect"
+      "finish": "brown walnut effect",
+      "verified_on": "2026-09-14"
     },
     {
       "id": "cover_panel:forbattra:enkoping-walnut:25x90",
@@ -4638,17 +4640,18 @@
       "article": "602.664.07",
       "nominal": "15x32 1/2",
       "actual": {
-        "w": 381,
+        "w": 391,
         "h": 826
       },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "verified": true,
+      "source": "https://www.ikea.com/us/en/p/-60266407/",
       "notes": "Exposed wall cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 15,
         "h": 32.5
       },
-      "finish": "off-white"
+      "finish": "off-white",
+      "verified_on": "2026-09-14"
     },
     {
       "id": "cover_panel:forbattra:bodbyn-off-white:15x42",
@@ -4659,17 +4662,18 @@
       "article": "402.664.08",
       "nominal": "15x42 1/2",
       "actual": {
-        "w": 381,
+        "w": 391,
         "h": 1080
       },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "verified": true,
+      "source": "https://www.ikea.com/us/en/p/-40266408/",
       "notes": "Exposed wall cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 15,
         "h": 42.5
       },
-      "finish": "off-white"
+      "finish": "off-white",
+      "verified_on": "2026-09-14"
     },
     {
       "id": "cover_panel:forbattra:bodbyn-off-white:15x90",
@@ -4791,17 +4795,18 @@
       "article": "105.678.32",
       "nominal": "15x32 1/2",
       "actual": {
-        "w": 381,
+        "w": 391,
         "h": 826
       },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "verified": true,
+      "source": "https://www.ikea.com/us/en/p/-10567832/",
       "notes": "Exposed wall cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 15,
         "h": 32.5
       },
-      "finish": "matt white"
+      "finish": "matt white",
+      "verified_on": "2026-09-14"
     },
     {
       "id": "cover_panel:forbattra:axstad-matt-white:15x42",
@@ -4812,17 +4817,18 @@
       "article": "905.678.33",
       "nominal": "15x42 1/2",
       "actual": {
-        "w": 381,
+        "w": 391,
         "h": 1080
       },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "verified": true,
+      "source": "https://www.ikea.com/us/en/p/-90567833/",
       "notes": "Exposed wall cabinet sides, and ripped into filler strips.",
       "nominal_in": {
         "w": 15,
         "h": 42.5
       },
-      "finish": "matt white"
+      "finish": "matt white",
+      "verified_on": "2026-09-14"
     },
     {
       "id": "cover_panel:forbattra:axstad-matt-white:15x90",
@@ -4919,15 +4925,16 @@
       "article": "805.248.82",
       "nominal": "110\u00b0",
       "actual": {
-        "w": 0
+        "w": 2794
       },
-      "verified": false,
-      "source": "Published SEKTION size guides (IKEA US category pages, dimensions.com, kitchen-installers.com), Sept 2026. Not product pages.",
+      "verified": true,
+      "source": "https://www.ikea.com/us/en/p/-80524882/",
       "notes": "One pack per door up to 40\" tall, two packs per taller door. The 110\u00b0 soft-close hinge is the standard door hinge; 153\u00b0 is for corner and pull-out fronts.",
       "pack": 2,
       "nominal_in": {
         "w": 110
-      }
+      },
+      "verified_on": "2026-09-14"
     }
   ]
 }
