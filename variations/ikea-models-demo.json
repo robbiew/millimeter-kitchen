@@ -209,15 +209,11 @@
       "items": [
         {
           "kind": "cabinet",
-          "label": "E-base-21-drawers",
+          "label": "E-base-21",
           "id": "frame:base:21x24x30",
           "fronts": [
             {
-              "id": "front:enkoping-walnut:drawer:21x10",
-              "count": 1
-            },
-            {
-              "id": "front:enkoping-walnut:drawer:21x20",
+              "id": "front:enkoping-walnut:door:21x30",
               "count": 1
             }
           ]
@@ -267,8 +263,8 @@
           "id": "frame:wall:30x15x15",
           "fronts": [
             {
-              "id": "front:enkoping-walnut:door:30x15",
-              "count": 1
+              "id": "front:enkoping-walnut:door:15x15",
+              "count": 2
             }
           ],
           "interior": [
