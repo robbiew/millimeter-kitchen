@@ -63,11 +63,37 @@ def test_toe_kick_from_base_run_length(pack):
     assert by_id(pack)["toe_kick:forbattra:enkoping-walnut:84"].qty == 3      # (3655 + 2131) / 2134 -> 3
 
 
-def test_pack_flags_and_text(kitchen, pack):
-    assert pack.missing_articles and all(l.article is None for l in pack.missing_articles)
+def unverified_kitchen(tmp_path):
+    """The fits kitchen against a catalog copy where one of its frames has no article, as the whole catalog once was."""
+    import json
+    import shutil
+    from tests.conftest import CATALOG
+
+    shutil.copy(EXAMPLES / "room.example.json", tmp_path / "room.example.json")
+    data = json.loads(CATALOG.read_text())
+    frame = next(i for i in data["items"] if i["id"] == "frame:base:30x24x30")
+    frame["article"] = None
+    frame["verified"] = False
+    (tmp_path / "cat.json").write_text(json.dumps(data))
+    kit = json.loads((EXAMPLES / "kitchen.fits.json").read_text())
+    kit["catalog"] = "cat.json"
+    path = tmp_path / "kitchen.json"
+    path.write_text(json.dumps(kit))
+    return path
+
+
+def test_pack_flags_and_text(kitchen, pack, tmp_path):
+    # every item the example kitchen uses has a verified article now (ikea.com, 2026-09-15)
+    assert not pack.missing_articles
     text = render_pack(kitchen, pack)
-    assert "## Assumptions" in text and "## Not in this pack" in text and "Not ready to buy" in text
-    assert "[unverified, no article]" in text
+    assert "## Assumptions" in text and "## Not in this pack" in text
+    assert "[unverified, no article]" not in text
+    # and the pack says so when one is missing
+    k2 = load_kitchen(unverified_kitchen(tmp_path))
+    p2 = derive(k2)
+    assert p2.missing_articles and all(l.article is None for l in p2.missing_articles)
+    text2 = render_pack(k2, p2)
+    assert "Not ready to buy" in text2 and "[unverified, no article]" in text2
 
 
 def test_countertop_slabs_and_svg(kitchen, pack):
@@ -144,7 +170,9 @@ def test_reconcile_flags_lines_without_articles(kitchen, tmp_path):
     f = tmp_path / "ikea.csv"
     f.write_text("article,qty\n")
     rep = reconcile(derive(kitchen), read_ikea_list(f))
-    assert rep.unreconcilable and not rep.clean
+    assert not rep.unreconcilable and not rep.clean          # every line has an article; the empty list just differs
+    rep2 = reconcile(derive(load_kitchen(unverified_kitchen(tmp_path))), read_ikea_list(f))
+    assert rep2.unreconcilable and not rep2.clean
 
 
 def test_cli_purchase_and_reconcile(tmp_path, capsys):
@@ -152,4 +180,6 @@ def test_cli_purchase_and_reconcile(tmp_path, capsys):
     assert (tmp_path / "countertop.svg").exists()
     (tmp_path / "ikea.csv").write_text("article,qty\n")
     assert main(["reconcile", str(EXAMPLES / "kitchen.fits.json"), str(tmp_path / "ikea.csv")]) == 1
+    assert "NO ARTICLE NUMBER" not in capsys.readouterr().out      # every line has an article now
+    assert main(["reconcile", str(unverified_kitchen(tmp_path)), str(tmp_path / "ikea.csv")]) == 1
     assert "NO ARTICLE NUMBER" in capsys.readouterr().out
