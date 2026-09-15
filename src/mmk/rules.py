@@ -6,6 +6,8 @@ fixture in examples/bad/. Add a fixture before adding a rule.
 
 from __future__ import annotations
 
+import math
+
 from collections.abc import Callable
 
 from .findings import Finding
@@ -22,6 +24,7 @@ MIN_CUT_WIDTH_MM = 25    # narrowest strip a filler or panel can be cut and fixe
 MIN_CLEARANCE_DRAWER_MM = 25
 MIN_CLEARANCE_DOOR_MM = 51
 MIN_CLEARANCE_FRIDGE_MM = 102
+FIXED_APPLIANCES = ("sink", "cooktop", "hood")   # nothing on them swings or pulls out sideways
 DEFAULT_DISHWASHER_WALL_CLEARANCE_MM = 51
 HOOD_CLEARANCE_ELECTRIC_MM = 610  # 24" between cooktop and whatever hangs above it
 HOOD_CLEARANCE_GAS_MM = 762       # 30" for gas; the hood's own sheet may ask for more
@@ -343,7 +346,7 @@ def rule_corners(k: Kitchen) -> list[Finding]:
 def _front_clearance(p) -> int:
     """IKEA's beside-an-obstruction minimum for this item's fronts; 0 for an item with nothing that opens."""
     if p.kind == "appliance":
-        if p.appliance is None:
+        if p.appliance is None or p.appliance.kind in FIXED_APPLIANCES:
             return 0
         return MIN_CLEARANCE_FRIDGE_MM if p.appliance.kind in ("fridge", "refrigerator") else MIN_CLEARANCE_DOOR_MM
     if p.kind != "cabinet" or not p.fronts:
@@ -352,9 +355,12 @@ def _front_clearance(p) -> int:
 
 
 def _opening_reach(p, level: str) -> int:
-    """How far an item's fronts travel in front of the run when opened: a drawer or an appliance pulls out by the
-    item's depth; a door swings out by its panel width (the widest row of doors, panels sharing a row equally)."""
-    if p.kind == "appliance" or any(fu.item.kind == "drawer_front" for fu in p.fronts):
+    """How far an item's fronts travel in front of the run when opened: a drawer pulls out by the item's depth, an
+    appliance by its depth or the front clearance its sheet declares, whichever is more; a door swings out by its
+    panel width (the widest row of doors, panels sharing a row equally)."""
+    if p.kind == "appliance":
+        return max(item_depth(p, level), (p.appliance.clearance_front or 0) if p.appliance else 0)
+    if any(fu.item.kind == "drawer_front" for fu in p.fronts):
         return item_depth(p, level)
     widest = 0
     for row in front_rows(p):
@@ -389,12 +395,18 @@ def rule_corner_swing(k: Kitchen) -> list[Finding]:
             depth_b = item_depth(first_body_b, level) if first_body_b else 0
             if not first_body_b or depth_a <= 0:
                 continue
-            # (2) run b's first opening front faces run a's front plane
+            # (2) run b's first opening front faces run a's front plane, projected along wall b through the surveyed angle
+            # the same way corner_clearances projects the frames (at 90 degrees this is depth_a plus the front)
+            t = math.radians(g["theta"])
+            plane_b = int(math.ceil((depth_a + FRONT_THICKNESS + max(0.0, depth_b * math.cos(t))) / math.sin(t)))
             q = next((p for p in rb.items if _front_clearance(p) > 0), None)
             if q is not None:
-                need = depth_a + FRONT_THICKNESS + _front_clearance(q)
+                need = plane_b + _front_clearance(q)
                 if q.start < need - CORNER_TOL:
-                    out.append(Finding("error", "corner_swing", f"{level}: '{q.label}' starts {q.start} mm along wall {b}, facing the wall-{a} fronts at {depth_a + FRONT_THICKNESS} mm; IKEA wants {_front_clearance(q)} mm beside an obstruction (more with larger handles), so start it at {need} mm or later, with a filler in front of the corner", b, q.label, {"need_start_mm": need}))
+                    square = f" (corner is {g['theta']:.1f}°)" if abs(g["theta"] - 90) > 0.5 else ""
+                    out.append(Finding("error", "corner_swing", f"{level}: '{q.label}' starts {q.start} mm along wall {b}, facing the wall-{a} fronts at {plane_b} mm{square}; IKEA wants {_front_clearance(q)} mm beside an obstruction (more with larger handles), so start it at {need} mm or later, with a filler in front of the corner", b, q.label, {"need_start_mm": need}))
+            # an open notch is measured to the first thing that stands in run b, not to a leading gap
+            notch_start = next((p.start for p in rb.items if p.kind != "gap"), rb.start)
             # (1) run a's fronts inside the column that run b occupies open into b's first cabinet's side
             for p in ra.items:
                 c = _front_clearance(p)
@@ -403,7 +415,7 @@ def rule_corner_swing(k: Kitchen) -> list[Finding]:
                 column = La - depth_b - c
                 if p.end <= column + CORNER_TOL:
                     continue
-                if rb.start >= depth_a + FRONT_THICKNESS + _opening_reach(p, level):
+                if notch_start >= plane_b + _opening_reach(p, level):
                     continue   # an open notch: run b, filler leg included, starts beyond this front's full travel
                 what = "door" if c == MIN_CLEARANCE_DOOR_MM and p.kind == "cabinet" else ("drawers" if p.kind == "cabinet" else p.appliance.kind)
                 out.append(Finding("error", "corner_swing", f"{level}: '{p.label}' ends {La - p.end} mm from the corner, inside the {depth_b} mm the wall-{b} cabinets occupy, so its {what} open into wall-{b} run or sit behind its corner filler; end it at least {depth_b + c} mm before the corner (IKEA: {c} mm beside an obstruction, more with larger handles), or use a corner cabinet", a, p.label, {"need_end_mm": column}))

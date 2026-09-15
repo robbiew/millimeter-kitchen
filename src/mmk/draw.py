@@ -210,11 +210,17 @@ def corner_start(k, run: Run) -> tuple[bool, int]:
 
 
 def counter_corner_start(k, run: Run) -> tuple[bool, int]:
-    """Like corner_start, for the countertop: an L-shaped top is continuous across a dead corner, so a base run that
-    starts within the dead corner's reach (the previous wall's depth, a front, and the deepest pull-out) still starts
-    its slab where the previous wall's slab ends. A run further down the wall is a separate run after an opening."""
+    """Like corner_start, for the countertop: an L-shaped top is continuous across a dead corner. A base run says it
+    closes a dead corner by opening with a filler or panel (the leg of the corner filler) within the dead corner's
+    reach (the previous wall's depth, a front, and the deepest pull-out); then its slab starts where the previous
+    wall's slab ends. A run that opens with a cabinet, or further down the wall, is a separate run after an opening."""
     occ = occupancy_from_prev(k, run)
-    return (occ > 0 and run.start <= 2 * occ + FRONT_THICKNESS + CORNER_SLACK, occ)
+    if occ <= 0:
+        return (False, 0)
+    if run.start <= occ + CORNER_SLACK:
+        return (True, occ)
+    leg = run.items[0] if run.items else None
+    return (bool(leg is not None and leg.kind in ("filler", "panel") and run.start <= 2 * occ + FRONT_THICKNESS + CORNER_SLACK), occ)
 
 
 def counter_segments(k, run: Run) -> list[tuple[int, int]]:
