@@ -25,7 +25,7 @@ def test_tops_align_and_the_short_cabinet_sits_higher():
     top = wall_run_top(run)
     assert top == k.wall_cabinet_bottom + 762
     assert all(b.y0 + b.h == top for b in boxes.values())
-    assert boxes["E-wall-30"].y0 == k.wall_cabinet_bottom
+    assert boxes["E-wall-18"].y0 == k.wall_cabinet_bottom
     assert boxes["E-wall-30-hood"].y0 == top - 381         # 15 in cabinet hangs 381 lower than the top
 
 
@@ -52,12 +52,12 @@ def test_explicit_run_top_and_item_bottom(tmp_path):
     src = json.loads((EXAMPLES / "kitchen.fits.json").read_text())
     e_wall = next(r for r in src["runs"] if r["wall"] == "E" and r["level"] == "wall")
     e_wall["top"] = 2200
-    e_wall["items"][0]["bottom"] = 1500     # E-wall-21 hung lower on purpose
+    e_wall["items"][1]["bottom"] = 1500     # E-wall-15 hung lower on purpose
     (tmp_path / "k.json").write_text(json.dumps(src))
     k = load_kitchen(tmp_path / "k.json")
     boxes = {b.p.label: b for b in elevation_boxes(k, _e_wall(k))}
-    assert boxes["E-wall-30"].y0 + boxes["E-wall-30"].h == 2200
-    assert boxes["E-wall-21"].y0 == 1500
+    assert boxes["E-wall-18"].y0 + boxes["E-wall-18"].h == 2200
+    assert boxes["E-wall-15"].y0 == 1500
     e_wall["top"] = 2500                    # above the 2436 ceiling
     (tmp_path / "k.json").write_text(json.dumps(src))
     f = validate(load_kitchen(tmp_path / "k.json"))
@@ -68,8 +68,9 @@ def test_scene_and_backsplash_follow_the_alignment(tmp_path):
     k = load_kitchen(EXAMPLES / "kitchen.fits.json")
     b = read_glb_boxes(write_glb(build_scene(k), tmp_path / "s.glb"))
     top = k.wall_cabinet_bottom + 762
-    assert abs(b["E-wall-30"]["max_mm"][1] - top) <= 1 and abs(b["E-wall-30-hood"]["max_mm"][1] - top) <= 1
+    assert abs(b["E-wall-18"]["max_mm"][1] - top) <= 1 and abs(b["E-wall-30-hood"]["max_mm"][1] - top) <= 1
     assert abs(b["E-wall-30-hood"]["min_mm"][1] - (top - 381)) <= 1
-    hood_span = "backsplash E 1143-1905"   # exactly under the hood cabinet, which sits over the range
+    hood_span = "backsplash E 1467-2229"   # exactly under the hood cabinet, which sits over the range
     assert hood_span in b and abs(b[hood_span]["max_mm"][1] - (top - 381)) <= 1
-    assert "backsplash E 610-1143" in b and abs(b["backsplash E 610-1143"]["max_mm"][1] - k.wall_cabinet_bottom) <= 1
+    under_15 = next(n for n in b if n.startswith("backsplash E ") and n.endswith("-1467"))
+    assert abs(b[under_15]["max_mm"][1] - k.wall_cabinet_bottom) <= 1

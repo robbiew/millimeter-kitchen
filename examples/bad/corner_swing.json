@@ -1,9 +1,9 @@
 {
   "units": "mm",
-  "name": "Example L kitchen \u2014 BAD: front_rows_mismatch",
+  "name": "Example L kitchen \u2014 BAD: corner_swing",
   "room": "../room.example.json",
   "catalog": "sektion-us-2026-09",
-  "notes": "a 10 drawer front over two 15 doors stacks to 25 on a 30 frame",
+  "notes": "a 15 and a 12 door cabinet in the dead corner instead of the gap; their doors are behind the east corner filler",
   "counter": {
     "thickness": 38,
     "overhang_front": 38,
@@ -81,11 +81,7 @@
           "id": "frame:base:30x24x30",
           "fronts": [
             {
-              "id": "front:enkoping-walnut:drawer:30x10",
-              "count": 1
-            },
-            {
-              "id": "front:enkoping-walnut:door:15x15",
+              "id": "front:enkoping-walnut:door:15x30",
               "count": 2
             }
           ]
@@ -107,14 +103,31 @@
           "ref": "dishwasher"
         },
         {
-          "kind": "filler",
-          "label": "N-filler-corner",
-          "width": 283
+          "kind": "cabinet",
+          "label": "N-base-15",
+          "id": "frame:base:15x24x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:15x30",
+              "count": 1
+            }
+          ]
         },
         {
-          "kind": "gap",
-          "label": "N-corner-dead",
-          "width": 629
+          "kind": "cabinet",
+          "label": "N-base-12",
+          "id": "frame:base:12x24x30",
+          "fronts": [
+            {
+              "id": "front:enkoping-walnut:door:12x30",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "kind": "filler",
+          "label": "N-filler-right",
+          "width": 226
         }
       ]
     },

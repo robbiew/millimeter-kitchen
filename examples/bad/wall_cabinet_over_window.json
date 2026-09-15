@@ -53,13 +53,26 @@
         },
         {
           "kind": "cabinet",
-          "label": "N-base-15",
+          "label": "N-base-15-drawers",
           "id": "frame:base:15x24x30",
           "fronts": [
             {
-              "id": "front:enkoping-walnut:door:15x30",
+              "id": "front:enkoping-walnut:drawer:15x5",
+              "count": 1
+            },
+            {
+              "id": "front:enkoping-walnut:drawer:15x10",
+              "count": 1
+            },
+            {
+              "id": "front:enkoping-walnut:drawer:15x15",
               "count": 1
             }
+          ],
+          "interior": [
+            "MAXIMERA 15x24 low",
+            "MAXIMERA 15x24 medium",
+            "MAXIMERA 15x24 medium"
           ]
         },
         {
@@ -90,47 +103,14 @@
           "ref": "dishwasher"
         },
         {
-          "kind": "cabinet",
-          "label": "N-base-18-drawers",
-          "id": "frame:base:18x24x30",
-          "fronts": [
-            {
-              "id": "front:enkoping-walnut:drawer:18x10",
-              "count": 1
-            },
-            {
-              "id": "front:enkoping-walnut:drawer:18x20",
-              "count": 1
-            }
-          ],
-          "interior": [
-            "MAXIMERA 18x24 medium",
-            "MAXIMERA 18x24 high"
-          ]
-        },
-        {
-          "kind": "cabinet",
-          "label": "N-base-15-drawers",
-          "id": "frame:base:15x24x30",
-          "fronts": [
-            {
-              "id": "front:enkoping-walnut:drawer:15x5",
-              "count": 1
-            },
-            {
-              "id": "front:enkoping-walnut:drawer:15x10",
-              "count": 1
-            },
-            {
-              "id": "front:enkoping-walnut:drawer:15x15",
-              "count": 1
-            }
-          ]
-        },
-        {
           "kind": "filler",
-          "label": "N-filler-right",
-          "width": 74
+          "label": "N-filler-corner",
+          "width": 283
+        },
+        {
+          "kind": "gap",
+          "label": "N-corner-dead",
+          "width": 629
         }
       ]
     },
@@ -216,15 +196,20 @@
     {
       "wall": "E",
       "level": "base",
-      "from": 610,
+      "from": 629,
       "items": [
         {
+          "kind": "filler",
+          "label": "E-filler-corner",
+          "width": 457
+        },
+        {
           "kind": "cabinet",
-          "label": "E-base-21",
-          "id": "frame:base:21x24x30",
+          "label": "E-base-15",
+          "id": "frame:base:15x24x30",
           "fronts": [
             {
-              "id": "front:enkoping-walnut:door:21x30",
+              "id": "front:enkoping-walnut:door:15x30",
               "count": 1
             }
           ]
@@ -236,34 +221,39 @@
         },
         {
           "kind": "cabinet",
-          "label": "E-base-30",
-          "id": "frame:base:30x24x30",
+          "label": "E-base-18",
+          "id": "frame:base:18x24x30",
           "fronts": [
             {
-              "id": "front:enkoping-walnut:door:15x30",
-              "count": 2
+              "id": "front:enkoping-walnut:door:18x30",
+              "count": 1
             }
           ]
         },
         {
           "kind": "filler",
           "label": "E-filler-right",
-          "width": 74
+          "width": 55
         }
       ]
     },
     {
       "wall": "E",
       "level": "wall",
-      "from": 610,
+      "from": 1010,
       "items": [
         {
+          "kind": "filler",
+          "label": "E-wall-filler-corner",
+          "width": 76
+        },
+        {
           "kind": "cabinet",
-          "label": "E-wall-21",
-          "id": "frame:wall:21x15x30",
+          "label": "E-wall-15",
+          "id": "frame:wall:15x15x30",
           "fronts": [
             {
-              "id": "front:enkoping-walnut:door:21x30",
+              "id": "front:enkoping-walnut:door:15x30",
               "count": 1
             }
           ]
@@ -284,19 +274,19 @@
         },
         {
           "kind": "cabinet",
-          "label": "E-wall-30",
-          "id": "frame:wall:30x15x30",
+          "label": "E-wall-18",
+          "id": "frame:wall:18x15x30",
           "fronts": [
             {
-              "id": "front:enkoping-walnut:door:15x30",
-              "count": 2
+              "id": "front:enkoping-walnut:door:18x30",
+              "count": 1
             }
           ]
         },
         {
           "kind": "filler",
           "label": "E-wall-filler-right",
-          "width": 74
+          "width": 55
         }
       ]
     }

@@ -6,16 +6,25 @@ fixture in examples/bad/. Add a fixture before adding a rule.
 
 from __future__ import annotations
 
+import math
+
 from collections.abc import Callable
 
 from .findings import Finding
 from .finishes import ROLES, load_finishes
-from .draw import CORNER_SLACK, CORNER_TOL, corner_clearances, corner_reach, elevation_boxes, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
+from .draw import CORNER_SLACK, CORNER_TOL, FRONT_THICKNESS, corner_clearances, corner_reach, elevation_boxes, front_rows, item_depth, next_wall, prev_wall, run_at_end, run_at_start
 from .model import Kitchen, Run
 
 CLOSURE_TOLERANCE_MM = 3
 MIN_WALL_FILLER_MM = 51  # IKEA's 2" guidance at a wall end
 MIN_CUT_WIDTH_MM = 25    # narrowest strip a filler or panel can be cut and fixed to; a wall end still needs MIN_WALL_FILLER_MM
+# Clearance a front needs beside an obstruction, from IKEA Canada "When do I need to use filler pieces when installing my
+# IKEA kitchen": "Minimum filler for a cabinet with drawers beside a wall: 1"", "... with door beside a wall: 2" or more
+# with larger handles", "... for a refrigerator door beside a wall: 4"". At an inside corner the obstruction is the other run.
+MIN_CLEARANCE_DRAWER_MM = 25
+MIN_CLEARANCE_DOOR_MM = 51
+MIN_CLEARANCE_FRIDGE_MM = 102
+FIXED_APPLIANCES = ("sink", "cooktop", "hood")   # nothing on them swings or pulls out sideways
 DEFAULT_DISHWASHER_WALL_CLEARANCE_MM = 51
 HOOD_CLEARANCE_ELECTRIC_MM = 610  # 24" between cooktop and whatever hangs above it
 HOOD_CLEARANCE_GAS_MM = 762       # 30" for gas; the hood's own sheet may ask for more
@@ -326,11 +335,90 @@ def rule_corners(k: Kitchen) -> list[Finding]:
                 out.append(Finding("warning", "corner_gap", f"{level}: the corner between walls {a} and {b} is dead space ({rb.start - g['min_start_b']} mm past the {g['min_start_b']} mm the wall-{a} cabinets need); a corner cabinet would use it", b, ib.label))
             # an acute corner pushes the last wall-a cabinet's front corner into wall b: it needs a filler at least this wide
             if g["min_end_filler_a"] > CORNER_TOL and ra.end >= La - CORNER_TOL:
-                have = ia.width if ia.kind == "filler" else 0
+                have = ia.width if ia.kind in ("filler", "gap", "panel") else 0   # a dead corner's gap keeps the cabinet's front corner clear too
                 if have < g["min_end_filler_a"]:
                     out.append(Finding("error", "corner_filler", f"{level}: the corner between walls {a} and {b} is {theta:.1f}°, so the last cabinet on wall {a} needs a filler of at least {g['min_end_filler_a']} mm at the corner (its front corner would hit wall {b}); '{ia.label}' gives {have} mm", a, ia.label))
             if (corner_a or corner_b) and abs(theta - 90) > 1.0:
                 out.append(Finding("warning", "corner_out_of_square", f"{level}: corner cabinet at a {theta:.1f}° corner; plan a scribe strip, the frame is square", a if corner_a else b, ia.label if corner_a else ib.label))
+    return out
+
+
+def _front_clearance(p) -> int:
+    """IKEA's beside-an-obstruction minimum for this item's fronts; 0 for an item with nothing that opens."""
+    if p.kind == "appliance":
+        if p.appliance is None or p.appliance.kind in FIXED_APPLIANCES:
+            return 0
+        return MIN_CLEARANCE_FRIDGE_MM if p.appliance.kind in ("fridge", "refrigerator") else MIN_CLEARANCE_DOOR_MM
+    if p.kind != "cabinet" or not p.fronts:
+        return 0
+    return MIN_CLEARANCE_DOOR_MM if any(fu.item.kind == "front" for fu in p.fronts) else MIN_CLEARANCE_DRAWER_MM
+
+
+def _opening_reach(p, level: str) -> int:
+    """How far an item's fronts travel in front of the run when opened: a drawer pulls out by the item's depth, an
+    appliance by its depth or the front clearance its sheet declares, whichever is more; a door swings out by its
+    panel width (the widest row of doors, panels sharing a row equally)."""
+    if p.kind == "appliance":
+        return max(item_depth(p, level), (p.appliance.clearance_front or 0) if p.appliance else 0)
+    if any(fu.item.kind == "drawer_front" for fu in p.fronts):
+        return item_depth(p, level)
+    widest = 0
+    for row in front_rows(p):
+        widest = max(widest, p.width // max(1, len(row["panels"])))
+    return widest
+
+
+def rule_corner_swing(k: Kitchen) -> list[Finding]:
+    """At an inside corner with no corner cabinet, fronts on both runs must clear each other (issue #6).
+
+    Run b's first front stands facing run a's front plane (a's depth plus the front thickness) and needs IKEA's
+    beside-an-obstruction clearance from it. Run a's fronts that lie within b's depth of the corner open straight
+    into run b, or sit hidden behind the filler leg that closes the corner, so they must end that clearance before
+    the column b occupies; the exception is an open notch, where run b itself starts beyond the front's full travel.
+    The dead corner that results is closed by an L-shaped filler: a leg on each run, and b's cabinet side.
+    """
+    out = []
+    order = list(k.room.order)
+    for a, b in zip(order, order[1:]):
+        La = k.room.wall(a).planning_length
+        for level in ("base", "wall", "high"):
+            ra, rb = run_at_end(k, a, level), run_at_start(k, b, level)
+            if ra is None or rb is None or not ra.items or not rb.items:
+                continue
+            if any(p.catalog_item and p.catalog_item.corner for p in (ra.items[-1], rb.items[0])):
+                continue   # corner cabinets have their own rules (rule_corners)
+            if any(p.unresolved for p in ra.items + rb.items):
+                continue
+            g = corner_clearances(k, a, b, level)
+            depth_a = g["depth_a"]
+            first_body_b = next((p for p in rb.items if p.kind in ("cabinet", "appliance")), None)
+            depth_b = item_depth(first_body_b, level) if first_body_b else 0
+            if not first_body_b or depth_a <= 0:
+                continue
+            # (2) run b's first opening front faces run a's front plane, projected along wall b through the surveyed angle
+            # the same way corner_clearances projects the frames (at 90 degrees this is depth_a plus the front)
+            t = math.radians(g["theta"])
+            plane_b = int(math.ceil((depth_a + FRONT_THICKNESS + max(0.0, depth_b * math.cos(t))) / math.sin(t)))
+            q = next((p for p in rb.items if _front_clearance(p) > 0), None)
+            if q is not None:
+                need = plane_b + _front_clearance(q)
+                if q.start < need - CORNER_TOL:
+                    square = f" (corner is {g['theta']:.1f}°)" if abs(g["theta"] - 90) > 0.5 else ""
+                    out.append(Finding("error", "corner_swing", f"{level}: '{q.label}' starts {q.start} mm along wall {b}, facing the wall-{a} fronts at {plane_b} mm{square}; IKEA wants {_front_clearance(q)} mm beside an obstruction (more with larger handles), so start it at {need} mm or later, with a filler in front of the corner", b, q.label, {"need_start_mm": need}))
+            # an open notch is measured to the first thing that stands in run b, not to a leading gap
+            notch_start = next((p.start for p in rb.items if p.kind != "gap"), rb.start)
+            # (1) run a's fronts inside the column that run b occupies open into b's first cabinet's side
+            for p in ra.items:
+                c = _front_clearance(p)
+                if c == 0:
+                    continue
+                column = La - depth_b - c
+                if p.end <= column + CORNER_TOL:
+                    continue
+                if notch_start >= plane_b + _opening_reach(p, level):
+                    continue   # an open notch: run b, filler leg included, starts beyond this front's full travel
+                what = "door" if c == MIN_CLEARANCE_DOOR_MM and p.kind == "cabinet" else ("drawers" if p.kind == "cabinet" else p.appliance.kind)
+                out.append(Finding("error", "corner_swing", f"{level}: '{p.label}' ends {La - p.end} mm from the corner, inside the {depth_b} mm the wall-{b} cabinets occupy, so its {what} open into wall-{b} run or sit behind its corner filler; end it at least {depth_b + c} mm before the corner (IKEA: {c} mm beside an obstruction, more with larger handles), or use a corner cabinet", a, p.label, {"need_end_mm": column}))
     return out
 
 
@@ -375,6 +463,7 @@ RULES: tuple[Rule, ...] = (
     rule_hood_clearance,
     rule_ceiling,
     rule_corners,
+    rule_corner_swing,
     rule_unique_labels,
     rule_finishes,
     rule_unverified_catalog,

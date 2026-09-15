@@ -36,27 +36,27 @@ def test_rail_per_wall_and_level(pack):
 
 def test_legs_and_hinges(pack):
     b = by_id(pack)
-    assert b["legs:sektion:4pack"].qty == 7          # 5 base on N, 2 on E
-    assert b["hinge:utrusta:2pack"].qty == 19        # 10 + 4 + 2 + 1 + 1 + 1 doors (E-base-21 is a door cabinet, the hood cabinet has two), none taller than 40"
+    assert b["legs:sektion:4pack"].qty == 5          # 3 base on N, 2 on E
+    assert b["hinge:utrusta:2pack"].qty == 16        # one pack per door: 4 on the N base, 6 on the N walls, 2 on the E base, 4 on the E walls (two on the hood cabinet)
 
 
 def test_one_drawer_per_drawer_front(pack):
     b = by_id(pack)
-    assert b["drawer:maximera:18x24:medium"].qty == 1 and b["drawer:maximera:18x24:high"].qty == 1
-    assert b["drawer:maximera:15x24:low"].qty == 1 and not any(i.startswith("drawer:maximera:21x") for i in b)   # no 21" drawers exist
-    assert sum(l.qty for l in pack.lines if l.kind == "drawer") == 5   # N-base-18 (2), N-base-15 (2), sink? no: 15x5 + 18x10 + 18x20 + 15x... see the fixture
+    assert b["drawer:maximera:15x24:low"].qty == 1 and b["drawer:maximera:15x24:medium"].qty == 1 and b["drawer:maximera:15x24:high"].qty == 1
+    assert not any(i.startswith("drawer:maximera:21x") for i in b)   # no 21" drawers exist
+    assert sum(l.qty for l in pack.lines if l.kind == "drawer") == 3   # N-base-15-drawers: 15x5, 15x10, 15x15
 
 
 def test_exposed_sides_and_cover_panels(kitchen, pack):
     sides = {(r.wall, r.level, side, item.label) for r, side, item in exposed_sides(kitchen)}
     assert ("N", "wall", "end", "N-wall-30") in sides          # at the window
     assert ("N", "wall", "start", "N-wall-36") in sides        # other side of the window
-    assert ("E", "wall", "start", "E-wall-21") in sides        # starts past the corner cabinet depth
+    assert not any(wall == "E" for wall, _, _, _ in sides)     # the east runs open with the filler leg of the corner filler
     assert not any(level == "base" for _, level, _, _ in sides)  # base runs end at walls or in the corner
     b = by_id(pack)
-    # 3 exposed wall sides + 1 panel of wall filler stock; base filler stock 1
-    assert b["cover_panel:forbattra:enkoping-walnut:15x31"].qty == 4
-    assert b["cover_panel:forbattra:enkoping-walnut:25x30"].qty == 1
+    # 2 exposed wall sides (at the window) + 1 panel of wall filler stock; base filler stock 2 (the 457 mm corner leg needs a panel of its own)
+    assert b["cover_panel:forbattra:enkoping-walnut:15x31"].qty == 3
+    assert b["cover_panel:forbattra:enkoping-walnut:25x30"].qty == 2
 
 
 def test_toe_kick_from_base_run_length(pack):
@@ -100,12 +100,12 @@ def test_countertop_slabs_and_svg(kitchen, pack):
     slabs = [(s["wall"], s["start"], s["end"], s["depth_mm"], s["corner_start"]) for s in pack.countertop]
     # the north slab runs over the dishwasher; the east run is cut by the range into two slabs
     # the east slab starts where the north slab (610 deep + 38 overhang) ends, so the two never overlap
-    assert slabs == [("N", 0, 3655, 648, False), ("E", 648, 1143, 648, True), ("E", 1905, 2741, 648, False)]
+    assert slabs == [("N", 0, 3655, 648, False), ("E", 648, 1467, 648, True), ("E", 2229, 2741, 648, False)]   # the top runs over the dead corner
     e_first = [s for s in pack.countertop if s["wall"] == "E"][0]
     assert e_first["cut_by"] == ["E-range"]
     svg = countertop_svg(kitchen)
     assert 'data-wall="N" data-length="3655" data-depth="648"' in svg
-    assert 'data-wall="E" data-length="495"' in svg and 'data-wall="E" data-length="836"' in svg
+    assert 'data-wall="E" data-length="819"' in svg and 'data-wall="E" data-length="512"' in svg
     assert "corner" in svg and "m²" in svg
 
 

@@ -20,11 +20,22 @@ from tests.conftest import EXAMPLES
 DIAG = {85: 4379, 88: 4498, 90: 4575, 92: 4651}
 
 
-def _ws(tmp_path, theta, kitchen="kitchen.fits.json"):
+E_CABINETS_FROM = 1086   # where the fitting kitchen's east cabinets start (its dead corner)
+
+
+def _ws(tmp_path, theta, kitchen="kitchen.fits.json", e_from=610):
+    """The example at a surveyed corner angle, with the east runs pulled back to e_from behind a longer corner filler
+    leg, so the cabinets stay where they are (the range over its gas stub) and the corner rules have something to say."""
     room = json.loads((EXAMPLES / "room.example.json").read_text())
     room["corners"][0]["diagonal"] = DIAG[theta]
     (tmp_path / "room.example.json").write_text(json.dumps(room))
-    shutil.copy(EXAMPLES / kitchen, tmp_path / "k.json")
+    src = json.loads((EXAMPLES / kitchen).read_text())
+    if kitchen == "kitchen.fits.json":
+        for run in src["runs"]:
+            if run["wall"] == "E" and run["level"] == "base":   # the wall run keeps its open notch; a leg there would hide the north wall door
+                run["from"] = e_from
+                run["items"][0]["width"] = E_CABINETS_FROM - e_from
+    (tmp_path / "k.json").write_text(json.dumps(src))
     return tmp_path / "k.json"
 
 
@@ -62,9 +73,9 @@ def test_acute_corner_pushes_the_next_run_out(tmp_path):
     assert "632 mm" in e.message and "88.0°" in e.message and e.wall == "E"
     # start the east runs where the geometry says (base and wall together, so the hood stays over the range) and it fits again
     src = json.loads(k.read_text())
-    for run in (src["runs"][3], src["runs"][4]):
-        run["from"] = 632
-        run["items"][-1]["width"] = 52
+    run = src["runs"][3]                # the base run; the wall run keeps its open notch at 1010
+    run["from"] = 632
+    run["items"][0]["width"] = E_CABINETS_FROM - 632
     k.write_text(json.dumps(src))
     assert errors(validate(load_kitchen(k))) == set()
 
@@ -74,18 +85,10 @@ def test_obtuse_corner_needs_no_change(tmp_path):
 
 
 def test_acute_corner_needs_a_wider_filler_on_the_first_wall(tmp_path):
-    k = _ws(tmp_path, 85)
-    src = json.loads(k.read_text())
-    # at 85 degrees the east runs must start at 666; that leaves too little for a filler with the 30-wide cabinets, so use 24s
-    base, wall = src["runs"][3], src["runs"][4]
-    base["from"] = wall["from"] = 666
-    base["items"][2] = {"kind": "cabinet", "label": "E-base-24", "id": "frame:base:24x24x30", "fronts": [{"id": "front:enkoping-walnut:door:12x30", "count": 2}]}
-    wall["items"][2] = {"kind": "cabinet", "label": "E-wall-24", "id": "frame:wall:24x15x30", "fronts": [{"id": "front:enkoping-walnut:door:12x30", "count": 2}]}
-    base["items"][-1]["width"] = wall["items"][-1]["width"] = 2741 - 666 - (533 + 762 + 610)
-    k.write_text(json.dumps(src))
+    k = _ws(tmp_path, 85, e_from=666)   # at 85 degrees the east runs must start at 666
     assert errors(validate(load_kitchen(k))) == set()
-    assert "corner_filler" not in errors(validate(load_kitchen(k)))   # the 74 mm filler covers the 54 mm needed
-    res = apply(k, [{"op": "set_width", "label": "N-filler-right", "width": 51}, {"op": "set_width", "label": "N-filler-left", "width": 99}])
+    # the dead gap at the corner keeps the last cabinet's front corner clear of the wall; shrink it below the 54 mm the angle asks and the rule speaks
+    res = apply(k, [{"op": "set_width", "label": "N-corner-dead", "width": 51}, {"op": "set_width", "label": "N-filler-corner", "width": 283 + 629 - 51}])
     assert not res.ok and {f.rule for f in res.errors} == {"corner_filler"}
     assert "85.0°" in res.errors[0].message and "at least 54 mm" in res.errors[0].message
 
@@ -96,14 +99,14 @@ def test_plan_and_scene_follow_the_angle(tmp_path):
     hx, hy = fr["E"][2], fr["E"][3]
     assert math.degrees(math.atan2(hy, hx)) == pytest.approx(95.0, abs=0.2)   # turned 95°, not 90°
     boxes = read_glb_boxes(write_glb(build_scene(k), tmp_path / "s.glb"))
-    e = boxes["E-base-21"]
-    assert [round(v) for v in e["size_mm"]] == [533, 762, 610]              # the box itself is unchanged
+    e = boxes["E-base-15"]
+    assert [round(v) for v in e["size_mm"]] == [381, 762, 610]              # the box itself is unchanged
     assert abs(abs(e["yaw_deg"]) - 95.0) < 0.2                              # only its orientation differs
-    assert boxes["N-base-15"]["yaw_deg"] == pytest.approx(0.0, abs=1e-6)
+    assert boxes["N-base-30"]["yaw_deg"] == pytest.approx(0.0, abs=1e-6)
     # a square room still reads exactly as before through the node transforms
     k0 = load_kitchen(EXAMPLES / "kitchen.fits.json")
     b0 = read_glb_boxes(write_glb(build_scene(k0), tmp_path / "s0.glb"))
-    assert abs(b0["E-base-21"]["max_mm"][0] - 3655) <= 1 and abs(b0["E-base-21"]["yaw_deg"]) == pytest.approx(90.0, abs=1e-6)
+    assert abs(b0["E-base-15"]["max_mm"][0] - 3655) <= 1 and abs(b0["E-base-15"]["yaw_deg"]) == pytest.approx(90.0, abs=1e-6)
 
 
 def test_corner_cabinet_at_an_out_of_square_corner_warns(tmp_path):

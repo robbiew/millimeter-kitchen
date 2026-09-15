@@ -10,13 +10,12 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass, field
 
-from .draw import CORNER_TOL, FRONT_REVEAL_MM, counter_depth, counter_segments, elevation_boxes, front_panels, item_depth, run_depth
+from .draw import CORNER_TOL, FRONT_REVEAL_MM, FRONT_THICKNESS, counter_depth, counter_segments, elevation_boxes, front_panels, item_depth, run_depth
 from .finishes import ROLES, Finish, FinishLibrary, load_finishes
 from .model import DEFAULT_COUNTER_OVERHANG, Kitchen, Run, wall_frames
 
 WALL_THICKNESS = 100
 FLOOR_THICKNESS = 50
-FRONT_THICKNESS = 19
 TOE_KICK_SETBACK = 76
 COUNTER_OVERHANG_DEFAULT = DEFAULT_COUNTER_OVERHANG   # the file's counter.overhang_front wins; see Kitchen.counter_overhang
 GLASS_THICKNESS = 12

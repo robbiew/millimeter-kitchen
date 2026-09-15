@@ -34,10 +34,10 @@ def test_layouts_lists_fixtures_and_variations(root):
 
 def test_dispatch_reads_and_refuses_fixture_edits(root):
     status, d = serve.dispatch(root, "GET", "/api/describe", {"kitchen": "examples/kitchen.fits.json"})
-    assert status == 200 and d["ok"] and d["runs"][0]["items"][1]["label"] == "N-base-15"
-    status, r = serve.dispatch(root, "POST", "/api/apply", {}, {"kitchen": "examples/kitchen.fits.json", "ops": [{"op": "remove", "label": "N-base-15"}]})
+    assert status == 200 and d["ok"] and d["runs"][0]["items"][1]["label"] == "N-base-15-drawers"
+    status, r = serve.dispatch(root, "POST", "/api/apply", {}, {"kitchen": "examples/kitchen.fits.json", "ops": [{"op": "remove", "label": "N-base-15-drawers"}]})
     assert status == 200 and r["ok"] is False and "start_variation" in r["error"]
-    status, r = serve.dispatch(root, "POST", "/api/apply", {}, {"kitchen": "examples/kitchen.fits.json", "ops": [{"op": "remove", "label": "N-base-15"}], "dry_run": True})
+    status, r = serve.dispatch(root, "POST", "/api/apply", {}, {"kitchen": "examples/kitchen.fits.json", "ops": [{"op": "remove", "label": "N-base-15-drawers"}], "dry_run": True})
     assert status == 200 and r["ok"] is False and any("run_closure" in e for e in r["errors"])   # a dry run still runs the validator
 
 

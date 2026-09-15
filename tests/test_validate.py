@@ -15,6 +15,7 @@ EXPECTED_RULE = {
     "missing_filler": "wall_filler_min",
     "zero_width_filler": "cut_width_min",
     "run_overlap": "run_overlap",
+    "corner_swing": "corner_swing",
     "blocked_drain": "service_conflict",
     "front_rows_mismatch": "front_fit",
 }
@@ -65,7 +66,7 @@ def test_each_bad_fixture_fails_with_its_rule(name, rule):
 
 def test_bad_fixtures_differ_from_fits_by_one_thing():
     # each bad case must not trip unrelated rules (other than the one under test and rules it drags along)
-    allowed_extra = {"dishwasher_against_wall": {"wall_filler_min", "corner_overlap"}}  # a dishwasher in the corner also collides with the east run
+    allowed_extra = {"dishwasher_against_wall": {"wall_filler_min", "corner_overlap", "corner_swing"}}  # a dishwasher in the corner also collides with the east run and cannot open into it
     for name, rule in EXPECTED_RULE.items():
         rules = {f.rule for f in errors(validate(load_kitchen(BAD / f"{name}.json")))}
         assert rules <= {rule} | allowed_extra.get(name, set()), (name, rules)

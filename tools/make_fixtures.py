@@ -71,7 +71,7 @@ FITS = {
     "name": "Example L kitchen, variation A (fits)",
     "room": "room.example.json",
     "catalog": "sektion-us-2026-09",
-    "notes": "Sink centered on the window; dishwasher right of sink; range on the east wall over the gas stub.",
+    "notes": "Sink centered on the window; dishwasher right of sink; range on the east wall over the gas stub. Dead corner (rule corner_swing): the north run ends in a filler leg and a dead gap, the east run opens with a filler leg from the north fronts to its first cabinet; the countertop runs over it.",
     "counter": {"thickness": 38, "overhang_front": 38, "legs": 114, "material": "quartz"},
     "wall_cabinet_bottom": 1372,
     "backsplash_height": 457,
@@ -92,13 +92,14 @@ FITS = {
     "runs": [
         {"wall": "N", "level": "base", "items": [
             filler(76, "N-filler-left"),
-            cab("frame:base:15x24x30", "N-base-15", (f"{V}:door:15x30", 1)),
+            cab("frame:base:15x24x30", "N-base-15-drawers", (f"{V}:drawer:15x5", 1), (f"{V}:drawer:15x10", 1), (f"{V}:drawer:15x15", 1), interior=["MAXIMERA 15x24 low", "MAXIMERA 15x24 medium", "MAXIMERA 15x24 medium"]),
             cab("frame:base:30x24x30", "N-base-30", (f"{V}:door:15x30", 2)),
             cab("frame:sink_base:36x24x30", "N-sink-36", (f"{V}:door:18x30", 2)),
             {"kind": "appliance", "label": "N-dishwasher", "ref": "dishwasher"},
-            cab("frame:base:18x24x30", "N-base-18-drawers", (f"{V}:drawer:18x10", 1), (f"{V}:drawer:18x20", 1), interior=["MAXIMERA 18x24 medium", "MAXIMERA 18x24 high"]),
-            cab("frame:base:15x24x30", "N-base-15-drawers", (f"{V}:drawer:15x5", 1), (f"{V}:drawer:15x10", 1), (f"{V}:drawer:15x15", 1)),
-            filler(74, "N-filler-right"),
+            # the dead corner: no front within the east run's depth (610) plus IKEA's clearance of the corner. The 283 mm
+            # filler is the north leg of the L-shaped corner filler, out to the east run's front plane; the gap behind it is the dead box.
+            filler(283, "N-filler-corner"),
+            {"kind": "gap", "label": "N-corner-dead", "width": 629},
         ]},
         {"wall": "N", "level": "wall", "to": 1219, "items": [
             filler(76, "N-wall-filler-left"),
@@ -110,17 +111,21 @@ FITS = {
             cab("frame:wall:21x15x30", "N-wall-21", (f"{V}:door:21x30", 1)),
             filler(75, "N-wall-filler-right"),
         ]},
-        {"wall": "E", "level": "base", "from": 610, "items": [
-            cab("frame:base:21x24x30", "E-base-21", (f"{V}:door:21x30", 1)),   # IKEA makes no 21" drawer front
+        # the east leg of the corner filler runs from the north fronts (610 + 19) to the first east cabinet at 1086, which is
+        # IKEA's door clearance (51) past the north front plane and leaves the dead box behind the leg
+        {"wall": "E", "level": "base", "from": 629, "items": [
+            filler(457, "E-filler-corner"),
+            cab("frame:base:15x24x30", "E-base-15", (f"{V}:door:15x30", 1)),
             {"kind": "appliance", "label": "E-range", "ref": "range"},
-            cab("frame:base:30x24x30", "E-base-30", (f"{V}:door:15x30", 2)),
-            filler(74, "E-filler-right"),
+            cab("frame:base:18x24x30", "E-base-18", (f"{V}:door:18x30", 1)),
+            filler(55, "E-filler-right"),
         ]},
-        {"wall": "E", "level": "wall", "from": 610, "items": [
-            cab("frame:wall:21x15x30", "E-wall-21", (f"{V}:door:21x30", 1)),
+        {"wall": "E", "level": "wall", "from": 1010, "items": [
+            filler(76, "E-wall-filler-corner"),
+            cab("frame:wall:15x15x30", "E-wall-15", (f"{V}:door:15x30", 1)),
             cab("frame:wall:30x15x15", "E-wall-30-hood", (f"{V}:door:15x15", 2), interior=["hood below; top aligned with the run, underside clears the gas range by 30 in"]),
-            cab("frame:wall:30x15x30", "E-wall-30", (f"{V}:door:15x30", 2)),
-            filler(74, "E-wall-filler-right"),
+            cab("frame:wall:18x15x30", "E-wall-18", (f"{V}:door:18x30", 1)),
+            filler(55, "E-wall-filler-right"),
         ]},
     ],
 }
@@ -188,15 +193,15 @@ def n_base(k: dict) -> list[dict]:
 
 
 def run_too_long(k: dict) -> None:
-    n_base(k)[1] = cab("frame:base:18x24x30", "N-base-18", (f"{V}:door:18x30", 1))  # 457 in place of 381
+    n_base(k)[1] = cab("frame:base:18x24x30", "N-base-18-first", (f"{V}:door:18x30", 1))  # 457 in place of 381
 
 
 def dishwasher_against_wall(k: dict) -> None:
     items = n_base(k)
     dw = items.pop(4)
-    items.pop()             # drop right filler
-    items[0]["width"] = 150  # keep closure: 76 + 74 -> 150 on the left
-    items.append(dw)         # dishwasher now touches the east wall end
+    items.pop()                    # drop the dead gap …
+    items[-1]["width"] = 283 + 629  # … and let the corner filler leg take its width, so the run still closes
+    items.append(dw)               # dishwasher now touches the east wall end
 
 
 def wall_cabinet_over_window(k: dict) -> None:
@@ -206,7 +211,7 @@ def wall_cabinet_over_window(k: dict) -> None:
 
 
 def wrong_size_front(k: dict) -> None:
-    n_base(k)[5] = cab("frame:base:18x24x30", "N-base-18-drawers", (f"{V}:door:15x30", 1))
+    n_base(k)[1] = cab("frame:base:15x24x30", "N-base-15-drawers", (f"{V}:door:18x30", 1))
 
 
 def missing_filler(k: dict) -> None:
@@ -230,6 +235,13 @@ def run_overlap(k: dict) -> None:
                       "items": [cab("frame:base:15x24x30", "N-base-15-again", (f"{V}:door:15x30", 1))]})
 
 
+def corner_swing(k: dict) -> None:
+    """The dead gap given a 15 door cabinet and a 12 door cabinet instead: their doors sit behind the east leg of the corner filler."""
+    items = n_base(k)
+    items[5:] = [cab("frame:base:15x24x30", "N-base-15", (f"{V}:door:15x30", 1)), cab("frame:base:12x24x30", "N-base-12", (f"{V}:door:12x30", 1)),
+                 filler(912 - 381 - 305, "N-filler-right")]   # in place of the corner leg and the dead gap, same 912 mm
+
+
 def zero_width_filler(k: dict) -> None:
     """A filler of no width between two cabinets: the run still closes, but nothing can be cut to 0 mm."""
     n_base(k).insert(2, filler(0, "N-filler-zero"))
@@ -239,12 +251,13 @@ BAD_CASES = {
     "run_too_long": ("the first base cabinet is 18 wide instead of 15; the run overshoots the wall by 76 mm", run_too_long),
     "dishwasher_against_wall": ("the dishwasher is the last item on the north wall with no filler; its door cannot clear the wall", dishwasher_against_wall),
     "wall_cabinet_over_window": ("a 36 wall cabinet hangs at 1372 mm across the window whose head is at 2032 mm", wall_cabinet_over_window),
-    "wrong_size_front": ("a 15x30 door on an 18-wide frame", wrong_size_front),
+    "wrong_size_front": ("an 18x30 door on a 15-wide frame", wrong_size_front),
     "missing_filler": ("the base run closes exactly but starts with a cabinet hard against the wall; IKEA wants 2 in of filler", missing_filler),
     "blocked_drain": ("the sink drain at 1676 mm falls inside a regular base cabinet, not a sink base", blocked_drain),
     "front_rows_mismatch": ("a 10 drawer front over two 15 doors stacks to 25 on a 30 frame", front_rows_mismatch),
     "zero_width_filler": ("a 0 mm filler between the 15 and 30 base cabinets; the run closes, but a strip cannot be cut to nothing", zero_width_filler),
     "run_overlap": ("a second north base run from 76 to 457 mm, closed on its own, sits on top of the first run's 15 base", run_overlap),
+    "corner_swing": ("a 15 and a 12 door cabinet in the dead corner instead of the gap; their doors are behind the east corner filler", corner_swing),
 }
 
 
